@@ -8,7 +8,16 @@ module.exports = class Ready extends Evt {
   }
 
   async run () {
-    Util.printLog('info', __filename, 'Finished loading client - bot has started')
+    this.client.user
+      .setActivity('現已開放程式原始碼: https://github.com/Kai9073/jane', { type: 'PLAYING' })
+      .then(presence => console.log('Status set'))
+      .catch(console.error)
+
+    Util.printLog(
+      'info',
+      __filename,
+      'Finished loading client - bot has started'
+    )
 
     this.client.player.on('botDisconnect', message => {
       Util.printLog('INFO', __filename, 'Player emitted botDisconnect Event')
