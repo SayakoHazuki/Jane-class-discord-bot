@@ -1,4 +1,5 @@
-# Jane ![GitHub top language](https://img.shields.io/github/languages/top/Kai9073/Jane) ![Node Version](https://img.shields.io/badge/NodeJS-v14.7.6-green)![Status](https://img.shields.io/badge/status-up-green)
+# Jane 
+![GitHub top language](https://img.shields.io/github/languages/top/Kai9073/Jane) ![Node Version](https://img.shields.io/badge/NodeJS-v14.7.6-green) ![Status](https://img.shields.io/badge/status-up-green)
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 ---
 ## Commands
