@@ -1,0 +1,8 @@
+require('module-alias/register')
+const Util = require('utils')
+Util.printLog('info', __filename, 'Test')
+Util.printLog('err', __filename, 'TESTING ERROR')
+Util.printLog('warn', __filename, 'TESTING ERROR')
+Util.printLog('info', __filename, Util.formatNumDigit(2))
+Util.printLog('info', __filename, Util.formatDate(new Date(), 'hh:mm:ss tt'))
+// Number("22").toLocaleString(['en-HK','en-US'],{minimumIntegerDigits:7})

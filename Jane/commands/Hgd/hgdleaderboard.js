@@ -1,0 +1,84 @@
+const { MongoClient } = require('mongodb')
+const mdburi = process.env.MONGO_URI
+const mdbclient = new MongoClient(mdburi)
+const Util = require('utils')
+
+const Command = require('cmd')
+
+module.exports = class hgdLeaderboardCommand extends Command {
+  constructor (client) {
+    super(client, {
+      name: 'hgdleaderboard',
+      aliases: ['lb', 'hgdlb', '好感度排行'],
+      category: '好感度',
+      description: '查看好感度',
+      usage: 'hgdleaderboard',
+      minArgs: 0,
+      maxArgs: -1
+    })
+  }
+
+  async run (message, args) {
+    const cli = this.client
+    try {
+      Util.printLog('info', __filename, 'Connecting to MongoDB')
+      await mdbclient.connect()
+      Util.printLog('info', __filename, 'Connected')
+      const database = mdbclient.db('jane')
+      const col = database.collection('hgd')
+      const sort = { hgd: -1 }
+      col
+        .find()
+        .sort(sort)
+        .limit(10)
+        .toArray(function (err, result) {
+          if (err) throw err
+          let lbstr = ''
+          result.forEach(function (obj) {
+            lbstr = lbstr.concat(`and${obj.name}o${obj.hgd}`)
+          })
+          const lb = lbstr.substring(3)
+          const lbarr = lb.split('and')
+          const lbfields = []
+          let num = 0
+          let fobj
+          lbarr.forEach(function (str) {
+            const strarg = str.split('o')
+            if (cli.users.cache.get(strarg[0])?.id === '726439536401580114') {
+              fobj = {
+                name: `母親. ${cli.users.cache.get(strarg[0]).tag}`,
+                value: '好感度: ∞ (無限)'
+              }
+            } else {
+              num += 1
+              const thisname = cli.users.cache.get(strarg[0])?.tag
+              const hgd = strarg[1]
+              fobj = { name: `${num}. ${thisname}`, value: `好感度: ${hgd}` }
+            }
+
+            lbfields.push(fobj)
+          })
+          async function send () {
+            const embedmsg = await message.channel.send(
+              '簡 在努力地整理好感度資料, 請等一等'
+            )
+            const lbEmbed = {
+              color: 16753663,
+              title:
+                '<:hit_call_jane:801368443463008256>  好感度排行榜  <:hit_call_jane:801368443463008256>',
+              description: '** **',
+              fields: lbfields,
+              timestamp: new Date(),
+              footer: {
+                text: '正在整理資料的簡'
+              }
+            }
+            embedmsg.edit('', { embed: lbEmbed })
+          }
+          send()
+        })
+    } catch (e) {
+      message.channel.send('```' + e + '```')
+    }
+  }
+}

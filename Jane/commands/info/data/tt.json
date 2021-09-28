@@ -1,0 +1,46 @@
+{
+  "3A": {
+    "A": "CHIN CHIN IT ENG PHYS CTP",
+    "B": "MUS/DE HIST CHIN ENG MATH CHIS",
+    "C": "SPEAK L&S MATH GEOG ASS BIO",
+    "D": "PTH IT ENG VA MATH CHIN",
+    "E": "ENG PE CHEM MATH PHYS CHIN",
+    "F": "ENG HIST MATH CHIN ASS RS",
+    "G": "PE CHIS ENG MATH GEOG CHIN",
+    "H": "ENG BIO CHIN L&S CHEM MATH",
+    "holiday": "holiday holiday"
+  },
+  "3B": {
+    "A": "SPEAK VA BIO MATH HIST CTP",
+    "B": "CHIN MUS/DE IT ENG RS MATH",
+    "C": "CHIN CHEM MATH PHYS ASS ENG",
+    "D": "CHIS MATH CHIN CHIN ENG HIST",
+    "E": "CHIN PE ENG MATH BIO GEOG",
+    "F": "CHIN ENG L&S PHYS ASS CHEM",
+    "G": "PE CHIS CHIN MATH ENG L&S",
+    "H": "MATH ENG PTH CHIN IT GEOG",
+    "holiday": "holiday holiday"
+  },
+  "3C": {
+    "A": "IT SPEAK HIST CHIN MATH CTP",
+    "B": "CHIS CHEM MATH ENG CHIN CHIN",
+    "C": "ENG BIO PE MATH ASSM GEOG",
+    "D": "L&S ENG CHIN PHYS MATH IT",
+    "E": "PE HIST CHIN MUS/DE ENG MATH",
+    "F": "ENG RS GEOG VA ASSM CHIN",
+    "G": "ENG CHIN PTH BIO MATH CHEM",
+    "H": "PHYS ENG MATH CHIN CHIS L&S",
+    "holiday": "holiday holiday"
+  },
+  "3D": {
+    "A": "ENG CHIS MUS/DE IT MATH CTP",
+    "B": "BIO HIST CHIN ENG CHEM RS",
+    "C": "L&S SPEAK PE MATH ASS CHIN",
+    "D": "IT GEOG ENG MATH PHYS CHIN",
+    "E": "PE CHIS ENG MATH CHEM CHIN",
+    "F": "ENG MATH VA CHIN ASS HIST",
+    "G": "BIO MATH CHIN CHIN GEOG ENG",
+    "H": "MATH ENG CHIN PTH L&S PHYS",
+    "holiday": "holiday holiday"
+  }
+}

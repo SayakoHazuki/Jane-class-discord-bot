@@ -1,0 +1,8 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/bc7239a8-0ede-4597-90b9-f49a1253e4c8/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/JaneAzure",
+    "appService.deploySubpath": "."
+}
