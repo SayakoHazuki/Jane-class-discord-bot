@@ -1,4 +1,4 @@
-# Jane 2 ![GitHub top language](https://img.shields.io/github/languages/top/Kai9073/Jane)
+# Jane ![GitHub top language](https://img.shields.io/github/languages/top/Kai9073/jane)
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 ---
 ## Commands
