@@ -8,10 +8,11 @@ module.exports = class Ready extends Evt {
   }
 
   async run () {
-    this.client.user
+    /* this.client.user
       .setActivity('現已開放程式原始碼: https://github.com/Kai9073/jane', { type: 'PLAYING' })
       .then(presence => console.log('Status set'))
       .catch(console.error)
+      */
 
     Util.printLog(
       'info',

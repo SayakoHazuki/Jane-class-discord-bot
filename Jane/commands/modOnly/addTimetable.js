@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const months = [
   'Jan',
-  'Febr',
+  'Feb',
   'Mar',
   'Apr',
   'May',
@@ -37,13 +37,21 @@ module.exports = class AddTimetableCommand extends Command {
   async run (message, args) {
     if (!monthToSet) monthToSet = months[new Date().getMonth()]
     if (message.author.id === '690822196972486656') {
-      if (args[0] === 'setMo' || args[0] === 'setMonth') {
+      if (
+        args[0] === 'setMo' ||
+        args[0] === 'setMonth' ||
+        args[0].toLowerCase() === 'm'
+      ) {
         return setMonth(args[1])
       }
-      if (args[0] === 'setCyc' || args[0] === 'setCycle') {
+      if (
+        args[0] === 'setCyc' ||
+        args[0] === 'setCycle' ||
+        args[0].toLowerCase() === 'c'
+      ) {
         return setCycle(args[1])
       }
-      if (/^([1-3]?[0-9])([A-Ha-h]|\*)$/.test(args[0])) {
+      if (/^([1-3]?[0-9])([A-Ha-h]|\.|,)$/.test(args[0])) {
         return setDay(
           `${Util.formatNumDigit(RegExp.$1, 2)}${monthToSet}`,
           RegExp.$2
@@ -71,11 +79,19 @@ module.exports = class AddTimetableCommand extends Command {
 
     function setDay (date, day) {
       Util.printLog('info', __filename, `Date: ${date}, Day: ${day}`)
-      const n = `星期${weekday[new Date(`${date},2021`).getDay()]}`
-      const dayToSet =
-        day === '*'
-          ? `學校假期 (${n})`
-          : `Cycle ${cycleToSet} Day ${day} (${n})`
+      const n = `星期${weekday[new Date(`${date},2022`).getDay()]}`
+      let dayToSet
+      switch (day) {
+        case '.':
+          dayToSet = `學校假期 (${n})`
+          break
+        case ',':
+          dayToSet = `上學期考試 (${n})`
+          break
+        default:
+          dayToSet = `Cycle ${cycleToSet} Day ${day.toUpperCase()} (${n})`
+          break
+      }
       const oldDaysJsonStr = fs.readFileSync(
         path.join(__dirname, '../info/data/sd.json')
       )
