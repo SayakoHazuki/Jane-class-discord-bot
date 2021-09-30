@@ -41,5 +41,6 @@
 ```
 
 
-### 本程式於21年9月28日起開源以供有興趣人士參考或研究
+本程式於21年9月28日起開源以供參考或研究
 
+\- [License](https://github.com/Kai9073/jane/blob/main/LICENSE) 
