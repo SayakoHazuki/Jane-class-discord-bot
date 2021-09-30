@@ -36,7 +36,11 @@ module.exports = class Client extends Discord.Client {
       try {
         cmd = new File(this)
       } catch (e) {
-        Util.printLog('err', __filename, `Cannot create "File" for ${commandPath}`)
+        Util.printLog(
+          'err',
+          __filename,
+          `Cannot create "File" for ${commandPath}`
+        )
         stopFile()
       }
       function stopFile () {
@@ -75,9 +79,10 @@ module.exports = class Client extends Discord.Client {
     Util.printLog('info', __filename, `Finished loading ${i} events`)
   }
 
-  async logIn () {
+  async logIn (startInDev = false) {
+    if (startInDev) this.prefix = '--'
     this.registerCommands()
     this.registerEvents()
-    this.login(process.env.TOKEN)
+    this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN)
   }
 }

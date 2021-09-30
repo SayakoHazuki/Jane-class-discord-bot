@@ -20,10 +20,8 @@ module.exports = class Message extends Evt {
     const kusaEmoji = client.guilds.cache
       .get('799269481247014912')
       ?.emojis.cache.find(emoji => emoji.name === 'kusa')
-    printLog('info', __filename, 'hi')
-    printLog('info', __filename, reaction.emoji === kusaEmoji)
     const handleStarboard = async () => {
-      printLog('info', __filename, 'handle fn tri')
+      printLog('info', __filename, 'Kusa emoji received, running handleStarboard function')
       const starboard = client.channels.cache.find(
         channel => channel.name.toLowerCase() === 'kusaboard'
       )

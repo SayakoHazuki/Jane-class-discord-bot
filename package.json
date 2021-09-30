@@ -8,7 +8,8 @@
   },
   "scripts": {
     "start": "cd Jane && node .",
-    "test": "node Jane/test.js"
+    "test": "cd Jane && node test.js",
+    "devStart": "cd Jane && node devindex.js"
   },
   "repository": {
     "type": "git",

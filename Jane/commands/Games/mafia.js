@@ -69,7 +69,7 @@ module.exports = class editBirthdayCommand extends Command {
 
   async run (message, args) {
     const client = this.client
-    if (args[0] === 'help') {
+    if (args[0] === 'help' || !args[0]) {
       const helpEmbed = new Discord.MessageEmbed()
         .setTitle('狼人殺普通玩法簡介')
         .addFields([
@@ -353,7 +353,11 @@ module.exports = class editBirthdayCommand extends Command {
         })
 
         confirmationcollector.on('end', collected => {
-          Util.printLog('info', __filename, `Collected ${collected.size} message`)
+          Util.printLog(
+            'info',
+            __filename,
+            `Collected ${collected.size} message`
+          )
         })
 
         async function startGame () {
