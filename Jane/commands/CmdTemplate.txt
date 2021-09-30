@@ -1,0 +1,20 @@
+const Discord = require('discord.js')
+const Util = require('utils')
+const Command = require('cmd')
+
+module.exports = class thisCommand extends Command {
+  constructor (client) {
+    super(client, {
+      name: '',
+      aliases: [''],
+      category: '',
+      description: '',
+      usage: '',
+      minArgs: 0,
+      maxArgs: 0
+    })
+  }
+
+  async run (message, args) {
+  }
+}
