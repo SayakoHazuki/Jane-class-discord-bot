@@ -2,7 +2,7 @@ const Discord = require('discord.js')
 const Command = require('cmd')
 const Util = require('utils')
 
-module.exports = class linksCommand extends Command {
+module.exports = class LinksCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'links',

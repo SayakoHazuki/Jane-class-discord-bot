@@ -3,7 +3,7 @@ const Command = require('cmd')
 const Discord = require('discord.js')
 const Ss = require('sUser')
 
-module.exports = class tomorrowCommand extends Command {
+module.exports = class TomorrowCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'tomorrow',

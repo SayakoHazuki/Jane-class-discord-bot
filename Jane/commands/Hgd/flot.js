@@ -9,7 +9,7 @@ let simflot = false
 
 const Command = require('cmd')
 
-module.exports = class hgdCommand extends Command {
+module.exports = class HgdFlotCommand extends Command {
   constructor (client) {
     super(client, {
       name: '請簡喝花茶',

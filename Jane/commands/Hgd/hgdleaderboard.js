@@ -5,7 +5,7 @@ const Util = require('utils')
 
 const Command = require('cmd')
 
-module.exports = class hgdLeaderboardCommand extends Command {
+module.exports = class HgdLeaderboardCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'hgdleaderboard',

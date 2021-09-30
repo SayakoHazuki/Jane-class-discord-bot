@@ -1,6 +1,6 @@
 const Command = require('cmd')
 
-module.exports = class hgdHelpCommand extends Command {
+module.exports = class HgdHelpCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'hgdhelp',

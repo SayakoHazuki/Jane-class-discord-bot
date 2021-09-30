@@ -27,7 +27,7 @@ const bar = [
 
 const Command = require('cmd')
 
-module.exports = class hgdCommand extends Command {
+module.exports = class HgdCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'hgd',

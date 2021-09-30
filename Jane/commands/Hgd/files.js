@@ -13,7 +13,7 @@ function rd (min, max) {
 let simfiles = false
 let score
 
-module.exports = class hgdCommand extends Command {
+module.exports = class HgdFilesCommand extends Command {
   constructor (client) {
     super(client, {
       name: '幫助簡整理資料',

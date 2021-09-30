@@ -7,7 +7,7 @@ const Util = require('utils')
 
 const Command = require('cmd')
 
-module.exports = class hgdCommand extends Command {
+module.exports = class HgdTeaCommand extends Command {
   constructor (client) {
     super(client, {
       name: '給簡準備下午茶',

@@ -21,7 +21,7 @@ const weekday = ['日', '一', '二', '三', '四', '五', '六']
 let monthToSet = false
 let cycleToSet = 1
 
-module.exports = class addTimetableCommand extends Command {
+module.exports = class AddTimetableCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'addtt',

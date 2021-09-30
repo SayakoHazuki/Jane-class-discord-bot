@@ -9,7 +9,7 @@ function rd (min, max) {
 }
 let simpat = false
 
-module.exports = class hgdCommand extends Command {
+module.exports = class HgdPatCommand extends Command {
   constructor (client) {
     super(client, {
       name: '拍拍簡的頭',

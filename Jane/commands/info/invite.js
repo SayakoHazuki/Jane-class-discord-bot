@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const Command = require('cmd')
 
-module.exports = class inviteCommand extends Command {
+module.exports = class InviteCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'invite',

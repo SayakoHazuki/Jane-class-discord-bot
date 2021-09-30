@@ -54,14 +54,14 @@ const charNum = {
   9: '狼人'
 }
 
-module.exports = class editBirthdayCommand extends Command {
+module.exports = class mafiaCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'mafia',
       aliases: ['wolf', 'werewolf', '狼人'],
       category: '一般',
-      description: '修改生日資訊',
-      usage: 'uhhhhh',
+      description: '開始一個狼人殺遊戲',
+      usage: 'mafia help|cmd|create|pick',
       minArgs: 0,
       maxArgs: -1
     })

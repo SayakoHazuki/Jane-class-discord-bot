@@ -3,7 +3,7 @@ const Util = require('utils')
 const Command = require('cmd')
 const Ss = require('sUser')
 
-module.exports = class timetableCommand extends Command {
+module.exports = class TimetableCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'timetable',
