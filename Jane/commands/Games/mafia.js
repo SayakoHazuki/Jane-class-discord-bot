@@ -51,17 +51,17 @@ const charNum = {
   2: '女巫',
   3: '獵人',
   4: '守衛',
-  9: '狼人'
+  5: '狼人'
 }
 
-module.exports = class mafiaCommand extends Command {
+module.exports = class wolfCommand extends Command {
   constructor (client) {
     super(client, {
-      name: 'mafia',
-      aliases: ['wolf', 'werewolf', '狼人'],
+      name: 'wolf',
+      aliases: ['mafia', 'werewolf', '狼人'],
       category: '一般',
       description: '開始一個狼人殺遊戲',
-      usage: 'mafia help|cmd|create|pick',
+      usage: 'wolf help|cmd|create|pick',
       minArgs: 0,
       maxArgs: -1
     })
@@ -76,17 +76,32 @@ module.exports = class mafiaCommand extends Command {
           {
             name: '角色描述及技能',
             value:
-              '**好人陣營**\n`0`平民\n沒有特殊技能，黑夜全程閉眼，透過白天階段所得資訊投票放逐疑似狼人的玩家。\n\n`1`預言家[神職]\n每晚可查一位存活玩家的陣營\n\n`2`女巫[神職]\n擁有一瓶解藥和一瓶毒藥，解藥未使用時可得知狼人的殺害對象，並決定是否救這一位玩家。解藥不能解救自己。女巫也可將懷疑的對象毒殺，該對象死後不能發動技能。解藥和毒藥不可在同一夜使用。\n\n`3`獵人[神職]\n除被毒殺外，被淘汰時可公開角色發動技能帶走一位玩家，可以選擇不發動技能。\n\n`4`守衛[神職]\n每晚可以選擇守護一名玩家免受狼人殺害，並可以選擇守護自己，不可連續兩晚守護同一人。守衛的守護不能擋掉女巫的毒藥。\n\n**狼人陣營**\n`9`狼人\n黑夜可以與隊友討論戰術與選擇殺害對象。狼人可以選擇不殺害任何玩家或自殺。'
+              '**好人陣營**\n`0`平民\n沒有特殊技能，黑夜全程閉眼，透過白天階段所得資訊投票放逐疑似狼人的玩家。\n\n`1`預言家[神職]\n每晚可查一位存活玩家的陣營\n\n`2`女巫[神職]\n擁有一瓶解藥和一瓶毒藥，解藥未使用時可得知狼人的殺害對象，並決定是否救這一位玩家。解藥不能解救自己。女巫也可將懷疑的對象毒殺，該對象死後不能發動技能。解藥和毒藥不可在同一夜使用。\n\n`3`獵人[神職]\n除被毒殺外，被淘汰時可公開角色發動技能帶走一位玩家，可以選擇不發動技能。\n\n`4`守衛[神職]\n每晚可以選擇守護一名玩家免受狼人殺害，並可以選擇守護自己，不可連續兩晚守護同一人。守衛的守護不能擋掉女巫的毒藥。\n\n**狼人陣營**\n`5`狼人\n黑夜可以與隊友討論戰術與選擇殺害對象。狼人可以選擇不殺害任何玩家或自殺。'
+          },
+          {
+            name: '狼人殺基本指令',
+            value:
+              '-wolf help: 顯示本列表\n-wolf create: 建立新遊戲\n-wolf cmd: 顯示詳細指令使用方法'
           }
         ])
+        .setColor(this.client.colors.purple)
       return message.channel.send(helpEmbed)
     }
     if (args[0] === 'cmd') {
-      const cmdEmbed = new Discord.MessageEmbed().addFields({
-        name: '指令',
-        value:
-          '-mafia pick `選項(選填)` `@玩家s`\n> 隨機分佈角色\n> 選項: 角色數量(如果不填將會使用預設組合)\n> 格式: [編號]x[數量] + [編號]x[數量]\n> (例如 0x2+1x1+3x1+9x2)\n> 編號為上方角色前的數字\n> (請 @ 遊玩的所有玩家)'
-      })
+      const cmdEmbed = new Discord.MessageEmbed()
+        .addFields(
+          {
+            name: '基本指令',
+            value:
+              '-wolf create `加入時限(秒)(選填)`\n> 建立新的狼人殺遊戲\n\n-wolf help\n> 查看基本玩法、角色列表及指令簡介等資訊\n\n-wolf cmd\n> 查看本指令列表\n** **'
+          },
+          {
+            name: '其他指令(不推薦使用)',
+            value:
+              '-wolf pick `選項(選填)` `@玩家s`\n> 隨機分佈角色\n> 選項: 角色數量(如果不填將會使用預設組合)\n> 格式: [編號]x[數量] + [編號]x[數量]\n> (例如 0x2+1x1+3x1+9x2)\n> 編號為上方角色前的數字\n> (請 @ 遊玩的所有玩家)'
+          }
+        )
+        .setColor(this.client.colors.purple)
       return message.channel.send(cmdEmbed)
     }
     if (args[0] === 'pick') {
@@ -102,7 +117,7 @@ module.exports = class mafiaCommand extends Command {
       if (options && options.join('').replace(/ /g, '') !== '') {
         Chars = []
         await options.forEach(config => {
-          if (!/^[012349]x[0-9]$/.test(config)) {
+          if (!/^[012345]x[0-9]$/.test(config)) {
             message.channel.send(`${options.join('+')} 不是有效的選項`)
             throw new Error(`${options.join('+')} 不是有效的選項`)
           }
@@ -230,6 +245,7 @@ module.exports = class mafiaCommand extends Command {
         .setFooter(
           `按下打氣棒來加入遊戲,截止時間 : ${startTime.toLocaleTimeString()}`
         )
+        .setColor(this.client.colors.blue)
       const joinPanel = await message.inlineReply(joinEmbed)
       const filter = (reaction, user) => {
         return reaction.emoji.id === '844470079109988362'
@@ -248,6 +264,7 @@ module.exports = class mafiaCommand extends Command {
           .setFooter(
             `按下打氣棒來加入遊戲,截止時間 : ${startTime.toLocaleTimeString()}`
           )
+          .setColor(this.client.colors.blue)
         joinPanel.edit(membersEmbed)
       })
 
@@ -269,6 +286,7 @@ module.exports = class mafiaCommand extends Command {
               `\n[${members.length}位玩家已加入]`
           )
           .setFooter('可以輸入`預設`以使用預設角色分配')
+          .setColor(this.client.colors.green)
         await message.inlineReply(rolesEmbed)
 
         const msgfilter = response => {
@@ -299,7 +317,7 @@ module.exports = class mafiaCommand extends Command {
 
         const options = config.split('+')
         await options.forEach(part => {
-          if (!/^[012349]x..$/.test(part)) {
+          if (!/^[012345]x..$/.test(part)) {
             message.channel.send(`${config} 不是有效的選項`)
             return collectRoles(times + 1)
           }
@@ -321,7 +339,7 @@ module.exports = class mafiaCommand extends Command {
           return collectRoles(times + 1)
         }
         const confirmationEmbed = new Discord.MessageEmbed()
-          .setTitle('等待開始遊戲')
+          .setTitle('正在等待開始遊戲')
           .setDescription(
             `**玩家**\n> <@${members.join(
               '>\n> <@'
@@ -331,6 +349,7 @@ module.exports = class mafiaCommand extends Command {
               message.content.split(' ')[0]
             } start\`開始分配角色並開始遊戲`
           )
+          .setColor(this.client.colors.green)
         await message.inlineReply(confirmationEmbed)
         const confirmationfilter = m =>
           m.content.startsWith(`${message.content.split(' ')[0]} `)
@@ -421,6 +440,7 @@ module.exports = class mafiaCommand extends Command {
               .setDescription(
                 '遊戲現在開始\n請查看私訊檢查角色, 並於夜晚全程關上麥克風(主持人除外)'
               )
+              .setColor(this.client.colors.green)
             message.channel.send(startedEmbed)
           }
         }
