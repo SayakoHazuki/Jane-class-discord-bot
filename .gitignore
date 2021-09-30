@@ -5,6 +5,7 @@ Procfile
 .eslintrc.json
 .deployment
 .env
+dmsay.js
 
 CanvasTest/
 
