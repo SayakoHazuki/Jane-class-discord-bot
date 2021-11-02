@@ -1,4 +1,60 @@
 {
+  "tests": [
+    [
+      {
+        "subject": "L&S",
+        "duration": 25
+      },
+      {
+        "subject": "CHIN",
+        "duration": 40
+      }
+    ],
+    [
+      {
+        "subject": "BIO",
+        "duration": 25
+      },
+      {
+        "subject": "ENG",
+        "duration": 50
+      }
+    ],
+    [
+      {
+        "subject": "CHIS",
+        "duration": 30
+      },
+      {
+        "subject": "MATH",
+        "duration": 30
+      }
+    ],
+    [
+      {
+        "subject": "HIST",
+        "duration": 30
+      },
+      {
+        "subject": "GEOG",
+        "duration": 25
+      },
+      {
+        "subject": "PTH",
+        "duration": 20
+      }
+    ],
+    [
+      {
+        "subject": "CHEM",
+        "duration": 25
+      },
+      {
+        "subject": "PHY",
+        "duration": 25
+      }
+    ]
+  ],
   "3A": {
     "A": "CHIN CHIN IT ENG PHYS CTP",
     "B": "MUS/DE HIST CHIN ENG MATH CHIS",

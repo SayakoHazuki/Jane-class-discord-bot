@@ -29,8 +29,9 @@ module.exports = class TimetableEmbed {
     showLinks = false
     let cycleNum, cycleDay, lessonsString, oddCycle
     const dayDescArray = daysJson[dateToRead].split(' ')
-    if (!dayDescArray) return printLog('info', __filename, 'dayDescArray is undefined')
-
+    if (!dayDescArray) {
+      return printLog('info', __filename, 'dayDescArray is undefined')
+    }
     if (dayDescArray[4]) {
       cycleNum = dayDescArray[1]
       printLog('info', __filename, 'let cycle = ' + cycleNum)
@@ -43,23 +44,39 @@ module.exports = class TimetableEmbed {
       }
     }
 
+    if (!oddCycle) {
+      //
+    }
+
+    const MonthNoTmr = getMonthFromString(dateToRead.replace(/[0-9]/g, ''))
+    const DayDateTmr = dateToRead.replace(/[a-zA-Z]/g, '')
+
     if (dayDescArray[3]) {
-      cycleDay = dayDescArray[3]
+      if (dayDescArray[0].includes('測驗周')) {
+        const testsEmbed = new TestEmbed(
+          dayDescArray[2],
+          new Date(
+            `2021-${toTwoDigit(MonthNoTmr)}-${toTwoDigit(DayDateTmr)}T12:00:00`
+          ),
+          daysJson[dateToRead].split('(')[1].replace(/[()]/g, '') || ''
+        )
+        this.embed = testsEmbed
+        return
+      } else {
+        cycleDay = dayDescArray[3]
+      }
     } else {
       cycleDay = 'holiday'
       printLog('info', __filename, 'Holiday detected')
     }
 
-    if (cycleDay === 'DAYTOCHECKODDEVEN') {
-      lessonsString = timetableJson['D' + oddCycle]
+    if (cycleDay.includes('TestDay')) {
+      lessonsString = timetableJson.test[`Day${dayDescArray[3]}`]
     } else {
       lessonsString = timetableJson[sClass][cycleDay]
     }
 
     const lessonsArray = lessonsString.split(' ')
-
-    const MonthNoTmr = getMonthFromString(dateToRead.replace(/[0-9]/g, ''))
-    const DayDateTmr = dateToRead.replace(/[a-zA-Z]/g, '')
 
     if (lessonsArray[5]) {
       const dayDescString = dayDescArray.join(' ')
@@ -71,7 +88,9 @@ module.exports = class TimetableEmbed {
       if (dayDescString.includes('特別') && timeOfSchool) {
         timeOfSchool = 'sp'
       }
-      printLog('info', __filename,
+      printLog(
+        'info',
+        __filename,
         dayDescString.includes('上午'),
         dayDescString.includes('下午'),
         dayDescString.includes('夏令')
@@ -179,7 +198,9 @@ module.exports = class TimetableEmbed {
       ]
       const random = Math.floor(Math.random() * foota.length)
 
-      const JSDateForDay = new Date(`2021-${toTwoDigit(MonthNoTmr)}-${toTwoDigit(DayDateTmr)}T12:00:00`)
+      const JSDateForDay = new Date(
+        `2021-${toTwoDigit(MonthNoTmr)}-${toTwoDigit(DayDateTmr)}T12:00:00`
+      )
       printLog('info', __filename, `2021-${MonthNoTmr}-${DayDateTmr}T12:00:00`)
       printLog('info', __filename, JSDateForDay.getTime())
 
@@ -191,9 +212,8 @@ module.exports = class TimetableEmbed {
         .setDescription(
           `━━━━━━━━━━━━━\n<t:${Math.round(
             JSDateForDay.getTime() / 1000
-          )}:D> [${daysJson[dateToRead]
-            .split('(')[1]
-            .replace(/[()]/g, '') || ''}]\n${daysJson[dateToRead].split('(')[0] ||
+          )}:D> [${daysJson[dateToRead].split('(')[1].replace(/[()]/g, '') ||
+            ''}]\n${daysJson[dateToRead].split('(')[0] ||
             daysJson[dateToRead]}\n\u2800`
         )
         .setColor('#ACE9A6')
@@ -208,8 +228,11 @@ module.exports = class TimetableEmbed {
         .setTimestamp()
 
       this.embed = timetableEmbed
-    } else {
-      const JSDateForDay = new Date(`2021-${toTwoDigit(MonthNoTmr)}-${toTwoDigit(DayDateTmr)}T12:00:00`)
+    }
+    if (!lessonsArray[5] && !dayDescArray[0].includes('測驗周')) {
+      const JSDateForDay = new Date(
+        `2021-${toTwoDigit(MonthNoTmr)}-${toTwoDigit(DayDateTmr)}T12:00:00`
+      )
       const footaE = [
         '趁著難得的假期好好放鬆一下吧',
         '請好好享受假期吧',
@@ -239,4 +262,65 @@ module.exports = class TimetableEmbed {
 
 function toTwoDigit (deg) {
   return ('0' + deg).slice(-2)
+}
+
+class TestEmbed {
+  constructor (testWeekDay, JSDateForDay, dayOfWeek) {
+    const subjects = timetableJson.tests[testWeekDay - 1]
+    const foota = [
+      '希望大家都能獲得好的成績呢',
+      '請努力溫習測驗哦',
+      '大家測驗要加油哦',
+      '請努力溫習測驗哦',
+      '大家測驗要加油哦',
+      '請努力溫習測驗哦',
+      '大家測驗要加油哦',
+      '請努力溫習測驗哦',
+      '大家測驗要加油哦'
+    ]
+    const random = Math.floor(Math.random() * foota.length)
+
+    function sumTime (o, a) {
+      let [oh, om] = o.split(':')
+      ;[oh, om] = [Number(oh), Number(om)]
+      let m = om + a
+      let h = oh
+      if (m >= 60) {
+        m -= 60
+        h += 1
+      }
+      return `${toTwoDigit(h)}:${toTwoDigit(m)}`
+    }
+
+    const TestTimelist = ['08:40', '10:20', '11:00']
+
+    let testScheduleTxt = ''
+    for (let i = 0; i < subjects.length; i++) {
+      const { subject, duration } = subjects[i]
+      testScheduleTxt = `${testScheduleTxt}${TestTimelist[i]}-${sumTime(
+        TestTimelist[i],
+        duration
+      )}\n${subject} Test\n(${duration} 分鐘)\n\n`
+    }
+
+    const testTTEmbed = new MessageEmbed()
+      .setAuthor('日期資訊 Date info', 'https://i.imgur.com/wMfgtoW.png?1')
+      .setDescription(
+        `━━━━━━━━━━━━━\n<t:${Math.round(
+          JSDateForDay.getTime() / 1000
+        )}:D> [${dayOfWeek}]\n上學期測驗周 (Day ${testWeekDay})\n\u2800`
+      )
+      .setColor('#ACE9A6')
+      .setFooter(
+        '簡 Jane',
+        'https://cdn.discordapp.com/avatars/801354940265922608/597ed679b7bdcfd32b22e2149a6222ce.webp'
+      )
+      .addField(
+        '測驗時段列表',
+        testScheduleTxt.replace(/\n$/, '') + `━━━━━━━━━━━━━\n${foota[random]}`
+      )
+      .setTimestamp()
+
+    return testTTEmbed
+  }
 }
