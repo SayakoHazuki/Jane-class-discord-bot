@@ -29,7 +29,6 @@ module.exports = class Client extends Discord.Client {
     }
     this.prefix = '-'
     this.modChannelID = '801305387826806804'
-    Util.printLog('info', __filename, JSON.stringify(this.options))
   }
 
   setPlr (player) {
