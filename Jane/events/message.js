@@ -4,11 +4,12 @@ const Util = require('utils')
 
 module.exports = class Message extends Evt {
   constructor (client) {
-    super(client, 'message')
+    super(client, 'messageCreate')
   }
 
   async run (message) {
-    if (message.channel.type === 'dm') {
+    Util.printLog('info', __filename, 'test')
+    if (message.channel.type === 'DM') {
       return Util.handleDM(message, this.client)
     }
     if (message.author.bot || !message.guild) return

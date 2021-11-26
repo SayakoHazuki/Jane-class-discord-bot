@@ -8,8 +8,11 @@ module.exports = class Client extends Discord.Client {
   constructor () {
     super({
       intents: [
+        Intents.GUILDS,
         Intents.GUILD_MEMBERS,
+        Intents.GUILD_INVITES,
         Intents.GUILD_MESSAGES,
+        Intents.GUILD_MESSAGE_REACTIONS,
         Intents.DIRECT_MESSAGES,
         Intents.DIRECT_MESSAGE_REACTIONS
       ]
@@ -26,6 +29,7 @@ module.exports = class Client extends Discord.Client {
     }
     this.prefix = '-'
     this.modChannelID = '801305387826806804'
+    Util.printLog('info', __filename, JSON.stringify(this.options))
   }
 
   setPlr (player) {
@@ -82,7 +86,7 @@ module.exports = class Client extends Discord.Client {
       i++
     }
 
-    Util.printLog('info', __filename, `Finished loading ${i} events`)
+    Util.printLog('info', __filename, `Now listening to the following ${i} events:\n${this.eventNames().join(' ')}`)
   }
 
   async logIn (startInDev = false) {
