@@ -33,7 +33,7 @@ module.exports = class resumeCommand extends Command {
         .setDescription(`[${trackNow.title}](${trackNow.url})\n${progressBar}`)
         .setThumbnail(trackNow.thumbnail)
         .setColor(this.client.colors.green)
-      message.reply({embeds: [resumeEmbed]})
+      message.reply({ embeds: [resumeEmbed] })
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
       const errEmbed = Util.errEmbed(message, '繼續播放歌曲時發生了一個錯誤')

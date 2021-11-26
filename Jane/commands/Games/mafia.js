@@ -233,7 +233,7 @@ module.exports = class wolfCommand extends Command {
       // JSON.stringify(randomPick(charList, plrList), null, '  ')
 
       finalPanel =
-        errMem?.length >= 0 ? false : await message.reply({embeds: [PlayersEmbed]})
+        errMem?.length >= 0 ? false : await message.reply({ embeds: [PlayersEmbed] })
     }
     if (args[0] === 'create') {
       const waitTime = (Number(args[1]) || 60) * 1000
@@ -246,7 +246,7 @@ module.exports = class wolfCommand extends Command {
           `按下打氣棒來加入遊戲,截止時間 : ${startTime.toLocaleTimeString()}`
         )
         .setColor(this.client.colors.blue)
-      const joinPanel = await message.reply({embeds: [joinEmbed]})
+      const joinPanel = await message.reply({ embeds: [joinEmbed] })
       const filter = (reaction, user) => {
         return reaction.emoji.id === '844470079109988362'
       }
@@ -287,7 +287,7 @@ module.exports = class wolfCommand extends Command {
           )
           .setFooter('可以輸入`預設`以使用預設角色分配')
           .setColor(this.client.colors.green)
-        await message.reply({embeds: [rolesEmbed]})
+        await message.reply({ embeds: [rolesEmbed] })
 
         const msgfilter = response => {
           return response.author.id === message.author.id
@@ -350,7 +350,7 @@ module.exports = class wolfCommand extends Command {
             } start\`開始分配角色並開始遊戲`
           )
           .setColor(this.client.colors.green)
-        await message.reply({embeds: [confirmationEmbed]})
+        await message.reply({ embeds: [confirmationEmbed] })
         const confirmationfilter = m =>
           m.content.startsWith(`${message.content.split(' ')[0]} `)
         const confirmationcollector = message.channel.createMessageCollector(

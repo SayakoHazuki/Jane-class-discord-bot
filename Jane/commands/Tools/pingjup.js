@@ -30,6 +30,6 @@ module.exports = class PingjupCommand extends Command {
         value: r
       }
     ]).setColor(this.client.colors.blue)
-    message.reply({embeds: [PingjupEmbed]})
+    message.reply({ embeds: [PingjupEmbed] })
   }
 }

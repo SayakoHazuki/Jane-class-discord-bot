@@ -34,7 +34,7 @@ module.exports = class HelpCommand extends Command {
         .addField('類別', command.category, true)
         .addField('用法', `${this.client.prefix}${command.usage}`, true)
         .setColor(message.guild.me.displayHexColor)
-      message.reply({embeds: [embed]})
+      message.reply({ embeds: [embed] })
     } else {
       const commands = this.client.commands
 
@@ -62,7 +62,7 @@ module.exports = class HelpCommand extends Command {
         if (cat === '737012021' || cat === '(Unfinished commands)') continue
         embed.addField(`${cat}`, `\`${cmds.sort().join('`, `')}\``)
       }
-      message.reply({embeds: [embed]})
+      message.reply({ embeds: [embed] })
     }
   }
 }

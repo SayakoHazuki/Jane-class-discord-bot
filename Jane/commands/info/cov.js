@@ -57,7 +57,7 @@ module.exports = class CovidCommand extends Command {
         })
         .setTimestamp()
         .setFooter('數據來源:chp-dashboard.geodata.gov.hk', '')
-      message.reply({embeds: [covid19StatusHK]})
+      message.reply({ embeds: [covid19StatusHK] })
     })
   }
 }

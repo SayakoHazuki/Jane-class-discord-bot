@@ -32,7 +32,7 @@ module.exports = class WikiCommand extends Command {
       const loading = new Discord.MessageEmbed().setDescription(
         `<a:load:825627249302175745> ${apiLang === 'zh' ? '正在搜尋' : 'Now searching'} ${query}`
       )
-      panel = await message.reply({embeds: [loading]})
+      panel = await message.reply({ embeds: [loading] })
     } catch (e) {
       Util.handleErr(e)
     }

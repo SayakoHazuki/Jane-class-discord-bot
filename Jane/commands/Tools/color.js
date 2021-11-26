@@ -70,7 +70,7 @@ module.exports = class ColorCommand extends Command {
         .setColor(c)
         .setDescription(`:white_check_mark: 簡已經把你的名稱顏色改成 ${w}`)
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
-      message.reply({embeds: [sucessEmbed]})
+      message.reply({ embeds: [sucessEmbed] })
     }
 
     let nowrole

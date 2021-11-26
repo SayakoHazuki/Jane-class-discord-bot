@@ -48,7 +48,7 @@ module.exports = class Ready extends Evt {
           `<:redcross:842411993423413269> 找不到歌名為${query}的歌曲`
         )
         .setColor(this.client.colors.red)
-      message.reply({embeds: [noResultsEmbed]})
+      message.reply({ embeds: [noResultsEmbed] })
       Util.printLog(
         'INFO',
         __filename,
@@ -64,7 +64,7 @@ module.exports = class Ready extends Evt {
           `:white_check_mark: 已經把 ${playlist.title} 內共${playlist?.tracks?.length}首歌曲加入播放清單`
         )
         .setColor(this.client.colors.green)
-      message.reply({embeds: [playlistAddEmbed]})
+      message.reply({ embeds: [playlistAddEmbed] })
       Util.printLog(
         'INFO',
         __filename,
@@ -157,7 +157,7 @@ module.exports = class Ready extends Evt {
           `[${track.title}](${track.url})\n:clock7: 長度 > ${track.duration}`
         )
         .setColor(this.client.colors.green)
-      message.reply({embeds: [trackAddEmbed]})
+      message.reply({ embeds: [trackAddEmbed] })
       Util.printLog(
         'INFO',
         __filename,

@@ -8,7 +8,6 @@ module.exports = class Message extends Evt {
   }
 
   async run (message) {
-    Util.printLog('info', __filename, 'test')
     if (message.channel.type === 'DM') {
       return Util.handleDM(message, this.client)
     }

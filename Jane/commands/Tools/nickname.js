@@ -52,7 +52,7 @@ module.exports = class NicknameCommand extends Command {
         )
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
 
-      message.reply({embeds: [nickReplyEmbed]})
+      message.reply({ embeds: [nickReplyEmbed] })
     } catch (e) {
       Util.handleErr(e)
     }

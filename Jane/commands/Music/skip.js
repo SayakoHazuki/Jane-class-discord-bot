@@ -19,7 +19,7 @@ module.exports = class skipCommand extends Command {
       const resumeEmbed = new Discord.MessageEmbed()
         .setAuthor('⏩ 已跳過', message.author.avatarURL())
         .setColor(this.client.colors.blue)
-      message.reply({embeds: [resumeEmbed]})
+      message.reply({ embeds: [resumeEmbed] })
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
     }

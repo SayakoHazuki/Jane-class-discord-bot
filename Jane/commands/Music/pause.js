@@ -33,7 +33,7 @@ module.exports = class pauseCommand extends Command {
         .setDescription(`[${trackNow.title}](${trackNow.url})\n${progressBar}`)
         .setThumbnail(trackNow.thumbnail)
         .setColor(this.client.colors.yellow)
-      message.reply({embeds: [pauseEmbed]})
+      message.reply({ embeds: [pauseEmbed] })
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
       const errEmbed = Util.errEmbed(message, '暫停歌曲時發生了一個錯誤')
