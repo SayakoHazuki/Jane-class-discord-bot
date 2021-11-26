@@ -2,11 +2,17 @@ const Discord = require('discord.js')
 const glob = require('glob')
 const path = require('path')
 const Util = require('utils')
+const Intents = Discord.Intents.FLAGS
 
 module.exports = class Client extends Discord.Client {
   constructor () {
     super({
-      intents: Discord.Intents.ALL
+      intents: [
+        Intents.GUILD_MEMBERS,
+        Intents.GUILD_MESSAGES,
+        Intents.DIRECT_MESSAGES,
+        Intents.DIRECT_MESSAGE_REACTIONS
+      ]
     })
     this.commands = new Discord.Collection()
     this.themeColor = '#ACE9A6'
