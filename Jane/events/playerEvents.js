@@ -30,7 +30,7 @@ module.exports = class Ready extends Evt {
     })
 
     this.client.player.on('error', (error, message) => {
-      message.inlineReply(
+      message.reply(
         Util.errEmbed(message, `發生了一個錯誤\n\`${error}\``)
       )
       Util.printLog('ERR', __filename, error)
@@ -48,7 +48,7 @@ module.exports = class Ready extends Evt {
           `<:redcross:842411993423413269> 找不到歌名為${query}的歌曲`
         )
         .setColor(this.client.colors.red)
-      message.inlineReply(noResultsEmbed)
+      message.reply({embeds: [noResultsEmbed]})
       Util.printLog(
         'INFO',
         __filename,
@@ -64,7 +64,7 @@ module.exports = class Ready extends Evt {
           `:white_check_mark: 已經把 ${playlist.title} 內共${playlist?.tracks?.length}首歌曲加入播放清單`
         )
         .setColor(this.client.colors.green)
-      message.inlineReply(playlistAddEmbed)
+      message.reply({embeds: [playlistAddEmbed]})
       Util.printLog(
         'INFO',
         __filename,
@@ -87,7 +87,7 @@ module.exports = class Ready extends Evt {
         __filename,
         'Player emitted playlistParseStart Event'
       )
-      message.inlineReply(':mag: 正在載入播放清單資訊')
+      message.reply(':mag: 正在載入播放清單資訊')
       Util.printLog(
         'INFO',
         __filename,
@@ -100,7 +100,7 @@ module.exports = class Ready extends Evt {
       const queueEndEmbed = new MessageEmbed()
         .setDescription('<:leave:842411018503061554> 所有歌曲已播放完畢')
         .setColor(this.client.colors.red)
-      message.channel.send(queueEndEmbed)
+      message.channel.send({ embeds: [queueEndEmbed] })
       Util.printLog(
         'INFO',
         __filename,
@@ -110,7 +110,7 @@ module.exports = class Ready extends Evt {
 
     this.client.player.on('searchCancel', (message, query, tracks) => {
       Util.printLog('INFO', __filename, 'Player emitted searchCancel Event')
-      message.inlineReply(
+      message.reply(
         `搜尋\`${query}\`時載入過長, 請稍後再試\n(如情況持續可聯絡程序員)`
       )
       Util.printLog(
@@ -128,7 +128,7 @@ module.exports = class Ready extends Evt {
           __filename,
           'Player emitted searchInvalidResponse Event'
         )
-        message.inlineReply(Util.errEmbed(message, '發生了一個預期外的錯誤'))
+        message.reply(Util.errEmbed(message, '發生了一個預期外的錯誤'))
         Util.printLog(
           'INFO',
           __filename,
@@ -157,7 +157,7 @@ module.exports = class Ready extends Evt {
           `[${track.title}](${track.url})\n:clock7: 長度 > ${track.duration}`
         )
         .setColor(this.client.colors.green)
-      message.inlineReply(trackAddEmbed)
+      message.reply({embeds: [trackAddEmbed]})
       Util.printLog(
         'INFO',
         __filename,
@@ -183,7 +183,7 @@ module.exports = class Ready extends Evt {
           queue[1]?.thumbnail
         )
       }
-      message.channel.send(trackStartEmbed)
+      message.channel.send({ embeds: [trackStartEmbed] })
       Util.printLog(
         'INFO',
         __filename,

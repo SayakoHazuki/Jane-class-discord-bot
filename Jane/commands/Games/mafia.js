@@ -85,7 +85,7 @@ module.exports = class wolfCommand extends Command {
           }
         ])
         .setColor(this.client.colors.purple)
-      return message.channel.send(helpEmbed)
+      return message.channel.send({ embeds: [helpEmbed] })
     }
     if (args[0] === 'cmd') {
       const cmdEmbed = new Discord.MessageEmbed()
@@ -102,7 +102,7 @@ module.exports = class wolfCommand extends Command {
           }
         )
         .setColor(this.client.colors.purple)
-      return message.channel.send(cmdEmbed)
+      return message.channel.send({ embeds: [cmdEmbed] })
     }
     if (args[0] === 'pick') {
       let finalPanel = false
@@ -209,7 +209,7 @@ module.exports = class wolfCommand extends Command {
         .setDescription(`${matchedCharsString}`)
       await message.author.send(charsPickedEmbed).catch(e => {
         err = true
-        message.inlineReply(
+        message.reply(
           '未能傳送私訊給你, 請確定沒有封鎖了簡並已經開啟本群私訊設定(見下圖)',
           {
             files: ['https://i.imgur.com/4P69LoZ.png']
@@ -233,7 +233,7 @@ module.exports = class wolfCommand extends Command {
       // JSON.stringify(randomPick(charList, plrList), null, '  ')
 
       finalPanel =
-        errMem?.length >= 0 ? false : await message.inlineReply(PlayersEmbed)
+        errMem?.length >= 0 ? false : await message.reply({embeds: [PlayersEmbed]})
     }
     if (args[0] === 'create') {
       const waitTime = (Number(args[1]) || 60) * 1000
@@ -246,7 +246,7 @@ module.exports = class wolfCommand extends Command {
           `按下打氣棒來加入遊戲,截止時間 : ${startTime.toLocaleTimeString()}`
         )
         .setColor(this.client.colors.blue)
-      const joinPanel = await message.inlineReply(joinEmbed)
+      const joinPanel = await message.reply({embeds: [joinEmbed]})
       const filter = (reaction, user) => {
         return reaction.emoji.id === '844470079109988362'
       }
@@ -270,7 +270,7 @@ module.exports = class wolfCommand extends Command {
 
       collector.on('end', collected => {
         if ((members.length || 0) <= 3) {
-          return message.inlineReply(
+          return message.reply(
             `只有${members.length ||
               0}位玩家加入, 未達到最低人數要求, 遊戲已取消`
           )
@@ -287,7 +287,7 @@ module.exports = class wolfCommand extends Command {
           )
           .setFooter('可以輸入`預設`以使用預設角色分配')
           .setColor(this.client.colors.green)
-        await message.inlineReply(rolesEmbed)
+        await message.reply({embeds: [rolesEmbed]})
 
         const msgfilter = response => {
           return response.author.id === message.author.id
@@ -350,7 +350,7 @@ module.exports = class wolfCommand extends Command {
             } start\`開始分配角色並開始遊戲`
           )
           .setColor(this.client.colors.green)
-        await message.inlineReply(confirmationEmbed)
+        await message.reply({embeds: [confirmationEmbed]})
         const confirmationfilter = m =>
           m.content.startsWith(`${message.content.split(' ')[0]} `)
         const confirmationcollector = message.channel.createMessageCollector(
@@ -423,7 +423,7 @@ module.exports = class wolfCommand extends Command {
             .setTitle('狼人殺隨機角色分配')
             .setDescription(`${matchedCharsString}`)
           await message.author.send(charsPickedEmbed).catch(e => {
-            message.inlineReply(
+            message.reply(
               '未能傳送私訊給你, 請確定沒有封鎖了簡並已經開啟本群私訊設定(見下圖)',
               {
                 files: ['https://i.imgur.com/4P69LoZ.png']
@@ -441,7 +441,7 @@ module.exports = class wolfCommand extends Command {
                 '遊戲現在開始\n請查看私訊檢查角色, 並於夜晚全程關上麥克風(主持人除外)'
               )
               .setColor(this.client.colors.green)
-            message.channel.send(startedEmbed)
+            message.channel.send({ embeds: [startedEmbed] })
           }
         }
       }

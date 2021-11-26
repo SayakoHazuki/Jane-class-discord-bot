@@ -63,7 +63,7 @@ module.exports = class HgdPatCommand extends Command {
                 .setDescription('簡 感到討厭。\n好感度 - 1')
                 .setTimestamp()
                 .setFooter('感到討厭的簡', '')
-              msg.channel.send(replyEmbed)
+              msg.channel.send({ embeds: [replyEmbed] })
               throw new Error('stop')
             } else {
               value = 1
@@ -86,7 +86,7 @@ module.exports = class HgdPatCommand extends Command {
             )
             .setTimestamp()
             .setFooter('感到不自在的簡', '')
-          msg.channel.send(replyEmbed)
+          msg.channel.send({ embeds: [replyEmbed] })
           throw new Error('stop')
         } else {
           if (typeof userdata !== 'undefined' && userdata) {
@@ -112,7 +112,7 @@ module.exports = class HgdPatCommand extends Command {
         .setDescription(`簡 感到開心\n好感度+${value}`)
         .setTimestamp()
         .setFooter('感到開心的簡', '')
-      msg.channel.send(replyEmbed)
+      msg.channel.send({ embeds: [replyEmbed] })
     }
   }
 }

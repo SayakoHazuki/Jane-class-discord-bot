@@ -77,7 +77,7 @@ module.exports = class HgdTeaCommand extends Command {
                 .setDescription('簡 感到討厭。\n好感度 - 1')
                 .setTimestamp()
                 .setFooter('感到討厭的簡', '')
-              msg.channel.send(replyEmbed)
+              msg.channel.send({ embeds: [replyEmbed] })
               throw new Error('stop')
             } else {
               value = 1
@@ -98,7 +98,7 @@ module.exports = class HgdTeaCommand extends Command {
             .setDescription(`你今天已經給簡準備過下午茶了\n好感度-${rvalue}`)
             .setTimestamp()
             .setFooter('簡', '')
-          msg.channel.send(replyEmbed)
+          msg.channel.send({ embeds: [replyEmbed] })
           throw new Error('stop')
         } else {
           if (typeof userdata !== 'undefined' && userdata) {
@@ -118,7 +118,7 @@ module.exports = class HgdTeaCommand extends Command {
         .setDescription(`簡 感到開心\n好感度+${value}`)
         .setTimestamp()
         .setFooter('感到開心的簡', '')
-      msg.channel.send(replyEmbed)
+      msg.channel.send({ embeds: [replyEmbed] })
     }
   }
 }

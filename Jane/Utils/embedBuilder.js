@@ -41,7 +41,7 @@ async function MultiEmbed (msg, pages, emojiList = ['⏪', '⏩'], timeout = 120
   if (!pages) throw new Error('Pages are not given.')
   if (emojiList.length !== 2) throw new Error('Need two emojis.')
   let page = 0
-  const curPage = await msg.channel.send(pages[page])
+  const curPage = await msg.channel.send({ embeds: [pages[page]] })
   for (const emoji of emojiList) await curPage.react(emoji)
   const reactionCollector = curPage.createReactionCollector(
     (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot, {

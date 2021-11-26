@@ -74,7 +74,7 @@ module.exports = class HgdFlotCommand extends Command {
                 .setDescription('簡 不太喜歡你的花茶。\n好感度 不變')
                 .setTimestamp()
                 .setFooter('簡', '')
-              msg.channel.send(replyEmbed)
+              msg.channel.send({ embeds: [replyEmbed] })
               throw new Error('stop')
             } else {
               value = 1
@@ -95,7 +95,7 @@ module.exports = class HgdFlotCommand extends Command {
             .setDescription(`簡 不久前已經喝了你給的花茶\n好感度-${rvalue}`)
             .setTimestamp()
             .setFooter('簡', '')
-          msg.channel.send(replyEmbed)
+          msg.channel.send({ embeds: [replyEmbed] })
           throw new Error('stop')
         } else {
           if (typeof userdata !== 'undefined' && userdata) {
@@ -121,7 +121,7 @@ module.exports = class HgdFlotCommand extends Command {
         )
         .setTimestamp()
         .setFooter('喜歡喝花茶的簡', '')
-      msg.channel.send(replyEmbed)
+      msg.channel.send({ embeds: [replyEmbed] })
     }
   }
 }

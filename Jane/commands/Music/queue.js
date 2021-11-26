@@ -44,7 +44,7 @@ module.exports = class queueCommand extends Command {
         queueEmbed.addFields(embedFields)
       }
 
-      message.channel.send(queueEmbed)
+      message.channel.send({ embeds: [queueEmbed] })
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
     }

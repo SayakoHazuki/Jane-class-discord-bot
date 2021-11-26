@@ -15,14 +15,14 @@ module.exports = class loopCommand extends Command {
   async run (message, args) {
     const queue = await this.client.player.getQueue(message)
     if (!queue || !this.client.player.isPlaying) {
-      return message.inlineReply(
+      return message.reply(
         Util.errEmbed(message, '沒有歌曲在此伺服器播放中')
       )
     }
 
     const repeatMode = await this.client.player.getQueue(message).repeatMode
     await this.client.player.setRepeatMode(message, !repeatMode)
-    message.inlineReply(
+    message.reply(
       `🔁 ${
         this.client.player.getQueue(message).repeatMode
           ? '已開啟單曲循環'

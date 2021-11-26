@@ -62,7 +62,7 @@ module.exports = class AddTimetableCommand extends Command {
     function setMonth (month) {
       if (/^[1-9]|11|12$/.test(month)) {
         monthToSet = months[month - 1]
-        return message.inlineReply(
+        return message.reply(
           `你現在可以編輯 ${month}月 (${monthToSet}) 的日期資訊了`
         )
       }
@@ -71,7 +71,7 @@ module.exports = class AddTimetableCommand extends Command {
     function setCycle (cycle) {
       if (/^[1-9]|1[1-9]$/.test(cycle)) {
         cycleToSet = cycle
-        return message.inlineReply(
+        return message.reply(
           `你現在可以編輯 Cycle ${cycleToSet} 的日期資訊了`
         )
       }
@@ -103,7 +103,7 @@ module.exports = class AddTimetableCommand extends Command {
         newData2,
         err => {
           if (err) throw err
-          message.inlineReply(`已新增一項日期資訊: \n\`${date}: ${dayToSet}\``)
+          message.reply(`已新增一項日期資訊: \n\`${date}: ${dayToSet}\``)
           Util.printLog(
             'info',
             __filename,

@@ -15,7 +15,7 @@ module.exports = class shuffleCommand extends Command {
   async run (message, args) {
     try {
       this.client.player.shuffle(message)
-      message.inlineReply(':twisted_rightwards_arrows: 已隨機重新分佈歌曲順序')
+      message.reply(':twisted_rightwards_arrows: 已隨機重新分佈歌曲順序')
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
     }

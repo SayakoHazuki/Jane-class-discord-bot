@@ -20,11 +20,11 @@ module.exports = class MoegirlCommand extends Command {
 
   async run (message, args) {
     try {
-      if (!args[0]) return message.inlineReply('請註明您希望簡搜尋的詞彙')
+      if (!args[0]) return message.reply('請註明您希望簡搜尋的詞彙')
 
       const search = chineseConv.sify(message.content.replace(`${message.content.split(' ')[0]} `, '').replace(/\s/g, '_'))
 
-      const resultmsg = await message.inlineReply('請稍等, 簡正在搜尋萌百資料庫......')
+      const resultmsg = await message.reply('請稍等, 簡正在搜尋萌百資料庫......')
       request(`https://zh.moegirl.org.cn/api.php?action=query&titles=${encodeURIComponent(search)}&prop=revisions&rvprop=content&format=json`, { json: true }, (err, res, body) => {
         if (err) {
           const hErr = new Error(err)

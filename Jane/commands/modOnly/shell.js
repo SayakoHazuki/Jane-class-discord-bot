@@ -24,7 +24,7 @@ module.exports = class ShellCommand extends Command {
       const sendarr = str.match(/[\s\S]{1,1900}/g)
       let i
       for (i = 0; i < sendarr.length; i++) {
-        message.inlineReply(sendarr[i], { code: 'xl' })
+        message.reply(sendarr[i], { code: 'xl' })
       }
     }
 
@@ -36,12 +36,12 @@ module.exports = class ShellCommand extends Command {
     exec(message.content.replace(`${message.content.split(' ')[0]} `, ''), (error, stdout, stderr) => {
       if (error) {
         Util.handleErr(error)
-        message.inlineReply(`error: ${error.message}`)
+        message.reply(`error: ${error.message}`)
         return
       }
       if (stderr) {
         Util.handleErr(stderr)
-        message.inlineReply(`stderr: ${stderr}`)
+        message.reply(`stderr: ${stderr}`)
         return
       }
       splitsend(stdout)

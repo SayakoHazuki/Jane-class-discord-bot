@@ -37,7 +37,7 @@ module.exports = class Message extends Evt {
             true,
             true
           )
-          channel.send(timetableEmbed)
+          channel.send({embeds: [timetableEmbed]})
         } catch (e) {
           return Util.printLog('info', __filename, e.stack)
         }

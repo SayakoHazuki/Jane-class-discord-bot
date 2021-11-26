@@ -20,7 +20,7 @@ module.exports = class volumeCommand extends Command {
         )
       }
       await this.client.player.setVolume(message)
-      message.inlineReply(`:white_check_mark: 音量已調為 \`${args[0]}\`%`)
+      message.reply(`:white_check_mark: 音量已調為 \`${args[0]}\`%`)
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
     }

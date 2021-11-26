@@ -18,7 +18,7 @@ module.exports = class NicknameCommand extends Command {
   async run (message, args) {
     try {
       if (!args[0]) {
-        return message.inlineReply(
+        return message.reply(
           Util.InfoEmbed(
             message,
             '簡不知道要把你的暱稱改成甚麼',
@@ -36,7 +36,7 @@ module.exports = class NicknameCommand extends Command {
         message.content.replace(`${message.content.split(' ')[0]} `, '')
           .length > 32
       ) {
-        return message.inlineReply(
+        return message.reply(
           Util.InfoEmbed(
             message,
             `你所輸入的暱稱太長了(長度限制為32字)\n簡不能把你的暱稱改為 ${newNickname}`
@@ -52,7 +52,7 @@ module.exports = class NicknameCommand extends Command {
         )
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
 
-      message.inlineReply(nickReplyEmbed)
+      message.reply({embeds: [nickReplyEmbed]})
     } catch (e) {
       Util.handleErr(e)
     }

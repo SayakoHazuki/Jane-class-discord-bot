@@ -45,9 +45,9 @@ module.exports = class EvalCommand extends Command {
       if (typeOfEv === 'null' || typeOfEv === 'undefined') highlightCode = 'fix'
       if (highlightCode === null) highlightCode = 'text'
       Util.printLog('info', __filename, highlightCode)
-      return message.inlineReply(ev, { code: highlightCode, split: true })
+      return message.reply({embeds: [ev, { code: highlightCode, split: true }]})
     } catch (err) {
-      return message.inlineReply(err.stack, { code: 'xl' })
+      return message.reply(err.stack, { code: 'xl' })
     }
   }
 }

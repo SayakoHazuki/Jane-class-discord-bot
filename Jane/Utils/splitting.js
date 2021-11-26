@@ -6,11 +6,11 @@ module.exports = class splitter {
       const sendarr = str.match(splitRegex)
       let i
       for (i = 0; i < sendarr.length; i++) {
-        if (code === 'none') message.inlineReply(sendarr[i])
-        else message.inlineReply(sendarr[i], { code: code })
+        if (code === 'none') message.reply({embeds: [sendarr[i]]})
+        else message.reply({embeds: [sendarr[i], { code: code }]})
       }
     } catch (e) {
-      message.inlineReply(e, { code: 'xl' })
+      message.reply(e, { code: 'xl' })
     }
   }
 }

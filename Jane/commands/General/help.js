@@ -20,7 +20,7 @@ module.exports = class HelpCommand extends Command {
           command => command.aliases && command.aliases.includes(args[0])
         )
 
-      if (!command) return message.inlineReply('❌ 找不到指令')
+      if (!command) return message.reply('❌ 找不到指令')
 
       const embed = new MessageEmbed()
         .setAuthor(this.client.user.tag, this.client.user.displayAvatarURL())
@@ -34,7 +34,7 @@ module.exports = class HelpCommand extends Command {
         .addField('類別', command.category, true)
         .addField('用法', `${this.client.prefix}${command.usage}`, true)
         .setColor(message.guild.me.displayHexColor)
-      message.inlineReply(embed)
+      message.reply({embeds: [embed]})
     } else {
       const commands = this.client.commands
 
@@ -62,7 +62,7 @@ module.exports = class HelpCommand extends Command {
         if (cat === '737012021' || cat === '(Unfinished commands)') continue
         embed.addField(`${cat}`, `\`${cmds.sort().join('`, `')}\``)
       }
-      message.inlineReply(embed)
+      message.reply({embeds: [embed]})
     }
   }
 }

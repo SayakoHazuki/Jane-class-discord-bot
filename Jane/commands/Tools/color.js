@@ -54,14 +54,14 @@ module.exports = class ColorCommand extends Command {
           readList += `${i5 + 1}) <@&${colors[i5].id}>\n`
         }
       }
-      return message.inlineReply(Util.InfoEmbed(message, '請在指令後輸入想要換成的暱稱顏色', `可選的顏色:\n${readList}`))
+      return message.reply(Util.InfoEmbed(message, '請在指令後輸入想要換成的暱稱顏色', `可選的顏色:\n${readList}`))
     }
 
     async function fail () {
       if (args[0].toLowerCase() === 'white') {
         return white()
       }
-      message.inlineReply(`簡不能把你的名稱顏色改成 ${args[0]} 。`)
+      message.reply(`簡不能把你的名稱顏色改成 ${args[0]} 。`)
     }
 
     async function sucess (w, c) {
@@ -70,7 +70,7 @@ module.exports = class ColorCommand extends Command {
         .setColor(c)
         .setDescription(`:white_check_mark: 簡已經把你的名稱顏色改成 ${w}`)
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
-      message.inlineReply(sucessEmbed)
+      message.reply({embeds: [sucessEmbed]})
     }
 
     let nowrole

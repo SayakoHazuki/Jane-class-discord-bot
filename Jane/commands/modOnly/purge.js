@@ -19,7 +19,7 @@ module.exports = class PurgeCommand extends Command {
     if (message.author.id === '690822196972486656') {
       message.channel.bulkDelete(args[0])
     } else {
-      return message.inlineReply('對不起!你不能使用此指令。')
+      return message.reply('對不起!你不能使用此指令。')
     }
   }
 }

@@ -18,8 +18,8 @@ module.exports = class HomeworkCommand extends Command {
   }
 
   async run (message, args) {
-    if (message) return message.inlineReply('本指令暫時無法使用')
-    const panel = await message.inlineReply(
+    if (message) return message.reply('本指令暫時無法使用')
+    const panel = await message.reply(
       Util.InfoEmbed(message, '正在載入 (1/3)')
     )
     const fs = require('fs')

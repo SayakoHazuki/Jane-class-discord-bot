@@ -79,7 +79,7 @@ module.exports = class HgdFilesCommand extends Command {
                 .setDescription('簡 對你的行動沒什麼感覺。\n好感度 不變')
                 .setTimestamp()
                 .setFooter('感到討厭的簡', '')
-              msg.channel.send(replyEmbed)
+              msg.channel.send({ embeds: [replyEmbed] })
               throw new Error('stop')
             } else {
               value = 1
@@ -102,7 +102,7 @@ module.exports = class HgdFilesCommand extends Command {
             )
             .setTimestamp()
             .setFooter('感到不自在的簡', '')
-          msg.channel.send(replyEmbed)
+          msg.channel.send({ embeds: [replyEmbed] })
           throw new Error('stop')
         } else {
           if (typeof userdata !== 'undefined' && userdata) {
@@ -128,7 +128,7 @@ module.exports = class HgdFilesCommand extends Command {
         .setDescription(`簡 感到開心\n好感度+${value}`)
         .setTimestamp()
         .setFooter('感到開心的簡', '')
-      msg.channel.send(replyEmbed)
+      msg.channel.send({ embeds: [replyEmbed] })
     }
   }
 }

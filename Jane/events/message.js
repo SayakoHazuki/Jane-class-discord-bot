@@ -58,7 +58,7 @@ module.exports = class Message extends Evt {
       }
 
       if (neededPerms.length) {
-        return message.inlineReply(
+        return message.reply(
           `❌ | 你需要 \`${neededPerms.join('`, `')}\` 的權限來執行此指令`
         )
       }
@@ -72,7 +72,7 @@ module.exports = class Message extends Evt {
       }
 
       if (neededPerms.length) {
-        return message.inlineReply(
+        return message.reply(
           `❌ | 我需要 \`${neededPerms.join('`, `')}\` 的權限才能執行此指令`
         )
       }
@@ -94,7 +94,7 @@ module.exports = class Message extends Evt {
         command.maxArgs !== -1 &&
         command.maxArgs < args.length)
     ) {
-      return message.inlineReply(
+      return message.reply(
         `❌ | 錯誤指令用法 - 請使用或嘗試: \`${this.client.prefix}${command.usage}\`.`
       )
     }
@@ -114,7 +114,7 @@ module.exports = class Message extends Evt {
     try {
       command.run(message, args)
     } catch (err) {
-      message.inlineReply('❌ | 執行指令期間發生了一個錯誤')
+      message.reply('❌ | 執行指令期間發生了一個錯誤')
     }
   }
 }

@@ -76,7 +76,7 @@ module.exports = class HgdHelpCommand extends Command {
       ],
       timestamp: new Date()
     }
-    const menu = await message.channel.send({ embed })
+    const menu = await message.channel.send({ embeds: [{ embed }] })
     await menu.react('❎')
     const filter = (reaction, user) =>
       reaction.emoji.name === '❎' && user.id === message.author.id

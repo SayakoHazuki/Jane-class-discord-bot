@@ -22,13 +22,13 @@ module.exports = class editBirthdayCommand extends Command {
     if (args[1]) {
       if (isNaN(args[1])) {
         id = message.author.id
-        return message.inlineReply(
+        return message.reply(
           '所輸入的學號錯誤 (用法:`-bd (日期) (學號[選填])`'
         )
       }
       if (Number(args[1]) < 1 || Number(args[1]) > 31) {
         id = message.author.id
-        return message.inlineReply(`找不到學號 "${args[1]}"`)
+        return message.reply(`找不到學號 "${args[1]}"`)
       }
       id = `${args[1]}.`
     } else {
@@ -63,7 +63,7 @@ module.exports = class editBirthdayCommand extends Command {
       message.react('806372978345771038')
     } catch (e) {
       Util.handleErr(e)
-      message.inlineReply(
+      message.reply(
         '編輯日期資訊的時候發生了一個錯誤, 詳情請聯絡程序員'
       )
       client.channels.cache

@@ -36,7 +36,7 @@ module.exports = class TimetableCommand extends Command {
         offset = this.client.timezoneOffset + 24 * amd
       } else {
         offset = args[0] === 'tmr' ? 32 : 8
-        if (offset === 8) message.inlineReply(eInfoEmbed)
+        if (offset === 8) message.reply({embeds: [eInfoEmbed]})
       }
     }
 
@@ -60,7 +60,7 @@ module.exports = class TimetableCommand extends Command {
         sClass
       )
       if (!timetableEmbed) {
-        return message.inlineReply(
+        return message.reply(
           Util.errEmbed(
             message,
             `簡在資料庫中找不到 ${formattedDate} 的課堂資料`,
@@ -68,7 +68,7 @@ module.exports = class TimetableCommand extends Command {
           )
         )
       }
-      message.inlineReply(timetableEmbed)
+      message.reply({embeds: [timetableEmbed]})
     } else {
       const filter = response => {
         return (
@@ -81,7 +81,7 @@ module.exports = class TimetableCommand extends Command {
         .setDescription('請輸入你的班別 (3A/3B/3C/3D) **[輸入後無法更改]**')
         .setFooter('備註: 簡會記住你的班別, 以便下次查詢時間表時無須再次輸入')
         .setColor(this.client.colors.blue)
-      const panel = await message.inlineReply(askClassEmbed)
+      const panel = await message.reply({embeds: [askClassEmbed]})
 
       message.channel
         .awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
@@ -100,7 +100,7 @@ module.exports = class TimetableCommand extends Command {
             sClass
           )
           if (!timetableEmbed) {
-            return message.inlineReply(
+            return message.reply(
               Util.errEmbed(
                 message,
                 `簡在資料庫中找不到 ${formattedDate} 的課堂資料`,
@@ -108,7 +108,7 @@ module.exports = class TimetableCommand extends Command {
               )
             )
           }
-          message.inlineReply(timetableEmbed)
+          message.reply({embeds: [timetableEmbed]})
         })
         .catch(collected => {
           panel.delete()
