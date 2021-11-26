@@ -75,7 +75,12 @@ module.exports = class DayCommand extends Command {
           panel.delete()
           collected.first().delete()
 
-          Util.printLog('info', __filename, 'getting timetable embed for class', sClass)
+          Util.printLog(
+            'info',
+            __filename,
+            'getting timetable embed for class',
+            sClass
+          )
           const timetableEmbed = Util.getTimetableEmbed(
             dateToSearch,
             '21sp',

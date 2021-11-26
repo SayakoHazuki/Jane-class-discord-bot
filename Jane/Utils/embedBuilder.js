@@ -14,7 +14,7 @@ class InfoEmbed {
       .setFooter(this.f, this.ui)
       .setTimestamp()
     if (this.c) res.setDescription(this.c)
-    return res
+    return { embeds: [res] }
   }
 }
 class ExceptionEmbed {
@@ -32,11 +32,16 @@ class ExceptionEmbed {
       .setFooter(this.f, this.ui)
       .setTimestamp()
     if (this.c) res.setDescription(this.c)
-    return res
+    return { embeds: [res] }
   }
 }
 
-async function MultiEmbed (msg, pages, emojiList = ['⏪', '⏩'], timeout = 120000) {
+async function MultiEmbed (
+  msg,
+  pages,
+  emojiList = ['⏪', '⏩'],
+  timeout = 120000
+) {
   if (!msg && !msg.channel) throw new Error('Channel is inaccessible.')
   if (!pages) throw new Error('Pages are not given.')
   if (emojiList.length !== 2) throw new Error('Need two emojis.')
@@ -44,7 +49,8 @@ async function MultiEmbed (msg, pages, emojiList = ['⏪', '⏩'], timeout = 120
   const curPage = await msg.channel.send({ embeds: [pages[page]] })
   for (const emoji of emojiList) await curPage.react(emoji)
   const reactionCollector = curPage.createReactionCollector(
-    (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot, {
+    (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
+    {
       time: timeout
     }
   )
@@ -60,7 +66,7 @@ async function MultiEmbed (msg, pages, emojiList = ['⏪', '⏩'], timeout = 120
       default:
         break
     }
-    curPage.edit(pages[page])
+    curPage.edit({ embeds: [pages[page]] })
   })
   reactionCollector.on('end', () => {
     if (!curPage.deleted) {

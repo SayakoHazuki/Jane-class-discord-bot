@@ -25,7 +25,13 @@ module.exports = class filterCommand extends Command {
         await this.client.player.resume(message)
         return
       }
-      return message.channel.send(Util.InfoEmbed(message, 'Available filters', `\`${this.client.player.filters.names.join('` `')}\``))
+      return message.channel.send(
+        Util.InfoEmbed(
+          message,
+          'Available filters',
+          `\`${this.client.player.filters.names.join('` `')}\``
+        )
+      )
     }
     try {
       await this.client.player.pause(message)
@@ -33,7 +39,9 @@ module.exports = class filterCommand extends Command {
       newFilters[args[0]] = true
       await this.client.player.setFilters(message, newFilters)
       await this.client.player.resume(message)
-      return await message.reply(`:white_check_mark: 已啟用 \`${args[0]}\` 效果`)
+      return await message.reply(
+        `:white_check_mark: 已啟用 \`${args[0]}\` 效果`
+      )
     } catch (e) {
       Util.printLog('ERR', __filename, e.stack)
     }

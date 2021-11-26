@@ -19,9 +19,7 @@ module.exports = class HomeworkCommand extends Command {
 
   async run (message, args) {
     if (message) return message.reply('本指令暫時無法使用')
-    const panel = await message.reply(
-      Util.InfoEmbed(message, '正在載入 (1/3)')
-    )
+    const panel = await message.reply(Util.InfoEmbed(message, '正在載入 (1/3)'))
     const fs = require('fs')
     const readline = require('readline')
     const { google } = require('googleapis')
@@ -41,7 +39,12 @@ module.exports = class HomeworkCommand extends Command {
     // Load client secrets from a local file.
     fs.readFile('secrets/credentials.json', (err, content) => {
       if (err) {
-        return Util.printLog('err', __filename, 'Error loading client scs file: ', err)
+        return Util.printLog(
+          'err',
+          __filename,
+          'Error loading client scs file: ',
+          err
+        )
       }
       // Authorize a client with credentials, then call the Google Classroom API.
       authorize(JSON.parse(content), listCourses)
@@ -79,7 +82,11 @@ module.exports = class HomeworkCommand extends Command {
         access_type: 'offline',
         scope: SCOPES
       })
-      Util.printLog('info', __filename, 'Authorize this app by visiting this url: ' + authUrl)
+      Util.printLog(
+        'info',
+        __filename,
+        'Authorize this app by visiting this url: ' + authUrl
+      )
       const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -208,9 +215,19 @@ module.exports = class HomeworkCommand extends Command {
                 })
               }
               async function awaitForProcess () {
-                Util.printLog('info', __filename, 'calling for process, ic = ', ic)
+                Util.printLog(
+                  'info',
+                  __filename,
+                  'calling for process, ic = ',
+                  ic
+                )
                 await process()
-                Util.printLog('info', __filename, 'The code has been called, ic = ', ic)
+                Util.printLog(
+                  'info',
+                  __filename,
+                  'The code has been called, ic = ',
+                  ic
+                )
               }
               awaitForProcess()
             }
