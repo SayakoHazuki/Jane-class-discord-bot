@@ -73,7 +73,7 @@ module.exports = class HgdLeaderboardCommand extends Command {
                 text: '正在整理資料的簡'
               }
             }
-            embedmsg.edit('', { embed: lbEmbed })
+            embedmsg.edit({ embeds: [lbEmbed] })
           }
           send()
         })

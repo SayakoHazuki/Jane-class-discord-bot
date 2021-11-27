@@ -233,7 +233,9 @@ module.exports = class wolfCommand extends Command {
       // JSON.stringify(randomPick(charList, plrList), null, '  ')
 
       finalPanel =
-        errMem?.length >= 0 ? false : await message.reply({ embeds: [PlayersEmbed] })
+        errMem?.length >= 0
+          ? false
+          : await message.reply({ embeds: [PlayersEmbed] })
     }
     if (args[0] === 'create') {
       const waitTime = (Number(args[1]) || 60) * 1000
@@ -251,7 +253,8 @@ module.exports = class wolfCommand extends Command {
         return reaction.emoji.id === '844470079109988362'
       }
       await joinPanel.react('844470079109988362')
-      const collector = joinPanel.createReactionCollector(filter, {
+      const collector = joinPanel.createReactionCollector({
+        filter,
         time: waitTime
       })
 
@@ -353,12 +356,10 @@ module.exports = class wolfCommand extends Command {
         await message.reply({ embeds: [confirmationEmbed] })
         const confirmationfilter = m =>
           m.content.startsWith(`${message.content.split(' ')[0]} `)
-        const confirmationcollector = message.channel.createMessageCollector(
+        const confirmationcollector = message.channel.createMessageCollector({
           confirmationfilter,
-          {
-            time: 30000
-          }
-        )
+          time: 30000
+        })
 
         confirmationcollector.on('collect', m => {
           const mCmd = m.content.split(' ')[1]

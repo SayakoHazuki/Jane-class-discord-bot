@@ -105,7 +105,7 @@ module.exports = class HgdCommand extends Command {
                 text: `Tip: ${ttip} - 簡 `
               }
             }
-            return message.channel.send({ embeds: [{ embed: mamaEmbed }] })
+            return message.channel.send({ embeds: mamaEmbed })
           } else {
             if (Number(uhgd) < 0) {
               lv = 0
@@ -259,7 +259,7 @@ module.exports = class HgdCommand extends Command {
             text: `Tip: ${ttip} - 簡 `
           }
         }
-        message.channel.send({ embeds: [{ embed: hgdEmbed }] })
+        message.channel.send({ embeds: [hgdEmbed] })
       }
     }
     run(tips[ra]).catch(console.dir)

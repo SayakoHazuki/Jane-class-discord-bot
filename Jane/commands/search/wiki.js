@@ -20,7 +20,9 @@ module.exports = class WikiCommand extends Command {
 
   async run (message, args) {
     if (!args[0]) return
-    const query = message.content.replace(`${message.content.split(' ')[0]}`, '').replace(' --eng', '')
+    const query = message.content
+      .replace(`${message.content.split(' ')[0]}`, '')
+      .replace(' --eng', '')
     let panel, apiLang
     apiLang = 'zh'
     if (args[1]) {
@@ -30,7 +32,9 @@ module.exports = class WikiCommand extends Command {
     }
     try {
       const loading = new Discord.MessageEmbed().setDescription(
-        `<a:load:825627249302175745> ${apiLang === 'zh' ? '正在搜尋' : 'Now searching'} ${query}`
+        `<a:load:825627249302175745> ${
+          apiLang === 'zh' ? '正在搜尋' : 'Now searching'
+        } ${query}`
       )
       panel = await message.reply({ embeds: [loading] })
     } catch (e) {
@@ -71,7 +75,7 @@ module.exports = class WikiCommand extends Command {
                 text: `簡在維基百科搜尋 ${args[0]} 的結果`
               }
             }
-            panel.edit({ embed: wikiEmbed })
+            panel.edit({ embeds: [wikiEmbed] })
           })
         })
     } catch (e) {

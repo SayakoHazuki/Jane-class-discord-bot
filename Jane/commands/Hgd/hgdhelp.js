@@ -76,16 +76,16 @@ module.exports = class HgdHelpCommand extends Command {
       ],
       timestamp: new Date()
     }
-    const menu = await message.channel.send({ embeds: [{ embed }] })
+    const menu = await message.channel.send({ embeds: [embed] })
     await menu.react('❎')
     const filter = (reaction, user) =>
       reaction.emoji.name === '❎' && user.id === message.author.id
-    const collector = menu.createReactionCollector(filter, { time: 240000 })
+    const collector = menu.createReactionCollector({ filter, time: 240000 })
     collector.on('collect', (reaction, user) => {
-      menu.delete({ timeout: 250 })
+      setTimeout(() => menu.delete(), 250)
     })
     collector.on('end', collected => {
-      menu.delete({ timeout: 500 })
+      if (!collected.first()) setTimeout(() => menu.delete(), 500)
     })
   }
 }

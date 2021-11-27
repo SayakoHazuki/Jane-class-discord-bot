@@ -48,12 +48,12 @@ async function MultiEmbed (
   let page = 0
   const curPage = await msg.channel.send({ embeds: [pages[page]] })
   for (const emoji of emojiList) await curPage.react(emoji)
-  const reactionCollector = curPage.createReactionCollector(
-    (reaction, user) => emojiList.includes(reaction.emoji.name) && !user.bot,
-    {
-      time: timeout
-    }
-  )
+  const f = (reaction, user) =>
+    emojiList.includes(reaction.emoji.name) && !user.bot
+  const reactionCollector = curPage.createReactionCollector({
+    f,
+    time: timeout
+  })
   reactionCollector.on('collect', reaction => {
     reaction.users.remove(msg.author)
     switch (reaction.emoji.name) {
