@@ -14,8 +14,9 @@ module.exports = class playCommand extends Command {
   }
 
   async run (message, args) {
-    if (!args[0])
+    if (!args[0]) {
       return message.reply(Util.infoEmbed(message, '請在指令後方加上歌名/連結'))
+    }
     try {
       this.client.player.play(message, args.join(' '), true)
     } catch (e) {

@@ -43,16 +43,29 @@ module.exports = class NicknameCommand extends Command {
           )
         )
       }
+      message.member
+        .setNickname(newNickname)
+        .then(value => {
+          const nickReplyEmbed = new Discord.MessageEmbed()
+            .setColor(message.member.displayHexColor)
+            .setDescription(
+              `:white_check_mark: 簡已經把你的暱稱改成了 ${newNickname}`
+            )
+            .setAuthor(message.author.tag, message.author.displayAvatarURL())
 
-      message.member.setNickname(newNickname)
-      const nickReplyEmbed = new Discord.MessageEmbed()
-        .setColor(message.member.displayHexColor)
-        .setDescription(
-          `:white_check_mark: 簡已經把你的暱稱改成了 ${newNickname}`
-        )
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
-
-      message.reply({ embeds: [nickReplyEmbed] })
+          message.reply({ embeds: [nickReplyEmbed] })
+        })
+        .catch(e => {
+          if (e.code === 50013) {
+            return message.reply(
+              Util.errEmbed(
+                message,
+                '簡 未能更改你的暱稱',
+                '這似乎是因為簡沒有足夠的權限以進行此動作, 或是使用指令的用戶身分組比簡高'
+              )
+            )
+          }
+        })
     } catch (e) {
       Util.handleErr(e)
     }
