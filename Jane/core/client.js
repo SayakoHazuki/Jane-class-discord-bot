@@ -19,7 +19,7 @@ module.exports = class Client extends Discord.Client {
     })
     this.commands = new Discord.Collection()
     this.themeColor = '#ACE9A6'
-    this.timezoneOffset = 8
+    this.timezoneOffset = 0
     this.colors = {
       red: '#E3B2B2',
       yellow: '#EED896',

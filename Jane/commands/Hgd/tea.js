@@ -22,7 +22,7 @@ module.exports = class HgdTeaCommand extends Command {
   async run (message, args) {
     const client = this.client
     let simtea = false
-    const hr = Number(new Date().getHours()) + 8
+    const hr = Number(new Date().getHours()) + 0
     let score
     if (hr !== 14 && hr !== 15 && hr !== 16) {
       return message.channel.send('現在不是下午茶的時間喔')

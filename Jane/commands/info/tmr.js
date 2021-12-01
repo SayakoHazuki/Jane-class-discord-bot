@@ -17,22 +17,32 @@ module.exports = class TomorrowCommand extends Command {
   }
 
   async run (message, args) {
-    const offset = this.client.timezoneOffset + 24
-    const dateWithOffset = new Date(new Date().getTime() + offset * 3600 * 1000)
-      .toUTCString()
-      .replace(/ GMT$/, '')
-    const dateWithOffsetArray = dateWithOffset.split(' ')
-    const formattedDate = dateWithOffsetArray[1] + dateWithOffsetArray[2]
-    Util.printLog('INFO', __filename, `dateWithOffset: ${formattedDate}`)
+    const query = {
+      mode: 'diff',
+      daysDifference: 1,
+      jsDate: undefined,
+      formattedDate: undefined
+    }
+
+    query.jsDate = new Date(
+      new Date().getTime() + (0 + 24 * query.daysDifference) * 3600000
+    )
+
+    query.formattedDate = `${query.jsDate.toLocaleString('en-us', {
+      day: '2-digit'
+    })}${query.jsDate.toLocaleString('en-us', {
+      month: 'short'
+    })}`
 
     const student = new Ss(this.client, message.author.id)
     await student.saveData()
+
     let sClass
     if (student.class) {
       sClass = student.class
       Util.printLog('info', __filename, 'Timetable class: ' + sClass)
       const timetableEmbed = Util.getTimetableEmbed(
-        formattedDate,
+        query.formattedDate,
         '21sp',
         false,
         sClass
@@ -41,7 +51,7 @@ module.exports = class TomorrowCommand extends Command {
         return message.reply(
           Util.errEmbed(
             message,
-            `簡在資料庫中找不到 ${formattedDate} 的課堂資料`,
+            `簡在資料庫中找不到 ${query.formattedDate} 的課堂資料`,
             ''
           )
         )
@@ -65,14 +75,18 @@ module.exports = class TomorrowCommand extends Command {
         .awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
         .then(async collected => {
           sClass = collected.first().content
-          Util.printLog('info', __filename, 'Collected class: ' + sClass)
+          Util.printLog('info', __filename, 'Collected class' + sClass)
           await student.addInfo('sClass', sClass)
           panel.delete()
           collected.first().delete()
 
-          Util.printLog('info', __filename, 'Timetable class: ' + sClass)
+          Util.printLog(
+            'info',
+            __filename,
+            'getting timetable embed for class' + sClass
+          )
           const timetableEmbed = Util.getTimetableEmbed(
-            formattedDate,
+            query.formattedDate,
             '21sp',
             false,
             sClass
@@ -81,7 +95,7 @@ module.exports = class TomorrowCommand extends Command {
             return message.reply(
               Util.errEmbed(
                 message,
-                `簡在資料庫中找不到 ${formattedDate} 的課堂資料`,
+                `簡在資料庫中找不到 ${query.formattedDate} 的課堂資料`,
                 ''
               )
             )
