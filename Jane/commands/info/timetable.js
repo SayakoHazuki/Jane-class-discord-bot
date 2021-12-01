@@ -74,15 +74,6 @@ module.exports = class TimetableCommand extends Command {
       formattedDate: undefined
     }
 
-    /**
-     *   tmrStyle: /^t{1,9}mr$/i,
-  shortDateStyle: /^([1-9]|0[1-9]|[1-2][0-9]|3[01])[/\-_](0?[1-9]|1[0-2])$/i,
-  longDateStyle: /^(([1-9])|([0][1-9])|([1-2][0-9])|([3][0-1]))[-_/]?(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)$/i,
-  numDateStyle: /^(\d{1,2})(\d{2})$/i,
-  daysDiffStyle: /^[01]?[0-9]d|20d$/i,
-  dayOfWeekStyle: /^(Sun|Mon|(T(ues|hurs))|Fri)(day|\.)?$|Wed(\.|nesday)?$|Sat(\.|urday)?$|T((ue?)|(hu?r?))\.?$/i
-     */
-
     const noResEmbed = new Discord.MessageEmbed()
       .setTitle(
         `ℹ️ ${
