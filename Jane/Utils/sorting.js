@@ -28,4 +28,10 @@ module.exports = class Sort {
     }
     return finalobj
   }
+
+  static arrayOfObjectByProp (array, propToSort) {
+    return array.sort((a, b) =>
+      a[propToSort] > b[propToSort] ? 1 : b[propToSort] > a[propToSort] ? -1 : 0
+    )
+  }
 }

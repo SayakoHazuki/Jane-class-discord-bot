@@ -1,5 +1,6 @@
 const Command = require('cmd')
 const Util = require('utils')
+const Discord = require('discord.js')
 
 module.exports = class EvalCommand extends Command {
   constructor (client) {
@@ -16,10 +17,16 @@ module.exports = class EvalCommand extends Command {
   }
 
   async run (message, args) {
-    if (message.author.id !== '690822196972486656' && message.author.id !== '726439536401580114' && message.author.id !== '794181749432778753') {
+    if (
+      message.author.id !== '690822196972486656' &&
+      message.author.id !== '726439536401580114' &&
+      message.author.id !== '794181749432778753'
+    ) {
       return
     }
-    const code = message.content.replace(`${this.client.prefix}${this.name} `, '').replace(`${this.client.prefix}evaluate `, '')
+    const code = message.content
+      .replace(`${this.client.prefix}${this.name} `, '')
+      .replace(`${this.client.prefix}evaluate `, '')
     try {
       let ev = eval(code)
       let highlightCode = null
@@ -43,11 +50,11 @@ module.exports = class EvalCommand extends Command {
         ev = JSON.stringify(ev)
       }
       if (typeOfEv === 'null' || typeOfEv === 'undefined') highlightCode = 'fix'
-      if (highlightCode === null) highlightCode = 'text'
+      if (highlightCode === null) highlightCode = 'xl'
       Util.printLog('info', __filename, highlightCode)
-      return message.reply({ embeds: [ev, { code: highlightCode, split: true }] })
+      return message.reply(Discord.Formatters.codeBlock(highlightCode, ev))
     } catch (err) {
-      return message.reply(err.stack, { code: 'xl' })
+      return message.reply(Discord.Formatters.codeBlock('xl', err.stack))
     }
   }
 }

@@ -11,7 +11,7 @@ module.exports = function dmHandler (message, client) {
   const channel = client.channels.cache.get(client.modChannelID)
 
   if (message.author === client.user) {
-    return channel.send(
+    return channel?.send?.(
       `${message.author.tag} ( 簡 ) 回覆了 ${message.channel.recipient.tag} :` +
         '\n' +
         message.content
@@ -26,7 +26,7 @@ module.exports = function dmHandler (message, client) {
       message.content
   )
 
-  channel.send(
+  channel?.send(
     `${message.author.tag} (` +
       message.author.id +
       ') 私訊了簡:' +

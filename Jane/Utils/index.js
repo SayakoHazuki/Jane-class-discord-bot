@@ -146,7 +146,12 @@ module.exports = class Util {
     showLinks = false,
     sClass = 'unknown'
   ) {
-    const timetable = new LessonsSchedule(dateToRead, timeOfSchool, showLinks, sClass)
+    const timetable = new LessonsSchedule(
+      dateToRead,
+      timeOfSchool,
+      showLinks,
+      sClass
+    )
     return timetable.embed || undefined
   }
 
@@ -170,5 +175,30 @@ module.exports = class Util {
    */
   static sortObjectByValue (object = {}) {
     return Sort.objectByValue(object)
+  }
+
+  /**
+   * Sort Array of Objects by object property
+   * @param {Array} array Array to sort
+   * @param {string} property Property to sort
+   * @returns Sorted array
+   */
+  static sortArrayOfObjects (array = [], property = '') {
+    return Sort.arrayOfObjectByProp(array, property)
+  }
+
+  /**
+   * Converts JavaScript Dates into Discord Timestamp
+   * @param {Date} date
+   * @param {string} format
+   * @returns {string} Discord Timestamp
+   */
+  static getDiscordTimestamp (date = new Date(), format = 'D') {
+    return `<t:${Math.round(date.getTime() / 1000)}:${format}>`
+  }
+
+  static discordLog (content) {
+    const ch = this.client.channels.fetch('921544138887929886')
+    return ch.send(content)
   }
 }

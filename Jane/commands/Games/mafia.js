@@ -14,37 +14,6 @@ const charGroups = {
   12: ['狼', '狼', '狼', '狼', '預', '巫', '獵', '守', '民', '民', '民', '民']
 }
 
-function randomPick (a1, a2) {
-  const charArray = JSON.parse(a1)
-  const plrArray = JSON.parse(a2)
-  function extractRandom (arr) {
-    const index = Math.floor(Math.random() * arr.length)
-    const result = arr[index]
-    arr.splice(index, 1)
-    return result
-  }
-
-  const result = {}
-  while (charArray.length || plrArray.length) {
-    if (charArray.length) {
-      result[extractRandom(plrArray)] = extractRandom(charArray)
-    }
-  }
-  return result
-}
-
-function convertChar (character) {
-  return JSON.parse(
-    JSON.stringify(character)
-      .replace(/狼/g, '狼人')
-      .replace(/預/g, '預言家')
-      .replace(/巫/g, '女巫')
-      .replace(/獵/g, '獵人')
-      .replace(/守/g, '守衛')
-      .replace(/民/g, '平民')
-  )
-}
-
 const charNum = {
   0: '平民',
   1: '預言家',
@@ -57,8 +26,7 @@ const charNum = {
 module.exports = class wolfCommand extends Command {
   constructor (client) {
     super(client, {
-      name: 'wolf',
-      aliases: ['mafia', 'werewolf', '狼人'],
+      name: 'wolfOld',
       category: '一般',
       description: '開始一個狼人殺遊戲',
       usage: 'wolf help|cmd|create|pick',
@@ -164,7 +132,7 @@ module.exports = class wolfCommand extends Command {
       })
       const charListFixed = JSON.stringify(charList)
       const playerListFixed = JSON.stringify(plrList)
-      const matchedCharsOBJ = randomPick(charListFixed, playerListFixed)
+      const matchedCharsOBJ = pickCharacters(charListFixed, playerListFixed)
       let matchedCharsString = ''
       const errMem = []
       for (const player in matchedCharsOBJ) {
@@ -230,7 +198,7 @@ module.exports = class wolfCommand extends Command {
             message.author.id
           }>[主持]**  **請檢查你的私訊來查看角色分配`
         )
-      // JSON.stringify(randomPick(charList, plrList), null, '  ')
+      // JSON.stringify(pickCharacters(charList, plrList), null, '  ')
 
       finalPanel =
         errMem?.length >= 0
@@ -285,7 +253,7 @@ module.exports = class wolfCommand extends Command {
         const rolesEmbed = new Discord.MessageEmbed()
           .setTitle('角色設定')
           .setDescription(
-            '請以下面格式輸入角色設定\n```\n0x狼人+0x預言+0x女巫+0x獵人+0x守衛```\n餘下玩家將自動被分配為平民' +
+            '請以下面格式輸入角色設定\n```\n0狼人 0預言 0女巫 0獵人 0守衛```\n餘下玩家將自動被分配為平民' +
               `\n[${members.length}位玩家已加入]`
           )
           .setFooter('可以輸入`預設`以使用預設角色分配')
@@ -384,7 +352,7 @@ module.exports = class wolfCommand extends Command {
           const errpanel = await message.channel.send(':repeat: 載入中')
           const charListFixed = JSON.stringify(roles)
           const playerListFixed = JSON.stringify(members)
-          const matchedCharsOBJ = randomPick(charListFixed, playerListFixed)
+          const matchedCharsOBJ = pickCharacters(charListFixed, playerListFixed)
           let matchedCharsString = ''
           const errMem = []
           for (const player in matchedCharsOBJ) {
@@ -448,4 +416,37 @@ module.exports = class wolfCommand extends Command {
       }
     }
   }
+
+  async handleInteraction (interaction, options = {}) {}
+}
+
+function pickCharacters (cList, pList) {
+  const characterList = JSON.parse(cList)
+  const playerList = JSON.parse(pList)
+  function extractRandom (cList) {
+    const index = Math.floor(Math.random() * cList.length)
+    const result = cList[index]
+    cList.splice(index, 1)
+    return result
+  }
+
+  const result = {}
+  while (characterList.length || playerList.length) {
+    if (characterList.length) {
+      result[extractRandom(playerList)] = extractRandom(characterList)
+    }
+  }
+  return result
+}
+
+function convertChar (character) {
+  return JSON.parse(
+    JSON.stringify(character)
+      .replace(/狼/g, '狼人')
+      .replace(/預/g, '預言家')
+      .replace(/巫/g, '女巫')
+      .replace(/獵/g, '獵人')
+      .replace(/守/g, '守衛')
+      .replace(/民/g, '平民')
+  )
 }

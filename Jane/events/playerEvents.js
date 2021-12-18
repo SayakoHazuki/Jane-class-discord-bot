@@ -20,6 +20,8 @@ module.exports = class Ready extends Evt {
       'Finished loading client - bot has started'
     )
 
+    this.client.channels.fetch('921544138887929886').then(ch => ch.send('Bot has started!'))
+
     this.client.player.on('botDisconnect', message => {
       Util.printLog('INFO', __filename, 'Player emitted botDisconnect Event')
       Util.printLog(
@@ -30,9 +32,7 @@ module.exports = class Ready extends Evt {
     })
 
     this.client.player.on('error', (error, message) => {
-      message.reply(
-        Util.errEmbed(message, `發生了一個錯誤\n\`${error}\``)
-      )
+      message.reply(Util.errEmbed(message, `發生了一個錯誤\n\`${error}\``))
       Util.printLog('ERR', __filename, error)
       Util.printLog(
         'INFO',

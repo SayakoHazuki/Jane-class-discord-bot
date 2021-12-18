@@ -62,9 +62,8 @@ module.exports = class TimetableCommand extends Command {
 
   async run (message, args) {
     let queryStr
-    if (args[0]) {
-      queryStr = args[0]
-    }
+    if (args[0]) queryStr = args[0]
+
     const query = {
       mode: 'diff',
       daysDifference: 0,
