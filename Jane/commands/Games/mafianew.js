@@ -354,13 +354,13 @@ class MafiaGame {
     return new Discord.MessageEmbed()
       .setTitle('角色設定')
       .setDescription(
-        `目前遊戲角色分配:\n${this.characters.wolf} 狼人 \n${
+        `目前遊戲角色分配:\n${this.characters.wolf}x狼人 \n${
           this.characters.detective
-        } 預言 \n${this.characters.witch} 女巫 \n${
+        }x預言 \n${this.characters.witch}x女巫 \n${
           this.characters.hunter
-        } 獵人 \n${this.characters.guard} 守衛 \n${
+        }x獵人 \n${this.characters.guard}x守衛 \n${
           this.characters.none
-        } 平民\n(共${charNumSum}個神職角色)${
+        }x平民\n(共${charNumSum}個神職角色)${
           charNumSum > this.players.length
             ? '\n**:exclamation: 已設置的神職角色數量比玩家數量多 (' +
               charNumSum +
