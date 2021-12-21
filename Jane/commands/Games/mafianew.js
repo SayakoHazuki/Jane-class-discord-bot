@@ -5,6 +5,40 @@ let client
 
 const Util = require('utils')
 
+class ReplyEmbeds {
+  constructor (client) {
+    this.client = client
+  }
+
+  get help () {
+    return new Discord.MessageEmbed()
+      .setTitle('狼人殺普通玩法簡介')
+      .addFields([
+        {
+          name: '角色描述及技能',
+          value:
+            '**好人陣營**\n`0`平民\n沒有特殊技能，黑夜全程閉眼，透過白天階段所得資訊投票放逐疑似狼人的玩家。\n\n`1`預言家[神職]\n每晚可查一位存活玩家的陣營\n\n`2`女巫[神職]\n擁有一瓶解藥和一瓶毒藥，解藥未使用時可得知狼人的殺害對象，並決定是否救這一位玩家。解藥不能解救自己。女巫也可將懷疑的對象毒殺，該對象死後不能發動技能。解藥和毒藥不可在同一夜使用。\n\n`3`獵人[神職]\n除被毒殺外，被淘汰時可公開角色發動技能帶走一位玩家，可以選擇不發動技能。\n\n`4`守衛[神職]\n每晚可以選擇守護一名玩家免受狼人殺害，並可以選擇守護自己，不可連續兩晚守護同一人。守衛的守護不能擋掉女巫的毒藥。\n\n**狼人陣營**\n`5`狼人\n黑夜可以與隊友討論戰術與選擇殺害對象。狼人可以選擇不殺害任何玩家或自殺。'
+        },
+        {
+          name: '狼人殺基本指令',
+          value:
+            '-wolf help: 顯示本列表\n-wolf create: 建立新遊戲\n-wolf cmd: 顯示詳細指令使用方法'
+        }
+      ])
+      .setColor(this.client.colors.purple)
+  }
+
+  get commands () {
+    return new Discord.MessageEmbed()
+      .addFields({
+        name: '狼人殺 - 指令列表',
+        value:
+          '-wolf create `加入時限(秒)(選填)`\n> 建立新的狼人殺遊戲\n\n-wolf help\n> 查看基本玩法、角色列表及指令簡介等資訊\n\n-wolf cmd\n> 查看本指令列表\n** **'
+      })
+      .setColor(this.client.colors.purple)
+  }
+}
+
 class MafiaGame {
   constructor (m, options = {}) {
     if (!m) {
@@ -603,35 +637,6 @@ class MafiaGame {
 
   get embeds () {
     return {
-      help: new Discord.MessageEmbed()
-        .setTitle('狼人殺普通玩法簡介')
-        .addFields([
-          {
-            name: '角色描述及技能',
-            value:
-              '**好人陣營**\n`0`平民\n沒有特殊技能，黑夜全程閉眼，透過白天階段所得資訊投票放逐疑似狼人的玩家。\n\n`1`預言家[神職]\n每晚可查一位存活玩家的陣營\n\n`2`女巫[神職]\n擁有一瓶解藥和一瓶毒藥，解藥未使用時可得知狼人的殺害對象，並決定是否救這一位玩家。解藥不能解救自己。女巫也可將懷疑的對象毒殺，該對象死後不能發動技能。解藥和毒藥不可在同一夜使用。\n\n`3`獵人[神職]\n除被毒殺外，被淘汰時可公開角色發動技能帶走一位玩家，可以選擇不發動技能。\n\n`4`守衛[神職]\n每晚可以選擇守護一名玩家免受狼人殺害，並可以選擇守護自己，不可連續兩晚守護同一人。守衛的守護不能擋掉女巫的毒藥。\n\n**狼人陣營**\n`5`狼人\n黑夜可以與隊友討論戰術與選擇殺害對象。狼人可以選擇不殺害任何玩家或自殺。'
-          },
-          {
-            name: '狼人殺基本指令',
-            value:
-              '-wolf help: 顯示本列表\n-wolf create: 建立新遊戲\n-wolf cmd: 顯示詳細指令使用方法'
-          }
-        ])
-        .setColor(client.colors.purple),
-      commands: new Discord.MessageEmbed()
-        .addFields(
-          {
-            name: '基本指令',
-            value:
-              '-wolf create `加入時限(秒)(選填)`\n> 建立新的狼人殺遊戲\n\n-wolf help\n> 查看基本玩法、角色列表及指令簡介等資訊\n\n-wolf cmd\n> 查看本指令列表\n** **'
-          },
-          {
-            name: '其他指令(不推薦使用)',
-            value:
-              '-wolf pick `選項(選填)` `@玩家s`\n> 隨機分佈角色\n> 選項: 角色數量(如果不填將會使用預設組合)\n> 格式: [編號]x[數量] + [編號]x[數量]\n> (例如 0x2+1x1+3x1+9x2)\n> 編號為上方角色前的數字\n> (請 @ 遊玩的所有玩家)'
-          }
-        )
-        .setColor(client.colors.purple),
       joinPanel: new Discord.MessageEmbed()
         .setTitle('狼人殺')
         .setColor(client.colors.blue),
@@ -685,14 +690,12 @@ module.exports = class wolfCommand extends Command {
   }
 
   async run (message, args) {
-    if (!args[0]) args = ['help']
+    if (!args[0]) args = ['cmd']
     switch (args[0]) {
       case 'help':
-        message.channel.send({ embeds: [MafiaGame.embeds.help] })
+        message.reply({ embeds: [new ReplyEmbeds(client).help] })
         break
-      case 'cmd':
-        message.channel.send({ embeds: [MafiaGame.embeds.commands] })
-        break
+
       case 'create':
         games.push(
           new MafiaGame(message, {
@@ -704,6 +707,11 @@ module.exports = class wolfCommand extends Command {
           __filename,
           `Length of Games List: ${games.length}`
         )
+        break
+
+      case 'cmd':
+      default:
+        message.reply({ embeds: [new ReplyEmbeds(client).commands] })
         break
     }
   }
