@@ -8,6 +8,7 @@ const LessonsSchedule = require('./getTimetable')
 const getCovData = require('./getCovData')
 const dmHandler = require('./handleDM')
 const Sort = require('./sorting')
+const tryDelete = require('./deleteCatching')
 
 module.exports = class Util {
   /**
@@ -200,5 +201,9 @@ module.exports = class Util {
   static discordLog (content) {
     const ch = this.client.channels.fetch('921544138887929886')
     return ch.send(content)
+  }
+
+  static tryDelete (message) {
+    return tryDelete(message)
   }
 }

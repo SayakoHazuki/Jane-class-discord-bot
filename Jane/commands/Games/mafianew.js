@@ -23,11 +23,11 @@ class MafiaGame {
         .substring(2, 7)
     this.status = 'initialization'
     this.message = m
-    this.host = this.message.author
-    this.joinTimeLimit = options.joinTimeLimit || 60000
+    this.host = m.author
+    this.joinTimeLimit = options.joinTimeLimit || 300000
     this.startTime = new Date(new Date().getTime() + this.joinTimeLimit)
     this.players = []
-    this.characters = {
+    this.roleSettings = {
       wolf: 1,
       detective: 0,
       witch: 0,
@@ -39,7 +39,15 @@ class MafiaGame {
     this.noDMPlayers = []
     this.noDMPlayersList = undefined
     this.roleMessages = []
+    this.hostRolesMessage = {}
+    this.joinPanel = {}
     this.readableRoles = []
+    Util.printLog('info', __filename, `Created game (Id: ${this.id})`)
+    Util.printLog(
+      'info',
+      __filename,
+      `\tin: ${this.message.guild.name} > ${this.message.channel.name}`
+    )
     this.createPanel()
   }
 
@@ -56,20 +64,37 @@ class MafiaGame {
           )
       ]
     })
-    const reactionEmojiFilter = (reaction, user) => {
+
+    /* Emoji Filters */
+    const joinEmojiFilter = (reaction, user) => {
       return (
         reaction.emoji.id === '844470079109988362' &&
-        Number(user.id) !== Number(client.user.id)
+        Number(user.id) !== Number(client?.user.id)
+      )
+    }
+    const checkMarkFilter = (reaction, user) => {
+      return (
+        reaction.emoji.name === '✅' &&
+        Number(user.id) !== Number(client?.user.id)
       )
     }
 
+    /* React emojis */
     await this.joinPanel.react('844470079109988362')
+    await this.joinPanel.react('✅')
+
+    /* Create Reaction Collectors */
     this.joinsCollector = this.joinPanel.createReactionCollector({
-      reactionEmojiFilter,
+      filter: joinEmojiFilter,
       time: this.joinTimeLimit,
       dispose: true
     })
+    this.membersConfirmation = this.joinPanel.createReactionCollector({
+      filter: checkMarkFilter,
+      time: this.joinTimeLimit
+    })
 
+    /* Reaction Collector Events Handler */
     this.joinsCollector.on('collect', (reaction, user) => {
       if (this.players.includes(user.id)) return
       if (Number(user.id) === Number(client.user.id)) return
@@ -133,57 +158,63 @@ class MafiaGame {
             0}位玩家加入, 未達到最低人數要求, 遊戲已取消`
         )
       }
-      this.collectcharacters()
+      this.collectRolesOptions()
+    })
+
+    this.membersConfirmation.on('collect', (reaction, user) => {
+      if (Number(user.id) === Number(client.user.id)) return
+      this.joinsCollector.stop()
     })
   }
 
-  async collectcharacters () {
-    if (this.joinPanel?.content) this.joinPanel?.delete?.()
-    this.selectCharactersPanel = await this.message.reply({
+  /* Ask for roles options */
+  async collectRolesOptions () {
+    if (this.joinPanel.embeds) await Util.tryDelete(this.joinPanel)
+    this.selectRolesPanel = await this.message.reply({
       embeds: [this.getRoleEmbed],
-      components: this.charMenuOptions
+      components: this.rolesMenuOptions
     })
-
-    this.selectCharactersPanel.react('✅')
-    this.selectCharactersPanel.react('❎')
+    this.selectRolesPanel.react('✅')
+    this.selectRolesPanel.react('❎')
     this.awaitConfirmation()
   }
 
-  registerCharacters (interaction) {
+  /* Register Roles (called by select menu operations) */
+  registerRolesCount (interaction) {
     const characterTypeStr = interaction.customId
-    if (interaction.message.id !== this.selectCharactersPanel.id) {
+    if (interaction.message.id !== this.selectRolesPanel.id) {
       throw new Error('Message Ids not match!')
     }
     const characterType = characterTypeStr.replace('Count', '')
     const count = interaction.values?.[0]
-    this.characters[characterType] = count
-    this.selectCharactersPanel.edit({
+    this.roleSettings[characterType] = count
+    this.selectRolesPanel.edit({
       embeds: [this.getRoleEmbed],
-      components: this.charMenuOptions
+      components: this.rolesMenuOptions
     })
   }
 
+  /* Wait for roles options submission */
   awaitConfirmation () {
-    const confirmationFilter = (reaction, user) => {
-      return (
-        (reaction.emoji.name === '✅' || reaction.emoji.name === '❎') &&
-        user.id === this.host.id
-      )
-    }
+    /* Create Reaction Collector */
+    const confirmationFilter = (reaction, user) =>
+      (reaction.emoji.name === '✅' || reaction.emoji.name === '❎') &&
+      user.id === this.host.id
+    this.confirmationCollector = this.selectRolesPanel.createReactionCollector({
+      filter: confirmationFilter,
+      time: 180000
+    })
 
-    const confirmationCollector = this.selectCharactersPanel.createReactionCollector(
-      { confirmationFilter, time: 180000 }
-    )
-
-    confirmationCollector.on('collect', async (reaction, user) => {
+    /* Handle Reaction Collector Events */
+    this.confirmationCollector.on('collect', async (reaction, user) => {
       if (user.id === client.user.id) return
 
-      const charNumSum = Object.values(this.characters).reduce(
+      const RolesCountSum = Object.values(this.roleSettings).reduce(
         (a, b) => Number(a) + Number(b)
       )
       switch (reaction.emoji.name) {
         case '✅':
-          if (charNumSum !== this.players.length) {
+          if (RolesCountSum !== this.players.length) {
             reaction.remove()
             const numNotMatchEmbed = new Discord.MessageEmbed()
               .setAuthor(this.host.tag, this.host.avatarURL())
@@ -192,18 +223,16 @@ class MafiaGame {
               .setFooter(`Game Id:${this.id}`)
               .setColor(client?.colors?.red)
             this.notMatchWarnMessage.push(
-              await this.selectCharactersPanel.reply({
+              await this.selectRolesPanel.reply({
                 embeds: [numNotMatchEmbed]
               })
             )
-            return setTimeout(function () {
-              this.notMatchWarnMessage?.[0]
-                ?.delete()
-                .catch()
-                .then(this.notMatchWarnMessage?.shift?.())
+            setTimeout(async function () {
+              await Util.tryDelete(this.notMatchWarnMessage?.[0])
             }, 10000)
+            break
           }
-          this.initPlayerCharacters()
+          this.initPlayerRoles()
           break
         case '❎':
           this.cancelGame()
@@ -212,18 +241,22 @@ class MafiaGame {
     })
   }
 
-  async initPlayerCharacters () {
-    if (this.status === 'initChars') return
-    this.status = 'initChars'
-    this.selectCharactersPanel.delete().catch()
-    this.charactersArray = []
-    for (const character in this.characters) {
-      for (let i = 0; i < this.characters[character]; i++) {
-        this.charactersArray.push(this.characterChiName[character])
+  /* Initialize player roles */
+  async initPlayerRoles () {
+    if (this.status === 'initRoles') return
+    this.status = 'initRoles'
+    await Util.tryDelete(this.selectRolesPanel)
+    this.roleSettingsArray = []
+    for (const character in this.roleSettings) {
+      for (let i = 0; i < this.roleSettings[character]; i++) {
+        this.roleSettingsArray.push(this.characterChiName[character])
       }
     }
 
-    const roles = MafiaGame.matchCharacters(this.charactersArray, this.players)
+    const roles = MafiaGame.matchCharacters(
+      this.roleSettingsArray,
+      this.players
+    )
 
     for (const player in roles) {
       this.readableRoles.push({
@@ -237,22 +270,24 @@ class MafiaGame {
         .setDescription(`你被分配的角色: **__${roles[player]}__**`)
         .setFooter(`Game Id: ${this.id}`)
 
-      const roleMessage = client.users.cache
+      let roleMessage
+      await client.users.cache
         .get(player)
         ?.send({ embeds: [roleEmbed] })
+        .catch(async e => {
+          this.noDMPlayers.push(client.users.cache.get(player))
+          if (this.noDMPlayersList) {
+            this.noDMPlayersList.edit({ embeds: [this.noDMPlayersEmbed] })
+          } else {
+            this.noDMPlayersList = await this.message.reply({
+              embeds: [this.noDMPlayersEmbed]
+            })
+          }
+        })
+        .then(resultMessage => (roleMessage = resultMessage))
       this.roleMessages.push(roleMessage)
-      roleMessage.catch(async e => {
-        this.noDMPlayers.push(client.users.cache.get(player))
-        if (this.noDMPlayersList) {
-          this.noDMPlayersList.edit({ embeds: [this.noDMPlayersEmbed] })
-        } else {
-          this.noDMPlayersList = await this.message.reply({
-            embeds: [this.noDMPlayersEmbed]
-          })
-        }
-      })
     }
-    if (this.noDMPlayers.length > 0) this.cancelGame()
+    if (this.noDMPlayers.length > 0) return this.cancelGame()
     this.hostRolesMessage = this.host
       .send({
         embeds: [this.playerRolesEmbed]
@@ -289,16 +324,21 @@ class MafiaGame {
     })
   }
 
-  cancelGame () {
-    this.roleMessages?.forEach?.(message => {
-      if (message.content) {
-        message?.delete?.().catch()
+  async cancelGame () {
+    if (this.status === 'cancelled') return
+    this.status = 'cancelled'
+    this.roleMessages?.forEach(async message => {
+      if (message?.content || message?.embeds) {
+        await Util.tryDelete(message)
       }
     })
-    if (this.hostRolesMessage.content) this.hostRolesMessage?.delete?.().catch()
-    if (this.joinPanel.content) this.joinPanel?.delete?.().catch()
-    this.status = 'cancelled'
-    this.message.reply('遊戲已取消')
+    if (this.hostRolesMessage?.content || this.hostRolesMessage?.embeds) {
+      await Util.tryDelete(this.hostRolesMessage)
+    }
+    if (this.joinPanel?.content || this.joinPanel?.embeds) {
+      await Util.tryDelete(this.joinPanel)
+    }
+    this.message.reply({ embeds: [this.embeds.gameCancelled] })
   }
 
   get noDMPlayersEmbed () {
@@ -306,9 +346,11 @@ class MafiaGame {
       .setDescription(
         `未能傳送角色列表給以下玩家:\n<@${this.noDMPlayers
           .map(o => o.id)
-          .join('> <@')}>, 請確定已開啟本群組的私訊設定`
+          .join('> <@')}>, 請確定已開啟本群組的私訊設定, 然後重新建立遊戲`
       )
       .setImage('https://i.imgur.com/4P69LoZ.png')
+      .setColor(client.colors.red)
+      .setFooter(`Game Id:${this.id}`)
   }
 
   get playerRolesEmbed () {
@@ -335,7 +377,7 @@ class MafiaGame {
     return new Discord.MessageEmbed()
       .setTitle('狼人殺 - 已分配角色')
       .setDescription(
-        `請查看你的私訊並等待主持開始\n**玩家**${shuffledPlayersList}\n\n**角色**\n> ${this.characters.wolf} 狼人 \n> ${this.characters.detective} 預言 \n> ${this.characters.witch} 女巫 \n> ${this.characters.hunter} 獵人 \n> ${this.characters.guard} 守衛 \n> ${this.characters.none} 平民`
+        `請查看你的私訊並等待主持開始\n**玩家**${shuffledPlayersList}\n\n**角色**\n> ${this.roleSettings.wolf} 狼人 \n> ${this.roleSettings.detective} 預言 \n> ${this.roleSettings.witch} 女巫 \n> ${this.roleSettings.hunter} 獵人 \n> ${this.roleSettings.guard} 守衛 \n> ${this.roleSettings.none} 平民`
       )
       .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
       .setFooter(`Game Id:${this.id}`)
@@ -343,27 +385,27 @@ class MafiaGame {
   }
 
   get getRoleEmbed () {
-    this.characters.none = 0
-    const charNumSum = Object.values(this.characters).reduce(
+    this.roleSettings.none = 0
+    const RolesCountSum = Object.values(this.roleSettings).reduce(
       (a, b) => Number(a) + Number(b)
     )
-    this.characters.none =
-      this.players.length - charNumSum < 0
+    this.roleSettings.none =
+      this.players.length - RolesCountSum < 0
         ? 0
-        : this.players.length - charNumSum
+        : this.players.length - RolesCountSum
     return new Discord.MessageEmbed()
       .setTitle('角色設定')
       .setDescription(
-        `目前遊戲角色分配:\n${this.characters.wolf}x狼人 \n${
-          this.characters.detective
-        }x預言 \n${this.characters.witch}x女巫 \n${
-          this.characters.hunter
-        }x獵人 \n${this.characters.guard}x守衛 \n${
-          this.characters.none
-        }x平民\n(共${charNumSum}個神職角色)${
-          charNumSum > this.players.length
+        `目前遊戲角色分配:\n${this.roleSettings.wolf}x狼人 \n${
+          this.roleSettings.detective
+        }x預言 \n${this.roleSettings.witch}x女巫 \n${
+          this.roleSettings.hunter
+        }x獵人 \n${this.roleSettings.guard}x守衛 \n${
+          this.roleSettings.none
+        }x平民\n(共${RolesCountSum}個神職角色)${
+          RolesCountSum > this.players.length
             ? '\n**:exclamation: 已設置的神職角色數量比玩家數量多 (' +
-              charNumSum +
+              RolesCountSum +
               '/' +
               this.players.length +
               ')**'
@@ -374,7 +416,7 @@ class MafiaGame {
       .setColor(client.colors.green)
   }
 
-  get charMenuOptions () {
+  get rolesMenuOptions () {
     const row1 = new Discord.MessageActionRow().addComponents(
       new Discord.MessageSelectMenu()
         .setCustomId('wolfCount')
@@ -406,33 +448,6 @@ class MafiaGame {
         .addOptions(this.characterOptions.guard)
     )
     return [row1, row2, row3, row4, row5]
-  }
-
-  get charGroups () {
-    return {
-      4: ['狼', '巫', '民', '民'],
-      5: ['狼', '預', '獵', '民', '民'],
-      6: ['狼', '狼', '預', '獵', '民', '民'],
-      7: ['狼', '狼', '預', '巫', '獵', '民', '民'],
-      8: ['狼', '狼', '狼', '預', '巫', '獵', '守', '民'],
-      9: ['狼', '狼', '狼', '預', '巫', '獵', '民', '民', '民'],
-      10: ['狼', '狼', '狼', '預', '巫', '獵', '民', '民', '民', '民'],
-      11: ['狼', '狼', '狼', '狼', '預', '巫', '獵', '守', '民', '民', '民'],
-      12: [
-        '狼',
-        '狼',
-        '狼',
-        '狼',
-        '預',
-        '巫',
-        '獵',
-        '守',
-        '民',
-        '民',
-        '民',
-        '民'
-      ]
-    }
   }
 
   get characterOptions () {
@@ -575,17 +590,6 @@ class MafiaGame {
     }
   }
 
-  get charNum () {
-    return {
-      0: '平民',
-      1: '預言家',
-      2: '女巫',
-      3: '獵人',
-      4: '守衛',
-      5: '狼人'
-    }
-  }
-
   get characterChiName () {
     return {
       wolf: '狼人',
@@ -630,20 +634,16 @@ class MafiaGame {
         .setColor(client.colors.purple),
       joinPanel: new Discord.MessageEmbed()
         .setTitle('狼人殺')
-        .setColor(client.colors.blue)
+        .setColor(client.colors.blue),
+      gameCancelled: new Discord.MessageEmbed()
+        .setAuthor(
+          this.host.tag || 'Unknown Host',
+          this.host.avatarURL || undefined
+        )
+        .setDescription('遊戲已取消')
+        .setColor(client.colors.red)
+        .setFooter(`Game Id:${this.id || 'Unknown'}`)
     }
-  }
-
-  static charNameConverter (character) {
-    return JSON.parse(
-      JSON.stringify(character)
-        .replace(/狼/g, '狼人')
-        .replace(/預/g, '預言家')
-        .replace(/巫/g, '女巫')
-        .replace(/獵/g, '獵人')
-        .replace(/守/g, '守衛')
-        .replace(/民/g, '平民')
-    )
   }
 
   static matchCharacters (rolesArray, playerArray) {
@@ -721,10 +721,9 @@ module.exports = class wolfCommand extends Command {
       const menuMessage = interaction.message
       const gameEmbed = menuMessage.embeds?.[0]
       const gameId = (gameEmbed?.footer?.text).split(':')[1]
-      Util.printLog('info', __filename, gameId)
       const game = games.find(g => g.id === gameId)
       if (!game) throw new Error()
-      game.registerCharacters(interaction)
+      game.registerRolesCount(interaction)
     }
   }
 }
