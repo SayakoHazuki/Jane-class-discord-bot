@@ -17,6 +17,12 @@ module.exports = class interactionHandler {
       case 'guardCount':
         Mafia.handleInteraction(interaction)
         break
+      case 'guardAction':
+      case 'detectiveAction':
+      case 'wolfAction':
+      case 'witchAction':
+        Mafia.handleRoleAction(interaction)
+        break
     }
   }
 }

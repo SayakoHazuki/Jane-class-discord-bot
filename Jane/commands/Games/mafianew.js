@@ -3,6 +3,15 @@ const Command = require('cmd')
 const games = []
 let client
 
+let resolveGuardAction,
+  rejectGuardAction,
+  resolveDetectiveAction,
+  rejectDetectiveAction,
+  resolveWolfAction,
+  rejectWolfAction,
+  resolveWitchAction,
+  rejectWitchAction
+
 const Util = require('utils')
 
 class ReplyEmbeds {
@@ -375,6 +384,179 @@ class MafiaGame {
     this.message.reply({ embeds: [this.embeds.gameCancelled] })
   }
 
+  awaitGuardAction () {
+    this.message.reply({ embeds: [this.embeds.waitingGuard] })
+    return new Promise((resolve, reject) => {
+      resolveGuardAction = resolve
+      rejectGuardAction = reject
+      const guards = this.readableRoles.filter(player => player.role === '守衛')
+      switch (guards.length) {
+        case 0:
+          resolveGuardAction()
+          break
+        case 1:
+          guards[0].user.send({
+            embeds: [this.embeds.guardAction],
+            components: this.playerTargetSelector('guard', '守護')
+          })
+          break
+        default:
+          guards[0].user.send({
+            embeds: [this.embeds.guardsAction],
+            components: this.playerTargetSelector('guard', '守護')
+          })
+          break
+      }
+    })
+  }
+
+  handleGuardAction (game, targetId) {
+    Util.printLog('info', __filename, 'received Action 1')
+    if (game[`day${game.dayCount}guard`]) {
+      rejectGuardAction()
+    } else {
+      game[`day${game.dayCount}guard`] = targetId
+      resolveGuardAction()
+    }
+  }
+
+  awaitDetectiveAction () {
+    this.message.reply({ embeds: [this.embeds.waitingDetective] })
+    return new Promise((resolve, reject) => {
+      resolveDetectiveAction = resolve
+      rejectDetectiveAction = reject
+      const detectives = this.readableRoles.filter(
+        player => player.role === '預言家'
+      )
+      switch (detectives.length) {
+        case 0:
+          resolveGuardAction()
+          break
+        case 1:
+          detectives[0].user.send({
+            embeds: [this.embeds.detectiveAction],
+            components: this.playerTargetSelector('detective', '檢查')
+          })
+          break
+        default:
+          detectives[0].user.send({
+            embeds: [this.embeds.detectiveAction],
+            components: this.playerTargetSelector('detective', '檢查')
+          })
+          break
+      }
+    })
+  }
+
+  handleDetectiveAction (game, targetId) {
+    Util.printLog('info', __filename, 'received Action 2')
+    if (game[`day${game.dayCount}detective`]) {
+      rejectDetectiveAction()
+    } else {
+      game[`day${game.dayCount}detective`] = targetId
+      resolveDetectiveAction()
+    }
+  }
+
+  awaitWolfAction () {
+    this.message.reply({ embeds: [this.embeds.waitingWolf] })
+    return new Promise((resolve, reject) => {
+      resolveWolfAction = resolve
+      rejectWolfAction = reject
+      const wolves = this.readableRoles.filter(player => player.role === '狼人')
+      switch (wolves.length) {
+        case 0:
+          resolveWolfAction()
+          break
+        case 1:
+          wolves[0].user.send({
+            embeds: [this.embeds.wolfAction],
+            components: this.playerTargetSelector('wolf', '殺')
+          })
+          break
+        default:
+          wolves[0].user.send({
+            embeds: [this.embeds.wolfAction],
+            components: this.playerTargetSelector('wolf', '殺')
+          })
+          break
+      }
+    })
+  }
+
+  handleWolfAction (game, targetId) {
+    Util.printLog('info', __filename, 'received Action 3')
+    if (game[`day${game.dayCount}wolf`]) {
+      rejectWolfAction()
+    } else {
+      game[`day${game.dayCount}wolf`] = targetId
+      resolveWolfAction()
+    }
+  }
+
+  awaitWitchAction () {
+    this.message.reply({ embeds: [this.embeds.waitingWitch] })
+    return new Promise((resolve, reject) => {
+      resolveWitchAction = resolve
+      rejectWitchAction = reject
+      const witches = this.readableRoles.filter(
+        player => player.role === '女巫'
+      )
+      switch (witches.length) {
+        case 0:
+          resolveWitchAction()
+          break
+        case 1:
+          witches[0].user.send({
+            embeds: [this.embeds.witchAction],
+            components: this.playerTargetSelector('witch', 'ToBeDone')
+          })
+          break
+        default:
+          witches[0].user.send({
+            embeds: [this.embeds.witchAction],
+            components: this.playerTargetSelector('witch', 'ToBeDone')
+          })
+          break
+      }
+    })
+  }
+
+  handleWitchAction (game, targetId) {
+    Util.printLog('info', __filename, 'received Action 4')
+    if (game[`day${game.dayCount}witch`]) {
+      rejectWitchAction()
+    } else {
+      game[`day${game.dayCount}witch`] = targetId
+      resolveWitchAction()
+    }
+  }
+
+  async startDay () {
+    await this.awaitGuardAction()
+    await this.awaitDetectiveAction()
+    await this.awaitWolfAction()
+    await this.awaitWitchAction()
+  }
+
+  playerTargetSelector (role, readableActionText) {
+    const playerOptions = []
+    for (const player of this.readableRoles) {
+      playerOptions.push({
+        label: player.user.tag,
+        description: `${readableActionText} [${player.identifier}]${player.user.username}`,
+        value: player.user.id
+      })
+    }
+    const actionRow = new Discord.MessageActionRow().addComponents(
+      new Discord.MessageSelectMenu()
+        .setCustomId(`${role}Action`)
+        .setPlaceholder(`選擇要${readableActionText}的玩家...`)
+        .addOptions(playerOptions)
+    )
+    return [actionRow]
+  }
+
   get noDMPlayersEmbed () {
     return new Discord.MessageEmbed()
       .setDescription(
@@ -642,12 +824,52 @@ class MafiaGame {
         .setColor(client.colors.blue),
       gameCancelled: new Discord.MessageEmbed()
         .setAuthor(
-          this.host.tag || 'Unknown Host',
+          `主持: ${this.host.tag || '???'}`,
           this.host.avatarURL || undefined
         )
         .setDescription('遊戲已取消')
         .setColor(client.colors.red)
-        .setFooter(`Game Id:${this.id || 'Unknown'}`)
+        .setFooter(`Game Id:${this.id || 'Unknown'}`),
+      guardAction: new Discord.MessageEmbed()
+        .setAuthor(
+          `主持: ${this.host.tag || '???'}`,
+          this.host.avatarURL || undefined
+        )
+        .setTitle('守衛 [遊戲進度: 第一晚]')
+        .setDescription('請選擇你要守護的玩家')
+        .setColor(client.colors.green)
+        .setFooter(`Game Id:${this.id || 'Unknown'}`),
+      detectiveAction: new Discord.MessageEmbed()
+        .setAuthor(
+          `主持: ${this.host.tag || '???'}`,
+          this.host.avatarURL || undefined
+        )
+        .setTitle('預言家 [遊戲進度: 第一晚]')
+        .setDescription('請選擇你要檢查身分的玩家')
+        .setColor(client.colors.green)
+        .setFooter(`Game Id:${this.id || 'Unknown'}`),
+      wolfAction: new Discord.MessageEmbed()
+        .setAuthor(
+          `主持: ${this.host.tag || '???'}`,
+          this.host.avatarURL || undefined
+        )
+        .setTitle('狼人 [遊戲進度: 第一晚]')
+        .setDescription('請選擇你要殺的玩家')
+        .setColor(client.colors.green)
+        .setFooter(`Game Id:${this.id || 'Unknown'}`),
+      witchAction: new Discord.MessageEmbed()
+        .setAuthor(
+          `主持: ${this.host.tag || '???'}`,
+          this.host.avatarURL || undefined
+        )
+        .setTitle('女巫 [遊戲進度: 第一晚]')
+        .setDescription('請選擇你要idk的玩家')
+        .setColor(client.colors.green)
+        .setFooter(`Game Id:${this.id || 'Unknown'}`),
+      waitingGuard: new Discord.MessageEmbed().setDescription('temp 1'),
+      waitingDetective: new Discord.MessageEmbed().setDescription('temp 2'),
+      waitingWolf: new Discord.MessageEmbed().setDescription('temp 3'),
+      waitingWitch: new Discord.MessageEmbed().setDescription('temp 4')
     }
   }
 
@@ -672,6 +894,11 @@ class MafiaGame {
     }
 
     return result
+  }
+
+  static findByUser (user) {
+    const targetGame = games.find(game => game.host?.id === user.id)
+    return targetGame || false
   }
 }
 
@@ -709,6 +936,12 @@ module.exports = class wolfCommand extends Command {
         )
         break
 
+      case 'startDay':
+        if (MafiaGame.findByUser(message.author)) {
+          MafiaGame.findByUser(message.author).startDay()
+        }
+        break
+
       case 'cmd':
       default:
         message.reply({ embeds: [new ReplyEmbeds(client).commands] })
@@ -717,21 +950,44 @@ module.exports = class wolfCommand extends Command {
   }
 
   static async handleInteraction (interaction) {
-    if (
-      [
-        'wolfCount',
-        'detectiveCount',
-        'witchCount',
-        'hunterCount',
-        'guardCount'
-      ].includes(interaction.customId)
-    ) {
-      const menuMessage = interaction.message
-      const gameEmbed = menuMessage.embeds?.[0]
-      const gameId = (gameEmbed?.footer?.text).split(':')[1]
-      const game = games.find(g => g.id === gameId)
-      if (!game) throw new Error()
-      game.registerRolesCount(interaction)
+    const menuMessage = interaction.message
+    const gameEmbed = menuMessage.embeds?.[0]
+    const gameId = (gameEmbed?.footer?.text).split(':')[1]
+    const game = games.find(g => g.id === gameId)
+    if (!game) throw new Error()
+    game.registerRolesCount(interaction)
+  }
+
+  static async handleRoleAction (interaction) {
+    const menuMessage = interaction.message
+    const gameEmbed = menuMessage.embeds?.[0]
+    const action = interaction.customId.replace('Action', '')
+    const target = interaction.values?.[0]
+    const gameId = (gameEmbed?.footer?.text).split(':')[1].replace(' ', '')
+    const game = games.find(g => g.id === gameId)
+    const targetUser = await client.users.cache.find(user => user.id === target)
+    menuMessage.delete()
+    switch (action) {
+      case 'guard':
+        interaction.user.send({
+          embeds: [
+            new Discord.MessageEmbed()
+              .setAuthor(`主持: ${game.host.tag}`, game.host.avatarURL())
+              .setTitle('守衛 [遊戲進度: 第一晚]')
+              .setDescription(`:whiteCheckMark: 你守護了 ${targetUser.tag}`)
+          ]
+        })
+        game.handleGuardAction(game, target)
+        break
+      case 'detective':
+        game.handleDetectiveAction(game, target)
+        break
+      case 'wolf':
+        game.handleWolfAction(game, target)
+        break
+      case 'witch':
+        game.handleWitchAction(game, target)
+        break
     }
   }
 }

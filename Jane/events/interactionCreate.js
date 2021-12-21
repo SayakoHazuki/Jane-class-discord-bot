@@ -9,18 +9,10 @@ module.exports = class interactionCreate extends Evt {
   async run (interaction) {
     switch (true) {
       case interaction.isSelectMenu():
-        if (
-          [
-            'wolfCount',
-            'detectiveCount',
-            'witchCount',
-            'hunterCount',
-            'guardCount'
-          ].includes(interaction.customId)
-        ) {
-          interaction.deferUpdate()
-          return MafiaMenuHandler.handleMafiaInteraction(interaction)
-        }
+        interaction.deferUpdate()
+        MafiaMenuHandler.handleMafiaInteraction(interaction)
+        break
+      default:
         break
     }
   }
