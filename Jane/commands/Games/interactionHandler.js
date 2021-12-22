@@ -23,6 +23,19 @@ module.exports = class interactionHandler {
       case 'witchAction':
         Mafia.handleRoleAction(interaction)
         break
+      case 'voteAction':
+        Mafia.handleVote(interaction)
+    }
+  }
+
+  static handleMafiaButton (interaction) {
+    switch (interaction.customId) {
+      case 'startDiscussion':
+        Mafia.startDiscussion(interaction)
+        break
+      case 'startVote':
+        Mafia.startVote(interaction)
+        break
     }
   }
 }

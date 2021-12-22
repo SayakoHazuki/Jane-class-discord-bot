@@ -13,6 +13,8 @@ module.exports = class interactionCreate extends Evt {
         MafiaMenuHandler.handleMafiaInteraction(interaction)
         break
       default:
+        interaction.deferUpdate()
+        MafiaMenuHandler.handleMafiaButton(interaction)
         break
     }
   }

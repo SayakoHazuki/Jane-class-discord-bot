@@ -95,6 +95,7 @@ class MafiaGame {
       __filename,
       `\tin: ${this.message.guild.name} > ${this.message.channel.name}`
     )
+    this.votes = []
     this.createPanel()
   }
 
@@ -648,16 +649,107 @@ class MafiaGame {
     await this.awaitDetectiveAction()
     await this.awaitWolfAction()
     await this.awaitWitchAction()
+    this.startDay(m)
+  }
+
+  voteKill (t) {
+    t = t.replace(/[^0-9]/, '')
+    const i = this.readableRoles.findIndex(player => player.user.id === t)
+    this.readableRoles[i].alive = false
+    this[`day${this.dayCount}votePanel`].reply({
+      embeds: [
+        new Discord.MessageEmbed()
+          .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+          .setTitle(`第${this.dayCount}天 投票結果`)
+          .setDescription(
+            `最高票數為 [${this.readableRoles[i].identifier}] ${this.readableRoles[i].user.tag}\n該玩家被票死, 請發表遺言`
+          )
+          .setFooter(`Game Id:${this.id}`)
+          .setColor(client.colors.red)
+      ]
+    })
   }
 
   async startDay (m) {
-    m.reply(
-      `Day${this.dayCount}\n守衛守護了 : ${
-        this[`day${this.dayCount}guard`]
-      }\n狼人殺了 : ${this[`day${this.dayCount}kill`]}\n女巫救了 : ${
-        this[`day${this.dayCount}witchSave`]
-      }\n女巫毒了 : ${this[`day${this.dayCount}witchKill`]}\n`
-    )
+    const deathOfTheNight = []
+    const killedByWolfId = this[`day${this.dayCount}kill`]
+    const killedByWolf = killedByWolfId
+      ? this.readableRoles.find(player => player.user.id === killedByWolfId)
+      : false
+    const guardedId = this[`day${this.dayCount}guard`] || false
+    const guarded = guardedId
+      ? this.readableRoles.find(player => player.user.id === guardedId)
+      : false
+    const killedByWitchId = this[`day${this.dayCount}witchKill`]
+    const killedByWitch = killedByWitchId
+      ? this.readableRoles.find(player => player.user.id === killedByWitchId)
+      : false
+
+    // has guard
+    if (guarded?.user?.id === killedByWolf.user.id) {
+      if (this[`day${this.dayCount}witchSave`]) {
+        // guard + save
+        deathOfTheNight.push({ user: killedByWolf, deathMessage: false })
+      }
+    }
+
+    // no guard no save
+    if (
+      guarded?.user?.id !== killedByWolf.user.id &&
+      !this[`day${this.dayCount}witchSave`]
+    ) {
+      deathOfTheNight.push({ user: killedByWolf, deathMessage: true })
+    }
+
+    // witch Kill
+    if (this[`day${this.dayCount}witchKill`]) {
+      deathOfTheNight.push({ user: killedByWitch, deathMessage: false })
+    }
+
+    const deadTags = []
+    const hasDeathMessages = []
+    for (const { user, deathMessage } of deathOfTheNight) {
+      const playerIndex = this.readableRoles.findIndex(
+        player => player.user.id === user.user.id
+      )
+      this.readableRoles[playerIndex].alive = false
+      deadTags.push(
+        `[${this.readableRoles[playerIndex].identifier}] ${this.readableRoles[playerIndex].user.tag}`
+      )
+      if (deathMessage) {
+        hasDeathMessages.push(`[${user.identifier}] ${user.user.tag}`)
+      }
+    }
+
+    m.reply({
+      embeds: [
+        new Discord.MessageEmbed()
+          .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+          .setTitle(`[天亮了]: 第 ${this.dayCount} 天`)
+          .setDescription(
+            `昨晚${
+              deadTags.length
+                ? `死的是:\n${deadTags.join('\n')}\n\n${
+                    hasDeathMessages.length
+                      ? `以下玩家請發表遺言:\n${hasDeathMessages.join('\n')}`
+                      : '以上玩家皆未能發表遺言'
+                  }`
+                : '是平安夜'
+            }`
+          )
+          .setFooter(`Game Id:${this.id}`)
+          .setColor(client.colors.yellow)
+      ],
+      components: [
+        new Discord.MessageActionRow().addComponents(
+          new Discord.MessageButton()
+            .setCustomId('startDiscussion')
+            .setLabel('開始討論')
+            .setStyle('SUCCESS')
+        )
+      ]
+    })
+
     this.dayCount++
   }
 
@@ -728,6 +820,116 @@ class MafiaGame {
         .addOptions(playerOptions)
     )
     return [actionRow]
+  }
+
+  startDiscussion (interaction) {
+    let sortedPlayersList = ''
+    const aliveRoles = this.readableRoles.filter(player => player.alive)
+    aliveRoles.forEach(player => {
+      sortedPlayersList += `\n> ${player.identifier}. <@${player.user.id}>`
+    })
+    interaction.message.channel.send({
+      embeds: [
+        new Discord.MessageEmbed()
+          .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+          .setTitle('討論環節')
+          .setDescription(`發言次序: ${sortedPlayersList}`)
+          .setColor(client.colors.green)
+          .setFooter(`Game Id:${this.id}`)
+      ],
+      components: [
+        new Discord.MessageActionRow().addComponents(
+          new Discord.MessageButton()
+            .setCustomId('startVote')
+            .setLabel('開始投票')
+            .setStyle('SUCCESS')
+        )
+      ]
+    })
+  }
+
+  async startVote (interaction) {
+    this[`day${this.dayCount}vote`] = []
+    const aliveRoles = this.readableRoles.filter(player => player.alive)
+    for (const player of aliveRoles) {
+      this[`day${this.dayCount}vote`].push([
+        player.user.id,
+        `[${player.identifier}] <@${player.user.id}>`,
+        '正在等候投票'
+      ])
+    }
+    interaction.message.channel.send({
+      embeds: [
+        new Discord.MessageEmbed()
+          .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+          .setTitle('投票環節')
+          .setDescription('請選出要投的玩家')
+          .setColor(client.colors.red)
+          .setFooter(`Game Id:${this.id}`)
+      ],
+      components: this.playerTargetSelector('vote', '投票')
+    })
+    this[
+      `day${this.dayCount}votePanel`
+    ] = await interaction.message.channel.send({
+      embeds: [
+        new Discord.MessageEmbed()
+          .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+          .setTitle('投票結果')
+          .setDescription(
+            MafiaGame.formatVoteResults(this[`day${this.dayCount}vote`])
+          )
+          .setColor(client.colors.red)
+          .setFooter(`Game Id:${this.id}`)
+      ]
+    })
+  }
+
+  handleVote (interaction) {
+    const u = interaction.user
+    const gameU = this.readableRoles.find(p => p.user.id === u.id)
+    if (!gameU.alive) return
+    const i = this[`day${this.dayCount}vote`].findIndex(
+      item => item[0] === u.id
+    )
+    if (this[`day${this.dayCount}vote`][i][2] === '正在等候投票') {
+      this[`day${this.dayCount}vote`][
+        i
+      ][2] = `投給了 <@${interaction.values?.[0]}>`
+    }
+    this[`day${this.dayCount}votePanel`].edit({
+      embeds: [
+        new Discord.MessageEmbed()
+          .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+          .setTitle('投票結果')
+          .setDescription(
+            MafiaGame.formatVoteResults(this[`day${this.dayCount}vote`])
+          )
+          .setColor(client.colors.red)
+          .setFooter(`Game Id:${this.id}`)
+      ]
+    })
+
+    const x = this[`day${this.dayCount}vote`].findIndex(
+      item => item[2] === '正在等候投票'
+    )
+    if (x === -1) {
+      const y = MafiaGame.calculateVote(this[`day${this.dayCount}vote`])
+      if (y.length === 1) {
+        this.voteKill(y[0])
+      } else {
+        this[`day${this.dayCount}votePanel`].reply({
+          embeds: [
+            new Discord.MessageEmbed()
+              .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
+              .setTitle(`第${this.dayCount}天 投票結果`)
+              .setDescription('由於出現了平票, 沒有人被票死')
+              .setFooter(`Game Id:${this.id}`)
+              .setColor(client.colors.red)
+          ]
+        })
+      }
+    }
   }
 
   get noDMPlayersEmbed () {
@@ -1007,7 +1209,7 @@ class MafiaGame {
               : ''
           }狼人請睜眼\n請查看你的私訊以進行角色行動`
         )
-        .setColor(client.colors.yellow),
+        .setColor(client.colors.blue),
       waitingWitch: new Discord.MessageEmbed()
         .setAuthor(`主持: ${this.host.tag}`, this.host.avatarURL())
         .setTitle(`第 ${this.dayCount} 天 - 晚上`)
@@ -1042,6 +1244,14 @@ class MafiaGame {
   static findByUser (user) {
     const targetGame = games.find(game => game.host?.id === user.id)
     return targetGame || false
+  }
+
+  static formatVoteResults (votes) {
+    let results = ''
+    for (const [, user, vote] of votes) {
+      results += `\n${user}\n-> ${vote}\n\n`
+    }
+    return results
   }
 }
 
@@ -1130,4 +1340,62 @@ module.exports = class wolfCommand extends Command {
         break
     }
   }
+
+  static startDiscussion (interaction) {
+    const message = interaction.message
+    const gameEmbed = message.embeds?.[0]
+    const gameId = (gameEmbed?.footer?.text).split(':')[1].replace(' ', '')
+    const game = games.find(g => g.id === gameId)
+    game.startDiscussion(interaction)
+  }
+
+  static startVote (interaction) {
+    const message = interaction.message
+    const gameEmbed = message.embeds?.[0]
+    const gameId = (gameEmbed?.footer?.text).split(':')[1].replace(' ', '')
+    const game = games.find(g => g.id === gameId)
+    game.startVote(interaction)
+  }
+
+  static handleVote (interaction) {
+    const message = interaction.message
+    const gameEmbed = message.embeds?.[0]
+    const gameId = (gameEmbed?.footer?.text).split(':')[1].replace(' ', '')
+    const game = games.find(g => g.id === gameId)
+    game.handleVote(interaction)
+  }
+
+  static calculateVote (votes) {
+    const tempR = []
+    for (const [, , voteU] of votes) {
+      tempR.push(voteU)
+    }
+    const result = getMostFrequent(tempR)
+    return result
+  }
+
+  static checkGameOver (game) {}
+}
+
+function getMostFrequent (array) {
+  if (array.length === 0) return null
+  const modeMap = {}
+  let maxCount = 1
+  let modes = []
+
+  for (let i = 0; i < array.length; i++) {
+    const el = array[i]
+
+    if (modeMap[el] == null) modeMap[el] = 1
+    else modeMap[el]++
+
+    if (modeMap[el] > maxCount) {
+      modes = [el]
+      maxCount = modeMap[el]
+    } else if (modeMap[el] === maxCount) {
+      modes.push(el)
+      maxCount = modeMap[el]
+    }
+  }
+  return modes
 }
