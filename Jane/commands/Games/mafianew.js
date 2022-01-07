@@ -654,7 +654,9 @@ class MafiaGame {
 
   voteKill (t) {
     t = t.replace(/[^0-9]/, '')
+    Util.printLog('info', __filename, t)
     const i = this.readableRoles.findIndex(player => player.user.id === t)
+    Util.printLog('info', __filename, i)
     this.readableRoles[i].alive = false
     this[`day${this.dayCount}votePanel`].reply({
       embeds: [
@@ -1253,6 +1255,17 @@ class MafiaGame {
     }
     return results
   }
+
+  static calculateVote (votes) {
+    const tempR = []
+    for (const [, , voteU] of votes) {
+      tempR.push(voteU)
+    }
+    const result = getMostFrequent(tempR)
+    return result
+  }
+
+  static checkGameOver (game) {}
 }
 
 module.exports = class wolfCommand extends Command {
@@ -1364,17 +1377,6 @@ module.exports = class wolfCommand extends Command {
     const game = games.find(g => g.id === gameId)
     game.handleVote(interaction)
   }
-
-  static calculateVote (votes) {
-    const tempR = []
-    for (const [, , voteU] of votes) {
-      tempR.push(voteU)
-    }
-    const result = getMostFrequent(tempR)
-    return result
-  }
-
-  static checkGameOver (game) {}
 }
 
 function getMostFrequent (array) {

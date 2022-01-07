@@ -15,29 +15,14 @@ const monthNames = [
   'December'
 ]
 
-async function formatDate (d) {
-  const a = `${('0' + d.getDate()).slice(-2)}/${(
-    '0' +
-    (d.getMonth() + 1)
-  ).slice(-2)}/${d.getFullYear()}`
-  const b = `${('0' + d.getHours()).slice(-2)}:${('0' + d.getMinutes()).slice(
-    -2
-  )}`
-  return {
-    date: a,
-    time: b
-  }
-}
-
 module.exports = async function getCovData (call) {
   get(
     'https://chp-dashboard.geodata.gov.hk/covid-19/data/keynum.json'
   ).asString(async function (err, data) {
     if (err) return
     const covdata = JSON.parse(data)
-    const asOfJSDate = new Date(Number(covdata.As_of_date) + 28800000)
-    const rr = await formatDate(asOfJSDate)
-    const asOfReadable = rr.date + ' ' + rr.time
+    const asOfJSDate = new Date(Number(covdata.As_of_date))
+    const asOfReadable = `<t:${Math.round(asOfJSDate.getTime() / 1000)}:R>`
     const plrec = Number(covdata.Discharged) - Number(covdata.P_Discharged)
     const plcon = Number(covdata.Confirmed) - Number(covdata.P_Confirmed)
     const pldeath = Number(covdata.Death) - Number(covdata.P_Death)
@@ -58,7 +43,7 @@ module.exports = async function getCovData (call) {
     const day = String(dateObj.getDate()).padStart(2, '0')
     const year = dateObj.getFullYear()
     const output = `${day} ${month}, ${year}`
-    const res1 = `${output} (數據截至 ${asOfReadable})`
+    const res1 = `${output} (數據上次更新於 ${asOfReadable})`
     call([res1, res2, res3, res4, res5, res6, res7, data])
   })
 }
