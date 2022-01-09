@@ -25,9 +25,9 @@ module.exports = async function getCovData (call) {
     const asOfReadable = `<t:${Math.round(asOfJSDate.getTime() / 1000)}:R>`
     const plrec = Number(covdata.Discharged) - Number(covdata.P_Discharged)
     const plcon = `+${covdata.LocalCasesAdded ||
-      '?'} 本地 | +${covdata.ImportedCasedAdded ||
+      0} 本地 | +${covdata.ImportedCasedAdded ||
       covdata.ImportedCasesAdded ||
-      '?'} 輸入`
+      0} 輸入`
     const pldeath = Number(covdata.Death) - Number(covdata.P_Death)
     const preCritical = Number(covdata.Critical) - Number(covdata.P_Critical)
     const preHospital =
