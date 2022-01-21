@@ -1,66 +1,10 @@
 {
-  "tests": [
-    [
-      {
-        "subject": "L&S",
-        "duration": 25
-      },
-      {
-        "subject": "CHIN",
-        "duration": 40
-      }
-    ],
-    [
-      {
-        "subject": "BIO",
-        "duration": 25
-      },
-      {
-        "subject": "ENG",
-        "duration": 50
-      }
-    ],
-    [
-      {
-        "subject": "CHIS",
-        "duration": 30
-      },
-      {
-        "subject": "MATH",
-        "duration": 30
-      }
-    ],
-    [
-      {
-        "subject": "HIST",
-        "duration": 30
-      },
-      {
-        "subject": "GEOG",
-        "duration": 25
-      },
-      {
-        "subject": "PTH",
-        "duration": 20
-      }
-    ],
-    [
-      {
-        "subject": "CHEM",
-        "duration": 25
-      },
-      {
-        "subject": "PHY",
-        "duration": 25
-      }
-    ]
-  ],
   "3A": {
-    "A": "CHIN CHIN IT ENG PHYS CTP",
+    "A": "CHIN CHIN IT ENG PHY CTP",
     "B": "MUS/DE HIST CHIN ENG MATH CHIS",
     "C": "SPEAK L&S MATH GEOG ASS BIO",
     "D": "PTH IT ENG VA MATH CHIN",
-    "E": "ENG PE CHEM MATH PHYS CHIN",
+    "E": "ENG PE CHEM MATH PHY CHIN",
     "F": "ENG HIST MATH CHIN ASS RS",
     "F(ECA_Day)": "ENG HIST MATH CHIN ECA ECA",
     "G": "PE CHIS ENG MATH GEOG CHIN",
@@ -70,11 +14,11 @@
   "3B": {
     "A": "SPEAK VA BIO MATH HIST CTP",
     "B": "CHIN MUS/DE IT ENG RS MATH",
-    "C": "CHIN CHEM MATH PHYS ASS ENG",
+    "C": "CHIN CHEM MATH PHY ASS ENG",
     "D": "CHIS MATH CHIN CHIN ENG HIST",
     "E": "CHIN PE ENG MATH BIO GEOG",
-    "F": "CHIN ENG L&S PHYS ASS CHEM",
-    "F(ECA_Day)": "CHIN ENG L&S PHYS ECA ECA",
+    "F": "CHIN ENG L&S PHY ASS CHEM",
+    "F(ECA_Day)": "CHIN ENG L&S PHY ECA ECA",
     "G": "PE CHIS CHIN MATH ENG L&S",
     "H": "MATH ENG PTH CHIN IT GEOG",
     "holiday": "holiday holiday"
@@ -82,25 +26,25 @@
   "3C": {
     "A": "IT SPEAK HIST CHIN MATH CTP",
     "B": "CHIS CHEM MATH ENG CHIN CHIN",
-    "C": "ENG BIO PE MATH ASSM GEOG",
-    "D": "L&S ENG CHIN PHYS MATH IT",
+    "C": "ENG BIO PE MATH ASS GEOG",
+    "D": "L&S ENG CHIN PHY MATH IT",
     "E": "PE HIST CHIN MUS/DE ENG MATH",
-    "F": "ENG RS GEOG VA ASSM CHIN",
+    "F": "ENG RS GEOG VA ASS CHIN",
     "F(ECA_Day)": "ENG RS GEOG VA ECA ECA",
     "G": "ENG CHIN PTH BIO MATH CHEM",
-    "H": "PHYS ENG MATH CHIN CHIS L&S",
+    "H": "PHY ENG MATH CHIN CHIS L&S",
     "holiday": "holiday holiday"
   },
   "3D": {
     "A": "ENG CHIS MUS/DE IT MATH CTP",
     "B": "BIO HIST CHIN ENG CHEM RS",
     "C": "L&S SPEAK PE MATH ASS CHIN",
-    "D": "IT GEOG ENG MATH PHYS CHIN",
+    "D": "IT GEOG ENG MATH PHY CHIN",
     "E": "PE CHIS ENG MATH CHEM CHIN",
     "F": "ENG MATH VA CHIN ASS HIST",
     "F(ECA_Day)": "ENG MATH VA CHIN ECA ECA",
     "G": "BIO MATH CHIN CHIN GEOG ENG",
-    "H": "MATH ENG CHIN PTH L&S PHYS",
+    "H": "MATH ENG CHIN PTH L&S PHY",
     "holiday": "holiday holiday"
   }
 }

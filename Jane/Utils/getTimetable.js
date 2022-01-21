@@ -17,7 +17,12 @@ function getMonthFromString (mon) {
 }
 
 module.exports = class TimetableEmbed {
-  constructor (dateToRead, timeOfSchool = false, showLinks = false, sClass) {
+  constructor (
+    dateToRead,
+    timeOfSchool = 'onlineFull',
+    showLinks = true,
+    sClass
+  ) {
     if (
       sClass !== '3A' &&
       sClass !== '3B' &&
@@ -26,7 +31,6 @@ module.exports = class TimetableEmbed {
     ) {
       return
     }
-    showLinks = false
     let cycleNum, cycleDay, lessonsString, oddCycle
     const dayDescArray = daysJson[dateToRead].split(' ')
     if (!dayDescArray) {
@@ -36,11 +40,9 @@ module.exports = class TimetableEmbed {
       cycleNum = dayDescArray[1]
       printLog('info', __filename, 'let cycle = ' + cycleNum)
       if (Number(cycleNum) % 2 === 0) {
-        oddCycle = 'false'
+        oddCycle = false
       } else if (Number(cycleNum) % 2 === 1) {
-        oddCycle = 'true'
-      } else {
-        return 'Error'
+        oddCycle = true
       }
     }
 
@@ -157,6 +159,16 @@ module.exports = class TimetableEmbed {
           '12:30 - '
         ]
       }
+      if (timeOfSchool === 'onlineFull') {
+        timeList = [
+          '08:15-09:10',
+          '09:10-10:05',
+          '10:25-11:20',
+          '11:20-12:15',
+          '13:50-14:45',
+          '14:45-15:40'
+        ]
+      }
 
       let embedDesc = ''
       for (let i = 0; i < 6; i++) {
@@ -172,21 +184,47 @@ module.exports = class TimetableEmbed {
         const t = timeOfSchool
           ? timeList[i] + (timeOfSchool === '21sp' ? '' : '\n')
           : numEmojisArray[i] + ' '
-        const subj = lessonsArray[i]
-        const fl = lessonLinksJson[subj] || 'no'
-        if (fl.includes('*meet*') || fl.includes('*zoom*')) {
-          mdLink = `[按此進入${fl.split('*')[1]}](http${fl.split('http')[1]})\n`
+        let subj = lessonsArray[i]
+        let links
+        if (subj === 'MUS/DE') {
+          subj = oddCycle ? 'DE' : 'MUS'
         }
-
-        if (fl.includes('*no*')) {
-          mdLink = fl.split('*')[2] + '\n'
+        if (subj === 'PE') {
+          links = [
+            lessonLinksJson[sClass]['PE-boys'],
+            lessonLinksJson[sClass]['PE-girls']
+          ]
         }
-
-        if (fl.includes('*gc*')) {
-          mdLink = `[按此到 GC 查看課堂連結](http${fl.split('http')[1]})\n`
+        if (subj === 'SPEAK') {
+          links = [lessonLinksJson[sClass].ENG, lessonLinksJson[sClass].NET]
         }
-
-        if (fl === 'no') mdLink = ''
+        if (!['PE', 'SPEAK'].includes(subj)) {
+          links = [lessonLinksJson[sClass][subj]]
+          console.log(lessonLinksJson[sClass][subj])
+        }
+        if (links.length === 2) {
+          const subjReadableName1 = subj === 'PE' ? 'PE(Boys)' : 'Speaking(ENG)'
+          const subjReadableName2 =
+            subj === 'PE' ? 'PE(Girls)' : 'Speaking(NET)'
+          mdLink = `${
+            links[0] === ''
+              ? `[找不到${sClass} ${subjReadableName1}}的課室連結]`
+              : `[按此進入${subjReadableName1}課室](${links[0]})`
+          } / ${
+            links[1] === ''
+              ? `[找不到${sClass} ${subjReadableName2}}的課室連結]`
+              : `[按此進入${subjReadableName2}課室](${links[1]})`
+          }\n`
+        }
+        if (links.length === 1) {
+          if (links[0] === '') {
+            mdLink = `[找不到${sClass} ${subj}的課室連結]\n`
+          } else {
+            mdLink = `[按此進入 ${subj} 課室 (${
+              links[0].includes('zoom') ? 'Zoom' : 'Meet'
+            })](${links[0]})\n`
+          }
+        }
         const displayLink = showLinks ? mdLink : ''
         embedDesc += `${t}${subj} ${displayLink}\n`
         if (i === 5) timetableReadable = embedDesc

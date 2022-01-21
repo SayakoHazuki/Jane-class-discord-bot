@@ -1,4 +1,9 @@
 /* Constants */
+const config = {
+  classMode: 'onlineFull',
+  showLinks: true
+}
+
 const queryTests = {
   tmrStyle: /^t{1,9}mr$/i,
   shortDateStyle: /^([1-9]|0[1-9]|[1-2][0-9]|3[01])[/\-_](0?[1-9]|1[0-2])$/i,
@@ -169,8 +174,8 @@ module.exports = class TimetableCommand extends Command {
       Util.printLog('info', __filename, 'Timetable class: ' + sClass)
       const timetableEmbed = Util.getTimetableEmbed(
         query.formattedDate,
-        '21sp',
-        false,
+        config.classMode,
+        config.showLinks,
         sClass
       )
       if (!timetableEmbed) {
@@ -213,8 +218,8 @@ module.exports = class TimetableCommand extends Command {
           )
           const timetableEmbed = Util.getTimetableEmbed(
             query.formattedDate,
-            '21sp',
-            false,
+            config.classMode,
+            config.showLinks,
             sClass
           )
           if (!timetableEmbed) {
