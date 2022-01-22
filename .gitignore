@@ -1,3 +1,4 @@
+*/classlink.json
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -125,3 +126,4 @@ dist
 
 # TernJS port file
 .tern-port
+Jane/commands/info/data/classlink.json
