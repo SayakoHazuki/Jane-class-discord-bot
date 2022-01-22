@@ -1,6 +1,6 @@
 /* Constants */
 const config = {
-  classMode: 'onlineFull',
+  classMode: 'ONLINE',
   showLinks: true
 }
 
