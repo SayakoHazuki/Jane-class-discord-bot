@@ -2,7 +2,7 @@ const Command = require('cmd')
 const Util = require('utils')
 const fs = require('fs')
 const path = require('path')
-
+const { exec } = require('child_process')
 module.exports = class addClassLinkCommand extends Command {
   constructor (client) {
     super(client, {
@@ -10,7 +10,7 @@ module.exports = class addClassLinkCommand extends Command {
       aliases: ['addClassLink', 'acl', 'al', 'scl', 'sl'],
       category: 'tools',
       description: 'Set Online Class Link',
-      usage: 'sl <class>,<subject>,<link> [<subject>:<link> ...]',
+      usage: 'sl <class>,<subject>,<link> [<class>,<subject>,<link> ...]',
       minArgs: 0,
       maxArgs: -1
     })
@@ -44,7 +44,9 @@ module.exports = class addClassLinkCommand extends Command {
         )
       }
 
-      addedLinksList.push(`${options.class} ${options.subj}: \`${options.link}\``)
+      addedLinksList.push(
+        `${options.class} ${options.subj}: \`${options.link}\``
+      )
     }
 
     const newData = JSON.stringify(originalJSON, null, '\t')
@@ -54,8 +56,23 @@ module.exports = class addClassLinkCommand extends Command {
       err => {
         if (err) throw err
         message.reply(
-          `已新增連結: \n${addedLinksList.join('\n')}`
+          `已新增連結: \n${addedLinksList.join(
+            '\n'
+          )},\n2秒後將重啟以更新連接資料,請於10秒後使用timetable指令(-t)確認是否有更新到連結`
         )
+        setTimeout(function () {
+          exec('pm2 restart 0', (error, stdout, stderr) => {
+            if (error) {
+              Util.handleErr(error)
+              message.reply(`error: ${error.message}`)
+              return
+            }
+            if (stderr) {
+              Util.handleErr(stderr)
+              message.reply(`stderr: ${stderr}`)
+            }
+          })
+        }, 1500)
         Util.printLog(
           'info',
           __filename,
