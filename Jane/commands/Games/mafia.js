@@ -260,12 +260,12 @@ module.exports = class wolfCommand extends Command {
           .setColor(this.client.colors.green)
         await message.reply({ embeds: [rolesEmbed] })
 
-        const msgfilter = response => {
+        const filter = response => {
           return response.author.id === message.author.id
         }
 
         message.channel
-          .awaitMessages(msgfilter, { max: 1, time: 120000, errors: ['time'] })
+          .awaitMessages({ filter, max: 1, time: 120000, errors: ['time'] })
           .then(collected => {
             handleRolesConfig(collected.first().content, times)
           })

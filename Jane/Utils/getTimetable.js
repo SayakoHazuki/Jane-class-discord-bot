@@ -22,7 +22,7 @@ function getMonthFromString (mon) {
 module.exports = class TimetableEmbed {
   constructor (
     dateToRead,
-    timeOfSchool = 'OnlineFullDay',
+    timeOfSchool = 'ONLINE',
     showLinks = true,
     sClass
   ) {
@@ -206,7 +206,7 @@ module.exports = class TimetableEmbed {
         .setColor('#ACE9A6')
         .setFooter(
           '簡 Jane',
-          'https://cdn.discordapp.com/avatars/801354940265922608/597ed679b7bdcfd32b22e2149a6222ce.webp'
+          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
         )
         .addField(
           '課堂列表',
@@ -242,7 +242,7 @@ module.exports = class TimetableEmbed {
         .setColor('#ACE9A6')
         .setFooter(
           '簡 Jane',
-          'https://cdn.discordapp.com/avatars/801354940265922608/597ed679b7bdcfd32b22e2149a6222ce.webp'
+          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
         )
         .setTimestamp()
 
@@ -307,7 +307,7 @@ class TestEmbed {
       .setColor('#ACE9A6')
       .setFooter(
         '簡 Jane',
-        'https://cdn.discordapp.com/avatars/801354940265922608/597ed679b7bdcfd32b22e2149a6222ce.webp'
+        'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
       )
       .addField(
         '測驗時段列表',

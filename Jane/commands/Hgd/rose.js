@@ -11,7 +11,7 @@ module.exports = class hgdCommand extends Command {
   constructor (client) {
     super(client, {
       name: '給簡贈送一支白玫瑰',
-      aliases: ['送簡一支白玫瑰'],
+      aliases: ['送簡一支白玫瑰', '送簡一枝白玫瑰', '給簡贈送一枝白玫瑰'],
       category: '好感度',
       description: '給簡贈送一支白玫瑰',
       usage: '給簡贈送一支白玫瑰',

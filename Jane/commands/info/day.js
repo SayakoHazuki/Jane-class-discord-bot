@@ -67,7 +67,7 @@ module.exports = class DayCommand extends Command {
       const panel = await message.reply({ embeds: [askClassEmbed] })
 
       message.channel
-        .awaitMessages(filter, { max: 1, time: 30000, errors: ['time'] })
+        .awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
         .then(async collected => {
           sClass = collected.first().content
           Util.printLog('info', __filename, 'Collected class: ' + sClass)
