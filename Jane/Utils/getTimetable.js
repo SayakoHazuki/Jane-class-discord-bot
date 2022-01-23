@@ -3,6 +3,7 @@ const daysJson = require('../commands/info/data/sd.json')
 const timetableJson = require('../commands/info/data/tt.json')
 const lessonLinksJson = require('../commands/info/data/classlink.json')
 const classTimes = require('../commands/info/data/classTimes.json')
+const lessonArrangements = require('../commands/info/data/lessonArrangements.json')
 
 const terminal = require('./terminal')
 function printLog (type, filename, ...message) {
@@ -20,12 +21,7 @@ function getMonthFromString (mon) {
 }
 
 module.exports = class TimetableEmbed {
-  constructor (
-    dateToRead,
-    timeOfSchool = 'ONLINE',
-    showLinks = true,
-    sClass
-  ) {
+  constructor (dateToRead, timeOfSchool = 'ONLINE', showLinks = true, sClass) {
     // Return if unknown class
     if (!['3A', '3B', '3C', '3D'].includes(sClass)) return
 
@@ -158,7 +154,20 @@ module.exports = class TimetableEmbed {
           }
         }
 
-        const displayLink = showLinks ? mdLink : ''
+        let displayLink = showLinks ? mdLink : ''
+
+        if (dateToRead in lessonArrangements[sClass]) {
+          for (const lessonArrangement of lessonArrangements[sClass][
+            dateToRead
+          ]) {
+            printLog('WARN', __filename, 'Lesson Arrangement detected.')
+            if (lessonArrangement.period === i) {
+              subj = `~~${lessonArrangement.from}~~ **${lessonArrangement.to}**`
+              displayLink = `${lessonArrangement.link}\n`
+            }
+          }
+        }
+
         embedDesc += `${lessonTime}${subj} ${displayLink}\n`
         if (i === 5) timetableReadable = embedDesc
       }

@@ -1,6 +1,7 @@
 const Discord = require('discord.js')
 const Command = require('cmd')
 const { printLog } = require('utils')
+const Util = require('utils')
 
 module.exports = class lessonCommand extends Command {
   constructor (client) {
@@ -16,6 +17,10 @@ module.exports = class lessonCommand extends Command {
   }
 
   async run (message, args) {
+    if (message.author.id !== '690822196972486656') {
+      args[1] = undefined
+      args[2] = undefined
+    }
     const queryDate = `${new Date().toLocaleString('en-us', {
       day: '2-digit'
     })}${new Date().toLocaleString('en-us', {
@@ -26,7 +31,9 @@ module.exports = class lessonCommand extends Command {
       if (args[0].toUpperCase() === 'NEXT') next = true
     }
     message.reply({
-      embeds: [new LessonEmbed(queryDate, 'ONLINE', next).embed]
+      embeds: [
+        new LessonEmbed(args[2] || queryDate, 'ONLINE', next, args[1]).embed
+      ]
     })
   }
 }
@@ -36,6 +43,7 @@ const timetableJson = require('./data/tt.json')
 const lessonLinksJson = require('./data/classlink.json')
 const classTimes = require('./data/classStartTime.json')
 const classTimeFull = require('./data/classTimes.json')
+const lessonArrangements = require('./data/lessonArrangements.json')
 
 const divider = '━━━━━━━━━━━━━'
 
@@ -43,8 +51,45 @@ function getMonthFromString (mon) {
   return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1
 }
 
+const restPeriods = require('./data/recessLunchTime.json')
+const restEmbeds = {
+  RECESS: new Discord.MessageEmbed()
+    .setAuthor('本節時段')
+    .setDescription(
+      `${divider}\n${Util.getDiscordTimestamp(
+        new Date(),
+        'f'
+      )}\n現在是 __小息時段__\n\n如果想知道下節課堂,\n請使用 \`-lesson next\` 指令\n${divider}`
+    )
+    .setColor('#ACE9A6')
+    .setFooter(
+      '簡 Jane',
+      'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+    )
+    .setTimestamp(),
+  LUNCH: new Discord.MessageEmbed()
+    .setAuthor('本節時段')
+    .setDescription(
+      `${divider}\n${Util.getDiscordTimestamp(
+        new Date(),
+        'f'
+      )}\n現在是 __午膳時段__\n\n如果想知道下節課堂, 請使用 \`-lesson next\` 指令\n${divider}`
+    )
+    .setColor('#ACE9A6')
+    .setFooter(
+      '簡 Jane',
+      'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+    )
+    .setTimestamp()
+}
+
 class LessonEmbed {
-  constructor (dateToRead, timeOfSchool = 'ONLINE', next = false) {
+  constructor (
+    dateToRead,
+    timeOfSchool = 'ONLINE',
+    next = false,
+    overrideTime = undefined
+  ) {
     this.embed = new Discord.MessageEmbed()
     // Var
     let cycleNumber, cycleDay, oddCycle
@@ -115,9 +160,15 @@ class LessonEmbed {
     const lessonsArrayD = lessonsStringD.split(' ')
 
     const dateNow = new Date()
-    const timeNow = `${toTwoDigit(dateNow.getHours())}${toTwoDigit(
-      dateNow.getMinutes()
-    )}`
+    const timeNow =
+      overrideTime ||
+      `${toTwoDigit(dateNow.getHours())}${toTwoDigit(dateNow.getMinutes())}`
+    for (const { from, to, type } of restPeriods) {
+      if (timeNow >= from && timeNow <= to && !next) {
+        this.embed = restEmbeds[type]
+        return
+      }
+    }
 
     const timeList =
       timeOfSchool in classTimes ? classTimes[timeOfSchool] : classTimes.NORMAL
@@ -147,11 +198,16 @@ class LessonEmbed {
       }
 
       if ((i === 5 && next) || i === 6) {
+        printLog('WARN', __filename, i)
         this.embed = new Discord.MessageEmbed()
           .setAuthor(`${next ? '下節課堂' : '本節課堂'}`)
           .setDescription(
             `${divider}\n${
-              next ? '本節已是本日最後一節課堂' : '本日課堂已全部完結 :tada:'
+              i === 5 && next
+                ? timeNow <= timeList[6]
+                  ? '本節已是本日最後一節課堂'
+                  : '本日課堂已全部完結 :tada:'
+                : '本日課堂已全部完結 :tada:'
             }`
           )
           .setColor('#ACE9A6')
@@ -223,7 +279,30 @@ class LessonEmbed {
           }
         }
 
-        this.embed.addField(`${classes[i]} - ${subj}`, `${mdLink}** **`)
+        if (dateToRead in lessonArrangements[classes[i]]) {
+          for (const lessonArrangement of lessonArrangements[classes[i]][
+            dateToRead
+          ]) {
+            if (
+              lessonArrangement.period ===
+              (next ? nextPeriodNumber : nowPeriodNumber)
+            ) {
+              printLog('WARN', __filename, 'Lesson Arrangement detected.')
+              printLog(
+                'WARN',
+                __filename,
+                `From ${lessonArrangement.from} to ${lessonArrangement.to}`
+              )
+              subj = `~~${lessonArrangement.from}~~ **${lessonArrangement.to}**`
+              mdLink = `${lessonArrangement.link}${i >= 3 ? '' : '\n'}`
+            }
+          }
+        }
+
+        this.embed.addField(
+          `${classes[i]} - ${subj}`,
+          `${mdLink}${i >= 3 ? '' : '\u2800'}`
+        )
       }
 
       // Date for reading (timestamp)
@@ -265,6 +344,8 @@ class LessonEmbed {
           'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
         )
         .setTimestamp()
+
+      this.embed.addField('\u2800', divider)
     }
   }
 }
