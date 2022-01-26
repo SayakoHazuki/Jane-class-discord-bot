@@ -64,10 +64,10 @@ module.exports = class viewLinksCommand extends Command {
         '連結可用 `-al  班別,科目,連結  班別,科目,連結  ...`的指令加上'
       )
       .addFields([
-        { name: '3A', value: links[0] },
-        { name: '3B', value: links[1] },
-        { name: '3C', value: links[2] },
-        { name: '3D', value: links[3] }
+        { name: '3A', value: links[0].substring(0,1020) },
+        { name: '3B', value: links[1].substring(0,1020) },
+        { name: '3C', value: links[2].substring(0,1020) },
+        { name: '3D', value: links[3].substring(0,1020) }
       ])
       .setFooter(
         '簡 Jane',
