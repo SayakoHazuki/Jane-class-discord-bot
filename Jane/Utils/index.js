@@ -208,5 +208,5 @@ module.exports = class Util {
   }
 
 static randomFromArray(items) {
-return items[Math.floor(Math.random()*items.length)
+return items[Math.floor(Math.random()*items.length)}
 }
