@@ -206,4 +206,7 @@ module.exports = class Util {
   static tryDelete (message) {
     return tryDelete(message)
   }
+
+static randomFromArray(items) {
+return items[Math.floor(Math.random()*items.length)
 }
