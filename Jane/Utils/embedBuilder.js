@@ -4,7 +4,7 @@ class InfoEmbed {
     this.t = `ℹ️ ${title}`
     this.c = content || ''
     this.f = `${message.author.tag} 使用了 ${message.content.split(' ')[0]}`
-    this.ui = message.author.avatarURL()
+    this.ui = message.author.displayAvatarURL()
   }
 
   get embed () {
@@ -22,7 +22,7 @@ class ExceptionEmbed {
     this.t = `❌ ${title}`
     this.c = content || false
     this.f = `${message.author.tag} 使用了 ${message.content.split(' ')[0]}`
-    this.ui = message.author.avatarURL()
+    this.ui = message.author.displayAvatarURL()
   }
 
   get embed () {

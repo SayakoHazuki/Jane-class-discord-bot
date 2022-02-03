@@ -1,7 +1,17 @@
 const { MongoClient } = require('mongodb')
-const mdburi = process.env.MONGO_URI
-const mdbclient = new MongoClient(mdburi)
+let mdbclient
+
 const terminal = require('./terminal')
+
+async function connectClient () {
+  mdbclient = new MongoClient(process.env.MONGO_URI)
+  await mdbclient.connect()
+}
+
+function getClient () {
+  return mdbclient
+}
+
 function printLog (type, filename, ...message) {
   if (!message) {
     message = filename
@@ -9,128 +19,302 @@ function printLog (type, filename, ...message) {
   }
   return terminal.print(type, __filename ?? filename, message)
 }
-module.exports = { add, npf, subtract, getdata, rd }
-async function add (client, msg, action, amount) {
-  try {
-    await mdbclient.connect()
-    const database = mdbclient.db('jane')
-    const collection = database.collection('hgd')
+function pos (number) {
+  return number < 0 ? 0 : number
+}
 
-    const query = { name: msg.author.id }
+const config = require('../commands/Hgd/hgdConfig.json')
+const { MessageEmbed } = require('discord.js')
+
+module.exports = {
+  connectClient,
+  getClient,
+  add,
+  npf,
+  getData,
+  random,
+  getLeaderboard,
+  getLevel,
+  getBar,
+  getRank,
+  handleRecord,
+  getTimeDiff,
+  timeInRange,
+  checkLevel,
+  checkNew,
+  spinShard
+}
+
+async function add (message, action, amount) {
+  try {
+    printLog(
+      'INFO',
+      __filename,
+      `Adding ${amount} hgd to ${message.author.tag} for ${action}`
+    )
+
+    const database = mdbclient.db('jane')
+    const collection = database.collection('hgdv2')
+
+    const query = { snowflake: message.author.id }
     const options = {
       sort: { _id: -1 }
     }
-    const userdata = await collection.findOne(query, options)
+    let userdata = await collection.findOne(query, options)
+    if (!userdata) {
+      await npf(message, action, 0)
+      userdata = await collection.findOne(query, options)
+    }
 
-    const filter = { name: msg.author.id }
+    const filter = { snowflake: message.author.id }
     const updateDocument = {
       $set: {
         hgd: Number(userdata.hgd) + Number(amount),
-        tag: msg.author.tag,
-        avatarURL: msg.author.avatarURL()
+        tag: message.author.tag,
+        avatarURL: message.author.displayAvatarURL()
       }
     }
-    updateDocument.$set[action] = new Date()
-    printLog('info', __filename, updateDocument)
+
+    if (updateDocument.$set.hgd >= 45000 && userdata.highLvLocked) {
+      updateDocument.$set.hgd = 45000
+    }
+
+    const date = new Date()
+    updateDocument.$set[`last${action}`] = Math.floor(date.getTime() / 1000)
     await collection.updateOne(filter, updateDocument)
+    return {
+      oldHgd: Number(userdata.hgd),
+      newHgd: updateDocument.$set.hgd,
+      locked: updateDocument.$set.hgd === 45000 && userdata.highLvLocked
+    }
   } catch (e) {
     const erro = new Error(e)
-    printLog('info', __filename, erro)
-    client.channels.cache
-      .get('802138894623571979')
-      .send(
-        `Caught error:\n${erro}\nat hgd.js line 30\n\nuser : ${msg.author.tag}\naction : ${action}\ncontent : ${msg.content}\n\n<@&802137944097554482>`
-      )
+    printLog('ERR', __filename, erro)
+    message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }
 
-async function npf (client, msg, action, amount) {
+async function npf (message, action, amount) {
   try {
-    await mdbclient.connect()
     const database = mdbclient.db('jane')
-    const collection = database.collection('hgd')
+    const collection = database.collection('hgdv2')
 
     const newUdata = {
-      name: msg.author.id,
       hgd: amount,
-      pat: 0,
-      files: 0,
       hi: 0,
-      rose: 0,
-      tea: 0,
-      flot: 0,
-      tag: msg.author.tag,
+      tag: message.author.tag,
+      avatarURL: message.author.displayAvatarURL(),
+      sCNum: false,
+      sID: false,
       sName: false,
       sClass: false,
-      sCNum: false,
-      sID: false
+      lastAfternoonTea: 0,
+      lastFile: 0,
+      lastPat: 0,
+      lastRose: 0,
+      lastRoseTea: 0,
+      snowflake: message.author.id
     }
-    newUdata[action] = new Date()
+
+    const date = new Date()
+    newUdata[action] = Math.floor(date.getTime() / 1000)
     await collection.insertOne(newUdata)
-  } catch (erro) {
-    client.channels.cache
-      .get('802138894623571979')
-      .send(
-        `Caught error:\n${erro}\nat hgd.js line 59\n\nuser : ${msg.author.tag}\naction : ${action}\ncontent : ${msg.content}\n\n<@&802137944097554482>`
-      )
-  }
-}
-
-async function subtract (client, msg, action, amount) {
-  try {
-    await mdbclient.connect()
-    const database = mdbclient.db('jane')
-    const collection = database.collection('hgd')
-
-    const query = { name: msg.author.id }
-    const options = {
-      sort: { _id: -1 }
-    }
-    const userdata = await collection.findOne(query, options)
-
-    const filter = { name: msg.author.id }
-    const updateDocument = {
-      $set: {
-        hgd: Number(userdata.hgd) - Number(amount),
-        tag: msg.author.tag,
-        avatarURL: msg.author.avatarURL()
-      }
-    }
-    updateDocument.$set[action] = new Date()
-    printLog('info', __filename, updateDocument)
-    await collection.updateOne(filter, updateDocument)
+    return
   } catch (e) {
     const erro = new Error(e)
-    printLog('info', __filename, erro)
-    client.channels.cache
-      .get('802138894623571979')
-      .send(
-        `Caught error:\n${erro}\nat hgd.js line 94\n\nuser : ${msg.author.tag}\naction : ${action}\ncontent : ${msg.content}\n\n<@&802137944097554482>`
-      )
+    printLog('ERR', __filename, erro)
+    message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }
 
-async function getdata (client, msg, action = 'unknown') {
+async function getData (message) {
   try {
-    await mdbclient.connect()
     const database = mdbclient.db('jane')
-    const collection = database.collection('hgd')
-    const query = { name: msg.author.id }
+    const collection = database.collection('hgdv2')
+    const query = { snowflake: message.author.id }
     const options = {
       sort: { _id: -1 }
     }
     const data = await collection.findOne(query, options)
+    printLog('info', __filename, JSON.stringify(data))
     return data
   } catch (e) {
-    client.channels.cache
-      .get('802138894623571979')
-      .send(
-        `Caught error:\n${e}\nat hgd.js line 110\n\nuser : ${msg.author.tag}\naction : ${action}\ncontent : ${msg.content}\n\n<@&802137944097554482>`
-      )
+    const erro = new Error(e)
+    printLog('ERR', __filename, erro)
+    message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }
 
-function rd (min, max) {
+async function getLeaderboard () {
+  try {
+    const database = mdbclient.db('jane')
+    const collection = database.collection('hgdv2')
+    const sort = { hgd: -1 }
+    const result = await collection
+      .find()
+      .sort(sort)
+      .toArray()
+    const sortedIds = result.map(i => i.snowflake)
+    const sortedList = result.map(i =>
+      i.snowflake === '726439536401580114'
+        ? `**## Lv.無限 ${i.tag} (簡的母親)**\n\t好感度: 無限`
+        : `**#${sortedIds.indexOf(i.snowflake)} Lv.${getLevel(i.hgd).value} ${
+            i.tag
+          }**\n\t好感度: ${i.hgd}`
+    )
+    return sortedList
+  } catch (e) {
+    printLog('ERR', __filename, e)
+  }
+}
+
+async function checkNew (message) {
+  try {
+    const data = await getData(message)
+    if (!data) return false
+    return true
+  } catch (e) {
+    printLog('ERR', __filename, e)
+  }
+}
+
+async function getRank (message) {
+  try {
+    const database = mdbclient.db('jane')
+    const collection = database.collection('hgdv2')
+    const sort = { hgd: -1 }
+    const result = await collection
+      .find()
+      .sort(sort)
+      .toArray()
+    const index = result.map(i => i.snowflake).indexOf(message.author.id)
+    return index == null ? '?' : index + 1
+  } catch (e) {
+    printLog('ERR', __filename, e)
+  }
+}
+
+async function getTimeDiff (message, action, overrideTime) {
+  const data = await getData(message)
+  const lastAction = data?.[`last${action}`] || 0
+
+  const date = new Date()
+  const timeForCompare = overrideTime || Math.floor(date.getTime() / 1000)
+
+  return timeForCompare - lastAction
+}
+
+async function checkLevel (message, requirement = -1) {
+  const data = await getData(message)
+  const level = getLevel(data?.hgd).value || 0
+  const levelPass = level >= requirement
+  return { levelPass, level, req: requirement }
+}
+
+function getLevel (hgd = 0) {
+  let finalLevel = 0
+  let lowerLimit = 0
+  let upperLimit = 0
+  let level
+  for (let i = 0; i < config.levels.length; i++) {
+    ;({ level, lowerLimit, upperLimit } = config.levels[i])
+    if (hgd >= lowerLimit && hgd < upperLimit) {
+      finalLevel = level
+      break
+    }
+  }
+  printLog(
+    'INFO',
+    __filename,
+    `Level : ${finalLevel}, min : ${lowerLimit}, max : ${upperLimit}`
+  )
+
+  const result = {
+    min: lowerLimit || 0,
+    max: upperLimit || 25,
+    percentage:
+      ((hgd - pos(lowerLimit)) / (upperLimit - pos(lowerLimit))) * 100,
+    value: level || 0
+  }
+  return result
+}
+
+function getBar (hgd) {
+  const { percentage } = getLevel(hgd)
+  const stage = Math.floor(percentage / 10)
+  printLog('INFO', __filename, `Stage: ${stage}; Percentage: ${percentage}`)
+  const emojis = config.emojis
+
+  return `${
+    stage <= 0 ? emojis.EMPTY.LEFT : emojis.FILLED.LEFT
+  }${emojis.FILLED.MID.repeat(pos(stage - 1))}${emojis.EMPTY.MID.repeat(
+    pos(9 - stage)
+  )}${stage >= 10 ? emojis.FILLED.RIGHT : emojis.EMPTY.RIGHT}`
+}
+
+function handleRecord (timestamp = 0) {
+  if (timestamp === 0) return '沒有紀錄'
+  return `<t:${timestamp}:R>`
+}
+
+function random (min, max) {
   const r = Math.random() * (max - min) + min
-  return r - (r % 1)
+  return Math.floor(r)
+}
+
+function timeInRange (range) {
+  const d = new Date()
+  const timeNow = `${n(d.getHours())}:${n(d.getMinutes())}`
+  return timeNow >= range[0] && timeNow <= range[1]
+}
+
+function n (num) {
+  return num.toString().padStart(2, '0')
+}
+
+async function spinShard (message, multiplier = 1) {
+  const data = await getData(message)
+  const level = getLevel(data?.hgd).value || 0
+  const shardPossibility = config.levels[level].shardPerc * 0.01 * multiplier
+  const randomNumber = Math.random()
+  printLog(
+    'INFO',
+    __filename,
+    `Shard possibility: ${shardPossibility}, Random: ${randomNumber}`
+  )
+  if (randomNumber < shardPossibility) {
+    try {
+      const database = mdbclient.db('jane')
+      const collection = database.collection('hgdv2')
+
+      const query = { snowflake: message.author.id }
+      const options = {
+        sort: { _id: -1 }
+      }
+      const userdata = await collection.findOne(query, options)
+
+      const filter = { snowflake: message.author.id }
+      const updateDocument = {
+        $set: {
+          shards: userdata.shards + 1
+        }
+      }
+      await collection.updateOne(filter, updateDocument)
+
+      const getShardEmbed = new MessageEmbed()
+        .setColor('#FB9EFF')
+        .setAuthor(
+          `Lv.${level} ${message.author.tag}`,
+          message.author.displayAvatarURL()
+        )
+        .setDescription(
+          `<:JANE_LightStickL:936956753944383508> 獲得了一個 __好感度解放碎片__ (${userdata.shards} \u279f ${updateDocument.$set.shards}) <:JANE_LightStickR:936956856604180480>`
+        )
+      return message.reply({ embeds: [getShardEmbed] })
+    } catch (e) {
+      const erro = new Error(e)
+      printLog('ERR', __filename, erro)
+      message.reply('很抱歉，簡的資料庫發生了錯誤')
+    }
+  }
 }
