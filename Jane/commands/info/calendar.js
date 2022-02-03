@@ -21,7 +21,7 @@ module.exports = class CalendarCommand extends Command {
         .setTitle('21/22年度校曆表')
         .setFooter(
           `${message.author.tag} 使用了 -cal`,
-          message.author.avatarURL()
+          message.author.displayAvatarURL()
         )
         .setColor(this.client.themeColor)
         .setDescription(

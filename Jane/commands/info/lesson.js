@@ -10,7 +10,7 @@ module.exports = class lessonCommand extends Command {
       aliases: ['class', 'lsn'],
       category: 'info',
       description: 'See the current/next lesson',
-      usage: "lesson <'next'|'now'|Number:Lesson#>",
+      usage: "lesson <'next'|'now'>",
       minArgs: 0,
       maxArgs: -1
     })
