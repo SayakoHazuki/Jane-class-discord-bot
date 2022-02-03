@@ -1,4 +1,4 @@
-const Mafia = require('./mafianew')
+const Mafia = require('./mafia')
 module.exports = class interactionHandler {
   constructor () {
     return undefined
