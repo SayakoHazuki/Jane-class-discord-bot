@@ -1,91 +1,84 @@
+const Discord = require('discord.js')
+const Util = require('utils')
 const Command = require('cmd')
+
+const hgd = require('hgdUtils')
+
+const dayOfWeekList = ['週日', '週一', '週二', '週三', '週四', '週五', '週六']
+
+const config = require('./hgdConfig.json')
+
+function getClockEmoji (mins) {
+  if (mins >= 60) {
+    return `:clock${Math.round(mins / 60) % 12}:`
+  }
+  return `:clock${Math.round((mins / 60) * 12)}:`
+}
 
 module.exports = class HgdHelpCommand extends Command {
   constructor (client) {
     super(client, {
-      name: 'hgdhelp',
-      aliases: ['hgd?', 'hgdmenu', '好感度菜單'],
+      name: 'hgdHelp',
+      aliases: ['hgd?', 'hgdmenu'],
       category: '好感度',
-      description: '好感度指令列表以及系統介紹',
-      usage: 'hgdhelp',
+      description: '查看好感度介紹',
+      usage: 'hgdHelp',
       minArgs: 0,
       maxArgs: -1
     })
   }
 
   async run (message, args) {
-    const fo = [
-      '正在修建白玫瑰的簡',
-      '隨時聽從您的指令的簡',
-      '正在小歇的簡',
-      '正在享受茶點的簡'
-    ]
-    const tips = ['在冷卻時間內使用指令的話後果自負喔']
-    const ra = Math.floor(Math.random() * fo.length)
-    const rt = Math.floor(Math.random() * tips.length)
-    const embed = {
-      title: '指令列表',
-      description:
-        '簡的好感度系統完成了喔\n以下是好感度的指令列表,努力地增加好感度吧',
-      color: 16512506,
-      footer: {
-        text: fo[ra] + ' | 好感度指令列表'
-      },
-      author: {
-        name: '簡 Jane',
-        icon_url:
-          'https://cdn.discordapp.com/avatars/801354940265922608/15926e3e52381556b2afd1b29ccb24f7.png'
-      },
-      fields: [
-        {
-          name: '-hgd? | -hgdmenu',
-          value: '查看此列表'
-        },
-        {
-          name: '-hgd | -好感度',
-          value: '查看好感度'
-        },
-        {
-          name: '-hgdlb | -lb',
-          value: '查看好感度排行榜'
-        },
-        {
-          name: '-幫助簡整理資料 | -幫簡整理資料',
-          value: '幫助簡整理資料庫裡面的資料 (冷卻時間: 15 分鐘)'
-        },
-        {
-          name: '-拍拍簡的頭',
-          value: '拍拍簡的頭 (冷卻時間: 30 分鐘)'
-        },
-        {
-          name: '-給簡贈送一支白玫瑰 | -送簡一支白玫瑰',
-          value: '送給簡一支白玫瑰 (冷卻時間: 15 分鐘)'
-        },
-        {
-          name: '-給簡準備下午茶',
-          value: '給簡準備下午茶（只限下午2-5時,每天一次）'
-        },
-        {
-          name: '-請簡喝花茶',
-          value: '給簡一杯花茶 (冷卻時間: 30 分鐘)'
-        },
-        {
-          name: '** **',
-          value: `Tip: ${tips[rt]}`
-        }
-      ],
-      timestamp: new Date()
+    let commandList = ''
+    const actionsList = Object.entries(config.settings).map(([a, b]) => a)
+    Util.printLog('INFO', __filename, actionsList)
+    for (const action of actionsList) {
+      if (!(action in config.settings)) continue
+      if (!(action in config.messages)) continue
+      commandList += `**${config.messages[action].command}**\n${
+        config.settings[action].diffRequirement >= 1
+          ? ` ${getClockEmoji(
+              config.settings[action].diffRequirement
+            )} 冷卻時間: ${
+              config.settings[action].diffRequirement >= 60
+                ? `${config.settings[action].diffRequirement / 60} 小時`
+                : `${config.settings[action].diffRequirement} 分鐘`
+            }\n`
+          : ''
+      }${
+        config.settings[action].lvRequirement >= 1
+          ? ` :information_source: 等級要求: ${config.settings[action].lvRequirement}\n`
+          : ''
+      }${
+        'dayRange' in config.settings[action] ||
+        'timeRange' in config.settings[action]
+          ? ` :calendar_spiral:時段限制: ${
+              !('dayRange' in config.settings[action])
+                ? ''
+                : config.settings[action].dayRange
+                    .map(i => dayOfWeekList[i])
+                    .join('/')
+            } ${
+              !('timeRange' in config.settings[action])
+                ? ''
+                : config.settings[action].timeRange.join(' - ')
+            } \n`
+          : ''
+      }\n`
     }
-    const menu = await message.channel.send({ embeds: [embed] })
-    await menu.react('❎')
-    const filter = (reaction, user) =>
-      reaction.emoji.name === '❎' && user.id === message.author.id
-    const collector = menu.createReactionCollector({ filter, time: 240000 })
-    collector.on('collect', (reaction, user) => {
-      setTimeout(() => menu.delete(), 250)
-    })
-    collector.on('end', collected => {
-      if (!collected.first()) setTimeout(() => menu.delete(), 500)
-    })
+    const helpEmbed = new Discord.MessageEmbed()
+      .setAuthor('好感度系統', config.emojis.jane_love.url)
+      .setTitle('簡介')
+      .setDescription(
+        '簡的好感度系統在2021年1月22日上線了!\n可以透過不同的互動增加好感度! <:JANE_LightStickR:936956856604180480>\n越高好感度, 互動的方式就越多喔!\n快到 <#802180277534982224> 提升好感度吧!'
+      )
+      .addField('☆;+;｡･ﾟ･｡;+;☆ 互動指令 ☆;+;｡･ﾟ･｡;+;☆', commandList)
+      .setFooter(
+        `Tip: ${
+          config.messages.tips[hgd.random(0, config.messages.tips.length)]
+        } - 簡`
+      )
+      .setColor(this.client.colors.green)
+    message.reply({ embeds: [helpEmbed] })
   }
 }

@@ -4,23 +4,31 @@ const Command = require('cmd')
 
 const hgd = require('hgdUtils')
 const config = require('./hgdConfig.json')
-const settings = config.settings.pat
+const settings = config.settings.roseTea
 
-module.exports = class PatCommand extends Command {
+module.exports = class roseTeaCommand extends Command {
   constructor (client) {
     super(client, {
-      name: '拍拍簡的頭',
-      aliases: [],
+      name: '請簡喝玫瑰花茶',
+      aliases: [
+        '請簡喝花茶',
+        '請簡喝一杯玫瑰花茶',
+        '請簡喝一杯花茶',
+        '送給簡一杯玫瑰花茶',
+        '送給簡一杯花茶',
+        '給簡一杯玫瑰花茶',
+        '給簡一杯花茶'
+      ],
       category: '好感度',
-      description: '拍拍簡的頭',
-      usage: '拍拍簡的頭',
+      description: '請簡喝一杯玫瑰花茶',
+      usage: '請簡喝玫瑰花茶',
       minArgs: 0,
       maxArgs: -1
     })
   }
 
   async run (message, args) {
-    const diff = await hgd.getTimeDiff(message, 'Pat')
+    const diff = await hgd.getTimeDiff(message, 'RoseTea')
     const diffReq = timeDiff => timeDiff > settings.diffRequirement * 60
     const diffPass = diffReq(diff)
     const { levelPass, level, req } = await hgd.checkLevel(
@@ -50,34 +58,33 @@ module.exports = class PatCommand extends Command {
     const amount = diffPass
       ? hgd.random(min, max)
       : hgd.random(minFail, maxFail)
-    const { oldHgd, newHgd, locked } = await hgd.add(message, 'Pat', amount)
+    const { oldHgd, newHgd, locked } = await hgd.add(message, 'RoseTea', amount)
 
     if (diffPass) {
-      const texts = Util.randomFromArray(config.messages.pat.pass)
+      const texts = Util.randomFromArray(config.messages.roseTea.pass)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
-        .setTitle(
-          `${message.member.displayName} ${config.messages.pat.actionTitle}`
-        )
+        .setTitle(`${message.member.displayName} ${config.messages.roseTea.actionTitle}`)
         .setAuthor(
           message.member.displayName,
           message.author.displayAvatarURL()
         )
         .setDescription(
-          `${texts.message}\n好感度+${newHgd - oldHgd} (${oldHgd} \u279f ${
+          `${texts.message}\n好感度+${newHgd -
+            oldHgd} (${oldHgd} \u279f ${
             locked ? '🔒' : ''
-          }${newHgd})`
+          } ${newHgd})`
         )
         .setTimestamp()
         .setFooter(`${texts.footer}`)
       message.reply({ embeds: [replyEmbed] })
       await hgd.spinShard(message)
     } else {
-      const texts = Util.randomFromArray(config.messages.pat.fail)
+      const texts = Util.randomFromArray(config.messages.roseTea.fail)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
-          `${message.member.displayName} ${config.messages.pat.actionTitle}`
+          `${message.member.displayName} ${config.messages.roseTea.actionTitle}`
         )
         .setAuthor(
           message.member.displayName,

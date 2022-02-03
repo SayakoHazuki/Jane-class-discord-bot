@@ -4,25 +4,22 @@ const Command = require('cmd')
 
 const hgd = require('hgdUtils')
 const config = require('./hgdConfig.json')
-const settings = config.settings.pat
+const settings = config.settings.teeTee
 
-module.exports = class PatCommand extends Command {
+module.exports = class TeeTeeCommand extends Command {
   constructor (client) {
     super(client, {
-      name: '拍拍簡的頭',
+      name: '和簡貼貼',
       aliases: [],
       category: '好感度',
-      description: '拍拍簡的頭',
-      usage: '拍拍簡的頭',
+      description: '和簡貼貼!',
+      usage: '和簡貼貼',
       minArgs: 0,
       maxArgs: -1
     })
   }
 
   async run (message, args) {
-    const diff = await hgd.getTimeDiff(message, 'Pat')
-    const diffReq = timeDiff => timeDiff > settings.diffRequirement * 60
-    const diffPass = diffReq(diff)
     const { levelPass, level, req } = await hgd.checkLevel(
       message,
       settings.lvRequirement
@@ -41,6 +38,10 @@ module.exports = class PatCommand extends Command {
       return message.reply({ embeds: [lvNotPassEmbed] })
     }
 
+    const diff = await hgd.getTimeDiff(message, 'TeeTee')
+    const diffReq = timeDiff => timeDiff > settings.diffRequirement * 60
+    const diffPass = diffReq(diff)
+
     Util.printLog(
       'INFO',
       __filename,
@@ -50,14 +51,14 @@ module.exports = class PatCommand extends Command {
     const amount = diffPass
       ? hgd.random(min, max)
       : hgd.random(minFail, maxFail)
-    const { oldHgd, newHgd, locked } = await hgd.add(message, 'Pat', amount)
+    const { oldHgd, newHgd, locked } = await hgd.add(message, 'TeeTee', amount)
 
     if (diffPass) {
-      const texts = Util.randomFromArray(config.messages.pat.pass)
+      const texts = Util.randomFromArray(config.messages.teeTee.pass)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
-          `${message.member.displayName} ${config.messages.pat.actionTitle}`
+          `${message.member.displayName} ${config.messages.teeTee.actionTitle}`
         )
         .setAuthor(
           message.member.displayName,
@@ -66,18 +67,19 @@ module.exports = class PatCommand extends Command {
         .setDescription(
           `${texts.message}\n好感度+${newHgd - oldHgd} (${oldHgd} \u279f ${
             locked ? '🔒' : ''
-          }${newHgd})`
+          } ${newHgd})`
         )
         .setTimestamp()
         .setFooter(`${texts.footer}`)
+        .setThumbnail(config.emojis.jane_love.url)
       message.reply({ embeds: [replyEmbed] })
       await hgd.spinShard(message)
     } else {
-      const texts = Util.randomFromArray(config.messages.pat.fail)
+      const texts = Util.randomFromArray(config.messages.teeTee.fail)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
-          `${message.member.displayName} ${config.messages.pat.actionTitle}`
+          `${message.member.displayName} ${config.messages.teeTee.actionTitle}`
         )
         .setAuthor(
           message.member.displayName,
