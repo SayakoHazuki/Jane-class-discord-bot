@@ -3,6 +3,7 @@ const glob = require('glob')
 const path = require('path')
 const Util = require('utils')
 const Intents = Discord.Intents.FLAGS
+const hgd = require('../Utils/hgdUtils')
 
 module.exports = class Client extends Discord.Client {
   constructor () {
@@ -85,13 +86,21 @@ module.exports = class Client extends Discord.Client {
       i++
     }
 
-    Util.printLog('info', __filename, `Now listening to the following ${i} events:\n${this.eventNames().join(' ')}`)
+    Util.printLog(
+      'info',
+      __filename,
+      `Now listening to the following ${i} events:\n${this.eventNames().join(
+        ' '
+      )}`
+    )
   }
 
   async logIn (startInDev = false) {
     if (startInDev) this.prefix = '--'
     this.registerCommands()
     this.registerEvents()
+    await hgd.connectClient()
+    Util.printLog('INFO', __filename, 'MongoDB Client connected!')
     this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN)
   }
 }

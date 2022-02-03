@@ -1,7 +1,3 @@
-const { MongoClient } = require('mongodb')
-const mdburi = process.env.MONGO_URI
-const mdbclient = new MongoClient(mdburi)
-
 const terminal = require('../Utils/terminal')
 function printLog (type, filename, ...message) {
   if (!message) {
@@ -11,13 +7,15 @@ function printLog (type, filename, ...message) {
   return terminal.print(type, __filename ?? filename, message)
 }
 
+const hgd = require('../Utils/hgdUtils')
+
 // Getdata function
 async function getdata (client, userID) {
   try {
-    await mdbclient.connect()
+    const mdbclient = hgd.getClient()
     const database = mdbclient.db('jane')
-    const collection = database.collection('hgd')
-    const query = { name: userID }
+    const collection = database.collection('hgdv2')
+    const query = { snowflake: userID }
     const options = {
       sort: { _id: -1 }
     }
@@ -46,9 +44,10 @@ async function getdata (client, userID) {
 async function npf (client, userID) {
   try {
     printLog('info', __filename, `Creating profile for userID ${userID}`)
-    await mdbclient.connect()
+
+    const mdbclient = hgd.getClient()
     const database = mdbclient.db('jane')
-    const collection = database.collection('hgd')
+    const collection = database.collection('hgdv2')
 
     const newUdata = {
       name: userID,
@@ -105,9 +104,9 @@ module.exports = class PYCUser {
   async addInfo (item, value) {
     try {
       const userID = this.discordID
-      await mdbclient.connect()
+      const mdbclient = hgd.getClient()
       const database = mdbclient.db('jane')
-      const collection = database.collection('hgd')
+      const collection = database.collection('hgdv2')
       const filter = { name: userID }
       const options = {
         sort: { _id: -1 }
