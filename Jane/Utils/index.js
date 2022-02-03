@@ -5,7 +5,6 @@ const splitter = require('./splitting')
 const { InfoEmbed, ExceptionEmbed, MultiEmbed } = require('./embedBuilder')
 const whatIsIt = require('./whatIsIt')
 const LessonsSchedule = require('./getTimetable')
-const getCovData = require('./getCovData')
 const dmHandler = require('./handleDM')
 const Sort = require('./sorting')
 const tryDelete = require('./deleteCatching')
@@ -154,15 +153,6 @@ module.exports = class Util {
       sClass
     )
     return timetable.embed || undefined
-  }
-
-  /**
-   * get Covid data and run function
-   * @param {function} callback Callback function to be executed after getting the data
-   * @returns Nothing
-   */
-  static getCovidData (callback) {
-    getCovData(callback)
   }
 
   static handleDM (message, client) {

@@ -1,52 +1,84 @@
-const get = require('get')
+const bent = require('bent')
+const getJSON = bent('json')
 
-const monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-]
+const urls = {
+  vaccineDataAPI: 'https://static.data.gov.hk/covid-vaccine/summary.json',
+  covidDataAPI: 'https://chp-dashboard.geodata.gov.hk/covid-19/data/keynum.json'
+}
 
-module.exports = async function getCovData (call) {
-  get(
-    'https://chp-dashboard.geodata.gov.hk/covid-19/data/keynum.json'
-  ).asString(async function (err, data) {
-    if (err) return
-    const covdata = JSON.parse(data)
-    const asOfJSDate = new Date(Number(covdata.As_of_date))
-    const asOfReadable = `<t:${Math.round(asOfJSDate.getTime() / 1000)}:R>`
-    const plrec = Number(covdata.Discharged) - Number(covdata.P_Discharged)
-    const plcon = `+${covdata.LocalCasesAdded ||
-      0} 本地 | +${covdata.ImportedCasedAdded ||
-      covdata.ImportedCasesAdded ||
-      0} 輸入`
-    const pldeath = Number(covdata.Death) - Number(covdata.P_Death)
-    const preCritical = Number(covdata.Critical) - Number(covdata.P_Critical)
-    const preHospital =
-      Number(covdata.Hospitalised) - Number(covdata.P_Hospitalised)
-    const plcrit = preCritical > -1 ? `+${preCritical}` : preCritical.toString()
-    const plhos = preHospital > -1 ? `+${preHospital}` : preHospital.toString()
-    const res2 = covdata.Confirmed + ' (' + plcon + ')'
-    const res3 = `${covdata.Death} (+${pldeath})`
-    const res4 = `${covdata.Discharged} (+${plrec})`
-    const res5 = `${covdata.Critical} (${plcrit})`
-    const res6 = `${covdata.Hospitalised} (${plhos})`
-    const casePerc = `${(Number(covdata.Confirmed) / 7552810) * 100}`
-    const res7 = `${casePerc.substring(0, 6)}%`
-    const dateObj = new Date()
-    const month = monthNames[dateObj.getMonth()]
-    const day = String(dateObj.getDate()).padStart(2, '0')
-    const year = dateObj.getFullYear()
-    const output = `${day} ${month}, ${year}`
-    const res1 = `${output} (數據上次更新於 ${asOfReadable})`
-    call([res1, res2, res3, res4, res5, res6, res7, data])
-  })
+module.exports = async function getCovData () {
+  const vaccineData = await getJSON(urls.vaccineDataAPI)
+  const covidData = await getJSON(urls.covidDataAPI)
+
+  return {
+    vaccine: {
+      latestDay: Number(vaccineData?.latestDaily ?? '0').toLocaleString(),
+      sevenDayAvg: Number(vaccineData?.sevenDayAvg ?? '0').toLocaleString(),
+      totalDoses: Number(
+        vaccineData?.totalDosesAdministered ?? '0'
+      ).toLocaleString(),
+      child: {
+        doses: [
+          {
+            total: Number(
+              vaccineData?.age5to11FirstDose ?? '0'
+            ).toLocaleString(),
+            percent: vaccineData?.age5to11FirstDosePercent ?? '0'
+          },
+          {
+            total: Number(
+              vaccineData?.age5to11SecondDose ?? '0'
+            ).toLocaleString(),
+            percent: vaccineData?.age5to11SecondDosePercent ?? '0'
+          }
+        ]
+      },
+      doses: [
+        {
+          total: Number(vaccineData?.firstDoseTotal ?? '0').toLocaleString(),
+          percent: vaccineData?.firstDosePercent?.replace('%', '') ?? '0',
+          daily: Number(vaccineData?.firstDoseDaily ?? '0').toLocaleString()
+        },
+        {
+          total: Number(vaccineData?.secondDoseTotal ?? '0').toLocaleString(),
+          percent: vaccineData?.secondDosePercent?.replace('%', '') ?? '0',
+          daily: Number(vaccineData?.secondDoseDaily ?? '0').toLocaleString()
+        },
+        {
+          total: Number(vaccineData?.thirdDoseTotal ?? '0').toLocaleString(),
+          percent: vaccineData?.thirdDosePercent?.replace('%', '') ?? '0',
+          daily: Number(vaccineData?.thirdDoseDaily ?? '0').toLocaleString()
+        }
+      ]
+    },
+    covid: {
+      updateTime: Math.floor(
+        Number(covidData?.As_of_date ?? 0) / 1000
+      ).toString(),
+      positiveTotal: Number(covidData?.Confirmed ?? '0').toLocaleString(),
+      confirmedTotal: Number(covidData?.Confirmed2 ?? '0').toLocaleString(),
+      confirmedDeltaTotal: Number(
+        covidData?.Confirmed_Delta ?? '0'
+      ).toLocaleString(),
+      asymptomaticTotal: Number(
+        covidData?.Asymptomatic ?? '0'
+      ).toLocaleString(),
+      repositiveTotal: Number(covidData?.RePositive ?? '0').toLocaleString(),
+      hospitalizedTotal: Number(
+        covidData?.Hospitalised ?? '0'
+      ).toLocaleString(),
+      deathTotal: Number(covidData?.Death ?? '0').toLocaleString(),
+      daily: {
+        local: covidData?.Local_Case2 ?? '0',
+        localRelated: covidData?.Local_Case2_Related ?? '0',
+        import: covidData?.Import_Case2 ?? '0',
+        importRelated: covidData?.Import_Case2_Related ?? '0',
+        total:
+          Number(covidData?.Local_Case2 ?? '0') +
+          Number(covidData?.Local_Case2_Related ?? '0') +
+          Number(covidData?.Import_Case2 ?? '0') +
+          Number(covidData?.Import_Case2_Related ?? '0')
+      }
+    }
+  }
 }
