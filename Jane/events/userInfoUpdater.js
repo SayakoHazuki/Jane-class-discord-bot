@@ -1,6 +1,4 @@
-const { MongoClient } = require('mongodb')
-const mdburi = process.env.MONGO_URI
-const mdbclient = new MongoClient(mdburi)
+const hgd = require('../Utils/hgdUtils')
 const terminal = require('../Utils/terminal')
 function printLog (type, filename, ...message) {
   if (!message) {
@@ -19,16 +17,20 @@ module.exports = class Message extends Evt {
 
   async run (oldUser, newUser) {
     const client = this.client
-    printLog('info', __filename, `user's details are changed,newUser:\n${newUser}`)
+    printLog(
+      'info',
+      __filename,
+      `user's details are changed,newUser:\n${newUser}`
+    )
     updateinfo(newUser)
 
     async function updateinfo (user) {
       try {
-        await mdbclient.connect()
+        const mdbclient = hgd.getClient()
         const database = mdbclient.db('jane')
-        const collection = database.collection('hgd')
+        const collection = database.collection('hgdv2')
 
-        const query = { name: user.id }
+        const query = { snowflake: user.id }
         const options = {
           sort: { _id: -1 }
         }
@@ -37,7 +39,7 @@ module.exports = class Message extends Evt {
         const filter = { name: user.id }
         const updateDocument = {
           $set: {
-            avatarURL: user.avatarURL(),
+            avatarURL: user.displayAvatarURL(),
             tag: user.tag
           }
         }
