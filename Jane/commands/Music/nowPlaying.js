@@ -31,7 +31,7 @@ module.exports = class nowplayingCommand extends Command {
         progressBarOptions
       )
       const nowPlayingEmbed = new Discord.MessageEmbed()
-        .setAuthor('正在播放', message.author.avatarURL())
+        .setAuthor('正在播放', message.author.displayAvatarURL())
         .setDescription(`[${trackNow.title}](${trackNow.url})\n${progressBar}`)
         .setThumbnail(trackNow.thumbnail)
         .setColor(this.client.colors.green)
