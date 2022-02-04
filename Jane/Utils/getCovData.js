@@ -77,7 +77,11 @@ module.exports = async function getCovData () {
           Number(covidData?.Local_Case2 ?? '0') +
           Number(covidData?.Local_Case2_Related ?? '0') +
           Number(covidData?.Import_Case2 ?? '0') +
-          Number(covidData?.Import_Case2_Related ?? '0')
+          Number(
+            covidData?.Import_case2_Related ??
+              covidData?.Import_Case2_Related ??
+              '0'
+          )
       }
     }
   }

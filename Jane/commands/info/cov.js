@@ -26,11 +26,11 @@ module.exports = class CovidCommand extends Command {
       .addFields(
         {
           name: '疫苗數據',
-          value: `疫苗接種劑次: ${vaccine.totalDoses} (+${vaccine.latestDay})\n\u2800第一針: ${vaccine.doses[0].total} (+${vaccine.doses[0].daily}) [${vaccine.doses[0].percent}%人口]\n\u2800第二針: ${vaccine.doses[1].total} (+${vaccine.doses[1].daily}) [${vaccine.doses[1].percent}%人口]\n\u2800第三針: ${vaccine.doses[2].total} (+${vaccine.doses[2].daily}) [${vaccine.doses[2].percent}%人口]\n本週每日平均接種: ${vaccine.sevenDayAvg} 劑次\n5-11歲小童接種情況:\n\u2800第一針 ${vaccine.child.doses[0].total} (${vaccine.child.doses[0].percent}小童人口)\n\u2800第二針 ${vaccine.child.doses[1].total} (${vaccine.child.doses[1].percent}小童人口)`
+          value: `疫苗接種劑次: ${vaccine.totalDoses} (+${vaccine.latestDay})\n\u2800第一針 ${vaccine.doses[0].total} (+${vaccine.doses[0].daily}) [${vaccine.doses[0].percent}%人口]\n\u2800第二針 ${vaccine.doses[1].total} (+${vaccine.doses[1].daily}) [${vaccine.doses[1].percent}%人口]\n\u2800第三針 ${vaccine.doses[2].total} (+${vaccine.doses[2].daily}) [未公布百分比數據]\n本週每日平均接種: ${vaccine.sevenDayAvg} 劑次\n5-11歲小童接種情況:\n\u2800第一針 ${vaccine.child.doses[0].total} (${vaccine.child.doses[0].percent}小童人口)\n\u2800第二針 ${vaccine.child.doses[1].total} (${vaccine.child.doses[1].percent}小童人口)`
         },
         {
           name: '疫情數據',
-          value: `陽性個案數量 ${covid.positiveTotal}\n\u2800(確診 ${covid.confirmedTotal}\u2800無病徵 ${covid.asymptomaticTotal}\u2800復陽 ${covid.repositiveTotal})\n\u2800住院中 ${covid.hospitalizedTotal}\u2800\u2800死亡個案 ${covid.deathTotal}\n\u2800Delta變種病毒個案數量 ${covid.confirmedDeltaTotal}\n本日新增個案 ${covid.daily.total}\n\u2800(本地 ${covid.daily.local}\u2800本地相關 ${covid.daily.localRelated}\n\u2800 輸入 ${covid.daily.import}\u2800輸入相關 ${covid.daily.importRelated})`
+          value: `陽性個案數量 ${covid.positiveTotal}\n\u2800(確診 ${covid.confirmedTotal}\u2800無病徵 ${covid.asymptomaticTotal}\u2800復陽 ${covid.repositiveTotal})\n\u2800住院中 ${covid.hospitalizedTotal}\u2800死亡個案 ${covid.deathTotal}\n\u2800Delta變種病毒個案數量 ${covid.confirmedDeltaTotal}\n本日新增個案 ${covid.daily.total}\n\u2800(本地 ${covid.daily.local}\u2800本地相關 ${covid.daily.localRelated}\n\u2800 輸入 ${covid.daily.import}\u2800輸入相關 ${covid.daily.importRelated})`
         }
       )
       .setColor(this.client.colors.yellow)
