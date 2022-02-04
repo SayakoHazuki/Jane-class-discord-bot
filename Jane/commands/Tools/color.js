@@ -16,47 +16,7 @@ module.exports = class ColorCommand extends Command {
   }
 
   async run (message, args) {
-    const rolesCache = message.guild.roles.cache
-    const pink = rolesCache.find(role => role.name === 'pink')
-    const hotpink = rolesCache.find(role => role.name === 'hotpink')
-    const red = rolesCache.find(role => role.name === 'red')
-    const orange = rolesCache.find(role => role.name === 'orange')
-    const yellow = rolesCache.find(role => role.name === 'yellow')
-    const lime = rolesCache.find(role => role.name === 'lime')
-    const green = rolesCache.find(role => role.name === 'green')
-    const cyan = rolesCache.find(role => role.name === 'cyan')
-    const aqua = rolesCache.find(role => role.name === 'aqua')
-    const blue = rolesCache.find(role => role.name === 'blue')
-    const purple = rolesCache.find(role => role.name === 'purple')
-    const jane = rolesCache.find(role => role.name === 'jane')
-    const amber = rolesCache.find(role => role.name === 'amber')
-    const cornflower = rolesCache.find(role => role.name === 'cornflower')
-    const black = rolesCache.find(role => role.name === 'black')
-    const invisible = rolesCache.find(role => role.name === 'invisible')
-    const tyl = rolesCache.find(role => role.name === '天依藍')
-    const zfsnf = rolesCache.find(role => role.name === '制服少女粉')
-
     const colors = [
-      tyl,
-      zfsnf,
-      pink,
-      hotpink,
-      red,
-      orange,
-      amber,
-      yellow,
-      lime,
-      green,
-      cyan,
-      aqua,
-      blue,
-      cornflower,
-      purple,
-      jane,
-      black,
-      invisible
-    ]
-    const rlist = [
       '天依藍',
       '制服少女粉',
       'pink',
@@ -76,27 +36,37 @@ module.exports = class ColorCommand extends Command {
       'black',
       'invisible'
     ]
+    const rolesCache = message.guild.roles.cache
+    const colorRoles = []
 
-    const g = message.guild
-
-    const mem = message.member
+    for (const color of colors) {
+      colorRoles.push(rolesCache.find(role => role.name === color) ?? undefined)
+    }
 
     if (args[0] && !isNaN(args[0]) && args[0] < 20) {
-      args[0] = rlist[Number(args[0]) - 1]
+      const role = colorRoles.filter(role => role).map(role => role.name)[
+        Number(args[0] - 1)
+      ]
+      if (!role) return message.reply(`沒有此選項: ${args[0]}`)
+      args[0] = role
     }
 
     if (!args[0]) {
-      let readList = ''
-      for (let i5 = 0; i5 < colors.length; i5++) {
-        if (colors[i5]) {
-          readList += `${i5 + 1}) <@&${colors[i5].id}>\n`
-        }
+      let colorRolesList = ''
+      for (let i = 0; i < colors.length; i++) {
+        if (!colorRoles[i]) continue
+        colorRolesList += `${(colorRoles
+          .filter(role => role)
+          .map(role => role.name)
+          .indexOf(colors[i]) ?? -1) + 1 || undefined}) <@&${
+          colorRoles[i].id
+        }>\n`
       }
       return message.reply(
         Util.InfoEmbed(
           message,
           '請在指令後輸入想要換成的暱稱顏色',
-          `可選的顏色:\n${readList}`
+          `可選的顏色:\n${colorRolesList}`
         )
       )
     }
@@ -117,39 +87,33 @@ module.exports = class ColorCommand extends Command {
       message.reply({ embeds: [sucessEmbed] })
     }
 
-    let nowrole
     async function white () {
-      let now
-      for (now = 0; now < colors.length; now++) {
-        nowrole = colors[now]
-        if (mem.roles.cache.has(nowrole.id)) mem.roles.remove(nowrole.id)
+      for (let i = 0; i < colors.length; i++) {
+        const role = colors[i]
+        if (message.member.roles.cache.has(role.id)) {
+          message.member.roles.remove(role.id)
+        }
       }
-      sucess()
+      sucess('white', '#fff')
     }
 
-    if (!rlist.includes(args[0])) return fail()
+    if (!colors.includes(args[0])) return fail()
 
-    let now2, now2role
-    for (now2 = 0; now2 < colors.length; now2++) {
-      now2role = colors[now2]
-      if (now2role) {
-        Util.printLog(
-          'info',
-          __filename,
-          `Mem Role Cache includes now2role: ${mem.roles.cache.has(now2role)}`
-        )
-        if (mem.roles.cache.has(now2role.id)) mem.roles.remove(now2role.id)
+    for (let i = 0; i < colors.length; i++) {
+      const role = colors[i]
+      if (!role) continue
+      if (message.member.roles.cache.has(role.id)) {
+        message.member.roles.remove(role.id)
       }
     }
 
     try {
       const r = rolesCache.find(role => role.name === args[0].toLowerCase())
       if (r === null) return fail()
-      g.member(message.author).roles.add(r)
+      message.member.roles.add(r)
       sucess(args[0], r.hexColor)
     } catch (e) {
-      Util.printLog('err', __filename, e)
-      Util.handleErr(e)
+      return message.reply('更改暱稱顏色時發生了一個錯誤')
     }
   }
 }
