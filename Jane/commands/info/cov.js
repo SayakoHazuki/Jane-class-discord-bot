@@ -30,7 +30,7 @@ module.exports = class CovidCommand extends Command {
         },
         {
           name: '疫情數據',
-          value: `陽性個案數量 ${covid.positiveTotal}\n\u2800(確診 ${covid.confirmedTotal}\u2800無病徵 ${covid.asymptomaticTotal}\u2800復陽 ${covid.repositiveTotal})\n\u2800住院中 ${covid.hospitalizedTotal}\u2800死亡個案 ${covid.deathTotal}\n\u2800Delta變種病毒個案數量 ${covid.confirmedDeltaTotal}\n本日新增個案 ${covid.daily.total}\n\u2800(本地 ${covid.daily.local}\u2800本地相關 ${covid.daily.localRelated}\n\u2800 輸入 ${covid.daily.import}\u2800輸入相關 ${covid.daily.importRelated})`
+          value: `陽性個案數量 ${covid.positiveTotal}\n\u2800(確診 ${covid.confirmedTotal}\u2800無病徵 ${covid.asymptomaticTotal}\u2800復陽 ${covid.repositiveTotal})\n\u2800住院中 ${covid.hospitalizedTotal}\u2800死亡個案 ${covid.deathTotal}\n本日新增個案 ${covid.daily.total}\n\u2800(本地 ${covid.daily.local}\u2800本地相關 ${covid.daily.localRelated}\n\u2800 輸入 ${covid.daily.import}\u2800輸入相關 ${covid.daily.importRelated})`
         }
       )
       .setColor(this.client.colors.yellow)
