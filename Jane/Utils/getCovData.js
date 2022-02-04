@@ -72,7 +72,7 @@ module.exports = async function getCovData () {
         local: covidData?.Local_Case2 ?? '0',
         localRelated: covidData?.Local_Case2_Related ?? '0',
         import: covidData?.Import_Case2 ?? '0',
-        importRelated: covidData?.Import_Case2_Related ?? '0',
+        importRelated: covidData?.Import_case2_Related ?? covidData?.Import_Case2_Related ?? '0',
         total:
           Number(covidData?.Local_Case2 ?? '0') +
           Number(covidData?.Local_Case2_Related ?? '0') +
