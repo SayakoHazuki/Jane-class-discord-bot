@@ -58,13 +58,13 @@ module.exports = class addClassLinkCommand extends Command {
         message.reply(
           `已新增連結: \n${addedLinksList.join(
             '\n'
-          )},\n2秒後將重啟以更新連接資料,請於10秒後使用timetable指令(-t)確認是否有更新到連結`
+          )},\n2秒後將重啟以更新連接資料`
         )
         setTimeout(function () {
-          exec('pm2 restart 0', (error, stdout, stderr) => {
+          exec('pm2 restart jane', (error, stdout, stderr) => {
             if (error) {
               Util.handleErr(error)
-              message.reply(`error: ${error.message}`)
+              message.reply(`PM2 error: ${error.message}`)
               return
             }
             if (stderr) {
