@@ -433,6 +433,42 @@
           "footer": "簡"
         }
       ]
+    },
+    "morning": {
+      "command": "早安簡",
+      "actionTitle": "{displayName}, 早上好!",
+      "altActionTitle": "和簡說早安",
+      "pass": [
+        {
+          "message": "今天有甚麼要做的嗎?",
+          "footer": "在早上為您打氣的簡"
+        },
+        {
+          "message": "請精神地完成今天要做的事情喔!",
+          "footer": "在早上為您打氣的簡"
+        },
+        {
+          "message": "{displayName}今天也很早呢!",
+          "footer": "在早上為您打氣的簡"
+        }
+      ],
+      "fail": [{ "message": "剛才已經跟簡說過早安了喔", "footer": "簡" }]
+    },
+    "night": {
+      "command": "晚安簡",
+      "actionTitle": "晚安, {displayName}",
+      "altActionTitle": "和簡說晚安",
+      "pass": [
+        {
+          "message": "明天也請加油哦!",
+          "footer": "正在喝花茶的簡"
+        },
+        {
+          "message": "已經要睡了嗎, {displayName}?",
+          "footer": "正在喝花茶的簡"
+        }
+      ],
+      "fail": [{ "message": "剛才已經跟簡說過晚安了喔", "footer": "簡" }]
     }
   },
   "settings": {
@@ -506,6 +542,28 @@
         "max": 38,
         "min": 20,
         "maxFail": -10,
+        "minFail": -1
+      }
+    },
+    "morning": {
+      "diffRequirement": 1080,
+      "timeRange": ["06:00", "11:30"],
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 35,
+        "min": 20,
+        "maxFail": -2,
+        "minFail": -1
+      }
+    },
+    "night": {
+      "diffRequirement": 720,
+      "timeRange": ["17:30", "03:00"],
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 35,
+        "min": 20,
+        "maxFail": -2,
         "minFail": -1
       }
     }

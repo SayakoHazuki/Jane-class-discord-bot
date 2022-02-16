@@ -10,7 +10,7 @@ const config = require('./hgdConfig.json')
 
 function getClockEmoji (mins) {
   if (mins >= 60) {
-    return `:clock${Math.round(mins / 60) % 12}:`
+    return `:clock${Math.round(mins / 60) % 12 || 12}:`
   }
   return `:clock${Math.round((mins / 60) * 12)}:`
 }

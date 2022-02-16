@@ -3,7 +3,7 @@ const Util = require('utils')
 const Command = require('cmd')
 
 const hgd = require('hgdUtils')
-const config = require('./hgdConfig.json')
+const config = require('../hgdConfig.json')
 const settings = config.settings.teeTee
 
 module.exports = class TeeTeeCommand extends Command {

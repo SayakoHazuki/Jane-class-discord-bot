@@ -3,38 +3,24 @@ const Util = require('utils')
 const Command = require('cmd')
 
 const hgd = require('hgdUtils')
-const config = require('./hgdConfig.json')
-const settings = config.settings.rose
+const config = require('../hgdConfig.json')
+const settings = config.settings.afternoonTea
 
-module.exports = class RoseCommand extends Command {
+module.exports = class HgdAfternoonTeaCommand extends Command {
   constructor (client) {
     super(client, {
-      name: '送給簡一枝白玫瑰',
-      aliases: [
-        '送簡一枝白玫瑰',
-        '贈送給簡一枝白玫瑰',
-        '贈送簡一枝白玫瑰',
-        '送一枝白玫瑰給簡',
-        '給簡一枝白玫瑰',
-        '給簡贈送一枝白玫瑰',
-        '送簡一支白玫瑰',
-        '贈送給簡一支白玫瑰',
-        '贈送簡一支白玫瑰',
-        '送一支白玫瑰給簡',
-        '給簡一支白玫瑰',
-        '給簡贈送一支白玫瑰',
-        '送給簡一支白玫瑰'
-      ],
+      name: '給簡準備下午茶',
+      aliases: ['幫簡準備下午茶', '準備下午茶給簡'],
       category: '好感度',
-      description: '贈送一枝白玫瑰給簡',
-      usage: '送給簡一枝白玫瑰',
+      description: '給簡準備下午茶',
+      usage: '給簡準備下午茶',
       minArgs: 0,
       maxArgs: -1
     })
   }
 
   async run (message, args) {
-    const diff = await hgd.getTimeDiff(message, 'Rose')
+    const diff = await hgd.getTimeDiff(message, 'AfternoonTea')
     const diffReq = timeDiff => timeDiff > settings.diffRequirement * 60
     const diffPass = diffReq(diff)
     const { levelPass, level, req } = await hgd.checkLevel(
@@ -55,6 +41,21 @@ module.exports = class RoseCommand extends Command {
       return message.reply({ embeds: [lvNotPassEmbed] })
     }
 
+    if (!hgd.timeInRange(settings.timeRange)) {
+      const timeNotInRangeEmbed = new Discord.MessageEmbed()
+        .setColor('#FB9EFF')
+        .setAuthor(
+          message.member.displayName,
+          message.author.displayAvatarURL()
+        )
+        .setDescription(
+          `現在不是下午茶時間喔! (${settings.timeRange[0]}~${settings.timeRange[1]})`
+        )
+        .setTimestamp()
+        .setFooter('簡')
+      return message.reply({ embeds: [timeNotInRangeEmbed] })
+    }
+
     Util.printLog(
       'INFO',
       __filename,
@@ -64,13 +65,15 @@ module.exports = class RoseCommand extends Command {
     const amount = diffPass
       ? hgd.random(min, max)
       : hgd.random(minFail, maxFail)
-    const { oldHgd, newHgd, locked } = await hgd.add(message, 'Rose', amount)
+    const { oldHgd, newHgd, locked } = await hgd.add(message, 'AfternoonTea', amount)
 
     if (diffPass) {
-      const texts = Util.randomFromArray(config.messages.rose.pass)
+      const texts = Util.randomFromArray(config.messages.afternoonTea.pass)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
-        .setTitle(`${message.member.displayName} ${config.messages.rose.actionTitle}`)
+        .setTitle(
+          `${message.member.displayName} ${config.messages.afternoonTea.actionTitle}`
+        )
         .setAuthor(
           message.member.displayName,
           message.author.displayAvatarURL()
@@ -84,13 +87,13 @@ module.exports = class RoseCommand extends Command {
         .setTimestamp()
         .setFooter(`${texts.footer}`)
       message.reply({ embeds: [replyEmbed] })
-      await hgd.spinShard(message)
+      await hgd.spinShard(message, 2)
     } else {
-      const texts = Util.randomFromArray(config.messages.rose.fail)
+      const texts = Util.randomFromArray(config.messages.afternoonTea.fail)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
-          `${message.member.displayName} ${config.messages.rose.actionTitle}`
+          `${message.member.displayName} ${config.messages.afternoonTea.actionTitle}`
         )
         .setAuthor(
           message.member.displayName,
