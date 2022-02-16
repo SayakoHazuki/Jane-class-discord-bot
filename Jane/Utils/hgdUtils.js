@@ -42,7 +42,8 @@ module.exports = {
   timeInRange,
   checkLevel,
   checkNew,
-  spinShard
+  spinShard,
+  strFormat
 }
 
 async function add (message, action, amount) {
@@ -317,4 +318,22 @@ async function spinShard (message, multiplier = 1) {
       message.reply('很抱歉，簡的資料庫發生了錯誤')
     }
   }
+}
+
+function strFormat (toModify, ...args) {
+  let str = toModify.toString()
+  if (args.length) {
+    const t = typeof args[0]
+    let key
+    const args_ =
+      t === 'string' || t === 'number'
+        ? Array.prototype.slice.call(args)
+        : args[0]
+
+    for (key in args_) {
+      str = str.replace(new RegExp('\\{' + key + '\\}', 'gi'), args_[key])
+    }
+  }
+
+  return str
 }
