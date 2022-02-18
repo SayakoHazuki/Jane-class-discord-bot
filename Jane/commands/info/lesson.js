@@ -3,6 +3,8 @@ const Command = require('cmd')
 const { printLog } = require('utils')
 const Util = require('utils')
 
+let lessonLinksJson
+
 module.exports = class lessonCommand extends Command {
   constructor (client) {
     super(client, {
@@ -17,10 +19,6 @@ module.exports = class lessonCommand extends Command {
   }
 
   async run (message, args) {
-    if (message.author.id !== '690822196972486656') {
-      args[1] = undefined
-      args[2] = undefined
-    }
     const queryDate = `${new Date().toLocaleString('en-us', {
       day: '2-digit'
     })}${new Date().toLocaleString('en-us', {
@@ -31,16 +29,13 @@ module.exports = class lessonCommand extends Command {
       if (args[0].toUpperCase() === 'NEXT') next = true
     }
     message.reply({
-      embeds: [
-        new Period(args[2] || queryDate, 'ONLINE', next, args[1]).interface
-      ]
+      embeds: [new Period(queryDate, 'ONLINE', next).interface]
     })
   }
 }
 
 const daysJson = require('./data/sd.json')
 const timetableJson = require('./data/tt.json')
-const lessonLinksJson = require('./data/classlink.json')
 const classTimes = require('./data/classStartTime.json')
 const classTimeFull = require('./data/classTimes.json')
 const lessonArrangements = require('./data/lessonArrangements.json')
@@ -69,13 +64,10 @@ function getRestSection (type, from, to, endRelativeTimestamp) {
 }
 
 class Period {
-  constructor (
-    dateToRead,
-    timeOfSchool = 'ONLINE',
-    next = false,
-    overrideTime = undefined
-  ) {
-    this.next = next
+  constructor (dateToRead, timeOfSchool = 'ONLINE') {
+    lessonLinksJson = require('./data/classlink.json')
+
+    this.next = false
 
     // ======= Class Properties =======
     this.embed = new Discord.MessageEmbed()
@@ -104,11 +96,10 @@ class Period {
 
     this.lessons = {}
     this.lessonsList = []
+    this.lessonTimeFull = ''
 
-    this.nextPeriodFull = false
-    this.nextPeriodNumber = false
-    this.nowPeriodFull = ''
-    this.nowPeriodNumber = ''
+    this.periodNumber = 0
+    this.isShowingNext = false
 
     this.showErrorEmbed = false
 
@@ -138,10 +129,17 @@ class Period {
     const lessonsArrayC = tj['3C'][cd]?.split(' ')
     const lessonsArrayD = tj['3D'][cd]?.split(' ')
 
+    // ======== Time now, date now ========
+
     const dateNow = new Date()
-    const timeNow =
-      overrideTime ||
-      `${toTwoDigit(dateNow.getHours())}${toTwoDigit(dateNow.getMinutes())}`
+    const timeNow = `${toTwoDigit(dateNow.getHours())}${toTwoDigit(
+      dateNow.getMinutes()
+    )}`
+    const time15MinLater = sumTime(timeNow, 15)
+    Util.printLog('INFO', __filename, `Time 15Min later = ${time15MinLater}`)
+    Util.printLog('INFO', __filename, `Time Now = ${timeNow}`)
+
+    // ======= If is in rest period =======
 
     const addColon = t => {
       t = t?.toString?.()
@@ -149,7 +147,7 @@ class Period {
     }
 
     for (const { from, to, type } of restPeriods) {
-      if (timeNow >= from && timeNow <= to && !next) {
+      if (timeNow >= from && timeNow <= to) {
         this.rest = type
         this.restinfo = {
           from: addColon(from),
@@ -159,10 +157,12 @@ class Period {
             'R'
           )}`
         }
-        this.next = next = true
+        this.next = true
       }
     }
 
+    // timeList : classes starting time
+    // timeListFull : For human reading, full time
     const timeList =
       timeOfSchool in classTimes ? classTimes[timeOfSchool] : classTimes.NORMAL
     const timeListFull =
@@ -171,61 +171,39 @@ class Period {
         : classTimeFull.NORMAL
 
     let i = 0
+
     for (let time of timeList) {
       time = time.replace(':', '')
 
-      if (sumTime(timeNow, 10) >= time && timeNow < time) next = true
-
-      if (timeNow < time) {
-        if (i === 0) next = true
-
-        this.nowPeriodNumber = i - 1
-        this.nextPeriodNumber = i
-        this.nowPeriodFull = timeListFull[i - 1] || timeListFull
-        this.nextPeriodFull = timeListFull[i] || false
+      if (time15MinLater < time) {
+        // if time 15 later haven't passed the
+        // next period's starting time
+        if (i === 0) {
+          i++
+          this.isBeforeSchool = true
+        }
+        this.periodNumber = i - 1
         break
       }
 
-      if ((i === 5 && next) || i === 6) {
+      if (i === 6) {
         this.classesEnded = true
-        this.classesEndedType = `${
-          i === 5 && next
-            ? timeNow <= timeList[6]
-              ? 'L6InProgress'
-              : 'AllEnded'
-            : 'AllEnded'
-        }`
-        /*
-          return (this.embed = new Discord.MessageEmbed()
-            .setAuthor(`${next ? '下節課堂' : '本節課堂'}`)
-            .setDescription(
-              `${divider}\n${
-                i === 5 && next
-                  ? timeNow <= timeList[6]
-                    ? '本節已是本日最後一節課堂'
-                    : '本日課堂已全部完結 :tada:'
-                  : '本日課堂已全部完結 :tada:'
-              }`
-            )
-            .setColor('#ACE9A6'))
-          */
+        this.classesEndedType =
+          timeNow <= timeList[6].replace(':', '') ? 'L6InProgress' : 'AllEnded'
       }
       i++
     }
 
+    if (!(this.classesEnded || this.isBeforeSchool)) {
+      this.isShowingNext =
+        timeNow < timeList[this.periodNumber].replace(':', '')
+    }
+
+    this.lessonTimeFull = timeListFull[this.periodNumber]
+
     if (lessonsArrayA[5]) {
-      let links = []
-
-      this.lessonTimeFull = next ? this.nextPeriodFull : this.nowPeriodFull
-      const periodNumber = next ? this.nextPeriodNumber : this.nowPeriodNumber
-      const lessonA = lessonsArrayA[periodNumber]
-      const lessonB = lessonsArrayB[periodNumber]
-      const lessonC = lessonsArrayC[periodNumber]
-      const lessonD = lessonsArrayD[periodNumber]
-
-      this.lessons = { lessonA, lessonB, lessonC, lessonD }
-
       let mdLink = ''
+      let links = []
 
       const lessonsArrays = [
         lessonsArrayA,
@@ -233,16 +211,18 @@ class Period {
         lessonsArrayC,
         lessonsArrayD
       ]
-      const lessons = [lessonA, lessonB, lessonC, lessonD]
+
       const classes = ['3A', '3B', '3C', '3D']
 
       for (let i = 0; i < 4; i++) {
-        let subj = lessons[i]
+        let lessonSubject = lessonsArrays[i][this.periodNumber] ?? 'Unknown'
+        const nextLessonSubject =
+          lessonsArrays[i][this.periodNumber + 1] ?? false
 
         // Special Subjects Handler
-        switch (subj) {
+        switch (lessonSubject) {
           case 'MUS/DE':
-            subj = this.oddCycle ? 'DE' : 'MUS'
+            lessonSubject = this.oddCycle ? 'DE' : 'MUS'
             break
           case 'PE':
             links = [
@@ -257,24 +237,24 @@ class Period {
             ]
         }
 
-        if (!['PE', 'SPEAK'].includes(subj)) {
-          links = [lessonLinksJson[classes[i]][subj]]
+        if (!['PE', 'SPEAK'].includes(lessonSubject)) {
+          links = [lessonLinksJson[classes[i]][lessonSubject]]
         }
 
         // Function to get readable subject name, used for PE/Speaking
         function srn () {
           return [
-            subj === 'PE' ? 'PE(Boys)' : 'Speaking(ENG)',
-            subj === 'PE' ? 'PE(Girls)' : 'Speaking(NET)'
+            lessonSubject === 'PE' ? 'PE(Boys)' : 'Speaking(ENG)',
+            lessonSubject === 'PE' ? 'PE(Girls)' : 'Speaking(NET)'
           ]
         }
 
         switch (links.length) {
           case 1:
             if (links[0] === '' || !links[0]) {
-              mdLink = `[找不到${classes[i]} ${subj}的課室連結]`
+              mdLink = `[找不到${classes[i]} ${lessonSubject}的課室連結]`
             } else {
-              mdLink = `[按此進入 ${subj} 課室 (${
+              mdLink = `[按此進入 ${lessonSubject} 課室 (${
                 links[0].includes('zoom') ? 'Zoom' : 'Meet'
               })](${links[0]})`
             }
@@ -290,22 +270,19 @@ class Period {
                 : `[按此進入${srn()[1]}課室](${links[1]})`
             }`
             break
-          default:
-            undefined()
+          //  default:
+          //    undefined()
         }
 
         const LA_ = lessonArrangements
-        const thePeriodNumber = next
-          ? this.nextPeriodNumber
-          : this.nowPeriodNumber
 
         if (dateToRead in LA_[classes[i]]) {
           for (const LA of LA_[classes[i]][dateToRead]) {
-            if (LA.period === thePeriodNumber) {
+            if (LA.period === this.periodNumber) {
               printLog('WARN', __filename, 'Lesson Arrangement detected.')
               printLog('WARN', __filename, `From ${LA.from} to ${LA.to}`)
 
-              subj = `~~${LA.from}~~ **${LA.to}**`
+              lessonSubject = `~~${LA.from}~~ **${LA.to}**`
               mdLink = `${LA.link}`
             }
           }
@@ -315,8 +292,8 @@ class Period {
 
         this.lessonsList.push({
           classId: classes[i],
-          nextLesson: lessonsArrays[i][periodNumber + 1] ?? false,
-          subject: subj,
+          nextLesson: nextLessonSubject,
+          subject: lessonSubject,
           classroomMDLink: mdLink
         })
       }
@@ -344,16 +321,26 @@ class Period {
 
   get interface () {
     const {
-      next,
       discordTimestamp,
       dayOfWeek,
       dayDescription,
-      nextPeriodNumber,
-      nowPeriodNumber,
+      periodNumber,
       lessonTimeFull,
       lessonsList,
       rest
     } = this
+
+    Util.printLog('INFO', __filename, 'Generating Lesson Interface')
+    Util.printLog(
+      'INFO',
+      __filename,
+      `Period No. ${periodNumber}, period time ${lessonTimeFull}`
+    )
+    Util.printLog(
+      'INFO',
+      __filename,
+      `Showing next lesson: ${this.isShowingNext}`
+    )
 
     let from, to, endRelativeTimestamp
     if (rest) {
@@ -361,13 +348,12 @@ class Period {
     }
 
     this.embed
-      .setAuthor(`${next ? '下一節課堂' : '本節課堂'}`)
+      .setAuthor(`${this.isShowingNext ? '下一節課堂' : '本節課堂'}`)
       .setDescription(
         `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\n${
           rest ? getRestSection(rest, from, to, endRelativeTimestamp) : ''
-        }${next ? '下節課堂: ' : '本節課堂: '}第 ${
-          next ? nextPeriodNumber + 1 : nowPeriodNumber + 1
-        } 節 (${lessonTimeFull})\u2800`
+        }${this.isShowingNext ? '下節課堂: ' : '本節課堂: '}第 ${periodNumber +
+          1} 節 (${lessonTimeFull})\u2800`
       )
       .setColor('#ACE9A6')
       .setFooter(
