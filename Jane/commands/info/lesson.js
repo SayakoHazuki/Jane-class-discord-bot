@@ -43,24 +43,39 @@ const lessonArrangements = require('./data/lessonArrangements.json')
 const divider = '━━━━━━━━━━━━━'
 
 function getMonthFromString (mon) {
-  return new Date(Date.parse(mon + ' 1, 2022')).getMonth() + 1
+  return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1
 }
 
 const restPeriods = require('./data/recessLunchTime.json')
-function getRestSection (type, from, to, endRelativeTimestamp) {
-  let typeName
-  switch (type) {
-    case 'RECESS':
-      typeName = '小息'
-      break
-    case 'LUNCH':
-      typeName = '午膳時段'
-      break
-    default:
-      typeName = '休息'
-  }
-
-  return `現在是${typeName}\n(${from} - ${to})\n\n${typeName}將會在 ${endRelativeTimestamp} 結束\n${divider}\n`
+const restEmbeds = {
+  RECESS: new Discord.MessageEmbed()
+    .setAuthor('本節時段')
+    .setDescription(
+      `${divider}\n${Util.getDiscordTimestamp(
+        new Date(),
+        'f'
+      )}\n現在是 __小息時段__\n\n如果想知道下節課堂,\n請使用 \`-lesson next\` 指令\n${divider}`
+    )
+    .setColor('#ACE9A6')
+    .setFooter(
+      '簡 Jane',
+      'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+    )
+    .setTimestamp(),
+  LUNCH: new Discord.MessageEmbed()
+    .setAuthor('本節時段')
+    .setDescription(
+      `${divider}\n${Util.getDiscordTimestamp(
+        new Date(),
+        'f'
+      )}\n現在是 __午膳時段__\n\n如果想知道下節課堂, 請使用 \`-lesson next\` 指令\n${divider}`
+    )
+    .setColor('#ACE9A6')
+    .setFooter(
+      '簡 Jane',
+      'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+    )
+    .setTimestamp()
 }
 
 class Period {
@@ -71,28 +86,13 @@ class Period {
 
     // ======= Class Properties =======
     this.embed = new Discord.MessageEmbed()
+    // Var
+    let cycleNumber, cycleDay, oddCycle
 
-    this.cycleNumber = '1'
-    this.cycleDay = 'A'
-    this.oddCycle = false
-
-    this.monthToRead = getMonthFromString(dateToRead.replace(/[0-9]/g, ''))
-    this.dayNumberToRead = Number(dateToRead.replace(/[a-zA-Z]/g, '')) || 0
-
-    // this.dayValueArray - Expected : ['Cycle','9','Day','Z','(星期X)']
-    this.dayValueArray = daysJson[dateToRead]?.split(' ') ?? []
-
-    this.discordTimestamp = ''
-    this.dayOfWeek = '星期{}'
-    this.dayDescription = 'Cycle {} Day {}'
-
-    this.holiday = false
-
-    this.rest = false
-    this.restinfo = {}
-
-    this.classesEnded = false
-    this.classesEndedType = ''
+    const dayValueArray = daysJson[dateToRead].split(' ')
+    if (!dayValueArray) {
+      return printLog('info', __filename, 'dayValueArray is undefined')
+    }
 
     this.lessons = {}
     this.lessonsList = []
@@ -101,33 +101,59 @@ class Period {
     this.periodNumber = 0
     this.isShowingNext = false
 
-    this.showErrorEmbed = false
-
-    // ==== End of Class Properties ====
-    // =================================
-
-    if (this.dayValueArray[4]) {
-      if (isNaN(this.dayValueArray[1])) return (this.showErrorEmbed = true)
-
-      this.cycleNumber = this.dayValueArray[1]
-      this.oddCycle = Number(this.cycleNumber) % 2 === 1
+      oddCycle = Number(cycleNumber) % 2 === 1
+      printLog(
+        'info',
+        __filename,
+        `Cycle Number: ${cycleNumber}, odd: ${oddCycle}`
+      )
     }
+
+    const monthToRead = getMonthFromString(dateToRead.replace(/[0-9]/g, ''))
+    const dayNumberToRead = dateToRead.replace(/[a-zA-Z]/g, '')
 
     // ========= Set var cycleDay =========
 
-    this.cycleDay = this.dayValueArray[3] ?? 'holiday'
+    if (dayValueArray[3]) {
+      cycleDay = dayValueArray[3]
+    } else {
+      cycleDay = 'holiday'
+      printLog('info', __filename, 'Holiday detected')
+    }
 
-    if (this.cycleDay === 'holiday') return (this.holiday = true)
-    this.holiday = false
+    // For Holidays
+    if (cycleDay === 'holiday') {
+      const footerList = [
+        '趁著難得的假期好好放鬆一下吧',
+        '請好好享受假期吧',
+        '最近真是辛苦了，休閒的度過假期吧',
+        '會有特別的假期安排嗎？'
+      ]
+      const random = Math.floor(Math.random() * footerList.length)
+
+      this.embed
+        .setAuthor(next ? '下一節課堂' : '本節課堂')
+        .setDescription(`今天是假期喔! ${footerList[random]}`)
+        .setColor('#ACE9A6')
+        .setFooter(
+          '簡 Jane',
+          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+        )
+        .setTimestamp()
+      return
+    }
+
+    const lessonsStringA = timetableJson['3A'][cycleDay]
+    const lessonsStringB = timetableJson['3B'][cycleDay]
+    const lessonsStringC = timetableJson['3C'][cycleDay]
+    const lessonsStringD = timetableJson['3D'][cycleDay]
 
     // ======= Split Lessons string =======
 
-    const tj = timetableJson
-    const cd = this.cycleDay
-    const lessonsArrayA = tj['3A'][cd]?.split(' ')
-    const lessonsArrayB = tj['3B'][cd]?.split(' ')
-    const lessonsArrayC = tj['3C'][cd]?.split(' ')
-    const lessonsArrayD = tj['3D'][cd]?.split(' ')
+    const lessonsArrayA = lessonsStringA.split(' ')
+    const lessonsArrayB = lessonsStringB.split(' ')
+    const lessonsArrayC = lessonsStringC.split(' ')
+    const lessonsArrayD = lessonsStringD.split(' ')
 
     // ======== Time now, date now ========
 
@@ -165,15 +191,22 @@ class Period {
     // timeListFull : For human reading, full time
     const timeList =
       timeOfSchool in classTimes ? classTimes[timeOfSchool] : classTimes.NORMAL
+
     const timeListFull =
       timeOfSchool in classTimeFull
         ? classTimeFull[timeOfSchool]
         : classTimeFull.NORMAL
 
+    let nowPeriodNumber, nextPeriodNumber, nowPeriodFull, nextPeriodFull
     let i = 0
 
     for (let time of timeList) {
       time = time.replace(':', '')
+      printLog(
+        'WARN',
+        __filename,
+        `Time now:${timeNow}, Next period:${time}, ${timeNow <= time}`
+      )
 
       if (time15MinLater < time) {
         // if time 15 later haven't passed the
@@ -213,7 +246,6 @@ class Period {
       ]
 
       const classes = ['3A', '3B', '3C', '3D']
-
       for (let i = 0; i < 4; i++) {
         let lessonSubject = lessonsArrays[i][this.periodNumber] ?? 'Unknown'
         const nextLessonSubject =
@@ -300,21 +332,19 @@ class Period {
 
       // Date for reading (timestamp)
       const JSDateForDay = new Date(
-        `2022-${toTwoDigit(this.monthToRead)}-${toTwoDigit(
-          this.dayNumberToRead
+        `2021-${toTwoDigit(monthToRead)}-${toTwoDigit(
+          dayNumberToRead
         )}T12:00:00`
       )
-
-      this.discordTimestamp = `<t:${Math.round(
+      const discordTimestamp = `<t:${Math.round(
         JSDateForDay.getTime() / 1000
       )}:D>`
-
-      this.dayOfWeek = `[${daysJson[dateToRead]
+      const dayOfWeek = `[${daysJson[dateToRead]
         .split('(')[1]
         .replace(/[()]/g, '') || ''}]`
 
       // dayDescription, e.g. Cycle 9 Day A
-      this.dayDescription = `${daysJson[dateToRead].split('(')[0] ||
+      const dayDescription = `${daysJson[dateToRead].split('(')[0] ||
         daysJson[dateToRead]}`
     }
   }
@@ -374,9 +404,26 @@ class Period {
         }`,
         `${classroomMDLink}`
       )
-    }
+      printLog('info', __filename, JSDateForDay.getTime())
 
-    return this.embed
+      this.embed
+        .setAuthor(`${next ? '下一節課堂' : '本節課堂'}`)
+        .setDescription(
+          `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\n${
+            next ? '下節課堂: ' : '本節課堂: '
+          }第 ${
+            next ? nextPeriodNumber + 1 : nowPeriodNumber + 1
+          } 節 (${lessonTimeFull})\u2800`
+        )
+        .setColor('#ACE9A6')
+        .setFooter(
+          '簡 Jane',
+          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+        )
+        .setTimestamp()
+
+      this.embed.addField('\u2800', divider)
+    }
   }
 }
 
@@ -384,17 +431,4 @@ class Period {
 
 function toTwoDigit (deg) {
   return ('0' + deg).slice(-2)
-}
-
-function sumTime (a, b) {
-  a = a.toString()
-  b = b.toString()
-  const sum = (Number(a) + Number(b)).toString()
-  const result =
-    sum.slice(2, 4) > 60
-      ? `${toTwoDigit(Number(sum.slice(0, 2)) + 1)}${toTwoDigit(
-          Number(sum.slice(2, 4)) - 60
-        )}`
-      : sum
-  return result
 }
