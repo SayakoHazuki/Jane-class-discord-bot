@@ -12,7 +12,7 @@ module.exports = class lessonCommand extends Command {
       aliases: ['class', 'lsn'],
       category: 'info',
       description: 'See the current/next lesson',
-      usage: "lesson <'next'|'now'>",
+      usage: 'lesson [period No.]',
       minArgs: 0,
       maxArgs: -1
     })
@@ -136,6 +136,17 @@ class Period {
 
     // ==== End of Class Properties ====
     // =================================
+
+    // = Discord timestamp for the time =
+    const JSDateForDay = new Date(
+      `2022-${forceDigit(this.monthToRead)}-${forceDigit(
+        this.dayNumberToRead
+      )}T12:00:00`
+    )
+
+    this.discordTimestamp = `<t:${Math.round(JSDateForDay.getTime() / 1000)}:D>`
+
+    // ==== Start of processing ====
 
     if (this.dayValueArray[4]) {
       if (isNaN(this.dayValueArray[1])) return (this.showErrorEmbed = true)
@@ -341,17 +352,6 @@ class Period {
         })
       }
 
-      // Date for reading (timestamp)
-      const JSDateForDay = new Date(
-        `2022-${forceDigit(this.monthToRead)}-${forceDigit(
-          this.dayNumberToRead
-        )}T12:00:00`
-      )
-
-      this.discordTimestamp = `<t:${Math.round(
-        JSDateForDay.getTime() / 1000
-      )}:D>`
-
       this.dayOfWeek = `[${daysJson[dateToRead]
         .split('(')[1]
         .replace(/[()]/g, '') || ''}]`
@@ -360,6 +360,28 @@ class Period {
       this.dayDescription = `${daysJson[dateToRead].split('(')[0] ||
         daysJson[dateToRead]}`
     }
+  }
+
+  get holidayEmbed () {
+    const footerList = [
+      '趁著難得的假期好好放鬆一下吧',
+      '請好好享受假期吧',
+      '最近真是辛苦了，休閒的度過假期吧',
+      '會有特別的假期安排嗎？'
+    ]
+    const random = Math.floor(Math.random() * footerList.length)
+
+    const holidayEmbed = new Discord.MessageEmbed()
+      .setAuthor('日期資訊 Date info', 'https://i.imgur.com/wMfgtoW.png?1')
+      .setDescription(`${this.discordTimestamp}是假期喔 ${footerList[random]}`)
+      .setColor('#ACE9A6')
+      .setFooter(
+        '簡 Jane',
+        'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+      )
+      .setTimestamp()
+
+    return holidayEmbed
   }
 
   get classesEndedEmbed () {
@@ -396,8 +418,13 @@ class Period {
       periodNumber,
       lessonTimeFull,
       lessonsList,
-      rest
+      rest,
+      holiday
     } = this
+
+    if (holiday) {
+      return this.holidayEmbed
+    }
 
     if (this.classesEnded || periodNumber === 6) {
       return this.classesEndedEmbed
