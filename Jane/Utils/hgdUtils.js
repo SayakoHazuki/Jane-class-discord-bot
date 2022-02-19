@@ -266,6 +266,12 @@ function random (min, max) {
 function timeInRange (range) {
   const d = new Date()
   const timeNow = `${n(d.getHours())}:${n(d.getMinutes())}`
+  if (range[0] > range[1]) {
+    return (
+      (timeNow >= range[0] && timeNow <= '23:59') ||
+      (timeNow <= range[1] && timeNow >= '00:00')
+    )
+  }
   return timeNow >= range[0] && timeNow <= range[1]
 }
 
