@@ -452,7 +452,8 @@
           "footer": "在早上為您打氣的簡"
         }
       ],
-      "fail": [{ "message": "剛才已經跟簡說過早安了喔", "footer": "簡" }]
+      "fail": [{ "message": "剛才已經跟簡說過早安了喔", "footer": "簡" }],
+      "timeNotInRange": [{ "message": "起床有些晚了呢，簡已經去工作了～" }]
     },
     "night": {
       "command": "晚安簡",

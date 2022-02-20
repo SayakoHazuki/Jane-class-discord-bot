@@ -52,15 +52,14 @@ module.exports = class HgdMorningCommand extends Command {
     }
 
     if (!hgd.timeInRange(settings.timeRange)) {
+      const messages = config.messages.morning.timeNotInRange
       const timeNotInRangeEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setAuthor(
           message.member.displayName,
           message.author.displayAvatarURL()
         )
-        .setDescription(
-          `${['已經不早了喔', '現在不是早上喔'][hgd.random(0, 2)]}`
-        )
+        .setDescription(`${messages[hgd.random(0, messages.length)].message}`)
         .setTimestamp()
         .setFooter('簡')
       return message.reply({ embeds: [timeNotInRangeEmbed] })
