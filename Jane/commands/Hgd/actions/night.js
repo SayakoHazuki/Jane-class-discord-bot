@@ -82,7 +82,7 @@ module.exports = class HgdNightCommand extends Command {
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
-          `${hgd.strFormat(config.messages.morning.actionTitle, {
+          `${hgd.strFormat(config.messages.night.actionTitle, {
             displayName: message.member.displayName
           })}`
         )
