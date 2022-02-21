@@ -58,9 +58,7 @@ module.exports = class HgdNightCommand extends Command {
           message.member.displayName,
           message.author.displayAvatarURL()
         )
-        .setDescription(
-          `${['已經不晚了喔', '現在不是晚上喔'][hgd.random(0, 2)]}`
-        )
+        .setDescription(`${['現在不是晚上喔'][0]}`)
         .setTimestamp()
         .setFooter('簡')
       return message.reply({ embeds: [timeNotInRangeEmbed] })
@@ -82,7 +80,7 @@ module.exports = class HgdNightCommand extends Command {
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
-          `${hgd.strFormat(config.messages.morning.actionTitle, {
+          `${hgd.strFormat(config.messages.night.actionTitle, {
             displayName: message.member.displayName
           })}`
         )
