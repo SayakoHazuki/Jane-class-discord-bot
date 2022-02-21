@@ -251,7 +251,12 @@ class Period {
         timeNow < timeList[this.periodNumber].replace(':', '')
     }
 
-    if (this.rest) this.periodNumber++
+    if (
+      this.rest &&
+      !(timeNow < timeList[this.periodNumber].replace(':', ''))
+    ) {
+      this.periodNumber++
+    }
 
     this.lessonTimeFull = timeListFull[this.periodNumber]
 
