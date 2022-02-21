@@ -80,8 +80,6 @@ class Period {
       this.propOverride = propOverride
     }
 
-    this.next = false
-
     // ======= Class Properties =======
     this.embed = new Discord.MessageEmbed()
 
@@ -200,7 +198,7 @@ class Period {
               'R'
             )}`
           }
-          this.next = true
+          this.isShowingNext = true
         }
       }
     }
@@ -248,10 +246,12 @@ class Period {
       }
     }
 
-    if (!this.classesEnded || this.isBeforeSchool) {
+    if (!this.rest || this.classesEnded || this.isBeforeSchool) {
       this.isShowingNext =
         timeNow < timeList[this.periodNumber].replace(':', '')
     }
+
+    if (this.rest) this.periodNumber++
 
     this.lessonTimeFull = timeListFull[this.periodNumber]
 
