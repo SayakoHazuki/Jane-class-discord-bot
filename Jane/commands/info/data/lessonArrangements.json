@@ -1,23 +1,45 @@
 {
-  "3A": {},
-  "3B": {},
-  "3C": {
-    "23Jan": [
+  "3A":{
+    
+  },
+  "3B":{
+    
+  },
+  "3C":{
+    "23Jan":[
       {
-        "period": 4,
-        "from": "ASS",
-        "to": "空堂",
-        "link": "[沒有 Link]"
+        "period":4,
+        "from":"ASS",
+        "to":"空堂",
+        "link":"[沒有 Link]"
       }
     ],
-    "24Jan": [
+    "24Jan":[
       {
-        "period": 4,
-        "from": "ASS",
-        "to": "空堂",
-        "link": "[沒有 Link]"
+        "period":4,
+        "from":"ASS",
+        "to":"空堂",
+        "link":"[沒有 Link]"
+      }
+    ],
+    "28Feb":[
+      {
+        "period":4,
+        "from":"PHY",
+        "to":"PTH",
+        "link":"https://zoom.us/j/95068344455?pwd=eWpXc0ZlOXhLcUJNVExGcDNkRDBzQT09"
+      }
+    ],
+    "02Mar":[
+      {
+        "period":3,
+        "from":"PTH",
+        "to":"PHY",
+        "link":"https://meet.google.com/yjz-xwgn-dpc"
       }
     ]
   },
-  "3D": {}
+  "3D":{
+    
+  }
 }
