@@ -186,7 +186,7 @@ class Period {
 
     if (!this.isForcePeriodNumber) {
       for (const { from, to, type } of restPeriods) {
-        if (timeNow >= from && timeNow <= to) {
+        if (timeNow >= from && timeNow < to) {
           this.rest = type
           this.restinfo = {
             from: addColon(from),
@@ -253,7 +253,7 @@ class Period {
 
     if (
       this.rest &&
-      !(timeNow < timeList[this.periodNumber].replace(':', ''))
+      !(timeNow <= timeList[this.periodNumber].replace(':', ''))
     ) {
       this.periodNumber++
     }
