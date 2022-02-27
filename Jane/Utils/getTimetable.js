@@ -163,7 +163,7 @@ module.exports = class TimetableEmbed {
             printLog('WARN', __filename, 'Lesson Arrangement detected.')
             if (lessonArrangement.period === i) {
               subj = `~~${lessonArrangement.from}~~ **${lessonArrangement.to}**`
-              displayLink = `${lessonArrangement.link}\n`
+              displayLink = `[按此進入 ${lessonArrangement.to} 課室](${lessonArrangement.link})\n`
             }
           }
         }
