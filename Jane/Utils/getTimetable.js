@@ -3,7 +3,9 @@ const daysJson = require('../commands/info/data/sd.json')
 const timetableJson = require('../commands/info/data/tt.json')
 const lessonLinksJson = require('../commands/info/data/classlink.json')
 const classTimes = require('../commands/info/data/classTimes.json')
-const lessonArrangements = require('../commands/info/data/lessonArrangements.json')
+
+const fs = require('fs')
+const path = require('path')
 
 const terminal = require('./terminal')
 function printLog (type, filename, ...message) {
@@ -156,6 +158,15 @@ module.exports = class TimetableEmbed {
 
         let displayLink = showLinks ? mdLink : ''
 
+        const lessonArrangements = JSON.parse(
+          fs.readFileSync(
+            path.join(
+              __dirname,
+              '../commands/info/data/lessonArrangements.json'
+            ),
+            'utf8'
+          )
+        )
         if (dateToRead in lessonArrangements[sClass]) {
           for (const lessonArrangement of lessonArrangements[sClass][
             dateToRead
