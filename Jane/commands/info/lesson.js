@@ -342,7 +342,7 @@ class Period {
               printLog('WARN', __filename, `From ${LA.from} to ${LA.to}`)
 
               lessonSubject = `~~${LA.from}~~ **${LA.to}**`
-              mdLink = `${LA.link}`
+              mdLink = `[按此進入${LA.to}課室](${LA.link})`
             }
           }
         }
