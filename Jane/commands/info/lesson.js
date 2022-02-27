@@ -3,6 +3,9 @@ const Command = require('cmd')
 const { printLog } = require('utils')
 const Util = require('utils')
 
+const fs = require('fs')
+const path = require('path')
+
 let lessonLinksJson
 
 module.exports = class lessonCommand extends Command {
@@ -46,7 +49,6 @@ const daysJson = require('./data/sd.json')
 const timetableJson = require('./data/tt.json')
 const classTimes = require('./data/classStartTime.json')
 const classTimeFull = require('./data/classTimes.json')
-const lessonArrangements = require('./data/lessonArrangements.json')
 
 const divider = '━━━━━━━━━━━━━'
 
@@ -333,6 +335,12 @@ class Period {
           //    undefined()
         }
 
+        const lessonArrangements = JSON.parse(
+          fs.readFileSync(
+            path.join(__dirname, './data/lessonArrangements.json'),
+            'utf8'
+          )
+        )
         const LA_ = lessonArrangements
 
         if (dateToRead in LA_[classes[i]]) {
