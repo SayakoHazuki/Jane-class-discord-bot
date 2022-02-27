@@ -38,7 +38,7 @@ module.exports = class Client extends Discord.Client {
 
   registerCommands () {
     const commands = glob.sync(path.resolve('commands/**/*.js'))
-    Util.printLog('info', __filename, `Loading ${commands.length} commands`)
+    Util.printLog('info', __filename, `Loading ${commands.length} commands (normal)`)
 
     for (const commandPath of commands) {
       const File = require(commandPath)
