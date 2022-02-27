@@ -78,7 +78,10 @@ class HgdCommand extends Command {
             message.author.displayAvatarURL()
           )
           .setDescription(
-            `${messages.notInDayRange} ${config.emojis.jane_love.full}`
+            `${hgd.strFormat(
+              Util.randomFromArray(messages.dayNotInRange).message || '',
+              { displayName: message.member.displayName }
+            )}`
           )
           .setTimestamp()
           .setFooter('簡')
@@ -95,7 +98,10 @@ class HgdCommand extends Command {
             message.author.displayAvatarURL()
           )
           .setDescription(
-            `${messages.notInTimeRange} (${timeRange[0]}~${timeRange[1]})`
+            `${hgd.strFormat(
+              Util.randomFromArray(messages.timeNotInRange).message || '',
+              { displayName: message.member.displayName }
+            )}`
           )
           .setTimestamp()
           .setFooter('簡')

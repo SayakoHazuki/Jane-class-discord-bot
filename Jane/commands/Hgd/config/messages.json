@@ -112,7 +112,8 @@
         "message": "簡今天已經吃過您準備的下午茶了",
         "footer": "已經吃過下午茶的簡"
       }
-    ]
+    ],
+    "timeNotInRange": [{"message":"現在已經不是下午茶時段了哦～"}]
   },
   "teeTee": {
     "command": "和簡貼貼",
@@ -150,7 +151,9 @@
         "message": "今天已經打理過花園了, 目前無需再打理",
         "footer": "簡"
       }
-    ]
+    ],
+    "timeNotInRange": [{"message":"簡現在似乎有其他的工作要做呢"}],
+    "dayNotInRange": [{"message":"請等待周末再來和簡打理花園"}]
   },
   "morning": {
     "command": "早安簡",
@@ -187,6 +190,7 @@
         "footer": "正在喝花茶的簡"
       }
     ],
-    "fail": [{ "message": "剛才已經跟簡說過晚安了喔", "footer": "簡" }]
+    "fail": [{ "message": "剛才已經跟簡說過晚安了喔", "footer": "簡" }],
+    "timeNotInRange": [{ "message": "已經很晚了呢，簡似乎已經在睡覺了" }]
   }
 }
