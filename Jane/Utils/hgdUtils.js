@@ -43,7 +43,8 @@ module.exports = {
   checkLevel,
   checkNew,
   spinShard,
-  strFormat
+  strFormat,
+  unlockHighLv
 }
 
 async function add (message, action, amount) {
@@ -342,4 +343,49 @@ function strFormat (toModify, ...args) {
   }
 
   return str
+}
+
+async function unlockHighLv (interaction) {
+  const { user } = interaction
+
+  try {
+    const database = mdbclient.db('jane')
+    const collection = database.collection('hgdv2')
+
+    const query = { snowflake: user.id }
+    const options = {
+      sort: { _id: -1 }
+    }
+    const userdata = await collection.findOne(query, options)
+
+    const filter = { snowflake: user.id }
+    const updateDocument = {
+      $set: {
+        shards: Number(userdata.shards) - 25,
+        highLvLocked: false
+      }
+    }
+
+    await collection.updateOne(filter, updateDocument)
+
+    const level = getLevel(userdata.hgd).value
+    await interaction.message.reply({
+      embeds: [
+        new MessageEmbed()
+          .setAuthor(
+            `Lv.${level} | ${interaction.user.tag}`,
+            interaction.user.displayAvatarURL()
+          )
+          .setTitle('已解放好感度等級上限')
+          .setDescription(
+            `等級上限: Lv.30 \u279f Lv.40 \n好感度解放碎片持有數: ${userdata.shards} \u279f ${updateDocument.$set.shards}`
+          )
+          .setColor('#FB9EFF')
+      ]
+    })
+  } catch (e) {
+    const erro = new Error(e)
+    printLog('ERR', __filename, erro)
+    interaction.message.reply('很抱歉，簡的資料庫發生了錯誤')
+  }
 }

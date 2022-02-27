@@ -9,6 +9,7 @@ module.exports = class interactionHandler {
   }
 
   static handleMafiaInteraction (interaction) {
+    interaction.deferUpdate()
     switch (interaction.customId) {
       case 'wolfCount':
       case 'detectiveCount':
