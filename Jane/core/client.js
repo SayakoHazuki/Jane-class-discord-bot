@@ -5,6 +5,8 @@ const Util = require('utils')
 const Intents = Discord.Intents.FLAGS
 const hgd = require('../Utils/hgdUtils')
 
+const registerHgdCommands = require('./HgdCmdReg')
+
 module.exports = class Client extends Discord.Client {
   constructor () {
     super({
@@ -38,7 +40,11 @@ module.exports = class Client extends Discord.Client {
 
   registerCommands () {
     const commands = glob.sync(path.resolve('commands/**/*.js'))
-    Util.printLog('info', __filename, `Loading ${commands.length} commands (normal)`)
+    Util.printLog(
+      'info',
+      __filename,
+      `Loading ${commands.length} commands (normal)`
+    )
 
     for (const commandPath of commands) {
       const File = require(commandPath)
@@ -58,6 +64,16 @@ module.exports = class Client extends Discord.Client {
       }
 
       this.commands.set(cmd.name, cmd)
+    }
+
+    const hgdCommands = registerHgdCommands(this)
+    Util.printLog(
+      'INFO',
+      __filename,
+      `Loading ${hgdCommands.length} commands (Hgd)`
+    )
+    for (const command of hgdCommands) {
+      this.commands.set(command.name, command)
     }
 
     Util.printLog(

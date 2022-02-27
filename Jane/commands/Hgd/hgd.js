@@ -3,8 +3,6 @@ const Command = require('cmd')
 const hgdUtil = require('hgdUtils')
 const Util = require('utils')
 
-const config = require('./hgdConfig.json')
-
 module.exports = class HgdCommand extends Command {
   constructor (client) {
     super(client, {
@@ -19,6 +17,9 @@ module.exports = class HgdCommand extends Command {
   }
 
   async run (message, args) {
+    const emojis = require('./config/emojis.json')
+    const commands = require('./config/commands.json')
+    const messages = require('./config/messages.json')
     try {
       const data = (await hgdUtil.getData(message)) || {}
       const actionRecords = {
@@ -41,7 +42,6 @@ module.exports = class HgdCommand extends Command {
       }
 
       function getOkaasanBar () {
-        const emojis = config.emojis
         return `${emojis.FILLED.LEFT}${emojis.FILLED.MID.repeat(8)}${
           emojis.FILLED.RIGHT
         }`
@@ -54,17 +54,21 @@ module.exports = class HgdCommand extends Command {
       }
 
       function getActionInfo (action) {
-        return level.value >= config.settings[action].lvRequirement
+        const command = commands.filter(({ code }) => code === action)[0]
+        if (!command) {
+          return Util.printLog(
+            'ERR',
+            __filename,
+            `Can't find command with code ${action}`
+          )
+        }
+        return level.value >= command.config.lvRequirement
           ? `${
-              diffPass(
-                actionRecords[action],
-                config.settings[action].diffRequirement
-              )
-                ? config.emojis.check.full
-                : config.emojis.blank.full
-            } | ${config.emojis.actionEmojis[action]} 上次${config.messages[
-              action
-            ]?.altActionTitle || ''}: ${handledRecords[action]}\n`
+              diffPass(actionRecords[action], command.config.diffRequirement)
+                ? emojis.check.full
+                : emojis.blank.full
+            } | ${emojis.actionEmojis[action]} 上次${messages[action]
+              ?.altActionTitle || ''}: ${handledRecords[action]}\n`
           : ''
       }
 
@@ -97,9 +101,7 @@ module.exports = class HgdCommand extends Command {
         )
         .setColor('#ff64ab')
         .setFooter(
-          `Tip: ${
-            config.messages.tips[hgdUtil.random(0, config.messages.tips.length)]
-          } - 簡`
+          `Tip: ${messages.tips[hgdUtil.random(0, messages.tips.length)]} - 簡`
         )
       if (message.author.id === '726439536401580114') {
         return message.reply({ embeds: [okaasanEmbed] })

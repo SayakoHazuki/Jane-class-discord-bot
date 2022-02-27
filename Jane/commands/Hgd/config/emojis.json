@@ -1,0 +1,33 @@
+{
+  "actionEmojis": {
+    "files": "🗂️",
+    "roseTea": "🍵",
+    "rose": "<:roseW:938672508511617025>",
+    "pat": "<:pat:938672745993109527>",
+    "afternoonTea": "🍳",
+    "teeTee": "<:jane_love:904738308385554482>",
+    "gardening": "<:watercan:938673732510183474>"
+  },
+  "blank": {
+    "full": "<:blank:938667354370478200>",
+    "url": "https://cdn.discordapp.com/emojis/938667354370478200.webp?size=1024&quality=lossless"
+  },
+  "check": {
+    "full": "<:check:938661268598968320>",
+    "url": "https://cdn.discordapp.com/emojis/938661268598968320.webp?size=1024&quality=lossless"
+  },
+  "jane_love": {
+    "full": "<:jane_love:904738308385554482>",
+    "url": "https://cdn.discordapp.com/emojis/904738308385554482.webp?size=1024&quality=lossless"
+  },
+  "EMPTY": {
+    "LEFT": "<:HgdBarLeft_Unfilled:936823421394907136>",
+    "MID": "<:HgdBarMid_Unfilled:936823421285843045>",
+    "RIGHT": "<:HgdBarRight_Unfilled:936823421046755329>"
+  },
+  "FILLED": {
+    "LEFT": "<:HgdBarLeft_Filled:936823421222920233>",
+    "MID": "<:HgdBarMid_Filled:936823421331988530>",
+    "RIGHT": "<:HgdBarRight_Filled:936823421428453376>"
+  }
+}

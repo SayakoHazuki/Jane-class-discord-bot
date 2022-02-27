@@ -1,0 +1,199 @@
+[
+  {
+    "code": "files",
+    "props": {
+      "name": "幫助簡整理資料",
+      "aliases": ["幫簡整理資料"]
+    },
+    "config": {
+      "diffRequirement": 15,
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 30,
+        "min": 15,
+        "maxFail": -5,
+        "minFail": -1
+      }
+    }
+  },
+  {
+    "code": "roseTea",
+    "props": {
+      "name": "請簡喝玫瑰花茶",
+      "aliases": [
+        "請簡喝花茶",
+        "請簡喝一杯玫瑰花茶",
+        "請簡喝一杯花茶",
+        "送給簡一杯玫瑰花茶",
+        "送給簡一杯花茶",
+        "給簡一杯玫瑰花茶",
+        "給簡一杯花茶"
+      ]
+    },
+    "config": {
+      "diffRequirement": 30,
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 40,
+        "min": 20,
+        "maxFail": -4,
+        "minFail": -2
+      }
+    }
+  },
+  {
+    "code": "rose",
+    "props": {
+      "name": "送給簡一枝白玫瑰",
+      "aliases": [
+        "送簡一枝白玫瑰",
+        "贈送給簡一枝白玫瑰",
+        "贈送簡一枝白玫瑰",
+        "送一枝白玫瑰給簡",
+        "給簡一枝白玫瑰",
+        "給簡贈送一枝白玫瑰",
+        "送簡一支白玫瑰",
+        "贈送給簡一支白玫瑰",
+        "贈送簡一支白玫瑰",
+        "送一支白玫瑰給簡",
+        "給簡一支白玫瑰",
+        "給簡贈送一支白玫瑰",
+        "送給簡一支白玫瑰"
+      ]
+    },
+    "config": {
+      "diffRequirement": 15,
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 25,
+        "min": 10,
+        "maxFail": -4,
+        "minFail": -2
+      }
+    }
+  },
+  {
+    "code": "pat",
+    "props": {
+      "name": "拍拍簡的頭",
+      "aliases": []
+    },
+    "config": {
+      "diffRequirement": 30,
+      "lvRequirement": 15,
+      "hgd": {
+        "max": 45,
+        "min": 25,
+        "maxFail": -10,
+        "minFail": -5
+      }
+    }
+  },
+  {
+    "code": "afternoonTea",
+    "props": {
+      "name": "給簡準備下午茶",
+      "aliases": ["幫簡準備下午茶", "準備下午茶給簡"]
+    },
+    "config": {
+      "diffRequirement": 600,
+      "timeRange": ["14:00", "17:00"],
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 40,
+        "min": 25,
+        "maxFail": -5,
+        "minFail": -1
+      }
+    }
+  },
+  {
+    "code": "teeTee",
+    "props": { "name": "和簡貼貼", "aliases": [] },
+    "config": {
+      "diffRequirement": 60,
+      "lvRequirement": 25,
+      "hgd": {
+        "max": 60,
+        "min": 20,
+        "maxFail": -5,
+        "minFail": -3
+      }
+    }
+  },
+  {
+    "code": "gardening",
+    "props": {
+      "name": "幫簡打理花園",
+      "aliases": ["和簡打理花園", "協助簡打理花園", "幫助簡打理花園"]
+    },
+    "config": {
+      "diffRequirement": 1080,
+      "dayRange": [6, 0],
+      "timeRange": ["07:00", "19:00"],
+      "lvRequirement": 10,
+      "hgd": {
+        "max": 38,
+        "min": 20,
+        "maxFail": -10,
+        "minFail": -1
+      }
+    }
+  },
+  {
+    "code": "morning",
+    "props": {
+      "name": "早安簡",
+      "aliases": [
+        "簡早安",
+        "簡早安~",
+        "早安簡~",
+        "簡早",
+        "早安",
+        "早",
+        "早!",
+        "早安!簡",
+        "簡早安!"
+      ]
+    },
+    "config": {
+      "diffRequirement": 1080,
+      "timeRange": ["06:00", "11:30"],
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 35,
+        "min": 20,
+        "maxFail": -2,
+        "minFail": -1
+      }
+    }
+  },
+  {
+    "code": "night",
+    "props": {
+      "name": "晚安簡",
+      "aliases": [
+        "簡晚安",
+        "簡晚安~",
+        "晚安簡~",
+        "簡晚",
+        "晚安",
+        "晚",
+        "晚!",
+        "晚安!簡",
+        "簡晚安!"
+      ]
+    },
+    "config": {
+      "diffRequirement": 720,
+      "timeRange": ["17:30", "03:00"],
+      "lvRequirement": -1,
+      "hgd": {
+        "max": 35,
+        "min": 20,
+        "maxFail": -2,
+        "minFail": -1
+      }
+    }
+  }
+]

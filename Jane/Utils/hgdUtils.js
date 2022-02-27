@@ -23,7 +23,6 @@ function pos (number) {
   return number < 0 ? 0 : number
 }
 
-const config = require('../commands/Hgd/hgdConfig.json')
 const { MessageEmbed } = require('discord.js')
 
 module.exports = {
@@ -214,12 +213,13 @@ async function checkLevel (message, requirement = -1) {
 }
 
 function getLevel (hgd = 0) {
+  const levels = require('../commands/Hgd/config/levels.json')
   let finalLevel = 0
   let lowerLimit = 0
   let upperLimit = 0
   let level
-  for (let i = 0; i < config.levels.length; i++) {
-    ;({ level, lowerLimit, upperLimit } = config.levels[i])
+  for (let i = 0; i < levels.length; i++) {
+    ;({ level, lowerLimit, upperLimit } = levels[i])
     if (hgd >= lowerLimit && hgd < upperLimit) {
       finalLevel = level
       break
@@ -245,7 +245,7 @@ function getBar (hgd) {
   const { percentage } = getLevel(hgd)
   const stage = Math.floor(percentage / 10)
   printLog('INFO', __filename, `Stage: ${stage}; Percentage: ${percentage}`)
-  const emojis = config.emojis
+  const emojis = require('../commands/Hgd/config/emojis.json')
 
   return `${
     stage <= 0 ? emojis.EMPTY.LEFT : emojis.FILLED.LEFT
@@ -281,9 +281,10 @@ function n (num) {
 }
 
 async function spinShard (message, multiplier = 1) {
+  const levels = require('../commands/Hgd/config/levels.json')
   const data = await getData(message)
   const level = getLevel(data?.hgd).value || 0
-  const shardPossibility = config.levels[level].shardPerc * 0.01 * multiplier
+  const shardPossibility = levels[level].shardPerc * 0.01 * multiplier
   const randomNumber = Math.random()
   printLog(
     'INFO',
