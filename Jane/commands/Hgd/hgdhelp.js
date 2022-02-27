@@ -8,13 +8,6 @@ const dayOfWeekList = ['週日', '週一', '週二', '週三', '週四', '週五
 
 const config = require('./hgdConfig.json')
 
-function getClockEmoji (mins) {
-  if (mins >= 60) {
-    return `:clock${Math.round(mins / 60) % 12 || 12}:`
-  }
-  return `:clock${Math.round((mins / 60) * 12)}:`
-}
-
 module.exports = class HgdHelpCommand extends Command {
   constructor (client) {
     super(client, {
@@ -37,9 +30,7 @@ module.exports = class HgdHelpCommand extends Command {
       if (!(action in config.messages)) continue
       commandList += `**${config.messages[action].command}**\n${
         config.settings[action].diffRequirement >= 1
-          ? ` ${getClockEmoji(
-              config.settings[action].diffRequirement
-            )} 冷卻時間: ${
+          ? ` ⏳ 冷卻時間: ${
               config.settings[action].diffRequirement >= 60
                 ? `${config.settings[action].diffRequirement / 60} 小時`
                 : `${config.settings[action].diffRequirement} 分鐘`
@@ -47,12 +38,12 @@ module.exports = class HgdHelpCommand extends Command {
           : ''
       }${
         config.settings[action].lvRequirement >= 1
-          ? ` :information_source: 等級要求: ${config.settings[action].lvRequirement}\n`
+          ? ` 🔒 等級要求: ${config.settings[action].lvRequirement}\n`
           : ''
       }${
         'dayRange' in config.settings[action] ||
         'timeRange' in config.settings[action]
-          ? ` :calendar_spiral:時段限制: ${
+          ? ` 🕒 時段限制: ${
               !('dayRange' in config.settings[action])
                 ? ''
                 : config.settings[action].dayRange
