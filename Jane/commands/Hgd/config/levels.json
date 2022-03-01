@@ -183,37 +183,37 @@
     "level": 30,
     "lowerLimit": 45000,
     "upperLimit": 50000,
-    "shardPerc": 5
+    "shardPerc": 10
   },
   {
     "level": 31,
     "lowerLimit": 50000,
     "upperLimit": 55000,
-    "shardPerc": 5
+    "shardPerc": 10
   },
   {
     "level": 32,
     "lowerLimit": 55000,
     "upperLimit": 60000,
-    "shardPerc": 5
+    "shardPerc": 10
   },
   {
     "level": 33,
     "lowerLimit": 60000,
     "upperLimit": 65000,
-    "shardPerc": 5
+    "shardPerc": 10
   },
   {
     "level": 34,
     "lowerLimit": 65000,
     "upperLimit": 75000,
-    "shardPerc": 5
+    "shardPerc": 10
   },
   {
     "level": 35,
     "lowerLimit": 75000,
     "upperLimit": 87500,
-    "shardPerc": 5
+    "shardPerc": 10
   },
   {
     "level": 36,
