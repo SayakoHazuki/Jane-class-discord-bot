@@ -183,7 +183,7 @@
     "level": 30,
     "lowerLimit": 45000,
     "upperLimit": 50000,
-    "shardPerc": 10
+    "shardPerc": 15
   },
   {
     "level": 31,
