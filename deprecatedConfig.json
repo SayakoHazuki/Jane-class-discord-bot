@@ -1,0 +1,1143 @@
+{
+
+  "levels": [
+
+    {
+
+      "level": 0,
+
+      "lowerLimit": -10000,
+
+      "upperLimit": 25,
+
+      "shardPerc": 0.005
+
+    },
+
+    {
+
+      "level": 1,
+
+      "lowerLimit": 25,
+
+      "upperLimit": 75,
+
+      "shardPerc": 0.005
+
+    },
+
+    {
+
+      "level": 2,
+
+      "lowerLimit": 75,
+
+      "upperLimit": 175,
+
+      "shardPerc": 0.005
+
+    },
+
+    {
+
+      "level": 3,
+
+      "lowerLimit": 175,
+
+      "upperLimit": 375,
+
+      "shardPerc": 0.005
+
+    },
+
+    {
+
+      "level": 4,
+
+      "lowerLimit": 375,
+
+      "upperLimit": 700,
+
+      "shardPerc": 0.005
+
+    },
+
+    {
+
+      "level": 5,
+
+      "lowerLimit": 700,
+
+      "upperLimit": 1050,
+
+      "shardPerc": 0.05
+
+    },
+
+    {
+
+      "level": 6,
+
+      "lowerLimit": 1050,
+
+      "upperLimit": 1400,
+
+      "shardPerc": 0.05
+
+    },
+
+    {
+
+      "level": 7,
+
+      "lowerLimit": 1400,
+
+      "upperLimit": 1750,
+
+      "shardPerc": 0.05
+
+    },
+
+    {
+
+      "level": 8,
+
+      "lowerLimit": 1750,
+
+      "upperLimit": 2100,
+
+      "shardPerc": 0.05
+
+    },
+
+    {
+
+      "level": 9,
+
+      "lowerLimit": 2100,
+
+      "upperLimit": 2800,
+
+      "shardPerc": 0.05
+
+    },
+
+    {
+
+      "level": 10,
+
+      "lowerLimit": 2800,
+
+      "upperLimit": 3500,
+
+      "shardPerc": 0.1
+
+    },
+
+    {
+
+      "level": 11,
+
+      "lowerLimit": 3500,
+
+      "upperLimit": 4200,
+
+      "shardPerc": 0.1
+
+    },
+
+    {
+
+      "level": 12,
+
+      "lowerLimit": 4200,
+
+      "upperLimit": 4900,
+
+      "shardPerc": 0.1
+
+    },
+
+    {
+
+      "level": 13,
+
+      "lowerLimit": 4900,
+
+      "upperLimit": 5600,
+
+      "shardPerc": 0.1
+
+    },
+
+    {
+
+      "level": 14,
+
+      "lowerLimit": 5600,
+
+      "upperLimit": 7000,
+
+      "shardPerc": 0.1
+
+    },
+
+    {
+
+      "level": 15,
+
+      "lowerLimit": 7000,
+
+      "upperLimit": 8400,
+
+      "shardPerc": 0.4
+
+    },
+
+    {
+
+      "level": 16,
+
+      "lowerLimit": 8400,
+
+      "upperLimit": 9800,
+
+      "shardPerc": 0.4
+
+    },
+
+    {
+
+      "level": 17,
+
+      "lowerLimit": 9800,
+
+      "upperLimit": 11200,
+
+      "shardPerc": 0.4
+
+    },
+
+    {
+
+      "level": 18,
+
+      "lowerLimit": 11200,
+
+      "upperLimit": 12600,
+
+      "shardPerc": 0.4
+
+    },
+
+    {
+
+      "level": 19,
+
+      "lowerLimit": 12600,
+
+      "upperLimit": 15000,
+
+      "shardPerc": 0.4
+
+    },
+
+    {
+
+      "level": 20,
+
+      "lowerLimit": 15000,
+
+      "upperLimit": 17500,
+
+      "shardPerc": 1
+
+    },
+
+    {
+
+      "level": 21,
+
+      "lowerLimit": 17500,
+
+      "upperLimit": 20000,
+
+      "shardPerc": 1
+
+    },
+
+    {
+
+      "level": 22,
+
+      "lowerLimit": 20000,
+
+      "upperLimit": 22500,
+
+      "shardPerc": 1
+
+    },
+
+    {
+
+      "level": 23,
+
+      "lowerLimit": 22500,
+
+      "upperLimit": 25000,
+
+      "shardPerc": 1
+
+    },
+
+    {
+
+      "level": 24,
+
+      "lowerLimit": 25000,
+
+      "upperLimit": 28000,
+
+      "shardPerc": 1
+
+    },
+
+    {
+
+      "level": 25,
+
+      "lowerLimit": 28000,
+
+      "upperLimit": 31000,
+
+      "shardPerc": 3
+
+    },
+
+    {
+
+      "level": 26,
+
+      "lowerLimit": 31000,
+
+      "upperLimit": 34000,
+
+      "shardPerc": 3
+
+    },
+
+    {
+
+      "level": 27,
+
+      "lowerLimit": 34000,
+
+      "upperLimit": 37000,
+
+      "shardPerc": 3
+
+    },
+
+    {
+
+      "level": 28,
+
+      "lowerLimit": 37000,
+
+      "upperLimit": 40000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 29,
+
+      "lowerLimit": 40000,
+
+      "upperLimit": 45000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 30,
+
+      "lowerLimit": 45000,
+
+      "upperLimit": 50000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 31,
+
+      "lowerLimit": 50000,
+
+      "upperLimit": 55000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 32,
+
+      "lowerLimit": 55000,
+
+      "upperLimit": 60000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 33,
+
+      "lowerLimit": 60000,
+
+      "upperLimit": 65000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 34,
+
+      "lowerLimit": 65000,
+
+      "upperLimit": 75000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 35,
+
+      "lowerLimit": 75000,
+
+      "upperLimit": 87500,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 36,
+
+      "lowerLimit": 87500,
+
+      "upperLimit": 100000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 37,
+
+      "lowerLimit": 100000,
+
+      "upperLimit": 125000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 38,
+
+      "lowerLimit": 125000,
+
+      "upperLimit": 150000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 39,
+
+      "lowerLimit": 150000,
+
+      "upperLimit": 175000,
+
+      "shardPerc": 5
+
+    },
+
+    {
+
+      "level": 40,
+
+      "lowerLimit": 175000,
+
+      "upperLimit": 10000000,
+
+      "shardPerc": 5
+
+    }
+
+  ],
+
+  "emojis": {
+
+    "actionEmojis": {
+
+      "files": "🗂️",
+
+      "roseTea": "🍵",
+
+      "rose": "<:roseW:938672508511617025>",
+
+      "pat": "<:pat:938672745993109527>",
+
+      "afternoonTea": "🍳",
+
+      "teeTee": "<:jane_love:904738308385554482>",
+
+      "gardening": "<:watercan:938673732510183474>"
+
+    },
+
+    "blank": {
+
+      "full": "<:blank:938667354370478200>",
+
+      "url": "https://cdn.discordapp.com/emojis/938667354370478200.webp?size=1024&quality=lossless"
+
+    },
+
+    "check": {
+
+      "full": "<:check:938661268598968320>",
+
+      "url": "https://cdn.discordapp.com/emojis/938661268598968320.webp?size=1024&quality=lossless"
+
+    },
+
+    "jane_love": {
+
+      "full": "<:jane_love:904738308385554482>",
+
+      "url": "https://cdn.discordapp.com/emojis/904738308385554482.webp?size=1024&quality=lossless"
+
+    },
+
+    "EMPTY": {
+
+      "LEFT": "<:HgdBarLeft_Unfilled:936823421394907136>",
+
+      "MID": "<:HgdBarMid_Unfilled:936823421285843045>",
+
+      "RIGHT": "<:HgdBarRight_Unfilled:936823421046755329>"
+
+    },
+
+    "FILLED": {
+
+      "LEFT": "<:HgdBarLeft_Filled:936823421222920233>",
+
+      "MID": "<:HgdBarMid_Filled:936823421331988530>",
+
+      "RIGHT": "<:HgdBarRight_Filled:936823421428453376>"
+
+    }
+
+  },
+
+  "messages": {
+
+    "tips": [
+
+      "請多提出不同的指令建議喔",
+
+      "簡的伺服器已經換過5代了呢~",
+
+      "Lv40所需要的經驗值約等於幫簡整理7800次資料~",
+
+      "程序員的副帳曾在深夜測試時登上好感度榜首幾秒呢~",
+
+      "程序員在弄狼人殺系統時用了2小時修復一個大小寫導致的問題",
+
+      "Lv.0 獲得好感度解放碎片的機會和六合彩中四獎差不多~",
+
+      "P(Lv.0獲得好感度解放碎片) = 1/20000",
+
+      "抽到這條提醒的機率是12.5%~",
+
+      "......?",
+
+      "簡是在廢墟被母親發現並帶走扶養的",
+
+      "簡的正職是在母親旗下茶館看店和打理花園",
+
+      "簡的後花園是在21年1月22日正式開放的"
+
+    ],
+
+    "files": {
+
+      "command": "幫助簡整理資料",
+
+      "actionTitle": "幫助了簡整理資料",
+
+      "altActionTitle": "幫助簡整理資料",
+
+      "pass": [
+
+        {
+
+          "message": "簡感到開心",
+
+          "footer": "感到開心的簡"
+
+        },
+
+        {
+
+          "message": "簡很感謝您的幫忙",
+
+          "footer": "感到開心的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "你不久前整理過簡的資料了,\n沒有其他資料需要整理",
+
+          "footer": "簡"
+
+        }
+
+      ]
+
+    },
+
+    "roseTea": {
+
+      "command": "請簡喝玫瑰花茶",
+
+      "actionTitle": "請了簡喝一杯玫瑰花茶",
+
+      "altActionTitle": "請簡喝花茶",
+
+      "pass": [
+
+        {
+
+          "message": "簡喜歡您給的玫瑰花茶",
+
+          "footer": "喜歡喝花茶的簡"
+
+        },
+
+        {
+
+          "message": "簡很感謝您給簡的花茶",
+
+          "footer": "喜歡喝花茶的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "簡剛才喝過您給的花茶了",
+
+          "footer": "目前喝不下更多花茶的簡"
+
+        },
+
+        {
+
+          "message": "簡還在喝您剛才給的花茶",
+
+          "footer": "仍在喝您之前給的花茶的簡"
+
+        }
+
+      ]
+
+    },
+
+    "rose": {
+
+      "command": "送給簡一枝白玫瑰",
+
+      "actionTitle": "送了一枝白玫瑰給簡",
+
+      "altActionTitle": "送白玫瑰給簡",
+
+      "pass": [
+
+        {
+
+          "message": "簡很喜歡您送的白玫瑰",
+
+          "footer": "喜歡白玫瑰的簡"
+
+        },
+
+        {
+
+          "message": "簡很感謝您送白玫瑰給簡",
+
+          "footer": "喜歡白玫瑰的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "簡剛剛已經收過您送的白玫瑰了",
+
+          "footer": "簡"
+
+        }
+
+      ]
+
+    },
+
+    "pat": {
+
+      "command": "拍拍簡的頭",
+
+      "actionTitle": "拍拍了簡的頭",
+
+      "altActionTitle": "拍拍簡的頭",
+
+      "pass": [
+
+        {
+
+          "message": "簡覺得開心",
+
+          "footer": "覺得開心的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "您拍得太頻繁了, 簡覺得不太自在",
+
+          "footer": "覺得不太自在的簡"
+
+        }
+
+      ]
+
+    },
+
+    "afternoonTea": {
+
+      "command": "給簡準備下午茶",
+
+      "actionTitle": "給簡準備了下午茶",
+
+      "altActionTitle": "給簡準備下午茶",
+
+      "pass": [
+
+        {
+
+          "message": "簡很喜歡您給的下午茶",
+
+          "footer": "喜歡吃下午茶的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "簡今天已經吃過您準備的下午茶了",
+
+          "footer": "已經吃過下午茶的簡"
+
+        }
+
+      ]
+
+    },
+
+    "teeTee": {
+
+      "command": "和簡貼貼",
+
+      "actionTitle": "湊近了簡並和簡貼貼",
+
+      "altActionTitle": "和簡貼貼",
+
+      "pass": [
+
+        {
+
+          "message": "簡有些侷促但很開心",
+
+          "footer": "侷促但很開心的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "\u2800",
+
+          "footer": "簡"
+
+        }
+
+      ]
+
+    },
+
+    "gardening": {
+
+      "command": "幫簡打理花園",
+
+      "actionTitle": "協助了簡打理花園",
+
+      "altActionTitle": "和簡打理花園",
+
+      "pass": [
+
+        {
+
+          "message": "簡很感謝您協助打理花園",
+
+          "footer": "感到開心的簡"
+
+        },
+
+        {
+
+          "message": "簡很感謝您的幫忙",
+
+          "footer": "十分感激的簡"
+
+        }
+
+      ],
+
+      "fail": [
+
+        {
+
+          "message": "今天已經打理過花園了, 目前無需再打理",
+
+          "footer": "簡"
+
+        }
+
+      ]
+
+    },
+
+    "morning": {
+
+      "command": "早安簡",
+
+      "actionTitle": "{displayName}, 早上好!",
+
+      "altActionTitle": "和簡說早安",
+
+      "pass": [
+
+        {
+
+          "message": "今天有甚麼要做的嗎?",
+
+          "footer": "在早上為您打氣的簡"
+
+        },
+
+        {
+
+          "message": "請精神地完成今天要做的事情喔!",
+
+          "footer": "在早上為您打氣的簡"
+
+        },
+
+        {
+
+          "message": "{displayName}今天也很早呢!",
+
+          "footer": "在早上為您打氣的簡"
+
+        }
+
+      ],
+
+      "fail": [{ "message": "剛才已經跟簡說過早安了喔", "footer": "簡" }],
+
+      "timeNotInRange": [{ "message": "起床有些晚了呢，簡已經去工作了～" }]
+
+    },
+
+    "night": {
+
+      "command": "晚安簡",
+
+      "actionTitle": "晚安, {displayName}",
+
+      "altActionTitle": "和簡說晚安",
+
+      "pass": [
+
+        {
+
+          "message": "明天也請加油哦!",
+
+          "footer": "正在喝花茶的簡"
+
+        },
+
+        {
+
+          "message": "已經要睡了嗎, {displayName}?",
+
+          "footer": "正在喝花茶的簡"
+
+        }
+
+      ],
+
+      "fail": [{ "message": "剛才已經跟簡說過晚安了喔", "footer": "簡" }]
+
+    }
+
+  },
+
+  "settings": {
+
+    "files": {
+
+      "diffRequirement": 15,
+
+      "lvRequirement": -1,
+
+      "hgd": {
+
+        "max": 30,
+
+        "min": 15,
+
+        "maxFail": -5,
+
+        "minFail": -1
+
+      }
+
+    },
+
+    "roseTea": {
+
+      "diffRequirement": 30,
+
+      "lvRequirement": -1,
+
+      "hgd": {
+
+        "max": 40,
+
+        "min": 20,
+
+        "maxFail": -4,
+
+        "minFail": -2
+
+      }
+
+    },
+
+    "rose": {
+
+      "diffRequirement": 15,
+
+      "lvRequirement": -1,
+
+      "hgd": {
+
+        "max": 25,
+
+        "min": 10,
+
+        "maxFail": -4,
+
+        "minFail": -2
+
+      }
+
+    },
+
+    "pat": {
+
+      "diffRequirement": 30,
+
+      "lvRequirement": 15,
+
+      "hgd": {
+
+        "max": 45,
+
+        "min": 25,
+
+        "maxFail": -10,
+
+        "minFail": -5
+
+      }
+
+    },
+
+    "afternoonTea": {
+
+      "diffRequirement": 600,
+
+      "timeRange": ["14:00", "17:00"],
+
+      "lvRequirement": -1,
+
+      "hgd": {
+
+        "max": 40,
+
+        "min": 25,
+
+        "maxFail": -5,
+
+        "minFail": -1
+
+      }
+
+    },
+
+    "teeTee": {
+
+      "diffRequirement": 60,
+
+      "lvRequirement": 25,
+
+      "hgd": {
+
+        "max": 60,
+
+        "min": 20,
+
+        "maxFail": -5,
+
+        "minFail": -3
+
+      }
+
+    },
+
+    "gardening": {
+
+      "diffRequirement": 1080,
+
+      "dayRange": [6, 0],
+
+      "timeRange": ["07:00", "19:00"],
+
+      "lvRequirement": 10,
+
+      "hgd": {
+
+        "max": 38,
+
+        "min": 20,
+
+        "maxFail": -10,
+
+        "minFail": -1
+
+      }
+
+    },
+
+    "morning": {
+
+      "diffRequirement": 1080,
+
+      "timeRange": ["06:00", "11:30"],
+
+      "lvRequirement": -1,
+
+      "hgd": {
+
+        "max": 35,
+
+        "min": 20,
+
+        "maxFail": -2,
+
+        "minFail": -1
+
+      }
+
+    },
+
+    "night": {
+
+      "diffRequirement": 720,
+
+      "timeRange": ["17:30", "03:00"],
+
+      "lvRequirement": -1,
+
+      "hgd": {
+
+        "max": 35,
+
+        "min": 20,
+
+        "maxFail": -2,
+
+        "minFail": -1
+
+      }
+
+    }
+
+  }
+
+}
