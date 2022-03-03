@@ -2,87 +2,84 @@ const bent = require('bent')
 const getJSON = bent('json')
 
 const urls = {
-  vaccineDataAPI: 'https://static.data.gov.hk/covid-vaccine/summary.json',
-  covidDataAPI: 'https://chp-dashboard.geodata.gov.hk/covid-19/data/keynum.json'
+  buildings:
+    'https://api.data.gov.hk/v2/filter?q=%7B%22resource%22%3A%22http%3A%2F%2Fwww.chp.gov.hk%2Ffiles%2Fmisc%2Fbuilding_list_chi.csv%22%2C%22section%22%3A1%2C%22format%22%3A%22json%22%2C%22filters%22%3A%5B%5B1%2C%22eq%22%2C%5B%22%E6%B2%99%E7%94%B0%22%5D%5D%5D%7D',
+  overview:
+    'https://api.data.gov.hk/v2/filter?q=%7B%22resource%22%3A%22http%3A%2F%2Fwww.chp.gov.hk%2Ffiles%2Fmisc%2Flatest_situation_of_reported_cases_covid_19_chi.csv%22%2C%22section%22%3A1%2C%22format%22%3A%22json%22%2C%22filters%22%3A%5B%5B1%2C%22eq%22%2C%5B%22{}%22%5D%5D%5D%7D'
 }
 
-module.exports = async function getCovData () {
-  const vaccineData = await getJSON(urls.vaccineDataAPI)
-  const covidData = await getJSON(urls.covidDataAPI)
+const t = (a, b) =>
+  new Date(
+    new Date(
+      a.replace(/([0-9]{2})\/([0-9]{2})\/([0-9]{4})/g, '$2/$1/$3')
+    ).getTime() -
+      24 * 60 * 60 * 1000 * b
+  )
+const p = n => n.toString().padStart(2, '0')
+const f = d => [p(d.getDate()), p(d.getMonth() + 1), d.getFullYear()].join('/')
+const h = j => ({
+  date: j.更新日期,
+  death: j.死亡,
+  unhos: j.出院,
+  crit: j.住院危殆個案,
+  case: j.嚴重急性呼吸綜合症冠狀病毒2的陽性檢測個案
+})
 
-  return {
-    vaccine: {
-      latestDay: Number(vaccineData?.latestDaily ?? '0').toLocaleString(),
-      sevenDayAvg: Number(vaccineData?.sevenDayAvg ?? '0').toLocaleString(),
-      totalDoses: Number(
-        vaccineData?.totalDosesAdministered ?? '0'
-      ).toLocaleString(),
-      child: {
-        doses: [
-          {
-            total: Number(
-              vaccineData?.age5to11FirstDose ?? '0'
-            ).toLocaleString(),
-            percent: vaccineData?.age5to11FirstDosePercent ?? '0'
-          },
-          {
-            total: Number(
-              vaccineData?.age5to11SecondDose ?? '0'
-            ).toLocaleString(),
-            percent: vaccineData?.age5to11SecondDosePercent ?? '0'
-          }
-        ]
-      },
-      doses: [
-        {
-          total: Number(vaccineData?.firstDoseTotal ?? '0').toLocaleString(),
-          percent: vaccineData?.firstDosePercent?.replace('%', '') ?? '0',
-          daily: Number(vaccineData?.firstDoseDaily ?? '0').toLocaleString()
-        },
-        {
-          total: Number(vaccineData?.secondDoseTotal ?? '0').toLocaleString(),
-          percent: vaccineData?.secondDosePercent?.replace('%', '') ?? '0',
-          daily: Number(vaccineData?.secondDoseDaily ?? '0').toLocaleString()
-        },
-        {
-          total: Number(vaccineData?.thirdDoseTotal ?? '0').toLocaleString(),
-          percent: vaccineData?.thirdDosePercent?.replace('%', '') ?? '0',
-          daily: Number(vaccineData?.thirdDoseDaily ?? '0').toLocaleString()
-        }
-      ]
-    },
-    covid: {
-      updateTime: Math.floor(
-        Number(covidData?.As_of_date ?? 0) / 1000
-      ).toString(),
-      positiveTotal: Number(covidData?.Confirmed ?? '0').toLocaleString(),
-      confirmedTotal: Number(covidData?.Confirmed2 ?? '0').toLocaleString(),
-      confirmedDeltaTotal: Number(
-        covidData?.Confirmed_Delta ?? '0'
-      ).toLocaleString(),
-      asymptomaticTotal: Number(
-        covidData?.Asymptomatic ?? '0'
-      ).toLocaleString(),
-      repositiveTotal: Number(covidData?.RePositive ?? '0').toLocaleString(),
-      hospitalizedTotal: Number(
-        covidData?.Hospitalised ?? '0'
-      ).toLocaleString(),
-      deathTotal: Number(covidData?.Death ?? '0').toLocaleString(),
-      daily: {
-        local: covidData?.Local_Case2 ?? '0',
-        localRelated: covidData?.Local_Case2_Related ?? '0',
-        import: covidData?.Import_Case2 ?? '0',
-        importRelated: covidData?.Import_case2_Related ?? covidData?.Import_Case2_Related ?? '0',
-        total:
-          Number(covidData?.Local_Case2 ?? '0') +
-          Number(covidData?.Local_Case2_Related ?? '0') +
-          Number(covidData?.Import_Case2 ?? '0') +
-          Number(
-            covidData?.Import_case2_Related ??
-              covidData?.Import_Case2_Related ??
-              '0'
-          )
-      }
+module.exports = async function getCovData (dateOverride) {
+  let updatedToday = true
+  const buildingsJSON = await getJSON(urls.buildings)
+  const tempBuildings = buildingsJSON.map(i => i.大廈名單)
+
+  const buildings = []
+  const estates = []
+
+  for (const item of tempBuildings) {
+    const estate = item.match(/([^苑邨園]*[苑邨園])|(沙田第一城)|([^心]*中心)/)
+    if (!estate || !estate[0]) {
+      buildings.push(`${item}、`)
+      continue
     }
+    if (estates.includes(estate[0])) {
+      buildings[buildings.length - 1] = buildings[buildings.length - 1].slice(
+        0,
+        -1
+      )
+      buildings.push(`,${item.replace(estate[0], '')}、`)
+      continue
+    }
+    estates.push(estate[0])
+    buildings.push(`${item}、`)
   }
+
+  if (
+    buildings[buildings.length - 1].endsWith('、') ||
+    buildings[buildings.length - 1].endsWith(',')
+  ) {
+    buildings[buildings.length - 1] = buildings[buildings.length - 1].slice(
+      0,
+      -1
+    )
+  }
+
+  const dateNow = dateOverride || f(new Date())
+  const dateBefore = f(t(dateNow, 1))
+  console.log(dateNow, dateBefore)
+
+  let overviewNowJSON = await getJSON(urls.overview.replace('{}', dateNow))
+  let overviewBeforeJSON
+  if (!overviewNowJSON[0]) {
+    updatedToday = false
+    overviewNowJSON = await getJSON(urls.overview.replace('{}', dateBefore))
+    overviewBeforeJSON = await getJSON(
+      urls.overview.replace('{}', f(t(dateBefore, 1)))
+    )
+  } else {
+    overviewBeforeJSON = await getJSON(urls.overview.replace('{}', dateBefore))
+  }
+
+  const overviewNow = h(overviewNowJSON[0] || {})
+  const overviewBefore = h(overviewBeforeJSON[0] || {})
+
+  const results = { buildings, overviewNow, overviewBefore, updatedToday }
+  return results
 }
