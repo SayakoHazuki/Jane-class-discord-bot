@@ -26,7 +26,7 @@ module.exports = class LessonArrangementCommand extends Command {
       category: '資訊',
       description: '添加調堂資訊',
       usage: '調堂 (班別) (日期) (第幾節課) (原本課堂) (新的課堂) (新課堂連結)',
-      minArgs: 6,
+      minArgs: 5,
       maxArgs: 6
     })
   }
@@ -49,7 +49,7 @@ module.exports = class LessonArrangementCommand extends Command {
       return message.reply('課堂名稱需在10個字母以內')
     }
 
-    if (args[5].length >= 500) {
+    if ((args[5]?.length || 1) >= 500) {
       return message.reply('連結過長')
     }
 
@@ -119,7 +119,7 @@ module.exports = class LessonArrangementCommand extends Command {
         message.reply(
           `已新增一項調堂資訊: ${dateForJSON} (${Number(args[2])}) - ${
             args[3]
-          } \u279f ${args[4]}\nlink: ${args[5]}`
+          } \u279f ${args[4]}\nlink: ${args[5] || 'None'}`
         )
         Util.printLog(
           'info',
