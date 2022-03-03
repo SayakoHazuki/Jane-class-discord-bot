@@ -1,5 +1,5 @@
 const Evt = require('../core/e')
-const MafiaMenuHandler = require('../commands/Games/interactionHandler')
+const MafiaMenuHandler = require('../core/MafiaInteractions')
 const hgdUtil = require('hgdUtils')
 
 module.exports = class interactionCreate extends Evt {
@@ -12,14 +12,13 @@ module.exports = class interactionCreate extends Evt {
       case interaction.customId === 'unlockHighLv':
         hgdUtil.unlockHighLv(interaction)
         break
-      case interaction.isSelectMenu():
+      case MafiaMenuHandler.interactions.includes(interaction.customId):
         interaction.deferUpdate()
-        MafiaMenuHandler.handleMafiaInteraction(interaction)
-        break
-      default:
-        interaction.deferUpdate()
-        MafiaMenuHandler.handleMafiaButton(interaction)
-        break
+        if (interaction.isSelectMenu()) {
+          MafiaMenuHandler.handleMafiaInteraction(interaction)
+        } else {
+          MafiaMenuHandler.handleMafiaButton(interaction)
+        }
     }
   }
 }

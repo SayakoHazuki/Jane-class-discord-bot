@@ -1,7 +1,23 @@
-const Mafia = require('./mafia')
+const Mafia = require('../commands/Games/mafia')
 module.exports = class interactionHandler {
   constructor () {
     return undefined
+  }
+
+  static get interactions () {
+    return [
+      'wolfCount',
+      'detectiveCount',
+      'witchCount',
+      'hunterCount',
+      'guardCount',
+      'guardAction',
+      'detectiveAction',
+      'wolfAction',
+      'witchAction',
+      'startDiscussion',
+      'startVote'
+    ]
   }
 
   static handleInteraction (interaction) {
