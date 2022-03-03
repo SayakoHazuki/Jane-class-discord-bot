@@ -24,6 +24,7 @@ function getMonthFromString (mon) {
 
 module.exports = class TimetableEmbed {
   constructor (dateToRead, timeOfSchool = 'ONLINE', showLinks = true, sClass) {
+    if (dateToRead === '04Mar') timeOfSchool = '04MAR'
     // Return if unknown class
     if (!['3A', '3B', '3C', '3D'].includes(sClass)) return
 
