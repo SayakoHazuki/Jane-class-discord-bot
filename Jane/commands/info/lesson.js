@@ -76,6 +76,7 @@ function getRestSection (type, from, to, endRelativeTimestamp) {
 
 class Period {
   constructor (dateToRead, timeOfSchool = 'ONLINE', propOverride) {
+    if (dateToRead === '04Mar') timeOfSchool = '04MAR'
     lessonLinksJson = require('./data/classlink.json')
 
     if (Object.keys(propOverride).length >= 1) {
