@@ -1,6 +1,12 @@
 const bent = require('bent')
 const getJSON = bent('json')
 
+if (require.main === module) {
+  ;(async () => {
+    await fetchNews()
+  })()
+}
+
 const urls = {
   buildings:
     'https://api.data.gov.hk/v2/filter?q=%7B%22resource%22%3A%22http%3A%2F%2Fwww.chp.gov.hk%2Ffiles%2Fmisc%2Fbuilding_list_chi.csv%22%2C%22section%22%3A1%2C%22format%22%3A%22json%22%2C%22filters%22%3A%5B%5B1%2C%22eq%22%2C%5B%22%E6%B2%99%E7%94%B0%22%5D%5D%5D%7D',
@@ -80,6 +86,37 @@ module.exports = async function getCovData (dateOverride) {
   const overviewNow = h(overviewNowJSON[0] || {})
   const overviewBefore = h(overviewBeforeJSON[0] || {})
 
-  const results = { buildings, overviewNow, overviewBefore, updatedToday }
+  const news = await fetchNews()
+
+  const results = { buildings, overviewNow, overviewBefore, updatedToday, news }
+  return results
+}
+
+async function fetchNews () {
+  const { parse } = require('rss-to-json')
+  const { items } = await parse(
+    'http://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml'
+  )
+  const filtered = items.filter(
+    item =>
+      /[多增].*(確診|個案)/.test(item.title) ||
+      /[多增].*(確診|個案)/.test(item.description)
+  )
+
+  const results = filtered
+    .map(({ title, description, link, published, created }) => ({
+      title,
+      link,
+      description:
+        description.match(
+          /[^，\n]*增([0-9]{1,8})[^0-9。]*(^(個案|確診))*([^。]*)?/g
+        )?.[0] ||
+        (description.length >= 30
+          ? description.substring(0, 27) + '...'
+          : description),
+      time: (published || created) / 1000
+    }))
+    .slice(0, 3)
+
   return results
 }
