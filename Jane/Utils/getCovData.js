@@ -94,29 +94,37 @@ module.exports = async function getCovData (dateOverride) {
 
 async function fetchNews () {
   const { parse } = require('rss-to-json')
-  const { items } = await parse(
+  const rthkResults = await parse(
     'http://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml'
   )
-  const filtered = items.filter(
-    item =>
-      /[多增].*(確診|個案)/.test(item.title) ||
-      /[多增].*(確診|個案)/.test(item.description)
-  )
+  const mingpaoResults = await parse('https://news.mingpao.com/rss/ins/s00001.xml')
 
-  const results = filtered
-    .map(({ title, description, link, published, created }) => ({
-      title,
-      link,
-      description:
-        description.match(
-          /[^，\n]*增([0-9]{1,8})[^0-9。]*(^(個案|確診))*([^。]*)?/g
-        )?.[0] ||
-        (description.length >= 30
-          ? description.substring(0, 27) + '...'
-          : description),
-      time: (published || created) / 1000
-    }))
-    .slice(0, 3)
+  let results = []
+
+  for (const { items } of [rthkResults, mingpaoResults]) {
+    const filtered = items.filter(
+      item =>
+        /[多增].*(確診|個案)/.test(item.title) ||
+        /[多增].*(確診|個案)/.test(item.description)
+    )
+
+    results = results.concat(
+      filtered
+        .map(({ title, description, link, published, created }) => ({
+          title,
+          link,
+          description:
+            description.match(
+              /[^，\n]*增([0-9,]{1,8})[^0-9。]*(^(個案|確診))*([^。]*)?/g
+            )?.[0] ||
+            (description.length >= 30
+              ? description.substring(0, 27) + '...'
+              : description),
+          time: (published || created) / 1000
+        }))
+        .slice(0, 3)
+    )
+  }
 
   return results
 }
