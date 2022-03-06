@@ -27,14 +27,16 @@ module.exports = class CovidCommand extends Command {
       news
     } = await getCovData()
 
+    const { possiblyRelatedNews, relatedNews } = news
+
     const dayString = updatedToday ? '本日' : '昨日'
 
     const buildingsNumber = buildings.length
-    if (buildingsNumber >= 50) {
-      buildings = buildings.slice(0, 45)
+    if (buildingsNumber >= 30) {
+      buildings = buildings.slice(0, 27)
       buildings.push(
         ` ...[(還有${buildingsNumber -
-          45}項)](https://www.chp.gov.hk/files/pdf/building_list_chi.pdf)`
+          27}項)](https://www.chp.gov.hk/files/pdf/building_list_chi.pdf)`
       )
     }
     const fields = [
@@ -43,15 +45,41 @@ module.exports = class CovidCommand extends Command {
         value: `${buildings.join('')}`
       }
     ]
-    if (news.length) {
+    if (relatedNews?.length) {
       fields.push({
         name: '\u2800',
-        value: '__**疑似相關新聞**__'
+        value: '__**相關新聞** (按更新時間排序)__'
       })
-      for (const { title, link, description, time } of news) {
+      for (const { title, link, description, time, mediaName } of relatedNews) {
         fields.push({
-          name: `${title}`,
-          value: `<t:${time}:R> ${description} [新聞連結](${link})\n\u2800`
+          name: `【${mediaName || '?'}】 ${(title?.length >= 28
+            ? title.substring(0, 25) + '...'
+            : title) || '沒有標題'}`,
+          value: `<t:${time}:R> ${description ||
+            '(沒有內容)'} [新聞連結](${link ||
+            'https://news.google.com'})\n\u2800`
+        })
+      }
+    }
+    if (possiblyRelatedNews?.length) {
+      fields.push({
+        name: '\u2800',
+        value: '__**疑似相關新聞** (按更新時間排序)__'
+      })
+      for (const {
+        title,
+        link,
+        description,
+        time,
+        mediaName
+      } of possiblyRelatedNews) {
+        fields.push({
+          name: `【${mediaName || '?'}】 ${(title?.length >= 28
+            ? title.substring(0, 25) + '...'
+            : title) || '沒有標題'}`,
+          value: `<t:${time}:R> ${description ||
+            '(沒有內容)'} [新聞連結](${link ||
+            'https://news.google.com'})\n\u2800`
         })
       }
     }
