@@ -25,10 +25,10 @@ module.exports = class CalendarCommand extends Command {
         )
         .setColor(this.client.themeColor)
         .setDescription(
-          '校歷表(PDF檔案) > [www.janesite.ga/files/calendar](https://www.janesite.ga/files/calendar)\n校歷表(PNG圖片) > [www.janesite.ga/cal](https://www.janesite.ga/cal)'
+          '校歷表(PDF檔案) > https://jane.ml/files/calendar.pdf\n校歷表(PNG圖片) > https://jane.ml/cal'
         )
       const calEmbed = new Discord.MessageEmbed()
-        .setImage('https://www.janesite.ga/cal')
+        .setImage('https://jane.ml/files/cal_2.png')
         .setColor(this.client.themeColor)
       message.channel
         .createWebhook('簡 - 校歷表', {
