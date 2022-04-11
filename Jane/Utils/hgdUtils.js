@@ -288,11 +288,11 @@ function n (num) {
   return num.toString().padStart(2, '0')
 }
 
-async function spinShard (message, multiplier = 1) {
+async function spinShard (message, luckMultiplier = 1, resMultiplier = 1) {
   const levels = require('../commands/Hgd/config/levels.json')
   const data = await getData(message)
   const level = getLevel(data?.hgd).value || 0
-  const shardPossibility = levels[level].shardPerc * 0.01 * multiplier
+  const shardPossibility = levels[level].shardPerc * 0.01 * luckMultiplier
   const randomNumber = Math.random()
   printLog(
     'INFO',
@@ -313,26 +313,18 @@ async function spinShard (message, multiplier = 1) {
       const filter = { snowflake: message.author?.id || message.user?.id }
       const updateDocument = {
         $set: {
-          shards: userdata.shards + 1
+          shards: userdata.shards + 1 * resMultiplier
         }
       }
       await collection.updateOne(filter, updateDocument)
-
-      const getShardEmbed = new MessageEmbed()
-        .setColor('#FB9EFF')
-        .setAuthor(
-          `Lv.${level} ${message.author?.tag || message.user?.tag}`,
-          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
-        )
-        .setDescription(
-          `<:JANE_LightStickL:936956753944383508> 獲得了一個 __好感度解放碎片__ (${userdata.shards} \u279f ${updateDocument.$set.shards}) <:JANE_LightStickR:936956856604180480>`
-        )
-      return message.reply({ embeds: [getShardEmbed] })
+      return 1 * resMultiplier
     } catch (e) {
       const erro = new Error(e)
       printLog('ERR', __filename, erro)
       message.reply('很抱歉，簡的資料庫發生了錯誤')
     }
+  } else {
+    return 0
   }
 }
 

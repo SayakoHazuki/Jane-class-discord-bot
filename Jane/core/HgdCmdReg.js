@@ -127,6 +127,7 @@ class HgdCommand extends Command {
     if (diffPass) {
       const texts = Util.randomFromArray(messages.pass)
       Util.printLog('INFO', __filename, JSON.stringify(texts))
+      const shardsNum = await hgd.spinShard(message)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
         .setTitle(
@@ -143,7 +144,9 @@ class HgdCommand extends Command {
             displayName: message.member.displayName
           })}\n好感度+${newHgd - oldHgd} (${oldHgd} \u279f ${
             locked ? '🔒' : ''
-          } ${newHgd})`.replace(/9000[0-9]{5}/g, '∞')
+          } ${newHgd})${
+            shardsNum ? '\n好感度解放碎片+' + shardsNum : ''
+          }`.replace(/9000[0-9]{5}/g, '∞')
         )
         .setTimestamp()
         .setFooter(
@@ -155,7 +158,6 @@ class HgdCommand extends Command {
       message
         .reply({ embeds: [replyEmbed], components: [actionRow] })
         .catch(e => Util.printLog('ERR', __filename, e.stack))
-      await hgd.spinShard(message)
     } else {
       const texts = Util.randomFromArray(messages.fail)
       const replyEmbed = new Discord.MessageEmbed()
