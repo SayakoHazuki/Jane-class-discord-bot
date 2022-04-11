@@ -1,4 +1,4 @@
-# Jane ![GitHub top language](https://img.shields.io/github/languages/top/Kai9073/Jane) ![Node Version](https://img.shields.io/badge/NodeJS-v14.7.6-green) ![Status](https://img.shields.io/badge/status-up-green)
+# Jane ![GitHub top language](https://img.shields.io/github/languages/top/Kai9073/Jane) ![Node Version](https://img.shields.io/badge/node->=16.0.0-brightgreen) 
 
 本程式以 Javascript 寫成，參照 JS Standard 風格
 
