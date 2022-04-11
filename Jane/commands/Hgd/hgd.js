@@ -29,7 +29,9 @@ module.exports = class HgdCommand extends Command {
         pat: data.lastPat || 0,
         teeTee: data.lastTeeTee || 0,
         afternoonTea: data.lastAfternoonTea || 0,
-        gardening: data.lastGardening || 0
+        gardening: data.lastGardening || 0,
+        morning: data.lastMorning || 0,
+        night: data.lastNight || 0
       }
       if (!data.hgd) data.hgd = 0
       // min, max, percentage, number

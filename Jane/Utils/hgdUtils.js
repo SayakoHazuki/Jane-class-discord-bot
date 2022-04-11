@@ -275,12 +275,28 @@ function random (min, max) {
 function timeInRange (range) {
   const d = new Date()
   const timeNow = `${n(d.getHours())}:${n(d.getMinutes())}`
+  printLog(
+    'INFO',
+    __filename,
+    `time ${timeNow} in range ${range[0]} - ${range[1]}`
+  )
   if (range[0] > range[1]) {
+    printLog(
+      'INFO',
+      __filename,
+      `Above statement is ${(timeNow >= range[0] && timeNow <= '23:59') ||
+        (timeNow <= range[1] && timeNow >= '00:00')}`
+    )
     return (
       (timeNow >= range[0] && timeNow <= '23:59') ||
       (timeNow <= range[1] && timeNow >= '00:00')
     )
   }
+  printLog(
+    'INFO',
+    __filename,
+    `Above statement is ${timeNow >= range[0] && timeNow <= range[1]}`
+  )
   return timeNow >= range[0] && timeNow <= range[1]
 }
 
@@ -388,6 +404,8 @@ async function getAvailableActions (message, userdata) {
     if (dayRange) {
       const dayOfWeek = new Date().getDay()
       dayOfWeekPass = dayRange.includes(dayOfWeek)
+    }
+    if (timeRange) {
       timeIsInRange = timeInRange(timeRange)
     }
 
