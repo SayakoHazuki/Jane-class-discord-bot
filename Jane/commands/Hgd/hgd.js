@@ -100,7 +100,7 @@ module.exports = class HgdCommand extends Command {
           }** (${data.hgd}/${level.max}) • *排名: ${
             rank ? rank - 1 || '?' : '?'
           }*\u2800\n${hgdUtil.getBar(data.hgd)}  *${
-            level.percentage
+            Math.floor(level.percentage)
           }%*\n\n${actionInfo}\n好感度解放碎片: ${data.shards || 0}`
         )
         .setColor('#ff64ab')
