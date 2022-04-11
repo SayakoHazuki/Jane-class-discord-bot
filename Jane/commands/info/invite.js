@@ -23,6 +23,6 @@ module.exports = class InviteCommand extends Command {
           'https://discord.com/api/oauth2/authorize?client_id=801354940265922608&permissions=8&scope=bot'
         )
     ])
-    message.reply({ components: linkButtons })
+    message.reply({ components: [linkButtons] })
   }
 }
