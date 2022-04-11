@@ -67,7 +67,7 @@ module.exports = class WikiCommand extends Command {
             const wikiEmbed = {
               color: 0x0099ff,
               title: wTitle,
-              iconURL: pageurl,
+              url: pageurl,
               description: '** **',
               fields: result,
               timestamp: new Date(),

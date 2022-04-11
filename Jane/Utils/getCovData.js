@@ -12,27 +12,27 @@ const urls = {
 const medias = [
   {
     mediaName: '香港經濟日報',
-    iconURL: 'https://www.hket.com/rss/hongkong',
+    url: 'https://www.hket.com/rss/hongkong',
     priority: 50
   },
   {
     mediaName: '香港電台',
-    iconURL: 'http://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml',
+    url: 'http://rthk9.rthk.hk/rthk/news/rss/c_expressnews_clocal.xml',
     priority: 80
   },
   {
     mediaName: '明報',
-    iconURL: 'https://news.mingpao.com/rss/ins/s00001.xml',
+    url: 'https://news.mingpao.com/rss/ins/s00001.xml',
     priority: 100
   },
   {
     mediaName: '東方日報',
-    iconURL: 'https://orientaldaily.on.cc/rss/news.xml',
+    url: 'https://orientaldaily.on.cc/rss/news.xml',
     priority: 30
   },
   {
     mediaName: '政府新聞網',
-    iconURL:
+    url:
       'https://www.news.gov.hk/tc/categories/covid19/html/articlelist.rss.xml',
     priority: 80
   }
