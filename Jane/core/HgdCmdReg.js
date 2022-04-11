@@ -56,11 +56,12 @@ class HgdCommand extends Command {
       if (!levelPass) {
         const lvNotPassEmbed = new Discord.MessageEmbed()
           .setColor('#FB9EFF')
-          .setAuthor(
-            `Lv.${level} | ${message.author?.tag || message.user?.tag}`,
-            message.author?.displayAvatarURL() ||
+          .setAuthor({
+            name: `Lv.${level} | ${message.author?.tag || message.user?.tag}`,
+            iconURL:
+              message.author?.displayAvatarURL() ||
               message.user?.displayAvatarURL()
-          )
+          })
           .setDescription(`您未達到可以進行該動作的等級 (${level}/${req})`)
           .setTimestamp()
           .setFooter('簡')
@@ -76,11 +77,13 @@ class HgdCommand extends Command {
       if (!dayOfWeekPass) {
         const dayOfWeekFailEmbed = new Discord.MessageEmbed()
           .setColor('#FB9EFF')
-          .setAuthor(
-            `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
-            message.author?.displayAvatarURL() ||
+          .setAuthor({
+            name: `Lv.${userlevel} | ${message.author?.tag ||
+              message.user?.tag}`,
+            iconURL:
+              message.author?.displayAvatarURL() ||
               message.user?.displayAvatarURL()
-          )
+          })
           .setDescription(
             `${hgd.strFormat(
               Util.randomFromArray(messages.dayNotInRange).message || '',
@@ -99,11 +102,13 @@ class HgdCommand extends Command {
       if (!hgd.timeInRange(timeRange)) {
         const timeNotInRangeEmbed = new Discord.MessageEmbed()
           .setColor('#FB9EFF')
-          .setAuthor(
-            `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
-            message.author?.displayAvatarURL() ||
+          .setAuthor({
+            name: `Lv.${userlevel} | ${message.author?.tag ||
+              message.user?.tag}`,
+            iconURL:
+              message.author?.displayAvatarURL() ||
               message.user?.displayAvatarURL()
-          )
+          })
           .setDescription(
             `${hgd.strFormat(
               Util.randomFromArray(messages.timeNotInRange).message || '',
@@ -135,10 +140,12 @@ class HgdCommand extends Command {
             displayName: message.member.displayName
           })}`
         )
-        .setAuthor(
-          `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
-          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
-        )
+        .setAuthor({
+          name: `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
+          iconURL:
+            message.author?.displayAvatarURL() ||
+            message.user?.displayAvatarURL()
+        })
         .setDescription(
           `${hgd.strFormat(texts.message, {
             displayName: message.member.displayName
@@ -167,10 +174,12 @@ class HgdCommand extends Command {
             displayName: message.member.displayName
           })}`
         )
-        .setAuthor(
-          `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
-          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
-        )
+        .setAuthor({
+          name: `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
+          iconURL:
+            message.author?.displayAvatarURL() ||
+            message.user?.displayAvatarURL()
+        })
         .setDescription(
           `${hgd.strFormat(texts.message, {
             displayName: message.member.displayName

@@ -51,7 +51,10 @@ module.exports = class NicknameCommand extends Command {
             .setDescription(
               `:white_check_mark: 簡已經把你的暱稱改成了 ${newNickname}`
             )
-            .setAuthor(message.author.tag, message.author.displayAvatarURL())
+            .setAuthor({
+              name: message.author.tag,
+              iconURL: message.author.displayAvatarURL()
+            })
 
           message.reply({ embeds: [nickReplyEmbed] })
         })

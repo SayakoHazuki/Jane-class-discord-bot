@@ -386,7 +386,10 @@ class Period {
     const random = Math.floor(Math.random() * footerList.length)
 
     const holidayEmbed = new Discord.MessageEmbed()
-      .setAuthor('日期資訊 Date info', 'https://i.imgur.com/wMfgtoW.png?1')
+      .setAuthor({
+        name: '日期資訊 Date info',
+        iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
+      })
       .setDescription(`${this.discordTimestamp}是假期喔 ${footerList[random]}`)
       .setColor('#ACE9A6')
       .setFooter(
@@ -408,7 +411,7 @@ class Period {
       } ${this.dateNow.getFullYear()}`
     )
     this.embed
-      .setAuthor('本日課堂已全部完結')
+      .setAuthor({ name: '本日課堂已全部完結' })
       .setDescription(
         `${divider}\n本日最後一節已於 ${Util.getDiscordTimestamp(
           endEpoch,
@@ -462,15 +465,15 @@ class Period {
     }
 
     this.embed
-      .setAuthor(
-        `${
+      .setAuthor({
+        name: `${
           this.isShowingNext
             ? '下一節課堂'
             : this.isForcePeriodNumber
             ? `第 ${periodNumber + 1} 節課堂`
             : '本節課堂'
         }`
-      )
+      })
       .setDescription(
         `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\n${
           rest ? getRestSection(rest, from, to, endRelativeTimestamp) : ''

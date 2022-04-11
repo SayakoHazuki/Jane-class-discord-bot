@@ -453,10 +453,10 @@ async function unlockHighLv (interaction) {
     await interaction.message.reply({
       embeds: [
         new MessageEmbed()
-          .setAuthor(
-            `Lv.${level} | ${interaction.user.tag}`,
-            interaction.user.displayAvatarURL()
-          )
+          .setAuthor({
+            name: `Lv.${level} | ${interaction.user.tag}`,
+            iconURL: interaction.user.displayAvatarURL()
+          })
           .setTitle('已解放好感度等級上限')
           .setDescription(
             `等級上限: Lv.30 \u279f Lv.40 \n好感度解放碎片持有數: ${userdata.shards} \u279f ${updateDocument.$set.shards}`

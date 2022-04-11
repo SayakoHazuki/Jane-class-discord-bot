@@ -112,7 +112,10 @@ class MafiaGame {
     this.joinPanel = await this.message.reply({
       embeds: [
         this.embeds.joinPanel
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setDescription(
             `**玩家**\n> [暫時沒有]\n\n按下<:LightStickR:844470079109988362>來加入遊戲,截止時間 : ${Util.getDiscordTimestamp(
               this.startTime,
@@ -159,7 +162,10 @@ class MafiaGame {
       this.joinPanel.edit({
         embeds: [
           this.embeds.joinPanel
-            .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+            .setAuthor({
+              name: `主持: ${this.host.tag}`,
+              iconURL: this.host.displayAvatarURL()
+            })
             .setDescription(
               `**玩家 (${this.players.length})${
                 this.players.length <= 3
@@ -186,7 +192,10 @@ class MafiaGame {
       this.joinPanel.edit({
         embeds: [
           this.embeds.joinPanel
-            .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+            .setAuthor({
+              name: `主持: ${this.host.tag}`,
+              iconURL: this.host.displayAvatarURL()
+            })
             .setDescription(
               `**玩家 (${this.players.length})${
                 this.players.length <= 3
@@ -274,7 +283,10 @@ class MafiaGame {
           if (RolesCountSum !== this.players.length) {
             reaction.remove()
             const numNotMatchEmbed = new Discord.MessageEmbed()
-              .setAuthor(this.host.tag, this.host.displayAvatarURL())
+              .setAuthor({
+                name: this.host.tag,
+                iconURL: this.host.displayAvatarURL()
+              })
               .setTitle('角色數量與玩家數量不符')
               .setDescription('請在確認輸入內容無誤後再試一次')
               .setFooter(`Game Id:${this.id}`)
@@ -353,7 +365,10 @@ class MafiaGame {
       let roleEmbed
       if (roles[player] === '狼人') {
         roleEmbed = new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle('狼人殺 - 角色分配系統')
           .setDescription(
             `你被分配的角色: **__${roles[player]}__**\n其他狼人玩家: ${(
@@ -363,7 +378,10 @@ class MafiaGame {
           .setFooter(`Game Id: ${this.id}`)
       } else {
         roleEmbed = new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle('狼人殺 - 角色分配系統')
           .setDescription(`你被分配的角色: **__${roles[player]}__**`)
           .setFooter(`Game Id: ${this.id}`)
@@ -421,7 +439,11 @@ class MafiaGame {
       embeds: [this.waitingToStartEmbed] // ,
       // components: [startButtonActionRow]
     })
-    Util.printLog('INFO', __filename, JSON.stringify(this.readableRoles, null, 2))
+    Util.printLog(
+      'INFO',
+      __filename,
+      JSON.stringify(this.readableRoles, null, 2)
+    )
   }
 
   async cancelGame () {
@@ -489,7 +511,10 @@ class MafiaGame {
       player.user.send({
         embeds: [
           new Discord.MessageEmbed()
-            .setAuthor(`主持: ${game.host.tag}`, game.host.displayAvatarURL())
+            .setAuthor({
+              name: `主持: ${game.host.tag}`,
+              iconURL: game.host.displayAvatarURL()
+            })
             .setTitle(`守衛 [遊戲進度: 第${game.dayCount}晚]`)
             .setDescription(`:white_check_mark: 你守護了 ${target.user.tag}`)
         ]
@@ -558,7 +583,10 @@ class MafiaGame {
         .send({
           embeds: [
             new Discord.MessageEmbed()
-              .setAuthor(`主持: ${game.host.tag}`, game.host.displayAvatarURL())
+              .setAuthor({
+                name: `主持: ${game.host.tag}`,
+                iconURL: game.host.displayAvatarURL()
+              })
               .setTitle(`預言家 - 檢查身分 [遊戲進度: 第一${''}晚]`)
               .setDescription(
                 `你檢查了 ${target.user.tag} 的身分\n\n${target.user.username}是 __${target.role}__`
@@ -613,7 +641,10 @@ class MafiaGame {
       player.user.send({
         embeds: [
           new Discord.MessageEmbed()
-            .setAuthor(`主持: ${game.host.tag}`, game.host.displayAvatarURL())
+            .setAuthor({
+              name: `主持: ${game.host.tag}`,
+              iconURL: game.host.displayAvatarURL()
+            })
             .setTitle(`狼人 [遊戲進度: 第${game.dayCount}晚]`)
             .setDescription(
               `:white_check_mark: 你選擇了殺掉 ${target.user.tag}`
@@ -718,7 +749,10 @@ class MafiaGame {
         player.user.send({
           embeds: [
             new Discord.MessageEmbed()
-              .setAuthor(`主持: ${game.host.tag}`, game.host.displayAvatarURL())
+              .setAuthor({
+                name: `主持: ${game.host.tag}`,
+                iconURL: game.host.displayAvatarURL()
+              })
               .setTitle(`女巫 [遊戲進度: 第${game.dayCount}晚]`)
               .setDescription(
                 `:white_check_mark: 你使用藥救了 [${toBeKilledGameUser.identifier}]${toBeKilledGameUser.user.tag}`
@@ -734,7 +768,10 @@ class MafiaGame {
         player.user.send({
           embeds: [
             new Discord.MessageEmbed()
-              .setAuthor(`主持: ${game.host.tag}`, game.host.displayAvatarURL())
+              .setAuthor({
+                name: `主持: ${game.host.tag}`,
+                iconURL: game.host.displayAvatarURL()
+              })
               .setTitle(`女巫 [遊戲進度: 第${game.dayCount}晚]`)
               .setDescription(
                 `:white_check_mark: 你跳過了 (昨晚死的是 [${toBeKilledGameUser.identifier}]${toBeKilledGameUser.user.tag})`
@@ -751,7 +788,10 @@ class MafiaGame {
         player.user.send({
           embeds: [
             new Discord.MessageEmbed()
-              .setAuthor(`主持: ${game.host.tag}`, game.host.displayAvatarURL())
+              .setAuthor({
+                name: `主持: ${game.host.tag}`,
+                iconURL: game.host.displayAvatarURL()
+              })
               .setTitle(`女巫 [遊戲進度: 第${game.dayCount}晚]`)
               .setDescription(
                 `:white_check_mark: 你對 [${toBeKilledGameUser.identifier}]${toBeKilledGameUser.user.tag} 使用了毒藥`
@@ -788,7 +828,10 @@ class MafiaGame {
       return this[`day${this.dayCount}votePanel`].reply({
         embeds: [
           new Discord.MessageEmbed()
-            .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+            .setAuthor({
+              name: `主持: ${this.host.tag}`,
+              iconURL: this.host.displayAvatarURL()
+            })
             .setTitle(`第${this.dayCount}天 投票結果`)
             .setDescription(
               `最高票數為 [${this.readableRoles[i].identifier}] ${this.readableRoles[i].user.tag}`
@@ -802,7 +845,10 @@ class MafiaGame {
     this[`day${this.dayCount}votePanel`].reply({
       embeds: [
         new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle(`第${this.dayCount}天 投票結果`)
           .setDescription(
             `最高票數為 [${this.readableRoles[i].identifier}] ${this.readableRoles[i].user.tag}\n該玩家被票死, 請發表遺言`
@@ -881,7 +927,10 @@ class MafiaGame {
     m.reply({
       embeds: [
         new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle(`[天亮了]: 第 ${this.dayCount} 天`)
           .setDescription(
             `昨晚${
@@ -989,7 +1038,10 @@ class MafiaGame {
     interaction.message.channel.send({
       embeds: [
         new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle('討論環節')
           .setDescription(`發言次序: ${sortedPlayersList}`)
           .setColor(client.colors.green)
@@ -1019,7 +1071,10 @@ class MafiaGame {
     interaction.message.channel.send({
       embeds: [
         new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle('投票環節')
           .setDescription('請選出要投的玩家')
           .setColor(client.colors.red)
@@ -1032,7 +1087,10 @@ class MafiaGame {
     ] = await interaction.message.channel.send({
       embeds: [
         new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle('投票結果')
           .setDescription(
             MafiaGame.formatVoteResults(this[`day${this.dayCount}vote`])
@@ -1065,7 +1123,10 @@ class MafiaGame {
     this[`day${this.dayCount}votePanel`].edit({
       embeds: [
         new Discord.MessageEmbed()
-          .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+          .setAuthor({
+            name: `主持: ${this.host.tag}`,
+            iconURL: this.host.displayAvatarURL()
+          })
           .setTitle('投票結果')
           .setDescription(
             MafiaGame.formatVoteResults(this[`day${this.dayCount}vote`])
@@ -1091,7 +1152,10 @@ class MafiaGame {
         this[`day${this.dayCount}votePanel`].reply({
           embeds: [
             new Discord.MessageEmbed()
-              .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+              .setAuthor({
+                name: `主持: ${this.host.tag}`,
+                iconURL: this.host.displayAvatarURL()
+              })
               .setTitle(`第${this.dayCount}天 投票結果`)
               .setDescription('由於出現了平票, 沒有人被票死')
               .setFooter(`Game Id:${this.id}`)
@@ -1164,7 +1228,10 @@ class MafiaGame {
           winner[reason]
         }方勝利。\n本局角色如下:\n${rolesListStrings.join('\n')}`
       )
-      .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+      .setAuthor({
+        name: `主持: ${this.host.tag}`,
+        iconURL: this.host.displayAvatarURL()
+      })
       .setFooter(`Game Id:${this.id}`)
       .setColor(client.colors.green)
     return embed
@@ -1206,7 +1273,10 @@ class MafiaGame {
       .setDescription(
         `請查看你的私訊並等待主持開始\n**玩家**${sortedPlayersList}\n\n**角色**\n> ${this.roleSettings.wolf} 狼人 \n> ${this.roleSettings.detective} 預言 \n> ${this.roleSettings.witch} 女巫 \n> ${this.roleSettings.hunter} 獵人 \n> ${this.roleSettings.guard} 守衛 \n> ${this.roleSettings.none} 平民`
       )
-      .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+      .setAuthor({
+        name: `主持: ${this.host.tag}`,
+        iconURL: this.host.displayAvatarURL()
+      })
       .setFooter(`Game Id:${this.id}`)
       .setColor(client.colors.green)
   }
@@ -1379,55 +1449,61 @@ class MafiaGame {
         .setTitle('狼人殺')
         .setColor(client.colors.blue),
       gameCancelled: new Discord.MessageEmbed()
-        .setAuthor(
-          `主持: ${this.host.tag || '???'}`,
-          this.host.avatarURL || undefined
-        )
+        .setAuthor({
+          name: `主持: ${this.host.tag || '???'}`,
+          iconURL: this.host.avatarURL || undefined
+        })
         .setDescription('遊戲已取消')
         .setColor(client.colors.red)
         .setFooter(`Game Id:${this.id || 'Unknown'}`),
       guardAction: new Discord.MessageEmbed()
-        .setAuthor(
-          `主持: ${this.host.tag || '???'}`,
-          this.host.avatarURL || undefined
-        )
+        .setAuthor({
+          name: `主持: ${this.host.tag || '???'}`,
+          iconURL: this.host.avatarURL || undefined
+        })
         .setTitle(`守衛 [遊戲進度: 第${this.dayCount}晚]`)
         .setDescription('請選擇你要守護的玩家')
         .setColor(client.colors.green)
         .setFooter(`Game Id:${this.id || 'Unknown'}`),
       detectiveAction: new Discord.MessageEmbed()
-        .setAuthor(
-          `主持: ${this.host.tag || '???'}`,
-          this.host.avatarURL || undefined
-        )
+        .setAuthor({
+          name: `主持: ${this.host.tag || '???'}`,
+          iconURL: this.host.avatarURL || undefined
+        })
         .setTitle(`預言家 [遊戲進度: 第${this.dayCount}晚]`)
         .setDescription('請選擇你要檢查身分的玩家')
         .setColor(client.colors.green)
         .setFooter(`Game Id:${this.id || 'Unknown'}`),
       wolfAction: new Discord.MessageEmbed()
-        .setAuthor(
-          `主持: ${this.host.tag || '???'}`,
-          this.host.avatarURL || undefined
-        )
+        .setAuthor({
+          name: `主持: ${this.host.tag || '???'}`,
+          iconURL: this.host.avatarURL || undefined
+        })
         .setTitle(`狼人 [遊戲進度: 第${this.dayCount}晚]`)
         .setDescription('請選擇你要殺的玩家')
         .setColor(client.colors.green)
         .setFooter(`Game Id:${this.id || 'Unknown'}`),
       witchAction: new Discord.MessageEmbed()
-        .setAuthor(
-          `主持: ${this.host.tag || '???'}`,
-          this.host.avatarURL || undefined
-        )
+        .setAuthor({
+          name: `主持: ${this.host.tag || '???'}`,
+          iconURL: this.host.avatarURL || undefined
+        })
         .setTitle(`女巫 [遊戲進度: 第${this.dayCount}晚]`)
         .setColor(client.colors.green)
         .setFooter(`Game Id:${this.id || 'Unknown'}`),
       waitingGuard: new Discord.MessageEmbed()
-        .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+        .setAuthor({
+          name: `主持: ${this.host.tag}`,
+          iconURL: this.host.displayAvatarURL()
+        })
         .setTitle(`第 ${this.dayCount} 天 - 晚上`)
         .setDescription('> 守衛請睜眼\n請查看你的私訊以進行角色行動')
         .setColor(client.colors.blue),
       waitingDetective: new Discord.MessageEmbed()
-        .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+        .setAuthor({
+          name: `主持: ${this.host.tag}`,
+          iconURL: this.host.displayAvatarURL()
+        })
         .setTitle(`第 ${this.dayCount} 天 - 晚上`)
         .setDescription(
           `> ${
@@ -1436,7 +1512,10 @@ class MafiaGame {
         )
         .setColor(client.colors.blue),
       waitingWolf: new Discord.MessageEmbed()
-        .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+        .setAuthor({
+          name: `主持: ${this.host.tag}`,
+          iconURL: this.host.displayAvatarURL()
+        })
         .setTitle(`第 ${this.dayCount} 天 - 晚上`)
         .setDescription(
           `> ${
@@ -1449,7 +1528,10 @@ class MafiaGame {
         )
         .setColor(client.colors.blue),
       waitingWitch: new Discord.MessageEmbed()
-        .setAuthor(`主持: ${this.host.tag}`, this.host.displayAvatarURL())
+        .setAuthor({
+          name: `主持: ${this.host.tag}`,
+          iconURL: this.host.displayAvatarURL()
+        })
         .setTitle(`第 ${this.dayCount} 天 - 晚上`)
         .setDescription('> 狼人請閉眼,女巫請睜眼\n請查看你的私訊以進行角色行動')
         .setColor(client.colors.blue)

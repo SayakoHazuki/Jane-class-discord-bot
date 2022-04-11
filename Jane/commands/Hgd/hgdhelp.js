@@ -51,7 +51,7 @@ module.exports = class HgdHelpCommand extends Command {
     const emojis = require('./config/emojis.json')
     const messages = require('./config/messages.json')
     const helpEmbed = new Discord.MessageEmbed()
-      .setAuthor('好感度系統', emojis.jane_love.url)
+      .setAuthor({ name: '好感度系統', iconURL: emojis.jane_love.url })
       .setTitle('簡介')
       .setDescription(
         '簡的好感度系統在2021年1月22日上線了!\n可以透過不同的互動增加好感度! <:JANE_LightStickR:936956856604180480>\n越高好感度, 互動的方式就越多喔!\n快到 <#802180277534982224> 提升好感度吧!'

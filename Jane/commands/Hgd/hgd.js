@@ -83,7 +83,10 @@ module.exports = class HgdCommand extends Command {
       const actionRow = await hgdUtil.generateActionRow(message, data)
 
       const okaasanEmbed = new Discord.MessageEmbed()
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setAuthor({
+          name: message.author.tag,
+          iconURL: message.author.displayAvatarURL()
+        })
         .setTitle('好感度')
         .setDescription(
           `**等級 MAX** (-/MAX) • *排名: 母親*\u2800\n${getOkaasanBar()}\n${actionInfo}好感度解放碎片: ∞`
@@ -92,16 +95,19 @@ module.exports = class HgdCommand extends Command {
         .setFooter('簡')
 
       const hgdEmbed = new Discord.MessageEmbed()
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setAuthor({
+          name: message.author.tag,
+          iconURL: message.author.displayAvatarURL()
+        })
         .setTitle('好感度')
         .setDescription(
           `**等級 ${level.value}${
             data.highLvLocked && data.hgd >= 45000 ? ' 🔒' : ''
           }** (${data.hgd}/${level.max}) • *排名: ${
             rank ? rank - 1 || '?' : '?'
-          }*\u2800\n${hgdUtil.getBar(data.hgd)}  *${
-            Math.floor(level.percentage)
-          }%*\n\n${actionInfo}\n好感度解放碎片: ${data.shards || 0}`
+          }*\u2800\n${hgdUtil.getBar(data.hgd)}  *${Math.floor(
+            level.percentage
+          )}%*\n\n${actionInfo}\n好感度解放碎片: ${data.shards || 0}`
         )
         .setColor('#ff64ab')
         .setFooter(

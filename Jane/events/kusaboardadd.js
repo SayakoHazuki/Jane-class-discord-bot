@@ -21,7 +21,11 @@ module.exports = class Message extends Evt {
       .get('799269481247014912')
       ?.emojis.cache.find(emoji => emoji.name === 'kusa')
     const handleStarboard = async () => {
-      printLog('info', __filename, 'Kusa emoji received, running handleStarboard function')
+      printLog(
+        'info',
+        __filename,
+        'Kusa emoji received, running handleStarboard function'
+      )
       const starboard = client.channels.cache.find(
         channel => channel.name.toLowerCase() === 'kusaboard'
       )
@@ -38,10 +42,10 @@ module.exports = class Message extends Evt {
         )
       } else {
         const embed = new MessageEmbed()
-          .setAuthor(
-            reaction.message.author.tag,
-            reaction.message.author.displayAvatarURL()
-          )
+          .setAuthor({
+            name: reaction.message.author.tag,
+            iconURL: reaction.message.author.displayAvatarURL()
+          })
           .addField('訊息連結', `[按此前往訊息](${reaction.message.url})`)
           .setDescription(reaction.message.content)
           .setFooter(reaction.message.id + ' (訊息id) ')

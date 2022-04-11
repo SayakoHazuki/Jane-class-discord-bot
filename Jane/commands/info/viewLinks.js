@@ -28,10 +28,10 @@ module.exports = class viewLinksCommand extends Command {
       }
 
       const resultEmbed = new Discord.MessageEmbed()
-        .setAuthor(
-          message.author.username,
-          message.author.avatarURL({ format: 'webp' })
-        )
+        .setAuthor({
+          name: message.author.username,
+          iconURL: message.author.avatarURL({ format: 'webp' })
+        })
         .setTitle('網課連結')
         .setDescription(
           '連結可用 `-al  班別,科目,連結  班別,科目,連結  ...`的指令加上'
@@ -55,19 +55,19 @@ module.exports = class viewLinksCommand extends Command {
       i++
     }
     const resultEmbed = new Discord.MessageEmbed()
-      .setAuthor(
-        message.author.username,
-        message.author.avatarURL({ format: 'webp' })
-      )
+      .setAuthor({
+        name: message.author.username,
+        iconURL: message.author.avatarURL({ format: 'webp' })
+      })
       .setTitle('網科連結')
       .setDescription(
         '連結可用 `-al  班別,科目,連結  班別,科目,連結  ...`的指令加上'
       )
       .addFields([
-        { name: '3A', value: links[0].substring(0,1000) },
-        { name: '3B', value: links[1].substring(0,1000) },
-        { name: '3C', value: links[2].substring(0,1000) },
-        { name: '3D', value: links[3].substring(0,1000) }
+        { name: '3A', value: links[0].substring(0, 1000) },
+        { name: '3B', value: links[1].substring(0, 1000) },
+        { name: '3C', value: links[2].substring(0, 1000) },
+        { name: '3D', value: links[3].substring(0, 1000) }
       ])
       .setFooter(
         '簡 Jane',

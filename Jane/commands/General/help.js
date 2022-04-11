@@ -23,7 +23,10 @@ module.exports = class HelpCommand extends Command {
       if (!command) return message.reply('❌ 找不到指令')
 
       const embed = new MessageEmbed()
-        .setAuthor(this.client.user.tag, this.client.user.displayAvatarURL())
+        .setAuthor({
+          name: this.client.user.tag,
+          iconURL: this.client.user.displayAvatarURL()
+        })
         .setTitle(command.name)
         .setDescription(command.description)
         .addField(

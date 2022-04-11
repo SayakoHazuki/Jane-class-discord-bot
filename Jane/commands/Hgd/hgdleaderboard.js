@@ -22,14 +22,14 @@ module.exports = class HgdLeaderboardCommand extends Command {
     const leaderboardEmbed = new Discord.MessageEmbed()
       .setColor('#FB9EFF')
       .setTitle('好感度排行榜')
-      .setAuthor(
-        `#${
+      .setAuthor({
+        name: `#${
           message.author.id === '726439536401580114'
             ? '母親'
             : ownRank - 1 || '?'
         } ${message.author.tag}`,
-        message.author.displayAvatarURL()
-      )
+        iconURL: message.author.displayAvatarURL()
+      })
       .setDescription(`${sortedList.slice(0, 10).join('\n')}`)
       .setTimestamp()
       .setFooter('簡', '')

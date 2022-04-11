@@ -17,7 +17,10 @@ module.exports = class skipCommand extends Command {
     try {
       await this.client.player.skip(message)
       const resumeEmbed = new Discord.MessageEmbed()
-        .setAuthor('⏩ 已跳過', message.author.displayAvatarURL())
+        .setAuthor({
+          name: '⏩ 已跳過',
+          iconURL: message.author.displayAvatarURL()
+        })
         .setColor(this.client.colors.blue)
       message.reply({ embeds: [resumeEmbed] })
     } catch (e) {

@@ -20,10 +20,10 @@ module.exports = class LvUnlockCommand extends Command {
     const level = hgdUtil.getLevel(hgd).value
     if (highLvLocked) {
       const embed = new Discord.MessageEmbed()
-        .setAuthor(
-          `Lv.${level} | ${message.author.tag}`,
-          message.author.displayAvatarURL()
-        )
+        .setAuthor({
+          name: `Lv.${level} | ${message.author.tag}`,
+          iconURL: message.author.displayAvatarURL()
+        })
         .setTitle('解放好感度等級上限')
         .setDescription(
           `目前等級上限: Lv.30\n\n${

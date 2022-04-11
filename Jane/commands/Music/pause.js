@@ -27,9 +27,15 @@ module.exports = class pauseCommand extends Command {
         queue: false,
         length: 10
       }
-      const progressBar = this.client.player.createProgressBar(message, progressBarOptions)
+      const progressBar = this.client.player.createProgressBar(
+        message,
+        progressBarOptions
+      )
       const pauseEmbed = new Discord.MessageEmbed()
-        .setAuthor('⏸️ 已暫停', message.author.displayAvatarURL())
+        .setAuthor({
+          name: '⏸️ 已暫停',
+          iconURL: message.author.displayAvatarURL()
+        })
         .setDescription(`[${trackNow.title}](${trackNow.url})\n${progressBar}`)
         .setThumbnail(trackNow.thumbnail)
         .setColor(this.client.colors.yellow)

@@ -20,7 +20,9 @@ module.exports = class Ready extends Evt {
       'Finished loading client - bot has started'
     )
 
-    this.client.channels.fetch('921544138887929886').then(ch => ch.send('Bot has started!'))
+    this.client.channels
+      .fetch('921544138887929886')
+      .then(ch => ch.send('Bot has started!'))
 
     this.client.player.on('botDisconnect', message => {
       Util.printLog('INFO', __filename, 'Player emitted botDisconnect Event')
@@ -152,7 +154,10 @@ module.exports = class Ready extends Evt {
     this.client.player.on('trackAdd', (message, queue, track) => {
       Util.printLog('INFO', __filename, 'Player emitted trackAdd Event')
       const trackAddEmbed = new MessageEmbed()
-        .setAuthor('歌曲已加入播放列表', track.requestedBy.displayAvatarURL)
+        .setAuthor({
+          name: '歌曲已加入播放列表',
+          iconURL: track.requestedBy.displayAvatarURL
+        })
         .setDescription(
           `[${track.title}](${track.url})\n:clock7: 長度 > ${track.duration}`
         )
@@ -171,7 +176,10 @@ module.exports = class Ready extends Evt {
       Util.printLog('info', __filename, track)
       Util.printLog('INFO', __filename, 'Player emitted trackStart Event')
       const trackStartEmbed = new MessageEmbed()
-        .setAuthor('正在播放', track.requestedBy.displayAvatarURL)
+        .setAuthor({
+          name: '正在播放',
+          iconURL: track.requestedBy.displayAvatarURL
+        })
         .setDescription(
           `[${track.title}](${track.url})\n\n:clock7: > ${track.duration}\n<:profile:842405731591913492> > ${track.requestedBy.tag}`
         )

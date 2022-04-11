@@ -83,7 +83,10 @@ module.exports = class ColorCommand extends Command {
       const sucessEmbed = new Discord.MessageEmbed()
         .setColor(c)
         .setDescription(`:white_check_mark: 簡已經把你的名稱顏色改成 ${w}`)
-        .setAuthor(message.author.tag, message.author.displayAvatarURL())
+        .setAuthor({
+          name: message.author.tag,
+          iconURL: message.author.displayAvatarURL()
+        })
       message.reply({ embeds: [sucessEmbed] })
     }
 

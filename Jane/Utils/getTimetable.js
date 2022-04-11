@@ -217,10 +217,10 @@ module.exports = class TimetableEmbed {
       printLog('info', __filename, JSDateForDay.getTime())
 
       const timetableEmbed = new MessageEmbed()
-        .setAuthor(
-          `[${sClass}] 日期資訊 Date info`,
-          'https://i.imgur.com/wMfgtoW.png?1'
-        )
+        .setAuthor({
+          name: `[${sClass}] 日期資訊 Date info`,
+          iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
+        })
         .setDescription(
           `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\u2800`
         )
@@ -258,7 +258,10 @@ module.exports = class TimetableEmbed {
       const random = Math.floor(Math.random() * footerList.length)
 
       const holidayEmbed = new MessageEmbed()
-        .setAuthor('日期資訊 Date info', 'https://i.imgur.com/wMfgtoW.png?1')
+        .setAuthor({
+          name: '日期資訊 Date info',
+          iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
+        })
         .setDescription(`${discordTimestamp}是假期喔 ${footerList[random]}`)
         .setColor('#ACE9A6')
         .setFooter(
@@ -319,7 +322,10 @@ class TestEmbed {
     }
 
     const testTTEmbed = new MessageEmbed()
-      .setAuthor('日期資訊 Date info', 'https://i.imgur.com/wMfgtoW.png?1')
+      .setAuthor({
+        name: '日期資訊 Date info',
+        iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
+      })
       .setDescription(
         `━━━━━━━━━━━━━\n<t:${Math.round(
           JSDateForDay.getTime() / 1000
