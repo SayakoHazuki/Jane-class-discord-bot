@@ -3,6 +3,8 @@ const Command = require('cmd')
 
 const getCovData = require('../../Utils/getCovData')
 
+const isValid = number => !(isNaN(number) || number == null)
+
 module.exports = class CovidCommand extends Command {
   constructor (client) {
     super(client, {
@@ -83,21 +85,29 @@ module.exports = class CovidCommand extends Command {
         })
       }
     }
+
+    let replacements = [
+      overviewNow.case - overviewBefore.case,
+      overviewNow.case,
+      overviewNow.death - overviewBefore.death,
+      overviewNow.death,
+      overviewNow.crit
+    ]
+    replacements = replacements.map(datum =>
+      isValid(datum) ? datum : '*(沒有數據)*'
+    )
+
     const covidEmbed = new Discord.MessageEmbed()
       .setTitle('2019冠狀病毒病-香港最新情況')
       .setURL('https://chp-dashboard.geodata.gov.hk/covid-19/en.html')
       .setDescription(
-        `本日數據${
-          updatedToday ? '已' : '尚未'
-        }更新\n> ${dayString}新增 ${overviewNow.case -
-          overviewBefore.case} 宗個案, 累計 ${
-          overviewNow.case
-        } 宗\n> 多 ${overviewNow.death -
-          overviewBefore.death} 患者離世, 累計死亡個案 ${
-          overviewNow.death
-        } 宗\n> 截至${updatedToday ? '本日' : '昨日'}仍有 ${
-          overviewNow.crit
-        } 名住院患者危殆`
+        `本日數據${updatedToday ? '已' : '尚未'}更新\n> ${dayString}新增 ${
+          replacements[0]
+        } 宗個案, 累計 ${replacements[1]} 宗\n> 多 ${
+          replacements[2]
+        } 患者離世, 累計死亡個案 ${replacements[3]} 宗\n> 截至${
+          updatedToday ? '本日' : '昨日'
+        }仍有 ${replacements[4]} 名住院患者危殆`
       )
       .addFields(fields)
       .setColor(this.client.colors.yellow)
