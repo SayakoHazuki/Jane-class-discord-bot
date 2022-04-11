@@ -23,6 +23,11 @@ module.exports = class interactionCreate extends Evt {
       case interaction.customId.startsWith('hgd-run:'):
         runHgdCmd(this.client.commands, interaction)
         break
+      case interaction.customId.startsWith('view-links:'):
+        this.client.commands
+          .find(cmd => cmd.name === 'viewLinks')
+          .followUp?.(interaction)
+        break
       case MafiaMenuHandler.interactions.includes(interaction.customId):
         interaction.deferUpdate()
         if (interaction.isSelectMenu()) {
