@@ -23,7 +23,9 @@ function pos (number) {
   return number < 0 ? 0 : number
 }
 
-const { MessageEmbed } = require('discord.js')
+const { MessageEmbed, MessageActionRow, MessageButton } = require('discord.js')
+const emojis = require('../commands/Hgd/config/emojis.json')
+const commands = require('../commands/Hgd/config/commands.json')
 
 module.exports = {
   connectClient,
@@ -43,7 +45,8 @@ module.exports = {
   checkNew,
   spinShard,
   strFormat,
-  unlockHighLv
+  unlockHighLv,
+  generateActionRow
 }
 
 async function add (message, action, amount) {
@@ -51,13 +54,14 @@ async function add (message, action, amount) {
     printLog(
       'INFO',
       __filename,
-      `Adding ${amount} hgd to ${message.author.tag} for ${action}`
+      `Adding ${amount} hgd to ${message.author?.tag ||
+        message.user?.tag} for ${action}`
     )
 
     const database = mdbclient.db('jane')
     const collection = database.collection('hgdv2')
 
-    const query = { snowflake: message.author.id }
+    const query = { snowflake: message.author?.id || message.user?.id }
     const options = {
       sort: { _id: -1 }
     }
@@ -67,12 +71,13 @@ async function add (message, action, amount) {
       userdata = await collection.findOne(query, options)
     }
 
-    const filter = { snowflake: message.author.id }
+    const filter = { snowflake: message.author?.id || message.user?.id }
     const updateDocument = {
       $set: {
         hgd: Number(userdata.hgd) + Number(amount),
-        tag: message.author.tag,
-        avatarURL: message.author.displayAvatarURL()
+        tag: message.author?.tag || message.user?.tag,
+        avatarURL:
+          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
       }
     }
 
@@ -103,8 +108,9 @@ async function npf (message, action, amount) {
     const newUdata = {
       hgd: amount,
       hi: 0,
-      tag: message.author.tag,
-      avatarURL: message.author.displayAvatarURL(),
+      tag: message.author?.tag || message.user?.tag,
+      avatarURL:
+        message.author?.displayAvatarURL() || message.user?.displayAvatarURL(),
       sCNum: false,
       sID: false,
       sName: false,
@@ -114,7 +120,7 @@ async function npf (message, action, amount) {
       lastPat: 0,
       lastRose: 0,
       lastRoseTea: 0,
-      snowflake: message.author.id
+      snowflake: message.author?.id || message.user?.id
     }
 
     const date = new Date()
@@ -132,7 +138,7 @@ async function getData (message) {
   try {
     const database = mdbclient.db('jane')
     const collection = database.collection('hgdv2')
-    const query = { snowflake: message.author.id }
+    const query = { snowflake: message.author?.id || message.user?.id }
     const options = {
       sort: { _id: -1 }
     }
@@ -188,15 +194,17 @@ async function getRank (message) {
       .find()
       .sort(sort)
       .toArray()
-    const index = result.map(i => i.snowflake).indexOf(message.author.id)
+    const index = result
+      .map(i => i.snowflake)
+      .indexOf(message.author?.id || message.user?.id)
     return index == null ? '?' : index + 1
   } catch (e) {
     printLog('ERR', __filename, e)
   }
 }
 
-async function getTimeDiff (message, action, overrideTime) {
-  const data = await getData(message)
+async function getTimeDiff (message, action, overrideTime, data) {
+  if (!data) data = await getData(message)
   const lastAction = data?.[`last${action}`] || 0
 
   const date = new Date()
@@ -205,8 +213,8 @@ async function getTimeDiff (message, action, overrideTime) {
   return timeForCompare - lastAction
 }
 
-async function checkLevel (message, requirement = -1) {
-  const data = await getData(message)
+async function checkLevel (message, requirement = -1, data) {
+  if (!data) data = await getData(message)
   const level = getLevel(data?.hgd).value || 0
   const levelPass = level >= requirement
   return { levelPass, level, req: requirement }
@@ -296,13 +304,13 @@ async function spinShard (message, multiplier = 1) {
       const database = mdbclient.db('jane')
       const collection = database.collection('hgdv2')
 
-      const query = { snowflake: message.author.id }
+      const query = { snowflake: message.author?.id || message.user?.id }
       const options = {
         sort: { _id: -1 }
       }
       const userdata = await collection.findOne(query, options)
 
-      const filter = { snowflake: message.author.id }
+      const filter = { snowflake: message.author?.id || message.user?.id }
       const updateDocument = {
         $set: {
           shards: userdata.shards + 1
@@ -313,8 +321,8 @@ async function spinShard (message, multiplier = 1) {
       const getShardEmbed = new MessageEmbed()
         .setColor('#FB9EFF')
         .setAuthor(
-          `Lv.${level} ${message.author.tag}`,
-          message.author.displayAvatarURL()
+          `Lv.${level} ${message.author?.tag || message.user?.tag}`,
+          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
         )
         .setDescription(
           `<:JANE_LightStickL:936956753944383508> 獲得了一個 __好感度解放碎片__ (${userdata.shards} \u279f ${updateDocument.$set.shards}) <:JANE_LightStickR:936956856604180480>`
@@ -346,6 +354,66 @@ function strFormat (toModify, ...args) {
   return str
 }
 
+const cap = string => string.charAt(0).toUpperCase() + string.slice(1)
+
+async function generateActionRow (message, userdata) {
+  if (!userdata) userdata = await getData(message)
+  const buttons = []
+  const availableActions = await getAvailableActions(message, userdata)
+  for (const { cmd, available } of availableActions) {
+    const emoji =
+      cmd.code in emojis.actionEmojis ? emojis.actionEmojis[cmd.code] : null
+    if (!emoji) continue
+
+    const btn = new MessageButton()
+      .setCustomId(`hgd-run:${cmd.code}`)
+      .setDisabled(!available)
+      .setEmoji(emoji.replace(/(.*:)|[<>]/g, ''))
+      .setStyle('SECONDARY')
+    buttons.push(btn)
+  }
+  const row = new MessageActionRow().addComponents(buttons.slice(0, 5))
+  return row
+}
+
+async function getAvailableActions (message, userdata) {
+  const availableCommands = []
+  for (const cmd of commands) {
+    let diffPass = true
+    let levelPass = true
+    let dayOfWeekPass = true
+    let timeIsInRange = true
+
+    const { diffRequirement, lvRequirement, timeRange, dayRange } = cmd.config
+    if (diffRequirement) {
+      const diff = await getTimeDiff(message, cap(cmd.code), null, userdata)
+      const diffValidate = timeDiff => timeDiff > diffRequirement * 60
+      diffPass = diffValidate(diff)
+    }
+    if (lvRequirement) {
+      ;({ levelPass } = await checkLevel(message, lvRequirement, userdata))
+    }
+    if (dayRange) {
+      const dayOfWeek = new Date().getDay()
+      dayOfWeekPass = dayRange.includes(dayOfWeek)
+      timeIsInRange = timeInRange(timeRange)
+    }
+
+    if (diffPass && levelPass && dayOfWeekPass && timeIsInRange) {
+      availableCommands.push({ cmd, available: true })
+      continue
+    }
+    if (levelPass) {
+      availableCommands.push({ cmd, available: false })
+      continue
+    }
+  }
+  availableCommands.sort((a, b) => {
+    return a.available === b.available ? 0 : a.available ? -1 : 1
+  })
+  return availableCommands
+}
+
 async function unlockHighLv (interaction) {
   const { user } = interaction
 
@@ -366,6 +434,8 @@ async function unlockHighLv (interaction) {
         highLvLocked: false
       }
     }
+
+    if (updateDocument.$set.shards < 0) return
 
     await collection.updateOne(filter, updateDocument)
 

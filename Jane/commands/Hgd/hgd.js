@@ -78,6 +78,8 @@ module.exports = class HgdCommand extends Command {
       }
       Util.printLog('INFO', __filename, actionInfo)
 
+      const actionRow = await hgdUtil.generateActionRow(message, data)
+
       const okaasanEmbed = new Discord.MessageEmbed()
         .setAuthor(message.author.tag, message.author.displayAvatarURL())
         .setTitle('好感度')
@@ -95,9 +97,9 @@ module.exports = class HgdCommand extends Command {
             data.highLvLocked && data.hgd >= 45000 ? ' 🔒' : ''
           }** (${data.hgd}/${level.max}) • *排名: ${
             rank ? rank - 1 || '?' : '?'
-          }*\u2800\n${hgdUtil.getBar(
-            data.hgd
-          )}\n${actionInfo}\n好感度解放碎片: ${data.shards || 0}`
+          }*\u2800\n${hgdUtil.getBar(data.hgd)}  *${
+            level.percentage
+          }%*\n\n${actionInfo}\n好感度解放碎片: ${data.shards || 0}`
         )
         .setColor('#ff64ab')
         .setFooter(
@@ -106,7 +108,7 @@ module.exports = class HgdCommand extends Command {
       if (message.author.id === '726439536401580114') {
         return message.reply({ embeds: [okaasanEmbed] })
       }
-      message.reply({ embeds: [hgdEmbed] })
+      message.reply({ embeds: [hgdEmbed], components: [actionRow] })
     } catch (e) {
       Util.printLog('ERR', __filename, e)
     }

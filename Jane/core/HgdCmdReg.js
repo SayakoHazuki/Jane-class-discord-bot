@@ -57,13 +57,16 @@ class HgdCommand extends Command {
         const lvNotPassEmbed = new Discord.MessageEmbed()
           .setColor('#FB9EFF')
           .setAuthor(
-            `Lv.${level} | ${message.author.tag}`,
-            message.author.displayAvatarURL()
+            `Lv.${level} | ${message.author?.tag || message.user?.tag}`,
+            message.author?.displayAvatarURL() ||
+              message.user?.displayAvatarURL()
           )
           .setDescription(`您未達到可以進行該動作的等級 (${level}/${req})`)
           .setTimestamp()
           .setFooter('簡')
-        return message.reply({ embeds: [lvNotPassEmbed] })
+        return message
+          .reply({ embeds: [lvNotPassEmbed] })
+          .catch(e => Util.printLog('ERR', __filename, e.stack))
       }
     }
 
@@ -74,8 +77,9 @@ class HgdCommand extends Command {
         const dayOfWeekFailEmbed = new Discord.MessageEmbed()
           .setColor('#FB9EFF')
           .setAuthor(
-            `Lv.${userlevel} | ${message.author.tag}`,
-            message.author.displayAvatarURL()
+            `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
+            message.author?.displayAvatarURL() ||
+              message.user?.displayAvatarURL()
           )
           .setDescription(
             `${hgd.strFormat(
@@ -85,7 +89,9 @@ class HgdCommand extends Command {
           )
           .setTimestamp()
           .setFooter('簡')
-        return message.reply({ embeds: [dayOfWeekFailEmbed] })
+        return message
+          .reply({ embeds: [dayOfWeekFailEmbed] })
+          .catch(e => Util.printLog('ERR', __filename, e.stack))
       }
     }
 
@@ -94,8 +100,9 @@ class HgdCommand extends Command {
         const timeNotInRangeEmbed = new Discord.MessageEmbed()
           .setColor('#FB9EFF')
           .setAuthor(
-            `Lv.${userlevel} | ${message.author.tag}`,
-            message.author.displayAvatarURL()
+            `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
+            message.author?.displayAvatarURL() ||
+              message.user?.displayAvatarURL()
           )
           .setDescription(
             `${hgd.strFormat(
@@ -105,7 +112,9 @@ class HgdCommand extends Command {
           )
           .setTimestamp()
           .setFooter('簡')
-        return message.reply({ embeds: [timeNotInRangeEmbed] })
+        return message
+          .reply({ embeds: [timeNotInRangeEmbed] })
+          .catch(e => Util.printLog('ERR', __filename, e.stack))
       }
     }
 
@@ -126,8 +135,8 @@ class HgdCommand extends Command {
           })}`
         )
         .setAuthor(
-          `Lv.${userlevel} | ${message.author.tag}`,
-          message.author.displayAvatarURL()
+          `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
+          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
         )
         .setDescription(
           `${hgd.strFormat(texts.message, {
@@ -142,7 +151,10 @@ class HgdCommand extends Command {
             displayName: message.member.displayName
           })}`
         )
-      message.reply({ embeds: [replyEmbed] })
+      const actionRow = await hgd.generateActionRow(message)
+      message
+        .reply({ embeds: [replyEmbed], components: [actionRow] })
+        .catch(e => Util.printLog('ERR', __filename, e.stack))
       await hgd.spinShard(message)
     } else {
       const texts = Util.randomFromArray(messages.fail)
@@ -154,8 +166,8 @@ class HgdCommand extends Command {
           })}`
         )
         .setAuthor(
-          `Lv.${userlevel} | ${message.author.tag}`,
-          message.author.displayAvatarURL()
+          `Lv.${userlevel} | ${message.author?.tag || message.user?.tag}`,
+          message.author?.displayAvatarURL() || message.user?.displayAvatarURL()
         )
         .setDescription(
           `${hgd.strFormat(texts.message, {
@@ -170,7 +182,10 @@ class HgdCommand extends Command {
             displayName: message.member.displayName
           })}`
         )
-      message.reply({ embeds: [replyEmbed] })
+      const actionRow = await hgd.generateActionRow(message)
+      message
+        .reply({ embeds: [replyEmbed], components: [actionRow] })
+        .catch(e => Util.printLog('ERR', __filename, e.stack))
     }
   }
 }
