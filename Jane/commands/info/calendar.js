@@ -25,7 +25,7 @@ module.exports = class CalendarCommand extends Command {
         )
         .setColor(this.client.themeColor)
         .setDescription(
-          '校歷表(PDF檔案) > https://jane.ml/files/calendar.pdf\n校歷表(PNG圖片) > https://jane.ml/cal'
+          '校歷表(PDF檔案) > https://jane.ml/files/calendar.pdf\n校歷表(PNG圖片) > https://jane.ml/academic/cal'
         )
       const calEmbed = new Discord.MessageEmbed()
         .setImage('https://jane.ml/files/cal_2.png')
