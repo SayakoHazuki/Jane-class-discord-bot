@@ -28,6 +28,11 @@ module.exports = class interactionCreate extends Evt {
           .find(cmd => cmd.name === 'viewLinks')
           .followUp?.(interaction)
         break
+      case interaction.customId.startsWith('hgd:'):
+        this.client.commands
+          .find(cmd => cmd.name === '好感度')
+          .followUp(interaction)
+        break
       case MafiaMenuHandler.interactions.includes(interaction.customId):
         interaction.deferUpdate()
         if (interaction.isSelectMenu()) {
