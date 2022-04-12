@@ -87,6 +87,8 @@ async function add (message, action, amount) {
 
     const date = new Date()
     updateDocument.$set[`last${action}`] = Math.floor(date.getTime() / 1000)
+    updateDocument.$set[`${action}Count`] =
+      Number(userdata[`${action}Count`] || 0) + 1
     await collection.updateOne(filter, updateDocument)
     return {
       oldHgd: Number(userdata.hgd),

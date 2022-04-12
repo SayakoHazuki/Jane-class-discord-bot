@@ -179,7 +179,9 @@ module.exports = class HgdCommand extends Command {
       for (const action in actionCounts) {
         const command = commands.filter(({ code }) => code === action)[0]
         if (!command) return
-        actionCount += `共${messages[action].altActionTitle} ${actionCounts[action]}次\n`
+        actionCount += `共${messages[action].altActionTitle} ${actionCounts[
+          action
+        ] || 0} 次\n`
       }
 
       const getOkaasanString = () =>
