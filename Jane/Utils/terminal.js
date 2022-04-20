@@ -5,7 +5,7 @@ const formatter = require('./formatting.js')
 const levels = {
   INFO: {
     color1: getColor('green.fg'),
-    color2: getColor('blue.fg'),
+    color2: getColor('cyan.fg'),
     levelname: 'INFO'
   },
   WARN: {

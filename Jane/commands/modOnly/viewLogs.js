@@ -1,16 +1,15 @@
 const Command = require('../../core/command')
-const Util = require('../../Utils/index.js')
 
 const { exec } = require('child_process')
 
 module.exports = class ShellCommand extends Command {
   constructor (client) {
     super(client, {
-      name: 'shell',
-      aliases: ['sh', 'bash'],
+      name: 'logs',
+      aliases: ['viewLogs'],
       category: 737012021,
       description: '(modOnly) execute shell commands',
-      usage: 'shell <cmd>',
+      usage: 'logs',
       minArgs: 1,
       maxArgs: -1
     })
@@ -39,21 +38,13 @@ module.exports = class ShellCommand extends Command {
       return false
     }
 
-    exec(
-      message.content.replace(`${message.content.split(' ')[0]} `, ''),
-      (error, stdout, stderr) => {
-        if (error) {
-          Util.handleErr(error)
-          message.reply(`error: ${error.message}`)
-          return
-        }
-        if (stderr) {
-          Util.handleErr(stderr)
-          message.reply(`stderr: ${stderr}`)
-          return
-        }
-        splitsend(stdout)
+    exec('pm2 logs jane --lines 200 --nostream', (error, stdout, stderr) => {
+      if (error || stderr) {
+        return message.reply(
+          "Couldn't run command pm2... Please check if this is being runned on a Raspi"
+        )
       }
-    )
+      return splitsend(stdout)
+    })
   }
 }

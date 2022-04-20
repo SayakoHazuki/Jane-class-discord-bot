@@ -1,5 +1,4 @@
 const Evt = require('../core/e')
-// 
 
 module.exports = class Message extends Evt {
   constructor (client) {

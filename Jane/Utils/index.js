@@ -73,7 +73,7 @@ module.exports = class Util {
    * @returns Nothing
    */
   static splitSend (message, str = 'undefined', code = 'none') {
-    this.logger.info(message.channel + str + code)
+    Util.logger.info(message.channel + str + code)
     splitter.splitCode(message, str, code)
   }
 
@@ -116,8 +116,8 @@ module.exports = class Util {
    * @returns Nothing
    */
   static handleErr (e) {
-    this.logger.error(e.message)
-    this.logger.error(e.stack)
+    Util.logger.error(e.message)
+    Util.logger.error(e.stack)
   }
 
   /**
@@ -198,5 +198,9 @@ module.exports = class Util {
 
   static randomFromArray (items) {
     return items[Math.floor(Math.random() * items.length)]
+  }
+
+  static get logger () {
+    return new Logger(__filename)
   }
 }

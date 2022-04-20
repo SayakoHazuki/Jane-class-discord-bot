@@ -1,6 +1,8 @@
 const Evt = require('../core/e')
 const permissions = require('./perms.json')
+const Util = require('../Utils/index.js')
 
+const logger = Util.getLogger(__filename)
 
 module.exports = class Message extends Evt {
   constructor (client) {
@@ -106,7 +108,11 @@ module.exports = class Message extends Evt {
       }${Util.logColor('reset')}`
     )
     logger.info(`${Util.logColor('reset')}\tCmd: ${message.content}`)
-    logger.info(`${Util.logColor('reset')}Running command ${Util.logColor('cyan.fg')}${command.name}`)
+    logger.info(
+      `${Util.logColor('reset')}Running command ${Util.logColor('cyan.fg')}${
+        command.name
+      }`
+    )
 
     try {
       command.run(message, args)

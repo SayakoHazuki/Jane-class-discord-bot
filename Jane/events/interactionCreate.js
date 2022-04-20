@@ -1,6 +1,7 @@
 const Evt = require('../core/e')
 const MafiaMenuHandler = require('../core/MafiaInteractions')
 
+const hgdUtil = require('../Utils/hgdUtils')
 
 module.exports = class interactionCreate extends Evt {
   constructor (client) {

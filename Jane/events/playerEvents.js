@@ -1,4 +1,7 @@
 const Evt = require('../core/e')
+const Util = require('../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 const { MessageEmbed } = require('discord.js')
 
@@ -14,9 +17,7 @@ module.exports = class Ready extends Evt {
       .catch(console.error)
       */
 
-    logger.info(
-      'Finished loading client - bot has started'
-    )
+    logger.info('Finished loading client - bot has started')
 
     this.client.channels
       .fetch('921544138887929886')
@@ -24,17 +25,13 @@ module.exports = class Ready extends Evt {
 
     this.client.player.on('botDisconnect', message => {
       logger.info('Player emitted botDisconnect Event')
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('error', (error, message) => {
       message.reply(Util.errEmbed(message, `發生了一個錯誤\n\`${error}\``))
       logger.error(error)
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('noResults', (message, query) => {
@@ -45,9 +42,7 @@ module.exports = class Ready extends Evt {
         )
         .setColor(this.client.colors.red)
       message.reply({ embeds: [noResultsEmbed] })
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('playlistAdd', (message, queue, playlist) => {
@@ -59,26 +54,18 @@ module.exports = class Ready extends Evt {
         )
         .setColor(this.client.colors.green)
       message.reply({ embeds: [playlistAddEmbed] })
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('playlistParseEnd', (playlist, message) => {
       logger.info('Player emitted playlistParseEnd Event')
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('playlistParseStart', (playlist, message) => {
-      logger.info(
-        'Player emitted playlistParseStart Event'
-      )
+      logger.info('Player emitted playlistParseStart Event')
       message.reply(':mag: 正在載入播放清單資訊')
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('queueEnd', (message, queue) => {
@@ -87,9 +74,7 @@ module.exports = class Ready extends Evt {
         .setDescription('<:leave:842411018503061554> 所有歌曲已播放完畢')
         .setColor(this.client.colors.red)
       message.channel.send({ embeds: [queueEndEmbed] })
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('searchCancel', (message, query, tracks) => {
@@ -97,21 +82,15 @@ module.exports = class Ready extends Evt {
       message.reply(
         `搜尋\`${query}\`時載入過長, 請稍後再試\n(如情況持續可聯絡程序員)`
       )
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on(
       'searchInvalidResponse',
       (message, query, tracks, invalidResponse, collector) => {
-        logger.info(
-          'Player emitted searchInvalidResponse Event'
-        )
+        logger.info('Player emitted searchInvalidResponse Event')
         message.reply(Util.errEmbed(message, '發生了一個預期外的錯誤'))
-        logger.info(
-          `Message > ${message.author.tag} : ${message.content}`
-        )
+        logger.info(`Message > ${message.author.tag} : ${message.content}`)
       }
     )
 
@@ -119,9 +98,7 @@ module.exports = class Ready extends Evt {
       'searchResults',
       (message, query, tracks, collector) => {
         logger.info('Player emitted searchResults Event')
-        logger.info(
-          `Message > ${message.author.tag} : ${message.content}`
-        )
+        logger.info(`Message > ${message.author.tag} : ${message.content}`)
       }
     )
 
@@ -137,9 +114,7 @@ module.exports = class Ready extends Evt {
         )
         .setColor(this.client.colors.green)
       message.reply({ embeds: [trackAddEmbed] })
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
 
     this.client.player.on('trackStart', (message, track) => {
@@ -164,9 +139,7 @@ module.exports = class Ready extends Evt {
         )
       }
       message.channel.send({ embeds: [trackStartEmbed] })
-      logger.info(
-        `Message > ${message.author.tag} : ${message.content}`
-      )
+      logger.info(`Message > ${message.author.tag} : ${message.content}`)
     })
   }
 }

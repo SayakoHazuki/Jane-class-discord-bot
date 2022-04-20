@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-
+const Command = require('../../core/command')
 
 const getCovData = require('../../Utils/getCovData')
 
