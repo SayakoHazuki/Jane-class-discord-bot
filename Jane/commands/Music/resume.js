@@ -1,6 +1,9 @@
-const Command = require('cmd')
-const Util = require('utils')
 const Discord = require('discord.js')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 module.exports = class resumeCommand extends Command {
   constructor (client) {
     super(client, {
@@ -41,7 +44,7 @@ module.exports = class resumeCommand extends Command {
         .setColor(this.client.colors.green)
       message.reply({ embeds: [resumeEmbed] })
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
       const errEmbed = Util.errEmbed(message, '繼續播放歌曲時發生了一個錯誤')
       message.channel.send({ embeds: [errEmbed] })
     }

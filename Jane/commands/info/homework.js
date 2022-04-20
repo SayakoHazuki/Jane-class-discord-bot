@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 let pushList
 
@@ -39,12 +41,7 @@ module.exports = class HomeworkCommand extends Command {
     // Load client secrets from a local file.
     fs.readFile('secrets/credentials.json', (err, content) => {
       if (err) {
-        return Util.printLog(
-          'err',
-          __filename,
-          'Error loading client scs file: ',
-          err
-        )
+        return logger.error('Error loading client scs file: ', err)
       }
       // Authorize a client with credentials, then call the Google Classroom API.
       authorize(JSON.parse(content), listCourses)
@@ -82,11 +79,7 @@ module.exports = class HomeworkCommand extends Command {
         access_type: 'offline',
         scope: SCOPES
       })
-      Util.printLog(
-        'info',
-        __filename,
-        'Authorize this app by visiting this url: ' + authUrl
-      )
+      logger.info('Authorize this app by visiting this url: ' + authUrl)
       const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -99,7 +92,7 @@ module.exports = class HomeworkCommand extends Command {
           // Store the token to disk for later program executions
           fs.writeFile(TOKEN_PATH, JSON.stringify(token), err => {
             if (err) return console.error(err)
-            Util.printLog('info', __filename, 'Token stored to ' + TOKEN_PATH)
+            logger.info('Token stored to ' + TOKEN_PATH)
           })
           callback(oAuth2Client)
         })
@@ -143,9 +136,7 @@ module.exports = class HomeworkCommand extends Command {
                 course.id === 248307241587 ||
                 course.id === 248345520018 ||
                 course.id === 248313489488
-              Util.printLog(
-                'info',
-                __filename,
+              logger.info(
                 `processing Course ${course.name}\n(passes test? -> ${test})`
               )
               if (test) continue
@@ -169,7 +160,7 @@ module.exports = class HomeworkCommand extends Command {
                       /*
                         if (works && works.length) {
                           for (let i = 0; i < works.length; i++) {
-                            Util.printLog('info', __filename,
+                            logger.info(
                               `processing work ${i + 1} of course ${ic + 1}`
                             );
                             let assignment = works[i];
@@ -215,19 +206,9 @@ module.exports = class HomeworkCommand extends Command {
                 })
               }
               async function awaitForProcess () {
-                Util.printLog(
-                  'info',
-                  __filename,
-                  'calling for process, ic = ',
-                  ic
-                )
+                logger.info('calling for process, ic = ', ic)
                 await process()
-                Util.printLog(
-                  'info',
-                  __filename,
-                  'The code has been called, ic = ',
-                  ic
-                )
+                logger.info('The code has been called, ic = ', ic)
               }
               awaitForProcess()
             }
@@ -249,7 +230,7 @@ function processWork (works, panel, aList, msg) {
   }
   if (works && works.length) {
     for (let i = 0; i < works.length; i++) {
-      // Util.printLog('info', __filename, `processing work ${i + 1} of course ${ic + 1}`);
+      // logger.info(`processing work ${i + 1} of course ${ic + 1}`);
       const assignment = works[i]
       const { year, month, day } = assignment.dueDate || {
         year: '2020',

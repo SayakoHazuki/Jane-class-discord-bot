@@ -1,5 +1,5 @@
 const Evt = require('../core/e')
-// const Util = require('utils')
+// 
 
 module.exports = class Message extends Evt {
   constructor (client) {
@@ -10,7 +10,7 @@ module.exports = class Message extends Evt {
     /*
     const client = this.client
     const done = false
-    Util.printLog('info', __filename, done)
+    logger.info(done)
     const channel = client.channels.cache.get('833615147309334546')
     async function checktime () {
       const doffset = +8
@@ -31,7 +31,7 @@ module.exports = class Message extends Evt {
             .replace(/ GMT$/, '')
           const dateWithOffsetArray = dateWithOffset.split(' ')
           const formattedDate = dateWithOffsetArray[1] + dateWithOffsetArray[2]
-          Util.printLog('INFO', __filename, `dateWithOffset = ${formattedDate}`)
+          logger.info(`dateWithOffset = ${formattedDate}`)
           const timetableEmbed = Util.getTimetableEmbed(
             formattedDate,
             true,
@@ -39,21 +39,21 @@ module.exports = class Message extends Evt {
           )
           channel.send({embeds: [timetableEmbed]})
         } catch (e) {
-          return Util.printLog('info', __filename, e.stack)
+          return logger.info(e.stack)
         }
       }
     }
 
     const er = 60 - new Date().getSeconds()
-    Util.printLog('info', __filename, `seconds until next minute:${er}`)
+    logger.info(`seconds until next minute:${er}`)
     const rer = er + '500'
-    Util.printLog('info', __filename, `Modified wait time (str):${rer}`)
+    logger.info(`Modified wait time (str):${rer}`)
     const nRer = Number(rer)
-    Util.printLog('info', __filename, `Modified wait time (num):${nRer}`)
+    logger.info(`Modified wait time (num):${nRer}`)
     setTimeout(function () {
       checktime()
       setInterval(checktime, 60000)
-      Util.printLog('info', __filename, 'Time message Interval set!')
+      logger.info('Time message Interval set!')
     }, nRer)
     */
   }

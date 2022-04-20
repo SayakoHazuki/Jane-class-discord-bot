@@ -1,6 +1,9 @@
-const Command = require('cmd')
 const Discord = require('discord.js')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 module.exports = class queueCommand extends Command {
   constructor (client) {
     super(client, {
@@ -46,7 +49,7 @@ module.exports = class queueCommand extends Command {
 
       message.channel.send({ embeds: [queueEmbed] })
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
     }
   }
 }

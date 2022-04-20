@@ -1,5 +1,9 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const games = []
 let client
 
@@ -10,8 +14,6 @@ let resolveGuardAction,
   resolveWolfAction,
   rejectWolfAction,
   resolveWitchAction
-
-const Util = require('utils')
 
 class MafiaPlayer {
   constructor ({ identifier, user, role, alive }) {
@@ -59,11 +61,7 @@ class ReplyEmbeds {
 class MafiaGame {
   constructor (m, options = {}) {
     if (!m) {
-      return Util.printLog(
-        'ERR',
-        __filename,
-        'Missing message when constructing new MafiaGame'
-      )
+      return logger.error('Missing message when constructing new MafiaGame')
     }
     this.id =
       Date.now()
@@ -98,10 +96,8 @@ class MafiaGame {
       kill: 1
     }
     this.dayCount = 1
-    Util.printLog('info', __filename, `Created game (Id: ${this.id})`)
-    Util.printLog(
-      'info',
-      __filename,
+    logger.info(`Created game (Id: ${this.id})`)
+    logger.info(
       `\tin: ${this.message.guild.name} > ${this.message.channel.name}`
     )
     this.votes = []
@@ -327,7 +323,7 @@ class MafiaGame {
       this.players
     )
 
-    Util.printLog('INFO', __filename, roles)
+    logger.info(roles)
 
     for (const player in roles) {
       this.readableRoles.push(
@@ -342,21 +338,13 @@ class MafiaGame {
       async function getListOfMafias (filterId) {
         const listOfMafia = []
         const mafiaIds = Object.keys(roles).filter(k => roles[k] === '狼人')
-        Util.printLog('INFO', __filename, mafiaIds)
+        logger.info(mafiaIds)
         for (const mafiaPlayerId of mafiaIds) {
-          Util.printLog(
-            'INFO',
-            __filename,
-            `${mafiaPlayerId === filterId}, ${mafiaPlayerId}`
-          )
+          logger.info(`${mafiaPlayerId === filterId}, ${mafiaPlayerId}`)
           if (mafiaPlayerId === filterId) continue
           const mafiaPlayer = await client.users.cache.get(mafiaPlayerId)
           listOfMafia.push(mafiaPlayer.tag)
-          Util.printLog(
-            'info',
-            __filename,
-            `Added to mafia list : ${mafiaPlayer.tag}`
-          )
+          logger.info(`Added to mafia list : ${mafiaPlayer.tag}`)
         }
         if (!listOfMafia[0]) listOfMafia.push('沒有')
         return listOfMafia
@@ -439,11 +427,7 @@ class MafiaGame {
       embeds: [this.waitingToStartEmbed] // ,
       // components: [startButtonActionRow]
     })
-    Util.printLog(
-      'INFO',
-      __filename,
-      JSON.stringify(this.readableRoles, null, 2)
-    )
+    logger.info(JSON.stringify(this.readableRoles, null, 2))
   }
 
   async cancelGame () {
@@ -500,7 +484,7 @@ class MafiaGame {
   }
 
   handleGuardAction (game, targetId) {
-    Util.printLog('info', __filename, 'received Guard Action')
+    logger.info('received Guard Action')
     const target = game.readableRoles.find(
       player => player.user.id === targetId
     )
@@ -571,7 +555,7 @@ class MafiaGame {
   }
 
   handleDetectiveAction (game, targetId) {
-    Util.printLog('info', __filename, 'received Detective Action')
+    logger.info('received Detective Action')
     const detectives = game.readableRoles.filter(
       player => player.role === '預言家' && player.alive
     )
@@ -630,7 +614,7 @@ class MafiaGame {
   }
 
   handleWolfAction (game, targetId) {
-    Util.printLog('info', __filename, 'received Wolf Action')
+    logger.info('received Wolf Action')
     const target = game.readableRoles.find(
       player => player.user.id === targetId
     )
@@ -805,22 +789,22 @@ class MafiaGame {
 
   async startNight (m) {
     this.message = m
-    Util.printLog('INFO', __filename, 'Awaiting Guard Action')
+    logger.info('Awaiting Guard Action')
     await this.awaitGuardAction()
-    Util.printLog('INFO', __filename, 'Awaiting Detective Action')
+    logger.info('Awaiting Detective Action')
     await this.awaitDetectiveAction()
-    Util.printLog('INFO', __filename, 'Awaiting Wolf Action')
+    logger.info('Awaiting Wolf Action')
     await this.awaitWolfAction()
-    Util.printLog('INFO', __filename, 'Awaiting Witch Action')
+    logger.info('Awaiting Witch Action')
     await this.awaitWitchAction()
     this.startDay(m)
   }
 
   voteKill (t) {
     t = t.replace(/[^0-9]/g, '')
-    Util.printLog('info', __filename, t)
+    logger.info(t)
     const i = this.readableRoles.findIndex(player => player.user.id === t)
-    Util.printLog('info', __filename, i)
+    logger.info(i)
     this.readableRoles[i].alive = false
 
     this.checkOver()
@@ -860,26 +844,26 @@ class MafiaGame {
   }
 
   async startDay (m) {
-    Util.printLog('INFO', __filename, 'Starting Day')
+    logger.info('Starting Day')
 
     const deathOfTheNight = []
     const killedByWolfId = this[`day${this.dayCount}kill`]
     const killedByWolf = killedByWolfId
       ? this.readableRoles.find(player => player.user.id === killedByWolfId)
       : false
-    Util.printLog('INFO', __filename, `killedByWolfId: ${killedByWolfId}`)
+    logger.info(`killedByWolfId: ${killedByWolfId}`)
 
     const guardedId = this[`day${this.dayCount}guard`] || false
     const guarded = guardedId
       ? this.readableRoles.find(player => player.user.id === guardedId)
       : false
-    Util.printLog('INFO', __filename, `guardedId: ${guardedId}`)
+    logger.info(`guardedId: ${guardedId}`)
 
     const killedByWitchId = this[`day${this.dayCount}witchKill`]
     const killedByWitch = killedByWitchId
       ? this.readableRoles.find(player => player.user.id === killedByWitchId)
       : false
-    Util.printLog('INFO', __filename, `killedByWitchId: ${killedByWitchId}`)
+    logger.info(`killedByWitchId: ${killedByWitchId}`)
 
     // has guard
     if (guarded?.user?.id === killedByWolf.user.id) {
@@ -902,7 +886,7 @@ class MafiaGame {
       deathOfTheNight.push({ user: killedByWitch, deathMessage: false })
     }
 
-    Util.printLog('INFO', __filename, `DeathOfTonight: ${deathOfTheNight}`)
+    logger.info(`DeathOfTonight: ${deathOfTheNight}`)
 
     const deadTags = []
     const hasDeathMessages = []
@@ -957,7 +941,7 @@ class MafiaGame {
     })
 
     this.dayCount++
-    Util.printLog('INFO', __filename, `New Day Count: ${this.dayCount}`)
+    logger.info(`New Day Count: ${this.dayCount}`)
   }
 
   witchComponents () {
@@ -1104,7 +1088,7 @@ class MafiaGame {
   handleVote (interaction) {
     const u = interaction.user
     const gameU = this.readableRoles.find(p => p.user.id === u.id)
-    Util.printLog('INFO', __filename, `received vote from: ${gameU}`)
+    logger.info(`received vote from: ${gameU}`)
 
     if (!gameU.alive) return
     const i = this[`day${this.dayCount}vote`].findIndex(
@@ -1115,11 +1099,7 @@ class MafiaGame {
         i
       ][2] = `投給了 <@${interaction.values?.[0]}>`
     }
-    Util.printLog(
-      'INFO',
-      __filename,
-      `updated votes of the day: ${this[`day${this.dayCount}vote`]}`
-    )
+    logger.info(`updated votes of the day: ${this[`day${this.dayCount}vote`]}`)
     this[`day${this.dayCount}votePanel`].edit({
       embeds: [
         new Discord.MessageEmbed()
@@ -1141,14 +1121,14 @@ class MafiaGame {
     )
     // x is -1 when everyone voted
     if (x === -1) {
-      Util.printLog('INFO', __filename, 'Now processing votes')
+      logger.info('Now processing votes')
       const y = MafiaGame.calculateVote(this[`day${this.dayCount}vote`])
-      Util.printLog('INFO', __filename, `Calculated votes: ${y}`)
+      logger.info(`Calculated votes: ${y}`)
       if (y.length === 1) {
-        Util.printLog('INFO', __filename, `Player died by voting: ${y[0]}`)
+        logger.info(`Player died by voting: ${y[0]}`)
         this.voteKill(y[0])
       } else {
-        Util.printLog('INFO', __filename, 'No one died by voting')
+        logger.info('No one died by voting')
         this[`day${this.dayCount}votePanel`].reply({
           embeds: [
             new Discord.MessageEmbed()
@@ -1613,11 +1593,7 @@ module.exports = class wolfCommand extends Command {
             joinTimeLimit: (Number(args[1]) || 60) * 1000
           })
         )
-        Util.printLog(
-          'INFO',
-          __filename,
-          `Length of Games List: ${games.length}`
-        )
+        logger.info(`Length of Games List: ${games.length}`)
         break
 
       case 'startNight':

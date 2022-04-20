@@ -1,7 +1,9 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-const hgdUtil = require('hgdUtils')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+const hgdUtil = require('../../Utils/hgdUtils')
+
+const logger = Util.getLogger(__filename)
 
 const emojis = require('./config/emojis.json')
 const commands = require('./config/commands.json')
@@ -22,11 +24,7 @@ function diffPass (time, req) {
 function getActionInfo ({ level, actionRecords, handledRecords, action }) {
   const command = commands.filter(({ code }) => code === action)[0]
   if (!command) {
-    return Util.printLog(
-      'ERR',
-      __filename,
-      `Can't find command with code ${action}`
-    )
+    return logger.error(`Can't find command with code ${action}`)
   }
   return level.value >= command.config.lvRequirement
     ? `${
@@ -126,9 +124,9 @@ module.exports = class HgdCommand extends Command {
           embeds: [hgdEmbed],
           components: [buttonRow, actionRow]
         })
-        .catch(e => Util.printLog('ERR', __filename, e.stack))
+        .catch(e => logger.error(e.stack))
     } catch (e) {
-      Util.printLog('ERR', __filename, e)
+      logger.error(e)
     }
   }
 
@@ -216,7 +214,7 @@ module.exports = class HgdCommand extends Command {
         .edit({ embeds: [hgdEmbed], components: [actionRow] })
         .then(interaction.deferUpdate())
         .catch(e => {
-          Util.printLog('ERR', __filename, e.stack)
+          logger.error(e.stack)
         })
     }
   }

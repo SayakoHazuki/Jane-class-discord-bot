@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb')
 let mdbclient
 
-const terminal = require('./terminal')
+const logger = new (require('./terminal'))(__filename)
 
 async function connectClient () {
   mdbclient = new MongoClient(process.env.MONGO_URI)
@@ -12,13 +12,6 @@ function getClient () {
   return mdbclient
 }
 
-function printLog (type, filename, ...message) {
-  if (!message) {
-    message = filename
-    filename = __filename
-  }
-  return terminal.print(type, __filename ?? filename, message)
-}
 function pos (number) {
   return number < 0 ? 0 : number
 }
@@ -51,9 +44,7 @@ module.exports = {
 
 async function add (message, action, amount) {
   try {
-    printLog(
-      'INFO',
-      __filename,
+    logger.info(
       `Adding ${amount} hgd to ${message.author?.tag ||
         message.user?.tag} for ${action}`
     )
@@ -98,7 +89,7 @@ async function add (message, action, amount) {
     }
   } catch (e) {
     const erro = new Error(e)
-    printLog('ERR', __filename, erro)
+    logger.error(erro)
     message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }
@@ -132,7 +123,7 @@ async function npf (message, action, amount) {
     return
   } catch (e) {
     const erro = new Error(e)
-    printLog('ERR', __filename, erro)
+    logger.error(erro)
     message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }
@@ -146,11 +137,11 @@ async function getData (message) {
       sort: { _id: -1 }
     }
     const data = await collection.findOne(query, options)
-    printLog('info', __filename, JSON.stringify(data))
+    logger.info(JSON.stringify(data))
     return data
   } catch (e) {
     const erro = new Error(e)
-    printLog('ERR', __filename, erro)
+    logger.error(erro)
     message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }
@@ -174,7 +165,7 @@ async function getLeaderboard () {
     )
     return sortedList
   } catch (e) {
-    printLog('ERR', __filename, e)
+    logger.error(e)
   }
 }
 
@@ -184,7 +175,7 @@ async function checkNew (message) {
     if (!data) return false
     return true
   } catch (e) {
-    printLog('ERR', __filename, e)
+    logger.error(e)
   }
 }
 
@@ -202,7 +193,7 @@ async function getRank (message) {
       .indexOf(message.author?.id || message.user?.id)
     return index == null ? '?' : index + 1
   } catch (e) {
-    printLog('ERR', __filename, e)
+    logger.error(e)
   }
 }
 
@@ -236,11 +227,7 @@ function getLevel (hgd = 0) {
       break
     }
   }
-  printLog(
-    'INFO',
-    __filename,
-    `Level : ${finalLevel}, min : ${lowerLimit}, max : ${upperLimit}`
-  )
+  logger.info(`Level : ${finalLevel}, min : ${lowerLimit}, max : ${upperLimit}`)
 
   const result = {
     min: lowerLimit || 0,
@@ -255,7 +242,7 @@ function getLevel (hgd = 0) {
 function getBar (hgd) {
   const { percentage } = getLevel(hgd)
   const stage = Math.floor(percentage / 10)
-  printLog('INFO', __filename, `Stage: ${stage}; Percentage: ${percentage}`)
+  logger.info(`Stage: ${stage}; Percentage: ${percentage}`)
   const emojis = require('../commands/Hgd/config/emojis.json')
 
   return `${
@@ -278,15 +265,9 @@ function random (min, max) {
 function timeInRange (range) {
   const d = new Date()
   const timeNow = `${n(d.getHours())}:${n(d.getMinutes())}`
-  printLog(
-    'INFO',
-    __filename,
-    `time ${timeNow} in range ${range[0]} - ${range[1]}`
-  )
+  logger.info(`time ${timeNow} in range ${range[0]} - ${range[1]}`)
   if (range[0] > range[1]) {
-    printLog(
-      'INFO',
-      __filename,
+    logger.info(
       `Above statement is ${(timeNow >= range[0] && timeNow <= '23:59') ||
         (timeNow <= range[1] && timeNow >= '00:00')}`
     )
@@ -295,9 +276,7 @@ function timeInRange (range) {
       (timeNow <= range[1] && timeNow >= '00:00')
     )
   }
-  printLog(
-    'INFO',
-    __filename,
+  logger.info(
     `Above statement is ${timeNow >= range[0] && timeNow <= range[1]}`
   )
   return timeNow >= range[0] && timeNow <= range[1]
@@ -313,11 +292,7 @@ async function spinShard (message, luckMultiplier = 1, resMultiplier = 1) {
   const level = getLevel(data?.hgd).value || 0
   const shardPossibility = levels[level].shardPerc * 0.01 * luckMultiplier
   const randomNumber = Math.random()
-  printLog(
-    'INFO',
-    __filename,
-    `Shard possibility: ${shardPossibility}, Random: ${randomNumber}`
-  )
+  logger.info(`Shard possibility: ${shardPossibility}, Random: ${randomNumber}`)
   if (randomNumber < shardPossibility) {
     try {
       const database = mdbclient.db('jane')
@@ -339,7 +314,7 @@ async function spinShard (message, luckMultiplier = 1, resMultiplier = 1) {
       return 1 * resMultiplier
     } catch (e) {
       const erro = new Error(e)
-      printLog('ERR', __filename, erro)
+      logger.error(erro)
       message.reply('很抱歉，簡的資料庫發生了錯誤')
     }
   } else {
@@ -469,7 +444,7 @@ async function unlockHighLv (interaction) {
     })
   } catch (e) {
     const erro = new Error(e)
-    printLog('ERR', __filename, erro)
+    logger.error(erro)
     interaction.message.reply('很抱歉，簡的資料庫發生了錯誤')
   }
 }

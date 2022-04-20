@@ -1,5 +1,5 @@
 const colorCode = require('./colorCode')
-const terminal = require('./terminal')
+const Logger = require('./terminal')
 const formatter = require('./formatting')
 const splitter = require('./splitting')
 const { InfoEmbed, ExceptionEmbed, MultiEmbed } = require('./embedBuilder')
@@ -37,12 +37,11 @@ module.exports = class Util {
 
   /**
    * Print message to log
-   * @param {string} type `INFO` `WARN` `ERR`
-   * @param {string} message Message to be printed
-   * @returns
+   * @param {string} file filename (__filename)
+   * @returns {Terminal} Logger
    */
-  static printLog (type, file, ...message) {
-    return terminal.print(type, file, message)
+  static getLogger (file) {
+    return new Logger(file)
   }
 
   /**
@@ -74,7 +73,7 @@ module.exports = class Util {
    * @returns Nothing
    */
   static splitSend (message, str = 'undefined', code = 'none') {
-    this.printLog('info', __filename, message.channel + str + code)
+    this.logger.info(message.channel + str + code)
     splitter.splitCode(message, str, code)
   }
 
@@ -117,8 +116,8 @@ module.exports = class Util {
    * @returns Nothing
    */
   static handleErr (e) {
-    this.printLog('err', __filename, e.message)
-    this.printLog('err', __filename, e.stack)
+    this.logger.error(e.message)
+    this.logger.error(e.stack)
   }
 
   /**

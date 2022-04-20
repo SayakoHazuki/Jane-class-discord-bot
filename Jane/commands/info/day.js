@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const Ss = require('sUser')
 const { MessageEmbed } = require('discord.js')
 
@@ -28,13 +31,13 @@ module.exports = class DayCommand extends Command {
       )
     }
     const dateToSearch = args[0]
-    Util.printLog('INFO', __filename, `dateWithOffset: ${dateToSearch}`)
+    logger.info(`dateWithOffset: ${dateToSearch}`)
     const student = new Ss(this.client, message.author.id)
     await student.saveData()
     let sClass
     if (student.class) {
       sClass = student.class
-      Util.printLog('info', __filename, 'Timetable class: ' + sClass)
+      logger.info('Timetable class: ' + sClass)
       const timetableEmbed = Util.getTimetableEmbed(
         dateToSearch,
         '21sp',
@@ -59,7 +62,7 @@ module.exports = class DayCommand extends Command {
           ) && response.author.id === message.author.id
         )
       }
-      Util.printLog('info', __filename, 'Awaiting class')
+      logger.info('Awaiting class')
       const askClassEmbed = new MessageEmbed()
         .setDescription('請輸入你的班別 (3A/3B/3C/3D) **[輸入後無法更改]**')
         .setFooter('備註: 簡會記住你的班別, 以便下次查詢時間表時無須再次輸入')
@@ -70,17 +73,12 @@ module.exports = class DayCommand extends Command {
         .awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
         .then(async collected => {
           sClass = collected.first().content
-          Util.printLog('info', __filename, 'Collected class: ' + sClass)
+          logger.info('Collected class: ' + sClass)
           await student.addInfo('sClass', sClass)
           panel.delete()
           collected.first().delete()
 
-          Util.printLog(
-            'info',
-            __filename,
-            'getting timetable embed for class',
-            sClass
-          )
+          logger.info('getting timetable embed for class', sClass)
           const timetableEmbed = Util.getTimetableEmbed(
             dateToSearch,
             '21sp',

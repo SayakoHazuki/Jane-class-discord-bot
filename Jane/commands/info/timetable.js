@@ -48,8 +48,11 @@ function getNextDayOfTheWeek (
 
 /* Modules */
 const Discord = require('discord.js')
-const Util = require('utils')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const Ss = require('sUser')
 
 module.exports = class TimetableCommand extends Command {
@@ -146,7 +149,7 @@ module.exports = class TimetableCommand extends Command {
         break
     }
 
-    Util.printLog('info', __filename, JSON.stringify(query))
+    logger.info(JSON.stringify(query))
     switch (query.mode) {
       case 'diff':
         query.jsDate = new Date(
@@ -171,7 +174,7 @@ module.exports = class TimetableCommand extends Command {
     let sClass
     if (student.class) {
       sClass = student.class
-      Util.printLog('info', __filename, 'Timetable class: ' + sClass)
+      logger.info('Timetable class: ' + sClass)
       const timetableEmbed = Util.getTimetableEmbed(
         query.formattedDate,
         config.classMode,
@@ -206,16 +209,12 @@ module.exports = class TimetableCommand extends Command {
         .awaitMessages({ filter, max: 1, time: 30000, errors: ['time'] })
         .then(async collected => {
           sClass = collected.first().content
-          Util.printLog('info', __filename, 'Collected class' + sClass)
+          logger.info('Collected class' + sClass)
           await student.addInfo('sClass', sClass)
           panel.delete()
           collected.first().delete()
 
-          Util.printLog(
-            'info',
-            __filename,
-            'getting timetable embed for class' + sClass
-          )
+          logger.info('getting timetable embed for class' + sClass)
           const timetableEmbed = Util.getTimetableEmbed(
             query.formattedDate,
             config.classMode,

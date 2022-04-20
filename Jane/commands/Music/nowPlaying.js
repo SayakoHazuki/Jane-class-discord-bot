@@ -1,6 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
 const Discord = require('discord.js')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 module.exports = class nowplayingCommand extends Command {
   constructor (client) {
     super(client, {
@@ -31,13 +33,16 @@ module.exports = class nowplayingCommand extends Command {
         progressBarOptions
       )
       const nowPlayingEmbed = new Discord.MessageEmbed()
-        .setAuthor({ name: '正在播放', iconURL: message.author.displayAvatarURL() })
+        .setAuthor({
+          name: '正在播放',
+          iconURL: message.author.displayAvatarURL()
+        })
         .setDescription(`[${trackNow.title}](${trackNow.url})\n${progressBar}`)
         .setThumbnail(trackNow.thumbnail)
         .setColor(this.client.colors.green)
       message.reply({ embeds: [nowPlayingEmbed] })
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
       const errEmbed = Util.errEmbed(message, '發生了一個錯誤')
       message.reply({ embeds: [errEmbed] })
     }

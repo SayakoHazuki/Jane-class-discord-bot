@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
@@ -73,11 +76,7 @@ module.exports = class addClassLinkCommand extends Command {
             }
           })
         }, 1500)
-        Util.printLog(
-          'info',
-          __filename,
-          `已新增連結: \n${addedLinksList.join('\n')}`
-        )
+        logger.info(`已新增連結: \n${addedLinksList.join('\n')}`)
       }
     )
   }

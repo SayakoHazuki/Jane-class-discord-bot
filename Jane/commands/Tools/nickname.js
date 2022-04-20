@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
-const Util = require('utils')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
 
 module.exports = class NicknameCommand extends Command {
   constructor (client) {

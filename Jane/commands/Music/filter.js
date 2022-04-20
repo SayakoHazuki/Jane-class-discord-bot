@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 module.exports = class filterCommand extends Command {
   constructor (client) {
     super(client, {
@@ -20,7 +23,7 @@ module.exports = class filterCommand extends Command {
         this.client.player.filters.names.forEach(filterName => {
           newFilters[filterName] = false
         })
-        Util.printLog('info', __filename, newFilters)
+        logger.info(newFilters)
         await this.client.player.setFilters(message, newFilters)
         await this.client.player.resume(message)
         return
@@ -43,7 +46,7 @@ module.exports = class filterCommand extends Command {
         `:white_check_mark: 已啟用 \`${args[0]}\` 效果`
       )
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
     }
   }
 }

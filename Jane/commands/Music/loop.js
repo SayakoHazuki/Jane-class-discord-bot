@@ -1,5 +1,7 @@
-const Command = require('cmd')
-const Util = require('utils')
+
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
 module.exports = class loopCommand extends Command {
   constructor (client) {
     super(client, {

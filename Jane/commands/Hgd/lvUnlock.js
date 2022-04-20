@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-const hgdUtil = require('hgdUtils')
-
+const Command = require('../../core/command')
+const hgdUtil = require('../../Utils/hgdUtils')
 module.exports = class LvUnlockCommand extends Command {
   constructor (client) {
     super(client, {

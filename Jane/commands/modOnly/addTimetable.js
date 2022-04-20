@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const fs = require('fs')
 const path = require('path')
 const months = [
@@ -71,14 +74,12 @@ module.exports = class AddTimetableCommand extends Command {
     function setCycle (cycle) {
       if (/^[1-9]|1[1-9]$/.test(cycle)) {
         cycleToSet = cycle
-        return message.reply(
-          `你現在可以編輯 Cycle ${cycleToSet} 的日期資訊了`
-        )
+        return message.reply(`你現在可以編輯 Cycle ${cycleToSet} 的日期資訊了`)
       }
     }
 
     function setDay (date, day) {
-      Util.printLog('info', __filename, `Date: ${date}, Day: ${day}`)
+      logger.info(`Date: ${date}, Day: ${day}`)
       const n = `星期${weekday[new Date(`${date},2022`).getDay()]}`
       let dayToSet
       switch (day) {
@@ -104,11 +105,7 @@ module.exports = class AddTimetableCommand extends Command {
         err => {
           if (err) throw err
           message.reply(`已新增一項日期資訊: \n\`${date}: ${dayToSet}\``)
-          Util.printLog(
-            'info',
-            __filename,
-            `New school day data added: {${date}: ${dayToSet}}`
-          )
+          logger.info(`New school day data added: {${date}: ${dayToSet}}`)
         }
       )
     }

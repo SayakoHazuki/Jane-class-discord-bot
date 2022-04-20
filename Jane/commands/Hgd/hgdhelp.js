@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-
-const hgd = require('hgdUtils')
+const Command = require('../../core/command')
+const hgd = require('../../Utils/hgdUtils')
 
 const dayOfWeekList = ['週日', '週一', '週二', '週三', '週四', '週五', '週六']
 

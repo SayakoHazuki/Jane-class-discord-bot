@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
+const Command = require('../../core/command')
 
 module.exports = class InviteCommand extends Command {
   constructor (client) {

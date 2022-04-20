@@ -1,7 +1,8 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-const { printLog } = require('utils')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 const fs = require('fs')
 const path = require('path')
@@ -128,11 +129,7 @@ class Period {
 
     for (const key in this.propOverride) {
       this[key] = this.propOverride[key]
-      Util.printLog(
-        'INFO',
-        __filename,
-        `Property override: ${key} set to ${this[key]}`
-      )
+      logger.info(`Property override: ${key} set to ${this[key]}`)
     }
 
     // ==== End of Class Properties ====
@@ -196,8 +193,8 @@ class Period {
     const dateNow = this.dateNow
     const timeNow = this.timeNow
     const time15MinLater = sumTime(timeNow, 15)
-    Util.printLog('INFO', __filename, `Time 15Min later = ${time15MinLater}`)
-    Util.printLog('INFO', __filename, `Time Now = ${timeNow}`)
+    logger.info(`Time 15Min later = ${time15MinLater}`)
+    logger.info(`Time Now = ${timeNow}`)
 
     // ======= If is in rest period =======
 
@@ -230,7 +227,9 @@ class Period {
     const timeList =
       classTimes[dateToRead] ?? classTimes[timeOfSchool] ?? classTimes.NORMAL
     const timeListFull =
-      classTimeFull[dateToRead] ?? classTimeFull[timeOfSchool] ?? classTimeFull.NORMAL
+      classTimeFull[dateToRead] ??
+      classTimeFull[timeOfSchool] ??
+      classTimeFull.NORMAL
     this.timeList = timeList
     this.timeListFull = timeListFull
 
@@ -259,7 +258,7 @@ class Period {
             break
           }
           this.classesEnded = true
-          Util.printLog('INFO', __filename, 'Situation detected: Classes ended')
+          logger.info('Situation detected: Classes ended')
           this.periodNumber = timeList.length
         }
         i++
@@ -364,8 +363,8 @@ class Period {
         if (dateToRead in LA_[classes[i]]) {
           for (const LA of LA_[classes[i]][dateToRead]) {
             if (LA.period === this.periodNumber) {
-              printLog('WARN', __filename, 'Lesson Arrangement detected.')
-              printLog('WARN', __filename, `From ${LA.from} to ${LA.to}`)
+              logger.warn('Lesson Arrangement detected.')
+              logger.warn(`From ${LA.from} to ${LA.to}`)
 
               lessonSubject = `~~${LA.from}~~ **${LA.to}**`
               mdLink = `[按此進入${LA.to}課室](${LA.link})`
@@ -464,17 +463,9 @@ class Period {
       return this.classesEndedEmbed
     }
 
-    Util.printLog('INFO', __filename, 'Generating Lesson Interface')
-    Util.printLog(
-      'INFO',
-      __filename,
-      `Period No. ${periodNumber}, period time ${lessonTimeFull}`
-    )
-    Util.printLog(
-      'INFO',
-      __filename,
-      `Showing next lesson: ${this.isShowingNext}`
-    )
+    logger.info('Generating Lesson Interface')
+    logger.info(`Period No. ${periodNumber}, period time ${lessonTimeFull}`)
+    logger.info(`Showing next lesson: ${this.isShowingNext}`)
 
     let from, to, endRelativeTimestamp
     if (rest) {

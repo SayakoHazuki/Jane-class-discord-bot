@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
-const Util = require('utils')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 module.exports = class CalendarCommand extends Command {
   constructor (client) {
@@ -41,10 +43,10 @@ module.exports = class CalendarCommand extends Command {
           components: [linkButtons]
         })
         .catch(e => {
-          Util.printLog('ERR', __filename, e.stack)
+          logger.error(e.stack)
         })
     } catch (e) {
-      Util.printLog('err', __filename, e.message)
+      logger.error(e.message)
     }
   }
 }

@@ -1,8 +1,8 @@
 const Discord = require('discord.js')
-const Util = require('utils')
-const Command = require('cmd')
-
-const hgd = require('hgdUtils')
+const Command = require('./command.js')
+const Util = require('../Utils/index.js')
+const hgd = require('../Utils/hgdUtils.js')
+const logger = new (require('../Utils/terminal'))(__filename)
 
 const cap = string => string.charAt(0).toUpperCase() + string.slice(1)
 
@@ -40,11 +40,7 @@ class HgdCommand extends Command {
       const diffValidate = timeDiff => timeDiff > diffRequirement * 60
       diffPass = diffValidate(diff)
 
-      Util.printLog(
-        'INFO',
-        __filename,
-        `time difference: ${diff} seconds; Pass: ${diffPass}`
-      )
+      logger.info(`time difference: ${diff} seconds; Pass: ${diffPass}`)
     }
 
     if (lvRequirement) {
@@ -67,7 +63,7 @@ class HgdCommand extends Command {
           .setFooter('簡')
         return message
           .reply({ embeds: [lvNotPassEmbed] })
-          .catch(e => Util.printLog('ERR', __filename, e.stack))
+          .catch(e => logger.error(e.stack))
       }
     }
 
@@ -94,7 +90,7 @@ class HgdCommand extends Command {
           .setFooter('簡')
         return message
           .reply({ embeds: [dayOfWeekFailEmbed] })
-          .catch(e => Util.printLog('ERR', __filename, e.stack))
+          .catch(e => logger.error(e.stack))
       }
     }
 
@@ -119,7 +115,7 @@ class HgdCommand extends Command {
           .setFooter('簡')
         return message
           .reply({ embeds: [timeNotInRangeEmbed] })
-          .catch(e => Util.printLog('ERR', __filename, e.stack))
+          .catch(e => logger.error(e.stack))
       }
     }
 
@@ -131,7 +127,7 @@ class HgdCommand extends Command {
 
     if (diffPass) {
       const texts = Util.randomFromArray(messages.pass)
-      Util.printLog('INFO', __filename, JSON.stringify(texts))
+      logger.info(JSON.stringify(texts))
       const shardsNum = await hgd.spinShard(message)
       const replyEmbed = new Discord.MessageEmbed()
         .setColor('#FB9EFF')
@@ -164,7 +160,7 @@ class HgdCommand extends Command {
       const actionRow = await hgd.generateActionRow(message)
       message
         .reply({ embeds: [replyEmbed], components: [actionRow] })
-        .catch(e => Util.printLog('ERR', __filename, e.stack))
+        .catch(e => logger.error(e.stack))
     } else {
       const texts = Util.randomFromArray(messages.fail)
       const replyEmbed = new Discord.MessageEmbed()
@@ -196,7 +192,7 @@ class HgdCommand extends Command {
       const actionRow = await hgd.generateActionRow(message)
       message
         .reply({ embeds: [replyEmbed], components: [actionRow] })
-        .catch(e => Util.printLog('ERR', __filename, e.stack))
+        .catch(e => logger.error(e.stack))
     }
   }
 }

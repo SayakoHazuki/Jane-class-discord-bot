@@ -1,7 +1,9 @@
 const Discord = require('discord.js')
 const glob = require('glob')
 const path = require('path')
-const Util = require('utils')
+
+const logger = new (require('../Utils/terminal.js'))(__filename)
+
 const Intents = Discord.Intents.FLAGS
 const hgd = require('../Utils/hgdUtils')
 
@@ -40,11 +42,7 @@ module.exports = class Client extends Discord.Client {
 
   registerCommands () {
     const commands = glob.sync(path.resolve('commands/**/*.js'))
-    Util.printLog(
-      'info',
-      __filename,
-      `Loading ${commands.length} commands (normal)`
-    )
+    logger.info(`Loading ${commands.length} commands (normal)`)
 
     for (const commandPath of commands) {
       const File = require(commandPath)
@@ -52,11 +50,7 @@ module.exports = class Client extends Discord.Client {
       try {
         cmd = new File(this)
       } catch (e) {
-        Util.printLog(
-          'err',
-          __filename,
-          `Cannot create "File" for ${commandPath}`
-        )
+        logger.error(`Cannot create "File" for ${commandPath}`)
         stopFile()
       }
       function stopFile () {
@@ -67,27 +61,19 @@ module.exports = class Client extends Discord.Client {
     }
 
     const hgdCommands = registerHgdCommands(this)
-    Util.printLog(
-      'INFO',
-      __filename,
-      `Loading ${hgdCommands.length} commands (Hgd)`
-    )
+    logger.info(`Loading ${hgdCommands.length} commands (Hgd)`)
     for (const command of hgdCommands) {
       this.commands.set(command.name, command)
     }
 
-    Util.printLog(
-      'info',
-      __filename,
-      `Finished loading ${this.commands.size} commands`
-    )
+    logger.info(`Finished loading ${this.commands.size} commands`)
 
     return this.commands
   }
 
   registerEvents () {
     const events = glob.sync(path.resolve('./../Jane/events/*.js'))
-    Util.printLog('info', __filename, `Loading ${events.length} events...`)
+    logger.info(`Loading ${events.length} events...`)
 
     let i = 0
 
@@ -102,9 +88,7 @@ module.exports = class Client extends Discord.Client {
       i++
     }
 
-    Util.printLog(
-      'info',
-      __filename,
+    logger.info(
       `Now listening to the following ${i} events:\n${this.eventNames().join(
         ' '
       )}`
@@ -116,7 +100,7 @@ module.exports = class Client extends Discord.Client {
     this.registerCommands()
     this.registerEvents()
     await hgd.connectClient()
-    Util.printLog('INFO', __filename, 'MongoDB Client connected!')
+    logger.info('MongoDB Client connected!')
     this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN)
   }
 }

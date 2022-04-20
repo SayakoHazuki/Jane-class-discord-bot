@@ -1,5 +1,6 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
 module.exports = class loopqueueCommand extends Command {
   constructor (client) {
     super(client, {
@@ -15,9 +16,7 @@ module.exports = class loopqueueCommand extends Command {
   async run (message, args) {
     const queue = await this.client.player.getQueue(message)
     if (!queue || !this.client.player.isPlaying) {
-      return message.reply(
-        Util.errEmbed(message, '沒有歌曲在此伺服器播放中')
-      )
+      return message.reply(Util.errEmbed(message, '沒有歌曲在此伺服器播放中'))
     }
     const loopMode = await this.client.player.getQueue(message).loopMode
     await this.client.player.setLoopMode(message, !loopMode)

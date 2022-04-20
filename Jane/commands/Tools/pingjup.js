@@ -1,4 +1,4 @@
-const Command = require('cmd')
+const Command = require('../../core/command')
 const { MessageEmbed } = require('discord.js')
 module.exports = class PingjupCommand extends Command {
   constructor (client) {
@@ -20,16 +20,18 @@ module.exports = class PingjupCommand extends Command {
       .replace(/[^ 123456789]*[ptk][123456789]|[^ 123456789]*[2356789]/g, '仄')
       .replace(/[^ 123456789]*[14]/g, '平')
       .replace(/(?<=[平仄]) /g, '')
-    const PingjupEmbed = new MessageEmbed().addFields([
-      {
-        name: '原文',
-        value: str
-      },
-      {
-        name: '對應平仄',
-        value: r
-      }
-    ]).setColor(this.client.colors.blue)
+    const PingjupEmbed = new MessageEmbed()
+      .addFields([
+        {
+          name: '原文',
+          value: str
+        },
+        {
+          name: '對應平仄',
+          value: r
+        }
+      ])
+      .setColor(this.client.colors.blue)
     message.reply({ embeds: [PingjupEmbed] })
   }
 }

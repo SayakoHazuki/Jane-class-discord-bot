@@ -1,7 +1,6 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-
-const hgd = require('hgdUtils')
+const Command = require('../../core/command')
+const hgd = require('../../Utils/hgdUtils')
 
 module.exports = class HgdLeaderboardCommand extends Command {
   constructor (client) {

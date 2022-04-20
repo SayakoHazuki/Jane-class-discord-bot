@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 module.exports = class shuffleCommand extends Command {
   constructor (client) {
     super(client, {
@@ -17,7 +20,7 @@ module.exports = class shuffleCommand extends Command {
       this.client.player.shuffle(message)
       message.reply(':twisted_rightwards_arrows: 已隨機重新分佈歌曲順序')
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
     }
   }
 }

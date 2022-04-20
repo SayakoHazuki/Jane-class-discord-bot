@@ -1,347 +1,248 @@
-const { MessageEmbed } = require('discord.js')
 const daysJson = require('../commands/info/data/sd.json')
 const timetableJson = require('../commands/info/data/tt.json')
+const classTimesJson = require('../commands/info/data/classTimes.json')
 const lessonLinksJson = require('../commands/info/data/classlink.json')
-const classTimes = require('../commands/info/data/classTimes.json')
 
-const fs = require('fs')
 const path = require('path')
+const logger = new (require('./terminal'))(__filename)
+const { readFileSync } = require('fs')
+const { MessageEmbed } = require('discord.js')
 
-const terminal = require('./terminal')
-function printLog (type, filename, ...message) {
-  if (!message) {
-    message = filename
-    filename = __filename
-  }
-  return terminal.print(type, __filename ?? filename, message)
-}
+const monthNumber = m => new Date(Date.parse(`${m} 1, 2012`)).getMonth() + 1
+const toTwoDigit = i => `0${i}`.slice(-2)
 
+const numberEmojis = [':one:', ':two:', ':three:', ':four:', ':five:', ':six:']
 const divider = '━━━━━━━━━━━━━'
 
-function getMonthFromString (mon) {
-  return new Date(Date.parse(mon + ' 1, 2012')).getMonth() + 1
-}
-
 module.exports = class TimetableEmbed {
-  constructor (dateToRead, timeOfSchool = 'ONLINE', showLinks = true, sClass) {
-    if (dateToRead === '04Mar') timeOfSchool = '04MAR'
-    // Return if unknown class
+  constructor (date, timetable = 'ONLINE', showLinks = true, sClass) {
+    this.date = date
+    this.options = {
+      showTime: true,
+      showLinks: showLinks || true
+    }
+
     if (!['3A', '3B', '3C', '3D'].includes(sClass)) return
+    this.class = sClass
 
-    // Var
-    let cycleNumber, cycleDay, lessonsString, oddCycle
+    if (!(date in daysJson)) return
+    const [w1, cycle, w2, day] = daysJson[date].split(' ')
 
-    const dayValueArray = daysJson[dateToRead].split(' ')
-    if (!dayValueArray) {
-      return printLog('info', __filename, 'dayValueArray is undefined')
-    }
+    this.isSchoolDay = w1 === 'Cycle' && w2 === 'Day'
+    if (!this.isSchoolDay) return this.getHolidayEmbed()
 
-    // dayValueArray - Expected : ['Cycle','9','Day','Z','(星期X)']
-
-    if (dayValueArray[4]) {
-      cycleNumber = dayValueArray[1]
-      if (isNaN(cycleNumber)) return
-
-      oddCycle = Number(cycleNumber) % 2 === 1
-      printLog(
-        'info',
-        __filename,
-        `Cycle Number: ${cycleNumber}, odd: ${oddCycle}`
+    if (isNaN(cycle)) {
+      return logger.error(
+        `Cycle is ${typeof cycle} (${cycle}), expected Number.`
       )
     }
 
-    const monthToRead = getMonthFromString(dateToRead.replace(/[0-9]/g, ''))
-    const dayNumberToRead = dateToRead.replace(/[a-zA-Z]/g, '')
+    this.isOddCycle = Number(cycle) % 2 === 1
 
-    // ========= Set var cycleDay =========
+    this.dateMonth = monthNumber(date.replace(/[0-9]/g, ''))
+    this.dateDay = date.replace(/[a-zA-Z]/g, '')
 
-    if (dayValueArray[3]) {
-      if (dayValueArray[0].includes('測驗周')) {
-        const testsEmbed = new TestEmbed(
-          dayValueArray[2],
-          new Date(
-            `2021-${toTwoDigit(monthToRead)}-${toTwoDigit(
-              dayNumberToRead
-            )}T12:00:00`
-          ),
-          daysJson[dateToRead].split('(')[1].replace(/[()]/g, '') || ''
-        )
-        this.embed = testsEmbed
-        return
-      } else {
-        cycleDay = dayValueArray[3]
+    this.day = day
+
+    if (this.day.includes('[')) {
+      this.lessons = []
+      for (const lessonCode of day.split('+')) {
+        const [_day, _sessNumber] = lessonCode.replace(']', '').split('[')
+        let [_from, _to] = _sessNumber.split('-')
+        _to ??= Number(_from)
+
+        for (let i = Number(_from) - 1; i < Number(_to); i++) {
+          this.lessons.push(timetableJson[sClass][_day].split(' ')[i])
+        }
       }
     } else {
-      cycleDay = 'holiday'
-      printLog('info', __filename, 'Holiday detected')
+      this.lessons = timetableJson[sClass][this.day].split(' ')
     }
 
-    // ======== Unknown intention ========
-
-    if (cycleDay.includes('TestDay')) {
-      lessonsString = timetableJson.test[`Day${dayValueArray[3]}`]
+    if (date in classTimesJson) {
+      this.timeList = classTimesJson[date]
     } else {
-      lessonsString = timetableJson[sClass][cycleDay]
+      this.timeList = classTimesJson[timetable]
+    }
+    this.timeList ??= classTimesJson.NORMAL
+
+    this.lessonsList = ''
+    for (let i = 0; i < this.lessons.length; i++) {
+      this.addLesson(i)
     }
 
-    // ======= Split Lessons string =======
-
-    const lessonsArray = lessonsString.split(' ')
-
-    if (lessonsArray[5]) {
-      let timetableReadable
-      let embedDesc = ''
-
-      const timeList =
-        timeOfSchool in classTimes
-          ? classTimes[timeOfSchool]
-          : classTimes.NORMAL
-
-      for (let i = 0; i < 6; i++) {
-        let mdLink = ''
-        const numberEmojis = [
-          ':one:',
-          ':two:',
-          ':three:',
-          ':four:',
-          ':five:',
-          ':six:'
-        ]
-        const lessonTime = timeOfSchool
-          ? timeList[i] + '\n'
-          : numberEmojis[i] + ' '
-        let subj = lessonsArray[i]
-        let links
-        switch (subj) {
-          case 'MUS/DE':
-            subj = oddCycle ? 'DE' : 'MUS'
-            break
-          case 'PE':
-            links = [
-              lessonLinksJson[sClass]['PE-boys'],
-              lessonLinksJson[sClass]['PE-girls']
-            ]
-            break
-          case 'SPEAK':
-            links = [lessonLinksJson[sClass].ENG, lessonLinksJson[sClass].NET]
-        }
-        if (!['PE', 'SPEAK'].includes(subj)) {
-          links = [lessonLinksJson[sClass][subj]]
-        }
-
-        // for lessons with 2 links (PE/SPEAK)
-        if (links.length === 2) {
-          const subjReadableName1 = subj === 'PE' ? 'PE(Boys)' : 'Speaking(ENG)'
-          const subjReadableName2 =
-            subj === 'PE' ? 'PE(Girls)' : 'Speaking(NET)'
-
-          mdLink = `${
-            links[0] === ''
-              ? `[找不到${sClass} ${subjReadableName1}的課室連結]`
-              : `[按此進入${subjReadableName1}課室](${links[0]})`
-          } / ${
-            links[1] === ''
-              ? `[找不到${sClass} ${subjReadableName2}的課室連結]`
-              : `[按此進入${subjReadableName2}課室](${links[1]})`
-          }\n`
-        }
-
-        // for other lessons
-        if (links.length === 1) {
-          if (links[0] === '' || !links[0]) {
-            mdLink = `[找不到${sClass} ${subj}的課室連結]\n`
-          } else {
-            mdLink = `[按此進入 ${subj} 課室 (${
-              links[0].includes('zoom') ? 'Zoom' : 'Meet'
-            })](${links[0]})\n`
-          }
-        }
-
-        let displayLink = showLinks ? mdLink : ''
-
-        const lessonArrangements = JSON.parse(
-          fs.readFileSync(
-            path.join(
-              __dirname,
-              '../commands/info/data/lessonArrangements.json'
-            ),
-            'utf8'
-          )
-        )
-        if (dateToRead in lessonArrangements[sClass]) {
-          for (const lessonArrangement of lessonArrangements[sClass][
-            dateToRead
-          ]) {
-            printLog('WARN', __filename, 'Lesson Arrangement detected.')
-            if (lessonArrangement.period === i) {
-              subj = `~~${lessonArrangement.from}~~ **${lessonArrangement.to}**`
-              displayLink = `[按此進入 ${lessonArrangement.to} 課室](${lessonArrangement.link})\n`
-            }
-          }
-        }
-
-        embedDesc += `${lessonTime}${subj} ${displayLink}\n`
-        if (i === 5) timetableReadable = embedDesc
-      }
-
-      // Footer
-      const footerList = [
-        '請記得準備所需教材喔',
-        '請記得檢查功課是不是做完了喔',
-        '明天也要加油喔'
-      ]
-      const random = Math.floor(Math.random() * footerList.length)
-
-      // Date for reading (timestamp)
-      const JSDateForDay = new Date(
-        `2021-${toTwoDigit(monthToRead)}-${toTwoDigit(
-          dayNumberToRead
-        )}T12:00:00`
-      )
-      const discordTimestamp = `<t:${Math.round(
-        JSDateForDay.getTime() / 1000
-      )}:D>`
-      const dayOfWeek = `[${daysJson[dateToRead]
-        .split('(')[1]
-        .replace(/[()]/g, '') || ''}]`
-
-      // dayDescription, e.g. Cycle 9 Day A
-      const dayDescription = `${daysJson[dateToRead].split('(')[0] ||
-        daysJson[dateToRead]}`
-
-      printLog(
-        'info',
-        __filename,
-        `2021-${monthToRead}-${dayNumberToRead}T12:00:00`
-      )
-      printLog('info', __filename, JSDateForDay.getTime())
-
-      const timetableEmbed = new MessageEmbed()
-        .setAuthor({
-          name: `[${sClass}] 日期資訊 Date info`,
-          iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
-        })
-        .setDescription(
-          `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\u2800`
-        )
-        .setColor('#ACE9A6')
-        .setFooter(
-          '簡 Jane',
-          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
-        )
-        .addField(
-          '課堂列表',
-          timetableReadable + `${divider}\n${footerList[random]}`
-        )
-        .setTimestamp()
-
-      this.embed = timetableEmbed
-    }
-
-    // For Holidays
-    if (!lessonsArray[5] && !dayValueArray[0].includes('測驗周')) {
-      const JSDateForDay = new Date(
-        `2021-${toTwoDigit(monthToRead)}-${toTwoDigit(
-          dayNumberToRead
-        )}T12:00:00`
-      )
-      const discordTimestamp = `<t:${Math.round(
-        JSDateForDay.getTime() / 1000
-      )}:D>`
-
-      const footerList = [
-        '趁著難得的假期好好放鬆一下吧',
-        '請好好享受假期吧',
-        '最近真是辛苦了，休閒的度過假期吧',
-        '會有特別的假期安排嗎？'
-      ]
-      const random = Math.floor(Math.random() * footerList.length)
-
-      const holidayEmbed = new MessageEmbed()
-        .setAuthor({
-          name: '日期資訊 Date info',
-          iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
-        })
-        .setDescription(`${discordTimestamp}是假期喔 ${footerList[random]}`)
-        .setColor('#ACE9A6')
-        .setFooter(
-          '簡 Jane',
-          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
-        )
-        .setTimestamp()
-
-      this.embed = holidayEmbed
-    }
+    this.embed = this.getEmbed()
   }
-}
 
-// Force two digits
-
-function toTwoDigit (deg) {
-  return ('0' + deg).slice(-2)
-}
-
-// For Testweek
-class TestEmbed {
-  constructor (testWeekDay, JSDateForDay, dayOfWeek) {
-    const subjects = timetableJson.tests[testWeekDay - 1]
+  getEmbed () {
     const footerList = [
-      '希望大家都能獲得好的成績呢',
-      '請努力溫習測驗哦',
-      '大家測驗要加油哦',
-      '請努力溫習測驗哦',
-      '大家測驗要加油哦',
-      '請努力溫習測驗哦',
-      '大家測驗要加油哦',
-      '請努力溫習測驗哦',
-      '大家測驗要加油哦'
+      '請記得準備所需教材喔',
+      '請記得檢查功課是不是做完了喔',
+      '明天也要加油喔'
     ]
-    const random = Math.floor(Math.random() * footerList.length)
+    const footer = footerList[Math.floor(Math.random() * footerList.length)]
 
-    function sumTime (o, a) {
-      let [oh, om] = o.split(':')
-      ;[oh, om] = [Number(oh), Number(om)]
-      let m = om + a
-      let h = oh
-      if (m >= 60) {
-        m -= 60
-        h += 1
-      }
-      return `${toTwoDigit(h)}:${toTwoDigit(m)}`
-    }
+    const discordTimestamp = `<t:${Math.round(
+      new Date(
+        `2021-${toTwoDigit(this.dateMonth)}-${toTwoDigit(
+          this.dateDay
+        )}T12:00:00`
+      ).getTime() / 1000
+    )}:D>`
 
-    const TestTimelist = ['08:40', '10:20', '11:00']
+    const dayOfWeek = `[${daysJson[this.date]
+      .split('(')[1]
+      .replace(/[()]/g, '') || ''}]`
 
-    let testScheduleTxt = ''
-    for (let i = 0; i < subjects.length; i++) {
-      const { subject, duration } = subjects[i]
-      testScheduleTxt = `${testScheduleTxt}${TestTimelist[i]}-${sumTime(
-        TestTimelist[i],
-        duration
-      )}\n${subject} Test\n(${duration} 分鐘)\n\n`
-    }
+    const dayDescription = `${daysJson[this.date].split('(')[0] ||
+      daysJson[this.date]}`
 
-    const testTTEmbed = new MessageEmbed()
+    return new MessageEmbed()
+      .setAuthor({
+        name: `[${this.class}] 日期資訊 Date info`,
+        iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
+      })
+      .setDescription(
+        `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\u2800`
+      )
+      .setColor('#ACE9A6')
+      .setFooter({
+        text: '簡 Jane',
+        iconURL:
+          'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
+      })
+      .addField('課堂列表', this.lessonsList + `${divider}\n${footer}`)
+      .setTimestamp()
+  }
+
+  getHolidayEmbed () {
+    const footerList = [
+      '趁著難得的假期好好放鬆一下吧',
+      '請好好享受假期吧',
+      '最近真是辛苦了，休閒的度過假期吧',
+      '會有特別的假期安排嗎？'
+    ]
+
+    const discordTimestamp = `<t:${Math.round(
+      new Date(
+        `2021-${toTwoDigit(this.dateMonth)}-${toTwoDigit(
+          this.dateDay
+        )}T12:00:00`
+      ).getTime() / 1000
+    )}:D>`
+
+    const footer = footerList[Math.floor(Math.random() * footerList.length)]
+
+    return new MessageEmbed()
       .setAuthor({
         name: '日期資訊 Date info',
         iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
       })
-      .setDescription(
-        `━━━━━━━━━━━━━\n<t:${Math.round(
-          JSDateForDay.getTime() / 1000
-        )}:D> [${dayOfWeek}]\n上學期測驗周 (Day ${testWeekDay})\n\u2800`
-      )
+      .setDescription(`${discordTimestamp}是假期喔 ${footer}`)
       .setColor('#ACE9A6')
       .setFooter(
         '簡 Jane',
         'https://cdn.discordapp.com/avatars/801354940265922608/daccb38cb0e479aa002ada8d2b2753df.webp?size=1024'
       )
-      .addField(
-        '測驗時段列表',
-        testScheduleTxt.replace(/\n$/, '') + `${divider}\n${footerList[random]}`
-      )
       .setTimestamp()
-
-    return testTTEmbed
   }
+
+  addLesson (i) {
+    const lessonPrefix = this.options.showTime
+      ? `${this.timeList[i]}\n`
+      : `${numberEmojis[i]} `
+
+    const lessonArrangements = JSON.parse(
+      readFileSync(
+        path.join(__dirname, '../commands/info/data/lessonArrangements.json'),
+        'utf8'
+      )
+    )
+
+    let displayLink
+
+    if (this.options.showLinks) {
+      const links = this.getLinks(i)
+      displayLink = markdownLink(links, this.class, this.lessons[i])
+    } else {
+      displayLink = ''
+    }
+
+    if (this.date in lessonArrangements[this.class]) {
+      for (const arrangement of lessonArrangements[this.class][this.date]) {
+        logger.info('Lesson Arrangement detected.')
+        if (lessonArrangements.period === i) {
+          this.lessons[i] = `~~${arrangement.from}~~ **${arrangement.to}**`
+          displayLink = this.options.showLinks
+            ? `[按此進入 ${arrangement.to} 課室](${arrangement.link})\n`
+            : ''
+        }
+      }
+    }
+
+    this.lessonsList += `${lessonPrefix}${this.lessons[i]} ${displayLink}\n`
+  }
+
+  getLinks (i) {
+    let links
+
+    let lessonCode = this.lessons[i]
+    switch (lessonCode) {
+      case 'MUS/DE':
+        lessonCode = this.isOddCycle ? 'DE' : 'MUS'
+        break
+
+      case 'PE':
+        links = [
+          lessonLinksJson[this.class]['PE-boys'],
+          lessonLinksJson[this.class]['PE-girls']
+        ]
+        break
+
+      case 'SPEAK':
+        links = [
+          lessonLinksJson[this.class].ENG,
+          lessonLinksJson[this.class].NET
+        ]
+        break
+    }
+
+    links ??= [lessonLinksJson[this.class][lessonCode]]
+    return links
+  }
+}
+
+const lesson1BySubj = subj => (subj === 'PE' ? 'PE(Boys)' : 'Speaking(ENG)')
+const lesson2BySubj = subj => (subj === 'PE' ? 'PE(Girls)' : 'Speaking(NET)')
+
+function markdownLink (links, _class, lessonCode) {
+  let lesson1Type = '網課'
+  if (links[0].includes('zoom')) {
+    lesson1Type = 'Zoom'
+  } else if (links[0].includes('meet')) {
+    lesson1Type = 'Meet'
+  }
+
+  const notFound = i =>
+    `[找不到${_class} ${
+      !i
+        ? lessonCode
+        : i === 1
+        ? lesson1BySubj(lessonCode)
+        : lesson2BySubj(lessonCode)
+    }的課室連結]`
+
+  return links?.length === 2
+    ? `${
+        links[0] === ''
+          ? notFound(1)
+          : `[按此進入${lesson1BySubj(lessonCode)}課室](${links[0]})`
+      } / ${
+        links[1] === ''
+          ? notFound(2)
+          : `[按此進入${lesson2BySubj(lessonCode)}課室](${links[1]})`
+      }\n`
+    : !links || !links[0]
+        ? `${notFound()}\n`
+        : `[按此進入 ${lessonCode} 課室 (${lesson1Type})](${links[0]})\n`
 }

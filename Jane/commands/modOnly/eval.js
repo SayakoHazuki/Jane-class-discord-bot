@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const Discord = require('discord.js')
 
 module.exports = class EvalCommand extends Command {
@@ -31,13 +34,13 @@ module.exports = class EvalCommand extends Command {
       let ev = eval(code)
       let highlightCode = null
       let typeOfEv
-      Util.printLog('info', __filename, ev)
+      logger.info(ev)
       try {
         typeOfEv = Util.whatsIt(JSON.stringify(ev))
       } catch (e) {
         typeOfEv = Util.whatsIt(ev)
       }
-      Util.printLog('info', __filename, `typeOfEv: ${typeOfEv}`)
+      logger.info(`typeOfEv: ${typeOfEv}`)
       if (typeOfEv === 'jsonString') {
         try {
           ev = JSON.stringify(ev, null, 2)
@@ -51,7 +54,7 @@ module.exports = class EvalCommand extends Command {
       }
       if (typeOfEv === 'null' || typeOfEv === 'undefined') highlightCode = 'fix'
       if (highlightCode === null) highlightCode = 'xl'
-      Util.printLog('info', __filename, highlightCode)
+      logger.info(highlightCode)
       return message.reply(Discord.Formatters.codeBlock(highlightCode, ev))
     } catch (err) {
       return message.reply(Discord.Formatters.codeBlock('xl', err.stack))

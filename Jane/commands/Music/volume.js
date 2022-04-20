@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 module.exports = class volumeCommand extends Command {
   constructor (client) {
     super(client, {
@@ -22,7 +25,7 @@ module.exports = class volumeCommand extends Command {
       await this.client.player.setVolume(message)
       message.reply(`:white_check_mark: 音量已調為 \`${args[0]}\`%`)
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
     }
   }
 }

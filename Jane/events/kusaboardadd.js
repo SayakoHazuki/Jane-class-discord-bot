@@ -1,12 +1,5 @@
 const { MessageEmbed } = require('discord.js')
-const terminal = require('../Utils/terminal')
-function printLog (type, filename, ...message) {
-  if (!message) {
-    message = filename
-    filename = __filename
-  }
-  return terminal.print(type, __filename ?? filename, message)
-}
+const logger = new (require('../Utils/terminal'))(__filename)
 
 const Evt = require('../core/e')
 
@@ -21,11 +14,7 @@ module.exports = class Message extends Evt {
       .get('799269481247014912')
       ?.emojis.cache.find(emoji => emoji.name === 'kusa')
     const handleStarboard = async () => {
-      printLog(
-        'info',
-        __filename,
-        'Kusa emoji received, running handleStarboard function'
-      )
+      logger.info('Kusa emoji received, running handleStarboard function')
       const starboard = client.channels.cache.find(
         channel => channel.name.toLowerCase() === 'kusaboard'
       )

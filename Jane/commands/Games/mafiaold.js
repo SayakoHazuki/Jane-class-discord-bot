@@ -1,7 +1,9 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
 
-const Util = require('utils')
+const logger = Util.getLogger(__filename)
+
 const charGroups = {
   4: ['狼', '巫', '民', '民'],
   5: ['狼', '預', '獵', '民', '民'],
@@ -29,7 +31,7 @@ module.exports = class wolfCommand extends Command {
       name: 'wolfOld',
       category: '一般',
       description: '開始一個狼人殺遊戲',
-      usage: 'wolf help|cmd|create|pick',
+      usage: 'wolfOld help|cmd|create|pick',
       minArgs: 0,
       maxArgs: -1
     })
@@ -91,7 +93,7 @@ module.exports = class wolfCommand extends Command {
           }
           const charName = charNum[Number(config.split('x')[0])]
           const amount = Number(config.split('x')[1])
-          Util.printLog('info', __filename, charName + amount)
+          logger.info(charName + amount)
           for (let i = 0; i < amount; i++) {
             Chars.push(charName)
           }
@@ -125,7 +127,7 @@ module.exports = class wolfCommand extends Command {
           '只接受 4 - 12 位玩家 (考慮到遊戲體驗 建議 6位玩家 以上)'
         )
       }
-      Util.printLog('info', __filename, charList)
+      logger.info(charList)
       const plrList = []
       message.mentions.members.forEach(mem => {
         plrList.push(mem.id)
@@ -159,7 +161,7 @@ module.exports = class wolfCommand extends Command {
             }
 
             if (finalPanel) finalPanel.delete({ timeout: 0 })
-            Util.printLog('err', __filename, errpanel)
+            logger.error(errpanel)
             errMem.push(player)
             await errpanel.edit(
               `無法發送DM至 <@${errMem.join(
@@ -295,7 +297,7 @@ module.exports = class wolfCommand extends Command {
           const charName =
             part.split('x')[1] === '預言' ? '預言家' : part.split('x')[1]
           const amount = Number(part.split('x')[0])
-          Util.printLog('info', __filename, charName + amount)
+          logger.info(charName + amount)
           for (let i = 0; i < amount; i++) {
             roles.push(charName)
           }
@@ -341,11 +343,7 @@ module.exports = class wolfCommand extends Command {
         })
 
         confirmationcollector.on('end', collected => {
-          Util.printLog(
-            'info',
-            __filename,
-            `Collected ${collected.size} message`
-          )
+          logger.info(`Collected ${collected.size} message`)
         })
 
         async function startGame () {
@@ -399,8 +397,8 @@ module.exports = class wolfCommand extends Command {
               }
             )
           })
-          Util.printLog('err', __filename, 'line410' + errMem)
-          Util.printLog('err', __filename, 'line411' + errMem?.length)
+          logger.error(errMem)
+          logger.error(errMem?.length)
           if (errMem?.length >= 1) {
             // idk
           } else {

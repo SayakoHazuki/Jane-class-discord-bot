@@ -1,5 +1,8 @@
-const Util = require('utils')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 const path = require('path')
 const fs = require('fs')
 
@@ -50,7 +53,7 @@ module.exports = class LessonArrangementCommand extends Command {
       .split('/')
       .map(a => Util.formatNumDigit(a, 2))
       .join('/')
-    Util.printLog('INFO', __filename, date)
+    logger.info(date)
     if (!/^[0-3][0-9]\/[0-1][0-9]$/.test(date)) {
       return message.reply('日期錯誤 (格式: 13/1)')
     }
@@ -109,9 +112,7 @@ module.exports = class LessonArrangementCommand extends Command {
             )
             .join('\n\n')}`
         )
-        Util.printLog(
-          'info',
-          __filename,
+        logger.info(
           `deleted LA info: \n\n ${relevantLA
             .map(
               item =>

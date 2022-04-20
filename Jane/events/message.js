@@ -1,6 +1,6 @@
 const Evt = require('../core/e')
 const permissions = require('./perms.json')
-const Util = require('utils')
+
 
 module.exports = class Message extends Evt {
   constructor (client) {
@@ -98,17 +98,15 @@ module.exports = class Message extends Evt {
       )
     }
 
-    Util.printLog(
-      'info',
-      __filename,
+    logger.info(
       `${Util.logColor('cyan.fg')}${message.author.tag}${Util.logColor(
         'reset'
       )} runned command ${Util.logColor('cyan.fg')}${
         command.name
       }${Util.logColor('reset')}`
     )
-    Util.printLog('info', __filename, `${Util.logColor('reset')}\tCmd: ${message.content}`)
-    Util.printLog('info', __filename, `${Util.logColor('reset')}Running command ${Util.logColor('cyan.fg')}${command.name}`)
+    logger.info(`${Util.logColor('reset')}\tCmd: ${message.content}`)
+    logger.info(`${Util.logColor('reset')}Running command ${Util.logColor('cyan.fg')}${command.name}`)
 
     try {
       command.run(message, args)

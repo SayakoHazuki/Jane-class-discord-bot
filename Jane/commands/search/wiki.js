@@ -2,8 +2,10 @@ const Discord = require('discord.js')
 const wiki = require('wikijs').default
 const chineseConv = require('chinese-conv')
 
-const Util = require('utils')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 module.exports = class WikiCommand extends Command {
   constructor (client) {
@@ -63,7 +65,7 @@ module.exports = class WikiCommand extends Command {
                 })
               }
             })
-            Util.printLog('err', __filename, result)
+            logger.error(result)
             const wikiEmbed = {
               color: 0x0099ff,
               title: wTitle,

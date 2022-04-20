@@ -1,11 +1,10 @@
-const Command = require('cmd')
+const Command = require('../../core/command')
 
 module.exports = class RemoveAdminCommand extends Command {
   constructor (client) {
     super(client, {
       name: 'removeAdmin',
-      aliases: ['removeAdmin', 'delAdmin',
-        'delAdm', 'noAdmin'],
+      aliases: ['removeAdmin', 'delAdmin', 'delAdm', 'noAdmin'],
       category: 737012021,
       description: "remove someone's admin",
       usage: 'removeAdmin <code>',
@@ -15,15 +14,24 @@ module.exports = class RemoveAdminCommand extends Command {
   }
 
   async run (message, args) {
-    if (message.author.id !== '690822196972486656' && message.author.id !== '726439536401580114' && message.author.id !== '794181749432778753') {
+    if (
+      message.author.id !== '690822196972486656' &&
+      message.author.id !== '726439536401580114' &&
+      message.author.id !== '794181749432778753'
+    ) {
       return
     }
-    const ch = message.channel; const g = message.guild
+    const ch = message.channel
+    const g = message.guild
     const role = g.roles.cache.get('800512406740271174')
 
-    const u = message.mentions.members ? message.mentions.members.first() : message.guild.users.cache.find(user => user.username.startsWith(args[0]))
+    const u = message.mentions.members
+      ? message.mentions.members.first()
+      : message.guild.users.cache.find(u => u.username.startsWith(args[0]))
     if (u == null) {
-      return ch.send('簡 不知道要移除誰的管理員權限。 請@需要移除管理員權限的用戶')
+      return ch.send(
+        '簡 不知道要移除誰的管理員權限。 請@需要移除管理員權限的用戶'
+      )
     }
     try {
       if (u.id === '799271109883068446') {

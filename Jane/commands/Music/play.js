@@ -1,5 +1,8 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
+
 module.exports = class playCommand extends Command {
   constructor (client) {
     super(client, {
@@ -20,7 +23,7 @@ module.exports = class playCommand extends Command {
     try {
       this.client.player.play(message, args.join(' '), true)
     } catch (e) {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
     }
   }
 }

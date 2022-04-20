@@ -1,6 +1,8 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 const classLinks = require('./data/classlink.json')
 
@@ -57,7 +59,7 @@ module.exports = class viewLinksCommand extends Command {
 
     const queryClass = interaction.values[0]
     const links = classLinks[queryClass]
-    Util.printLog('INFO', __filename, links)
+    logger.info(links)
 
     const sliceObject = (myObject, start, end) =>
       Object.keys(myObject)
@@ -101,7 +103,7 @@ module.exports = class viewLinksCommand extends Command {
       .setColor(this.client.colors.green)
 
     interaction.reply({ embeds: [resultEmbed] }).catch(e => {
-      Util.printLog('ERR', __filename, e.stack)
+      logger.error(e.stack)
     })
   }
 }

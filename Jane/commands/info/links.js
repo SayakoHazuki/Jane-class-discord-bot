@@ -1,5 +1,5 @@
 const Discord = require('discord.js')
-const Command = require('cmd')
+const Command = require('../../core/command')
 
 module.exports = class LinksCommand extends Command {
   constructor (client) {
@@ -19,9 +19,7 @@ module.exports = class LinksCommand extends Command {
       new Discord.MessageButton()
         .setStyle('LINK')
         .setLabel('常用連結列表')
-        .setURL(
-          'https://jane.ml/links'
-        )
+        .setURL('https://jane.ml/links')
     ])
     message.reply({ components: [linkButtons] })
   }

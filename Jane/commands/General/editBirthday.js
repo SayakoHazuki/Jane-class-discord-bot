@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
-const Util = require('utils')
-const Command = require('cmd')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
 
 module.exports = class editBirthdayCommand extends Command {
   constructor (client) {
@@ -22,9 +22,7 @@ module.exports = class editBirthdayCommand extends Command {
     if (args[1]) {
       if (isNaN(args[1])) {
         id = message.author.id
-        return message.reply(
-          '所輸入的學號錯誤 (用法:`-bd (日期) (學號[選填])`'
-        )
+        return message.reply('所輸入的學號錯誤 (用法:`-bd (日期) (學號[選填])`')
       }
       if (Number(args[1]) < 1 || Number(args[1]) > 31) {
         id = message.author.id
@@ -43,10 +41,7 @@ module.exports = class editBirthdayCommand extends Command {
       const content = oldcontent.replace(/\u3010\u3011/g, '\u3010 \u3011')
       let newcontent
       if (update) {
-        newcontent = content.replace(
-          '800515243515314176',
-          '799266168846024714'
-        )
+        newcontent = content.replace('800515243515314176', '799266168846024714')
         const updateEmbed = new Discord.MessageEmbed()
           .setDescription(newcontent)
           .setColor('#96f3c7')
@@ -63,12 +58,12 @@ module.exports = class editBirthdayCommand extends Command {
       message.react('806372978345771038')
     } catch (e) {
       Util.handleErr(e)
-      message.reply(
-        '編輯日期資訊的時候發生了一個錯誤, 詳情請聯絡程序員'
-      )
+      message.reply('編輯日期資訊的時候發生了一個錯誤, 詳情請聯絡程序員')
       client.channels.cache
         .get('802138894623571979')
-        .send(`Caught error:\n${e}\nwhen editing birthday infor\n\nuser : ${message.author.tag}\nCommand content : ${message.content}\n\n<@&802137944097554482>`)
+        .send(
+          `Caught error:\n${e}\nwhen editing birthday infor\n\nuser : ${message.author.tag}\nCommand content : ${message.content}\n\n<@&802137944097554482>`
+        )
     }
 
     // const embed = new Discord.MessageEmbed()

@@ -1,5 +1,7 @@
-const Command = require('cmd')
-const Util = require('utils')
+const Command = require('../../core/command')
+const Util = require('../../Utils/index.js')
+
+const logger = Util.getLogger(__filename)
 
 module.exports = class SlowmodeCommand extends Command {
   constructor (client) {
@@ -15,7 +17,11 @@ module.exports = class SlowmodeCommand extends Command {
   }
 
   async run (message, args) {
-    if (message.author.id !== '690822196972486656' && message.author.id !== '726439536401580114' && message.author.id !== '794181749432778753') {
+    if (
+      message.author.id !== '690822196972486656' &&
+      message.author.id !== '726439536401580114' &&
+      message.author.id !== '794181749432778753'
+    ) {
       return
     }
     try {
@@ -26,7 +32,11 @@ module.exports = class SlowmodeCommand extends Command {
       if (args[0] > 21600) {
         return message.reply('這個數字太大了 簡不能把慢速模式調成這個數字')
       }
-      if (message.author.id === '690822196972486656' || message.author.id === '726439536401580114' || message.author.id === '794181749432778753') {
+      if (
+        message.author.id === '690822196972486656' ||
+        message.author.id === '726439536401580114' ||
+        message.author.id === '794181749432778753'
+      ) {
         message.channel.setRateLimitPerUser(args[0])
         message.reply(`慢速模式已調成${args[0]}秒`)
       } else {
@@ -34,7 +44,7 @@ module.exports = class SlowmodeCommand extends Command {
       }
     } catch (e) {
       message.reply('簡 發現了一個錯誤 .-.\n請<@690822196972486656>幫幫忙')
-      Util.printLog('err', __filename, e)
+      logger.error(e)
     }
   }
 }

@@ -1,11 +1,4 @@
-const terminal = require('../Utils/terminal')
-function printLog (type, filename, ...message) {
-  if (!message) {
-    message = filename
-    filename = __filename
-  }
-  return terminal.print(type, __filename ?? filename, message)
-}
+const logger = new (require('../Utils/terminal'))(__filename)
 
 module.exports = function dmHandler (message, client) {
   const channel = client.channels.cache.get(client.modChannelID)
@@ -18,7 +11,7 @@ module.exports = function dmHandler (message, client) {
     )
   }
 
-  printLog('info', __filename,
+  logger.info(
     `${message.author.tag} (` +
       message.author.id +
       ') said:' +

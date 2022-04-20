@@ -1,11 +1,4 @@
-const terminal = require('../Utils/terminal')
-function printLog (type, filename, ...message) {
-  if (!message) {
-    message = filename
-    filename = __filename
-  }
-  return terminal.print(type, __filename ?? filename, message)
-}
+const logger = new (require('../Utils/terminal'))(__filename)
 
 const hgd = require('../Utils/hgdUtils')
 
@@ -31,7 +24,7 @@ async function getdata (client, userID) {
       }
     }
   } catch (e) {
-    printLog('err', __filename, e)
+    logger.error(e)
     client.channels.cache
       .get('802138894623571979')
       .send(
@@ -43,7 +36,7 @@ async function getdata (client, userID) {
 // Profile creator
 async function npf (client, userID) {
   try {
-    printLog('info', __filename, `Creating profile for userID ${userID}`)
+    logger.info(`Creating profile for userID ${userID}`)
 
     const mdbclient = hgd.getClient()
     const database = mdbclient.db('jane')
@@ -67,7 +60,7 @@ async function npf (client, userID) {
     await collection.insertOne(newUdata)
     return newUdata
   } catch (erro) {
-    printLog('info', __filename, erro)
+    logger.error(erro)
     client.channels.cache
       .get('802138894623571979')
       .send(
@@ -83,9 +76,9 @@ module.exports = class PYCUser {
   }
 
   async saveData () {
-    printLog('info', __filename, 'Getting data from MongoDB')
+    logger.info('Getting data from MongoDB')
     const userData = await getdata(this.mainClient, this.discordID)
-    printLog('Success')
+    logger.info('Success')
     this.data = userData
     this.name = userData.sName || false
     this.class = userData.sClass || false
@@ -121,13 +114,13 @@ module.exports = class PYCUser {
         }
       }
       updateDocument.$set[item] = value
-      printLog('info', __filename, updateDocument)
+      logger.info(updateDocument)
       await collection.updateOne(filter, updateDocument)
       this[item] = value
       return this
     } catch (e) {
       const erro = new Error(e)
-      printLog('info', __filename, erro)
+      logger.info(erro)
       this.client.channels.cache
         .get('802138894623571979')
         .send(
