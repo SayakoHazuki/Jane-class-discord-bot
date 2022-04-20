@@ -167,10 +167,29 @@ class Period {
 
     const tj = timetableJson
     const cd = this.cycleDay
-    const lessonsArrayA = tj['3A'][cd]?.split(' ')
-    const lessonsArrayB = tj['3B'][cd]?.split(' ')
-    const lessonsArrayC = tj['3C'][cd]?.split(' ')
-    const lessonsArrayD = tj['3D'][cd]?.split(' ')
+
+    function getLessonsArray (_class) {
+      let lessons = []
+      if (cd.includes('[')) {
+        for (const lessonCode of cd.split('+')) {
+          const [_day, _sessNumber] = lessonCode.replace(']', '').split('[')
+          let [_from, _to] = _sessNumber.split('-')
+          _to ??= Number(_from)
+
+          for (let i = Number(_from) - 1; i < Number(_to); i++) {
+            lessons.push(tj[_class][_day].split(' ')[i])
+          }
+        }
+      } else {
+        lessons = tj[_class][cd].split(' ')
+      }
+      return lessons
+    }
+
+    const lessonsArrayA = getLessonsArray('3A')
+    const lessonsArrayB = getLessonsArray('3B')
+    const lessonsArrayC = getLessonsArray('3C')
+    const lessonsArrayD = getLessonsArray('3D')
 
     // ======== Time now, date now ========
 
@@ -209,11 +228,9 @@ class Period {
     // timeList : classes starting time
     // timeListFull : For human reading, full time
     const timeList =
-      timeOfSchool in classTimes ? classTimes[timeOfSchool] : classTimes.NORMAL
+      classTimes[dateToRead] ?? classTimes[timeOfSchool] ?? classTimes.NORMAL
     const timeListFull =
-      timeOfSchool in classTimeFull
-        ? classTimeFull[timeOfSchool]
-        : classTimeFull.NORMAL
+      classTimeFull[dateToRead] ?? classTimeFull[timeOfSchool] ?? classTimeFull.NORMAL
     this.timeList = timeList
     this.timeListFull = timeListFull
 
@@ -234,16 +251,16 @@ class Period {
           break
         }
 
-        if (i === 6) {
-          if (timeNow <= timeList[6].replace(':', '')) {
-            this.periodNumber = 5
+        if (i === timeList.length) {
+          if (timeNow <= timeList[timeList.length].replace(':', '')) {
+            this.periodNumber = timeList.length - 1
             this.classesEnded = false
             this.isShowingNext = false
             break
           }
           this.classesEnded = true
           Util.printLog('INFO', __filename, 'Situation detected: Classes ended')
-          this.periodNumber = 6
+          this.periodNumber = timeList.length
         }
         i++
       }
@@ -263,7 +280,7 @@ class Period {
 
     this.lessonTimeFull = timeListFull[this.periodNumber]
 
-    if (lessonsArrayA[5]) {
+    if (lessonsArrayA.length) {
       let mdLink = ''
       let links = []
 
