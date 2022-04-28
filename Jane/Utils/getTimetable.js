@@ -180,7 +180,11 @@ module.exports = class TimetableEmbed {
       }
     }
 
-    this.lessonsList += `${lessonPrefix}${this.lessons[i]} ${displayLink}\n`
+    this.lessonsList += `${lessonPrefix}${
+      this.lessons.map(i =>
+        i.replace('MUS/DE', `${this.isOddCycle ? 'DE' : 'MUS'}`)
+      )[i]
+    } ${displayLink}\n`
   }
 
   getLinks (i) {
