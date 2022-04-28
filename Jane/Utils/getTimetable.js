@@ -163,7 +163,8 @@ module.exports = class TimetableEmbed {
 
     if (this.options.showLinks) {
       const links = this.getLinks(i)
-      displayLink = markdownLink(links, this.class, this.lessons[i])
+      displayLink = markdownLink(links, this.class, this.lessons[i].replace('MUS/DE', `${this.isOddCycle ? 'DE' : 'MUS'}`
+      ))
     } else {
       displayLink = ''
     }
