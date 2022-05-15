@@ -16,6 +16,7 @@ const divider = '━━━━━━━━━━━━━'
 
 module.exports = class TimetableEmbed {
   constructor (date, timetable = 'ONLINE', showLinks = true, sClass) {
+    timetable = "HALFDAYLONG"
     this.date = date
     this.options = {
       showTime: true,
