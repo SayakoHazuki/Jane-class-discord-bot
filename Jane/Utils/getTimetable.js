@@ -12,10 +12,11 @@ const monthNumber = m => new Date(Date.parse(`${m} 1, 2012`)).getMonth() + 1
 const toTwoDigit = i => `0${i}`.slice(-2)
 
 const numberEmojis = [':one:', ':two:', ':three:', ':four:', ':five:', ':six:']
-const divider = '━━━━━━━━━━━━━'
+const divider = '━━━━━━━━━━━━━━━━'
 
 module.exports = class TimetableEmbed {
-  constructor (date, timetable = 'ONLINE', showLinks = true, sClass) {
+  constructor (date, timetable = 'ONLINE', showLinks = true, sClass) {    
+    timetable = 'HALFDAYLONG'
     this.date = date
     this.options = {
       showTime: true,
@@ -103,7 +104,7 @@ module.exports = class TimetableEmbed {
         iconURL: 'https://i.imgur.com/wMfgtoW.png?1'
       })
       .setDescription(
-        `${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\u2800`
+        `${divider}\n:exclamation: 請記得每日填寫\n<:googleforms:970686916938858536> [21-22 學生快速抗原測試紀錄](https://forms.gle/Q1PexxyeJb5KJ46r8)\n(https://forms.gle/Q1PexxyeJb5KJ46r8)\n${divider}\n${discordTimestamp} ${dayOfWeek}\n${dayDescription}\n\u2800`
       )
       .setColor('#ACE9A6')
       .setFooter({
