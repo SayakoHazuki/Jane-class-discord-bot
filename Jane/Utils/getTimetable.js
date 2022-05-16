@@ -15,7 +15,7 @@ const numberEmojis = [':one:', ':two:', ':three:', ':four:', ':five:', ':six:']
 const divider = '━━━━━━━━━━━━━━━━'
 
 module.exports = class TimetableEmbed {
-  constructor (date, timetable = 'ONLINE', showLinks = true, sClass) {    
+  constructor (date, timetable = 'ONLINE', showLinks = true, sClass) {
     timetable = 'HALFDAYLONG'
     this.date = date
     this.options = {
