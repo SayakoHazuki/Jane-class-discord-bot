@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@types/glob": "^7.2.0",
+    "@types/node": "^18.0.6",
+    "bent": "^7.3.12",
+    "discord.js": "^14.0.3",
+    "glob": "^8.0.3",
+    "path": "^0.12.7",
+    "rss-to-json": "^2.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  }
+}
