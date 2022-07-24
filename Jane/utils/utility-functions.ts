@@ -36,7 +36,7 @@ const MonthFullArr = [
     "December",
 ];
 
-export default class Formatter {
+export default class Utilities {
     /**
      * Force a number to be in the type of a string of an n-digit number
      * @param input Number to be formatted
@@ -124,6 +124,56 @@ export default class Formatter {
                         return $0.substring(1, $0.length - 1);
                 }
             }
+        );
+    }
+
+    static splitMessage(content: string) {
+        const splitRegex = /[\s\S]{1,1960}/g;
+        const splitted = content.match(splitRegex);
+        return splitted;
+    }
+
+    static addCodeBlock(content: string, code: string = "") {
+        return "```" + code + "\n" + content + "```";
+    }
+
+    /**
+     * Sort object by value
+     */
+    static sortObjectByValue(object: { [key: string]: any }) {
+        const enumeratedArray = [];
+        for (const key in object) {
+            if (Object.prototype.hasOwnProperty.call(object, key)) {
+                enumeratedArray.push([key, object[key]]);
+            }
+            enumeratedArray.sort(function (a, b) {
+                const x = a[1].toLowerCase();
+                const y = b[1].toLowerCase();
+                return x < y ? -1 : x > y ? 1 : 0;
+            });
+        }
+        const results: { [key: string]: any } = {};
+        for (const key in enumeratedArray) {
+            const k = enumeratedArray[key][0];
+            const v = enumeratedArray[key][1];
+            results[k] = v;
+        }
+        return results;
+    }
+
+    /**
+     * Sorts array of object by object property
+     */
+    static sortArrayOfObjectByProp(
+        array: { [key: string]: any }[],
+        propToSort: string
+    ) {
+        return array.sort((a, b) =>
+            a[propToSort] > b[propToSort]
+                ? 1
+                : b[propToSort] > a[propToSort]
+                ? -1
+                : 0
         );
     }
 }
