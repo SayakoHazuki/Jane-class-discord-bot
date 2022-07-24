@@ -7,6 +7,9 @@
 !.yarn/sdks
 !.yarn/versions
 
+/* v2 files */
+*.v2.ts
+
 .vscode/
 say.js
 Procfile
