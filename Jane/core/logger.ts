@@ -30,7 +30,7 @@ const levels: { [level: string]: Level } = {
     },
 };
 
-export default class Logger {
+class Logger {
     label: string;
 
     constructor(filename: string) {
@@ -67,3 +67,7 @@ export default class Logger {
         );
     }
 }
+
+module.exports = function initLogger(filename: string) {
+    return new Logger(filename);
+};

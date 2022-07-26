@@ -1,7 +1,8 @@
-import { Client, GatewayIntentBits, Collection, TextChannel } from "discord.js";
+import { Client, GatewayIntentBits, Collection } from "discord.js";
 import glob from "glob";
 import path from "path";
-import Command from "./command";
+
+const logger: typeof Logger = require("./logger")(__filename);
 
 let client: JaneClient;
 
@@ -10,8 +11,8 @@ let client: JaneClient;
 
 // import registerHgdCommands from './HgdCmdReg'
 
-export default class JaneClient extends Client {
-    commands: Collection<string, Command>;
+export class JaneClient extends Client {
+    commands: Collection<string, CommandBuilder>;
     prefix: "-" | "--";
 
     constructor() {
@@ -34,24 +35,23 @@ export default class JaneClient extends Client {
     //     this.player = player
     // }
 
-    registerCommands() {
-        const commands = glob.sync(path.resolve("commands/**/*.js"));
-        // logger.info(`Loading ${commands.length} commands (normal)`)
+    async registerCommands() {
+        let commandsPath = path.resolve("./commands/**/*.js");
+        if (process.platform === "win32")
+            commandsPath = commandsPath.replace(/\\/g, "/");
+        const commands = glob.sync(commandsPath);
+        logger.info(`Loading ${commands.length} commands (normal)`);
 
         for (const commandPath of commands) {
-            const File = require(commandPath);
-            let cmd;
+            const _CommandBuilder: { default: typeof CommandExport } =
+                await import(commandPath);
             try {
-                cmd = new File(this);
+                const command = new _CommandBuilder.default();
+                this.commands.set(command.options.command, command);
             } catch (e) {
-                // logger.error(`Cannot create "File" for ${commandPath}`)
-                stopFile();
+                logger.error(`Cannot create "File" for ${commandPath}`);
+                logger.error(e);
             }
-            function stopFile() {
-                throw new Error("Stop registering Commands");
-            }
-
-            this.commands.set(cmd.name, cmd);
         }
 
         // const hgdCommands = registerHgdCommands(this)
@@ -60,33 +60,40 @@ export default class JaneClient extends Client {
         // this.commands.set(command.name, command)
         // }
 
-        // logger.info(`Finished loading ${this.commands.size} commands`)
+        logger.info(`Finished loading ${this.commands.size} commands`);
 
         return this.commands;
     }
 
-    registerEvents() {
-        const events = glob.sync(path.resolve("./../Jane/events/*.js"));
-        // logger.info(`Loading ${events.length} events...`)
+    async registerEvents() {
+        let eventsPath = path.resolve("./events/**/*.js");
+        if (process.platform === "win32")
+            eventsPath = eventsPath.replace(/\\/g, "/");
+        const events = glob.sync(eventsPath);
+        logger.info(`Loading ${events.length} events...`);
 
         let i = 0;
 
         for (const event of events) {
-            const File = require(event);
-            const evt = new File(this);
+            const _EventBuilder: { default: typeof EventExport } = await import(
+                event
+            );
+            const evt: EventBuilder = new _EventBuilder.default();
+            logger.warn(JSON.stringify(evt));
 
-            this.on(evt.name, (...args) => {
-                evt.run(...args);
+            this.on(evt.eventName, (...args) => {
+                logger.warn(args)
+                evt.callback(client, ...args);
             });
 
             i++;
         }
 
-        // logger.info(
-        //     `Now listening to the following ${i} events:\n${this.eventNames().join(
-        //         ' '
-        //     )}`
-        // )
+        logger.info(
+            `Now listening to the following ${i} events:\n${this.eventNames().join(
+                " "
+            )}`
+        );
     }
 
     async logIn(startInDev = false) {
@@ -96,11 +103,19 @@ export default class JaneClient extends Client {
         // await hgd.connectClient()
         // logger.info('MongoDB Client connected!')
         this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN);
+        return this;
     }
 
-    static getClient(forceReturn: false): JaneClient | null;
-    static getClient(forceReturn: true): JaneClient;
-    static getClient(forceReturn: boolean) {
+    static getClient(forceReturn?: false): JaneClient | null;
+    static getClient(forceReturn?: true): JaneClient;
+    static getClient(forceReturn: boolean = false) {
         return client ? client : forceReturn ? new JaneClient() : null;
     }
+}
+
+export default async function startClient(
+    startInDev: boolean = false
+): Promise<JaneClient> {
+    client = await new JaneClient().logIn(startInDev);
+    return client;
 }

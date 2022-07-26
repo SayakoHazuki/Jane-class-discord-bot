@@ -1,26 +1,29 @@
-import JaneClient from "./client"
+import { JaneClient } from "./client";
 
-export default class Command {
-    client: JaneClient;
+export default class CommandBuilder {
     options: CommandOptions;
     callback: CommandCallback;
 
-    constructor(client: JaneClient, ops: CommandOptions, callback: CommandCallback) {
-        this.client = client
+    constructor(ops: CommandOptions, callback: CommandCallback) {
         this.options = {
-            name: ops.name,
+            name: ops.name || ops.command,
+            command: ops.command,
             aliases: ops.aliases || [],
             category: ops.category || "",
-            description: ops.description || ops.name,
-            usage: ops.usage || ops.name,
+            description: ops.description || ops.command,
+            usage: ops.usage || ops.command,
             cooldown: ops.cooldown ?? 0,
             minArgs: ops.minArgs ?? 0,
             maxArgs: ops.maxArgs ?? -1,
             devOnly: ops.devOnly ?? false,
             authorPermission: ops.authorPermission,
             clientPermission: ops.clientPermission,
-            messageOnly: ops.messageOnly ?? false
-        }
+            messageOnly: ops.messageOnly ?? false,
+        };
         this.callback = callback;
+    }
+
+    get client() {
+        return JaneClient.getClient() as JaneClient;
     }
 }

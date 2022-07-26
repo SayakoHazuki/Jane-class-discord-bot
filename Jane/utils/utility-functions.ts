@@ -60,18 +60,18 @@ export default class Utilities {
             function ($0) {
                 switch ($0) {
                     case "d":
-                        return date.getDate();
+                        return date.getDate().toString();
                     case "dd":
-                        return formatter.numDigit(date.getDate());
+                        return Utilities.forceNumberDigits(date.getDate());
                     case "ddd":
                         return DayArr[date.getDay()];
                     case "dddd":
                         return DayFullArr[date.getDay()];
 
                     case "M":
-                        return date.getMonth() + 1;
+                        return (date.getMonth() + 1).toString();
                     case "MM":
-                        return formatter.numDigit(date.getMonth() + 1);
+                        return Utilities.forceNumberDigits(date.getMonth() + 1);
                     case "MMM":
                         return MonthArr[date.getMonth()];
                     case "MMMM":
@@ -80,31 +80,31 @@ export default class Utilities {
                     case "yy":
                         return date.getFullYear.toString().substr(2);
                     case "yyyy":
-                        return date.getFullYear();
+                        return date.getFullYear().toString();
 
                     case "h":
-                        return date.getHours() % 12 || 12;
+                        return (date.getHours() % 12 || 12).toString();
                     case "hh":
-                        return formatter.numDigit(date.getHours() % 12 || 12);
+                        return Utilities.forceNumberDigits(date.getHours() % 12 || 12);
                     case "H":
-                        return date.getHours();
+                        return date.getHours().toString();
                     case "HH":
-                        return formatter.numDigit(date.getHours());
+                        return Utilities.forceNumberDigits(date.getHours());
 
                     case "m":
-                        return date.getMinutes();
+                        return date.getMinutes().toString();
                     case "mm":
-                        return formatter.numDigit(date.getMinutes());
+                        return Utilities.forceNumberDigits(date.getMinutes());
 
                     case "s":
-                        return date.getSeconds();
+                        return date.getSeconds().toString();
                     case "ss":
-                        return formatter.numDigit(date.getSeconds());
+                        return Utilities.forceNumberDigits(date.getSeconds());
 
                     case "ms":
-                        return formatter.numDigit(date.getMilliseconds(), 3);
+                        return Utilities.forceNumberDigits(date.getMilliseconds(), 3);
                     case "MS":
-                        return formatter.numDigit(
+                        return Utilities.forceNumberDigits(
                             Math.round(date.getMilliseconds() / 10)
                         );
 
@@ -118,7 +118,7 @@ export default class Utilities {
                         return date.getHours() < 12 ? "A" : "P";
 
                     case "Z":
-                        return date.toUTCString().match(/[A-Z]+$/);
+                        return date.toUTCString().match(/[A-Z]+$/)?.[0] ?? "";
 
                     default:
                         return $0.substring(1, $0.length - 1);

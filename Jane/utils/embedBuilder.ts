@@ -1,5 +1,5 @@
 import { EmbedBuilder, Message } from "discord.js";
-import JaneClient from "../core/client";
+import { JaneClient } from "../core/client";
 import Consts from "../core/consts";
 const embedTypes = {
     reply: <JaneEmbedBuilderOptions>{
