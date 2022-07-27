@@ -1,5 +1,28 @@
 import { JaneClient } from "./client";
 
+import {
+    SlashCommandBooleanOption,
+    SlashCommandBuilder,
+    SlashCommandChannelOption,
+    SlashCommandIntegerOption,
+    SlashCommandMentionableOption,
+    SlashCommandNumberOption,
+    SlashCommandRoleOption,
+    SlashCommandStringOption,
+    SlashCommandUserOption,
+} from "discord.js";
+
+const commandOptionBuilders = {
+    boolean: SlashCommandBooleanOption,
+    channel: SlashCommandChannelOption,
+    integer: SlashCommandIntegerOption,
+    mentionable: SlashCommandMentionableOption,
+    number: SlashCommandNumberOption,
+    role: SlashCommandRoleOption,
+    string: SlashCommandStringOption,
+    user: SlashCommandUserOption,
+};
+
 export class CommandBuilder {
     options: CommandOptions;
     callback: CommandCallback;
@@ -19,11 +42,42 @@ export class CommandBuilder {
             authorPermission: ops.authorPermission,
             clientPermission: ops.clientPermission,
             messageOnly: ops.messageOnly ?? false,
+            args: ops.args,
         };
         this.callback = callback;
     }
 
     get client() {
         return JaneClient.getClient() as JaneClient;
+    }
+
+    get slashCommandData() {
+        const slashCommand = new SlashCommandBuilder()
+            .setName(this.options.command)
+            .setDescription(this.options.description || "");
+        console.log(this.options.args);
+        for (const arg of this.options.args ?? []) {
+            const addOptionFunctionName = `add${
+                arg.type.charAt(0).toUpperCase()
+            }${arg.type.slice(1)}Option` as
+                | "addAttachmentOption"
+                | "addBooleanOption"
+                | "addChannelOption"
+                | "addIntegerOption"
+                | "addMentionableOption"
+                | "addNumberOption"
+                | "addRoleOption"
+                | "addStringOption"
+                | "addUserOption";
+            console.log(addOptionFunctionName);
+            slashCommand[addOptionFunctionName](
+                // @ts-ignore
+                new commandOptionBuilders[arg.type]()
+                    .setName(arg.name)
+                    .setDescription(arg.description)
+            );
+        }
+        console.log(slashCommand.toJSON());
+        return slashCommand.toJSON();
     }
 }

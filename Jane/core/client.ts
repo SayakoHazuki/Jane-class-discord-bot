@@ -1,6 +1,14 @@
-import { Client, GatewayIntentBits, Collection, Partials } from "discord.js";
+import {
+    Client,
+    GatewayIntentBits,
+    Collection,
+    Partials,
+    Routes,
+} from "discord.js";
+import { REST } from "@discordjs/rest";
 import glob from "glob";
 import path from "path";
+import { Consts } from "./consts";
 
 const logger: typeof Logger = require("./logger")(__filename);
 
@@ -61,6 +69,30 @@ export class JaneClient extends Client {
         // for (const command of hgdCommands) {
         // this.commands.set(command.name, command)
         // }
+
+        const rest = new REST({ version: "10" }).setToken(process.env.DEVTOKEN);
+
+        try {
+            console.log("Started refreshing application (/) commands.");
+
+            await rest.put(
+                Routes.applicationGuildCommands(
+                    process.env.DEVID,
+                    Consts.testingGuildId
+                ),
+                {
+                    body: Array.from(
+                        this.commands
+                            .map((command) => command.slashCommandData)
+                            .values()
+                    ),
+                }
+            );
+
+            console.log("Successfully reloaded application (/) commands.");
+        } catch (error) {
+            console.error(error);
+        }
 
         logger.info(`Finished loading ${this.commands.size} commands`);
 

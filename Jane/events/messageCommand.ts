@@ -135,7 +135,7 @@ async function eventCallback(client: JaneClient, message: Message) {
     );
 }
 
-export const event = class CommandsLoader extends EventBuilder {
+export const event = class MessageCommandsLoader extends EventBuilder {
     constructor() {
         super("messageCreate", eventCallback);
     }

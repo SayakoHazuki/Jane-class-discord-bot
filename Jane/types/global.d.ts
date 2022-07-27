@@ -21,6 +21,7 @@ import {
     MessagePayload,
     InteractionReplyOptions,
     ReplyMessageOptions,
+    RESTPostAPIApplicationCommandsJSONBody,
 } from "discord.js";
 
 declare global {
@@ -54,7 +55,7 @@ declare global {
         components: Array<ActionRow<MessageActionRowComponent>>;
         content?: string;
         deferred: boolean;
-        ephemeral?: boolean;
+        ephemeral?: boolean | null;
         embeds: Array<Embed>;
         guildId?: Snowflake;
         id: Snowflake;
@@ -65,17 +66,10 @@ declare global {
         stickers: Collection<Snowflake, Sticker>;
         type?: MessageType;
 
-        fetchReply(): Promise<Message|undefined>;
-        reply(
-            options:
-                | string
-                | MessagePayload
-        ): Promise<Message>;
-        followUp(
-            options:
-                | string
-                | MessagePayload
-        ): Promise<Message>;
+        fetchReply(): Promise<Message | undefined>;
+        reply(options: string | MessagePayload): Promise<Message>;
+        followUp(options: string | MessagePayload): Promise<Message>;
+        strictReply(options: string | MessagePayload): Promise<Message>;
     }
 
     class CommandBuilder {
@@ -85,6 +79,8 @@ declare global {
         constructor(ops: CommandOptions, callback: CommandCallback);
 
         get client(): JaneClient;
+
+        get slashCommandData(): RESTPostAPIApplicationCommandsJSONBody;
     }
 
     class EventBuilder {
@@ -117,6 +113,21 @@ declare global {
         authorPermission?: PermissionResolvable[];
         clientPermission?: PermissionResolvable[];
         messageOnly?: boolean;
+        args?: CommandArgument[];
+    }
+
+    declare interface CommandArgument {
+        name: string;
+        type:
+            | "boolean"
+            | "channel"
+            | "integer"
+            | "mentionable"
+            | "number"
+            | "role"
+            | "string"
+            | "user";
+        description: string;
     }
 
     type CommandCallback = (
@@ -151,5 +162,14 @@ declare global {
         error(...message: string[]): void;
         fatal(...message: string[]): void;
         static print(level: Level, label: string, ...message: string[]): void;
+    }
+    namespace NodeJS {
+        interface ProcessEnv {
+            TOKEN: string;
+            DEVTOKEN: string;
+            MONGO_URI: string;
+            ID: string;
+            DEVID: string;
+        }
     }
 }

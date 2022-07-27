@@ -8,4 +8,5 @@ export const Consts = {
         purple: "#CFBAEA",
     },
     modChannelId: "801305387826806804",
+    testingGuildId: "746044320116768769"
 };

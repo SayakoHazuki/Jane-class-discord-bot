@@ -12,7 +12,6 @@ import {
     InteractionReplyOptions,
     MessagePayload,
     ReplyMessageOptions,
-    InteractionResponse,
 } from "discord.js";
 
 import { JaneClient } from "./client";
@@ -133,6 +132,12 @@ export class MessageCommandInitiator implements CommandInitiator {
     ): Promise<Message> {
         return await this.__message.reply(options);
     }
+
+    public async strictReply(
+        options: string | MessagePayload | ReplyMessageOptions
+    ): Promise<Message> {
+        return await this.__message.reply(options);
+    }
 }
 
 export class InteractionCommandInitiator implements CommandInitiator {
@@ -187,11 +192,11 @@ export class InteractionCommandInitiator implements CommandInitiator {
     }
 
     public get deferred() {
-        return false;
+        return this.__interaction.deferred;
     }
 
     public get ephemeral() {
-        return false;
+        return this.__interaction.ephemeral;
     }
 
     public get embeds() {
@@ -244,5 +249,18 @@ export class InteractionCommandInitiator implements CommandInitiator {
 
     public get replied() {
         return this.__interaction.replied;
+    }
+
+    public async strictReply(
+        options: string | MessagePayload | InteractionReplyOptions
+    ): Promise<Message> {
+        if (!(this.deferred || this.replied)) {
+            await this.reply(options);
+            return await this.fetchReply();
+        }
+        if (this.deferred && !this.replied) {
+            return await this.__interaction.editReply(options);
+        }
+        return await this.followUp(options);
     }
 }

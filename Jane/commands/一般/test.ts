@@ -3,8 +3,20 @@ import { CommandBuilder } from "../../core/commandBuilder";
 
 const logger = <typeof Logger>require("../../core/logger")(__filename);
 
-const commandOptions = {
+const commandOptions: CommandOptions = {
+    name: "測試",
     command: "test",
+    aliases: ["ts"],
+    category: "一般",
+    description: "testing stuff",
+    usage: "test string",
+    args: [
+        {
+            name: "testing_string",
+            type: "string",
+            description: "an option for testing",
+        },
+    ],
 };
 
 async function commandCallback(
@@ -14,10 +26,10 @@ async function commandCallback(
 ) {
     logger.warn(`initiator user id: ${initiator.user?.id}`);
     logger.warn(`initiator content: ${initiator.content}`);
-    initiator.reply(
+    await initiator.strictReply(
         `Received your message! #${initiator.id} :hushed: @${initiator.user?.id}`
     );
-    initiator.followUp(
+    await initiator.strictReply(
         `Received your message! #${initiator.id} :hushed: @${initiator.user?.id}`
     );
 }
