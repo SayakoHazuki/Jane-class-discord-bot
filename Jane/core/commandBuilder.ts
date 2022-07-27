@@ -1,6 +1,6 @@
 import { JaneClient } from "./client";
 
-export default class CommandBuilder {
+export class CommandBuilder {
     options: CommandOptions;
     callback: CommandCallback;
 

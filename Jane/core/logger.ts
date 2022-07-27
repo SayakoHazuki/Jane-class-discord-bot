@@ -1,6 +1,6 @@
 import path from "path";
-import colorCodes from "../utils/colorCodes";
-import Utilities from "../utils/utility-functions";
+import { colorCodes } from "../utils/colorCodes";
+import { Utilities } from "../utils/utility-functions";
 
 interface Level {
     color1: string;

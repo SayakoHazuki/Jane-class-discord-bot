@@ -36,7 +36,7 @@ const MonthFullArr = [
     "December",
 ];
 
-export default class Utilities {
+export class Utilities {
     /**
      * Force a number to be in the type of a string of an n-digit number
      * @param input Number to be formatted

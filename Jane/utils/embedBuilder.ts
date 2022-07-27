@@ -21,7 +21,7 @@ const embedTypes = {
     },
 };
 
-export default class JaneEmbedBuilder extends EmbedBuilder {
+export class JaneEmbedBuilder extends EmbedBuilder {
     constructor(
         type: "reply" | "info" | "error",
         title: string,

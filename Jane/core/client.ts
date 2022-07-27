@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Collection } from "discord.js";
+import { Client, GatewayIntentBits, Collection, Partials } from "discord.js";
 import glob from "glob";
 import path from "path";
 
@@ -25,7 +25,9 @@ export class JaneClient extends Client {
                 GatewayIntentBits.GuildMessageReactions,
                 GatewayIntentBits.DirectMessages,
                 GatewayIntentBits.DirectMessageReactions,
+                GatewayIntentBits.MessageContent,
             ],
+            partials: [Partials.Channel],
         });
         this.commands = new Collection();
         this.prefix = "-";
@@ -43,10 +45,10 @@ export class JaneClient extends Client {
         logger.info(`Loading ${commands.length} commands (normal)`);
 
         for (const commandPath of commands) {
-            const _CommandBuilder: { default: typeof CommandExport } =
+            const _CommandBuilder: { command: typeof CommandExport } =
                 await import(commandPath);
             try {
-                const command = new _CommandBuilder.default();
+                const command = new _CommandBuilder.command();
                 this.commands.set(command.options.command, command);
             } catch (e) {
                 logger.error(`Cannot create "File" for ${commandPath}`);
@@ -75,14 +77,14 @@ export class JaneClient extends Client {
         let i = 0;
 
         for (const event of events) {
-            const _EventBuilder: { default: typeof EventExport } = await import(
+            const _EventBuilder: { event: typeof EventExport } = await import(
                 event
             );
-            const evt: EventBuilder = new _EventBuilder.default();
+            const evt: EventBuilder = new _EventBuilder.event();
             logger.warn(JSON.stringify(evt));
 
             this.on(evt.eventName, (...args) => {
-                logger.warn(args)
+                logger.warn(args);
                 evt.callback(client, ...args);
             });
 
@@ -113,7 +115,7 @@ export class JaneClient extends Client {
     }
 }
 
-export default async function startClient(
+export async function startClient(
     startInDev: boolean = false
 ): Promise<JaneClient> {
     client = await new JaneClient().logIn(startInDev);

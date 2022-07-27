@@ -1,4 +1,4 @@
-export default {
+export const Consts = {
     themeColor: "#ACE9A6",
     colors: {
         red: "#E3B2B2",

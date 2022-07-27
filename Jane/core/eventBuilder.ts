@@ -1,6 +1,6 @@
 import { JaneClient } from "./client";
 
-export default class EventBuilder {
+export class EventBuilder {
     eventName: string;
     callback: EventCallback;
 

@@ -25,7 +25,7 @@ const sWhite = "\x1b[47m";
  * const hidden = "\x1b[8m"
  */
 
-export default {
+export const colorCodes = {
     reset: reset,
     red: {
         fg: pRed,

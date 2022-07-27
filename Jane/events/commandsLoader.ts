@@ -1,11 +1,12 @@
 import { ChannelType, Message } from "discord.js";
-import EventBuilder from "../core/eventBuilder";
+import { EventBuilder } from "../core/eventBuilder";
 import { JaneClient } from "../core/client";
+import { MessageCommandInitiator } from "../core/commandInitiator";
 
 const logger = <typeof Logger>require("../core/logger")(__filename);
 
 async function eventCallback(client: JaneClient, message: Message) {
-    logger.info(message.content)
+    logger.info(message.content);
     if (message.channel.type === ChannelType.DM) {
         return;
         // return Util.handleDM(message, this.client);
@@ -107,6 +108,8 @@ async function eventCallback(client: JaneClient, message: Message) {
         return;
     }
 
+    const initiator = new MessageCommandInitiator(message);
+
     // logger.info(
     //     `${Util.logColor("cyan.fg")}${message.author.tag}${Util.logColor(
     //         "reset"
@@ -121,15 +124,19 @@ async function eventCallback(client: JaneClient, message: Message) {
     //     }`
     // );
 
-    try {
-        command.callback(client, message, ...args);
-    } catch (err) {
-        message.reply("❌ | 執行指令期間發生了一個錯誤");
-    }
+    command.callback(client, initiator, ...args).then(
+        (replyContent) => {
+            if (replyContent !== undefined) initiator.followUp(replyContent);
+        },
+        (e) => {
+            logger.error(e);
+            initiator.followUp("❌ | 執行指令期間發生了一個錯誤");
+        }
+    );
 }
 
-export default class CommandsLoader extends EventBuilder {
+export const event = class CommandsLoader extends EventBuilder {
     constructor() {
         super("messageCreate", eventCallback);
     }
-}
+};
