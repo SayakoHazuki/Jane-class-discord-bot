@@ -1,7 +1,7 @@
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 
-const logger = <typeof Logger>require("../../core/logger")(__filename);
+const logger: JaneLogger = require("../../core/logger")(__filename);
 
 const commandOptions: CommandOptions = {
     name: "測試",
@@ -15,6 +15,7 @@ const commandOptions: CommandOptions = {
             name: "testing_string",
             type: "string",
             description: "an option for testing",
+            required: true,
         },
     ],
 };

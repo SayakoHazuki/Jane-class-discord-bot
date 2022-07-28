@@ -42,6 +42,7 @@ export class CommandBuilder {
             authorPermission: ops.authorPermission,
             clientPermission: ops.clientPermission,
             messageOnly: ops.messageOnly ?? false,
+            slashOnly: ops.slashOnly ?? false,
             args: ops.args,
         };
         this.callback = callback;
@@ -57,9 +58,9 @@ export class CommandBuilder {
             .setDescription(this.options.description || "");
         console.log(this.options.args);
         for (const arg of this.options.args ?? []) {
-            const addOptionFunctionName = `add${
-                arg.type.charAt(0).toUpperCase()
-            }${arg.type.slice(1)}Option` as
+            const addOptionFunctionName = `add${arg.type
+                .charAt(0)
+                .toUpperCase()}${arg.type.slice(1)}Option` as
                 | "addAttachmentOption"
                 | "addBooleanOption"
                 | "addChannelOption"

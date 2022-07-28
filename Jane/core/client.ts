@@ -10,7 +10,7 @@ import glob from "glob";
 import path from "path";
 import { Consts } from "./consts";
 
-const logger: typeof Logger = require("./logger")(__filename);
+const logger: JaneLogger = require("./logger")(__filename);
 
 let client: JaneClient;
 
@@ -58,9 +58,9 @@ export class JaneClient extends Client {
             try {
                 const command = new _CommandBuilder.command();
                 this.commands.set(command.options.command, command);
-            } catch (e) {
+            } catch (e: any) {
                 logger.error(`Cannot create "File" for ${commandPath}`);
-                logger.error(e);
+                logger.error(e?.stack || "");
             }
         }
 
@@ -116,7 +116,7 @@ export class JaneClient extends Client {
             logger.warn(JSON.stringify(evt));
 
             this.on(evt.eventName, (...args) => {
-                logger.warn(args);
+                logger.warn(...args);
                 evt.callback(client, ...args);
             });
 

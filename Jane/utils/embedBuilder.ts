@@ -1,21 +1,34 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, HexColorString, Message } from "discord.js";
 import { JaneClient } from "../core/client";
-import Consts from "../core/consts";
-const embedTypes = {
-    reply: <JaneEmbedBuilderOptions>{
-        color: Consts.themeColor,
+import { Consts } from "../core/consts";
+const embedTypes: { [type: string]: JaneEmbedBuilderOptions } = {
+    reply: {
+        color: Consts.themeColor as HexColorString,
+        titlePrefix: "",
+        titleSuffix: "",
+        contentPrefix: "",
+        contentSuffix: "",
         showAuthor: true,
         showTimestamp: true,
+        showBotFooter: false,
     },
-    info: <JaneEmbedBuilderOptions>{
-        color: Consts.colors.blue,
+    info: {
+        color: Consts.colors.blue as HexColorString,
         titlePrefix: "\u2139 ",
+        titleSuffix: "",
+        contentPrefix: "",
+        contentSuffix: "",
+        showAuthor: true,
         showBotFooter: true,
         showTimestamp: true,
     },
-    error: <JaneEmbedBuilderOptions>{
-        color: Consts.colors.red,
+    error: {
+        color: Consts.colors.red as HexColorString,
         titlePrefix: "\u274c ",
+        titleSuffix: "",
+        contentPrefix: "",
+        contentSuffix: "",
+        showAuthor: true,
         showBotFooter: true,
         showTimestamp: true,
     },
@@ -27,7 +40,7 @@ export class JaneEmbedBuilder extends EmbedBuilder {
         title: string,
         content: string,
         options: JaneEmbedBuilderOptions,
-        referer?: Message
+        referer?: CommandInitiator
     ) {
         const embedOptions = { ...embedTypes[type], ...options };
         super();
@@ -39,8 +52,8 @@ export class JaneEmbedBuilder extends EmbedBuilder {
         );
         if (embedOptions.showAuthor && referer) {
             this.setAuthor({
-                name: referer.author.tag,
-                iconURL: referer.author.displayAvatarURL(),
+                name: referer.user?.tag || "",
+                iconURL: referer.user?.displayAvatarURL(),
             });
         }
         if (embedOptions.showTimestamp) {
@@ -52,6 +65,7 @@ export class JaneEmbedBuilder extends EmbedBuilder {
                 iconURL: JaneClient.getClient(false)?.user?.displayAvatarURL(),
             });
         }
+        this.setColor(embedOptions.color ?? null);
     }
 }
 

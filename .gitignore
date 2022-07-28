@@ -9,6 +9,7 @@
 
 /* v2 files */
 *.v2.ts
+*.wip
 
 .vscode/
 say.js

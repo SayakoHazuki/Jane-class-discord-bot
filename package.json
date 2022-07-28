@@ -2,7 +2,6 @@
   "dependencies": {
     "@types/glob": "^7.2.0",
     "@types/node": "^18.0.6",
-    "bent": "^7.3.12",
     "discord.js": "^14.0.3",
     "dotenv": "^16.0.1",
     "glob": "^8.0.3",
@@ -10,6 +9,7 @@
     "rss-to-json": "^2.1.0"
   },
   "devDependencies": {
+    "@types/bent": "^7.3.2",
     "prettier": "^2.7.1"
   }
 }

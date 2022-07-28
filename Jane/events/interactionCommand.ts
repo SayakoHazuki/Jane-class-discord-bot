@@ -3,7 +3,7 @@ import { EventBuilder } from "../core/eventBuilder";
 import { JaneClient } from "../core/client";
 import { InteractionCommandInitiator } from "../core/commandInitiator";
 
-const logger = <typeof Logger>require("../core/logger")(__filename);
+const logger: JaneLogger = require("../core/logger")(__filename);
 
 async function eventCallback(client: JaneClient, interaction: Interaction) {
     if (!interaction.isChatInputCommand()) return;
@@ -48,7 +48,7 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
             if (replyContent !== undefined) initiator.strictReply(replyContent);
         },
         (e: Error) => {
-            logger.error(e.stack);
+            logger.error(e.stack || "");
             initiator.strictReply("❌ | 執行指令期間發生了一個錯誤");
         }
     );

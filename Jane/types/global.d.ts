@@ -22,9 +22,20 @@ import {
     InteractionReplyOptions,
     ReplyMessageOptions,
     RESTPostAPIApplicationCommandsJSONBody,
+    ColorResolvable,
 } from "discord.js";
 
 declare global {
+    class JaneLogger {
+        label: string;
+        constructor(filename: string);
+        info(...message: string[]): void;
+        warn(...message: string[]): void;
+        error(...message: string[]): void;
+        fatal(...message: string[]): void;
+        static print(level: Level, label: string, ...message: string[]): void;
+    }
+
     class JaneClient extends Client {
         commands: Collection<string, CommandBuilder>;
         prefix: "-" | "--";
@@ -113,6 +124,7 @@ declare global {
         authorPermission?: PermissionResolvable[];
         clientPermission?: PermissionResolvable[];
         messageOnly?: boolean;
+        slashOnly?: boolean;
         args?: CommandArgument[];
     }
 
@@ -128,6 +140,7 @@ declare global {
             | "string"
             | "user";
         description: string;
+        required: boolean;
     }
 
     type CommandCallback = (
@@ -143,26 +156,17 @@ declare global {
         id?: number;
     }
 
-    type JaneEmbedBuilderOptions = {
-        color: string = Consts.themeColor;
-        titlePrefix: string = "";
-        titleSuffix: string = "";
-        contentPrefix: string = "";
-        contentSuffix: string = "";
-        showAuthor: boolean = false;
-        showTimestamp: boolean = false;
-        showBotFooter: boolean = false;
-    };
-
-    class Logger {
-        label: string;
-        constructor(filename: string);
-        info(...message: string[]): void;
-        warn(...message: string[]): void;
-        error(...message: string[]): void;
-        fatal(...message: string[]): void;
-        static print(level: Level, label: string, ...message: string[]): void;
+    interface JaneEmbedBuilderOptions {
+        color?: ColorResolvable;
+        titlePrefix?: string;
+        titleSuffix?: string;
+        contentPrefix?: string;
+        contentSuffix?: string;
+        showAuthor?: boolean;
+        showTimestamp?: boolean;
+        showBotFooter?: boolean;
     }
+
     namespace NodeJS {
         interface ProcessEnv {
             TOKEN: string;
@@ -171,5 +175,14 @@ declare global {
             ID: string;
             DEVID: string;
         }
+    }
+
+    interface newsSearchResult {
+        mediaName: string;
+        priority: number;
+        title: string;
+        link: string;
+        description: string;
+        time: number;
     }
 }

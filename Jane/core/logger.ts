@@ -68,6 +68,6 @@ class Logger {
     }
 }
 
-module.exports = function initLogger(filename: string) {
+module.exports = function initLogger(filename: string): JaneLogger {
     return new Logger(filename);
 };
