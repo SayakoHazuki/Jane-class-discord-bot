@@ -185,4 +185,57 @@ declare global {
         description: string;
         time: number;
     }
+
+    interface DatabaseUserData {
+        _id: any;
+        snowflake: string;
+        tag: string;
+        avatarURL: string;
+        sClass: number;
+        sCNum: string;
+        sID: string;
+        sName: string;
+        hgd: number;
+        shards: number;
+        highLvLocked: boolean;
+
+        afternoonTeaCount: number;
+        gardeningCount: number;
+        filesCount: number;
+        morningCount: number;
+        nightCount: number;
+        patCount: number;
+        roseCount: number;
+        roseTeaCount: number;
+        teeTeeCount: number;
+
+        lastAfternoonTea: number;
+        lastFiles: number;
+        lastGardening: number;
+        lastMorning: number;
+        lastNight: number;
+        lastPat: number;
+        lastRose: number;
+        lastRoseTea: number;
+        lastTeeTee: number;
+    }
+
+    type HgdAction =
+        | "afternoonTea"
+        | "gardening"
+        | "files"
+        | "morning"
+        | "night"
+        | "pat"
+        | "rose"
+        | "roseTea"
+        | "teeTee";
+
+    interface HgdActionCounts {
+        [action: string]: number;
+    }
+
+    interface HgdActionRecords {
+        [action: string]: number;
+    }
 }

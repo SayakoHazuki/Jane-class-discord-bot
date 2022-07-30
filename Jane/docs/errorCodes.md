@@ -1,4 +1,8 @@
 # Error Codes 
+
+## 5XX - Database Error 
+`501`: Userdata is null
+
 ## 9XX - General Error 
 `900`: Unexpected error 
 `904`: Unexpected null / falsy value
