@@ -3,7 +3,7 @@ import { EventBuilder } from "../core/eventBuilder";
 import { JaneClient } from "../core/client";
 import { MessageCommandInitiator } from "../core/commandInitiator";
 
-const logger = <typeof Logger>require("../core/logger")(__filename);
+const logger: JaneLogger = require("../../core/logger")(__filename);
 
 async function eventCallback(client: JaneClient, message: Message) {
     logger.info(message.content);

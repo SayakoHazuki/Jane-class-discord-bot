@@ -238,4 +238,11 @@ declare global {
     interface HgdActionRecords {
         [action: string]: number;
     }
+
+    type ClassId = "3A" | "3B" | "3C" | "3D";
+
+    interface TimetableDay {
+        readonly type: SchoolDayType;
+    }
+    [];
 }
