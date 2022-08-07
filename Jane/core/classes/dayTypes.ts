@@ -1,12 +1,14 @@
-import { fetch } from "undici";
+import { fetch, request } from "undici";
 import { LessonTimes } from "../../data/timetables";
 import {
     SchoolDayType,
     DayOfCycle,
     LessonTimeType,
     Subjects,
+    ErrorCode,
 } from "../../types/enums";
-import { TimetableSection } from "./lesson";
+import { JaneGeneralError, JaneHTTPError } from "./errors";
+import { TimetableSection } from "./timetableSection";
 
 export class SchoolDay implements TimetableDay {
     readonly type: SchoolDayType;
@@ -26,24 +28,80 @@ export class SchoolDay implements TimetableDay {
     }
 
     async getLessons(classId: ClassId) {
-        // const classTimetablesJSON = await import(
-        //     "../../data/classTimetables.json"
-        // );
         let lessonNames: string[];
-        // if (classId in classTimetablesJSON) {
-        //     lessonNames = classTimesJson[classId][
-        //         this.dayOfCycle
-        //     ] as Subjects[];
-        // } else {
-        const res = await fetch("https://iot.spyc.hk/timetable");
-        const apiResults = (await res.json()) as {
-            [key in ClassId]: {
-                [key in DayOfCycle]: {
-                    subject: string;
-                    venue: string;
-                }[];
+        const res = await request("https://iot.spyc.hk/timetable");
+        if (res.statusCode === 200) {
+            const apiResults = (await res.body.json()) as {
+                [key in ClassId]: {
+                    [key in DayOfCycle]: {
+                        subject: string;
+                        venue: string;
+                    }[];
+                };
             };
-        };
+            const lessonCodes = apiResults[classId][this.dayOfCycle].map((i) =>
+                i.subject
+                    .split("/")
+                    .map((i) =>
+                        i
+                            .replace(/^LS$/g, "LIBS")
+                            .replace(/^L&S$/g, "LS")
+                            .replace(/^SCI\.A$/g, "BIO")
+                            .replace(/^SCI\.B$/g, "CHEM")
+                            .replace(/^SCI\.C$/g, "PHY")
+                            .replace(/^([1-3])X$/g, "X$1")
+                    )
+                    .join("/")
+            );
+            lessonNames = lessonCodes.map((i) =>
+                i
+                    .split("/")
+                    .map((subj) => Subjects[subj as keyof typeof Subjects])
+                    .join("/")
+            );
+        } else {
+            const { classTimetablesJson } = await import(
+                "../../data/timetables"
+            );
+            if (classId in classTimetablesJson) {
+                lessonNames = classTimesJson[classId][
+                    this.dayOfCycle
+                ] as Subjects[];
+            } else {
+                throw new JaneHTTPError(
+                    "Could not fetch the timetable data",
+                    ErrorCode.HTTP_UNEXPECTED_STATUS
+                );
+            }
+        }
+        return lessonNames;
+    }
+}
+
+export class SpecialSchoolDay implements TimetableDay {
+    readonly type: SchoolDayType;
+    cycleId: number;
+    dayOfCycle: DayOfCycle;
+    timetable: TimetableSection[];
+    remarks: string;
+
+    constructor(
+        cycleId: number,
+        dayOfCycle: DayOfCycle,
+        timetable: TimetableSection[],
+        remarks: string
+    ) {
+        this.type = SchoolDayType.SPECIAL_SCHOOL_DAY;
+        this.cycleId = cycleId;
+        this.dayOfCycle = dayOfCycle;
+        this.timetable = timetable;
+        this.remarks = remarks;
+    }
+
+    async getLessons(classId: ClassId) {
+        let lessonNames: string[];
+
+        const apiResults = await import("../../data/classTimetables.json");
         const lessonCodes = apiResults[classId][this.dayOfCycle].map((i) =>
             i.subject
                 .split("/")
@@ -64,8 +122,76 @@ export class SchoolDay implements TimetableDay {
                 .map((subj) => Subjects[subj as keyof typeof Subjects])
                 .join("/")
         );
+        // const res = await request("https://iot.spyc.hk/timetable");
+        // if (res.statusCode === 200) {
+        //     const apiResults = (await res.body.json()) as {
+        //         [key in ClassId]: {
+        //             [key in DayOfCycle]: {
+        //                 subject: string;
+        //                 venue: string;
+        //             }[];
+        //         };
+        //     };
+        //     const lessonCodes = apiResults[classId][this.dayOfCycle].map((i) =>
+        //         i.subject
+        //             .split("/")
+        //             .map((i) =>
+        //                 i
+        //                     .replace(/^LS$/g, "LIBS")
+        //                     .replace(/^L&S$/g, "LS")
+        //                     .replace(/^SCI\.A$/g, "BIO")
+        //                     .replace(/^SCI\.B$/g, "CHEM")
+        //                     .replace(/^SCI\.C$/g, "PHY")
+        //                     .replace(/^([1-3])X$/g, "X$1")
+        //             )
+        //             .join("/")
+        //     );
+        //     lessonNames = lessonCodes.map((i) =>
+        //         i
+        //             .split("/")
+        //             .map((subj) => Subjects[subj as keyof typeof Subjects])
+        //             .join("/")
+        //     );
+        // } else {
+        //     const { classTimetablesJson } = await import(
+        //         "../../data/timetables"
+        //     );
+        //     if (classId in classTimetablesJson) {
+        //         lessonNames = classTimesJson[classId][
+        //             this.dayOfCycle
+        //         ] as Subjects[];
+        //     } else {
+        //         throw new JaneHTTPError(
+        //             "Could not fetch the timetable data",
+        //             ErrorCode.HTTP_UNEXPECTED_STATUS
+        //         );
+        //     }
         // }
-        return { a: apiResults[classId][this.dayOfCycle], lessonNames };
+        return lessonNames;
+    }
+}
+
+export class Holiday implements TimetableDay {
+    readonly type: SchoolDayType;
+    title: string;
+    description: string;
+
+    constructor(title: string, description: string) {
+        this.type = SchoolDayType.HOLIDAY;
+        this.title = title;
+        this.description = description;
+    }
+}
+
+export class UnspecifiedTimetableDay implements TimetableDay {
+    readonly type: SchoolDayType;
+    title: string;
+    description: string;
+
+    constructor(title: string, description: string) {
+        this.type = SchoolDayType.UNSPECIFIED;
+        this.title = title;
+        this.description = description;
     }
 }
 
@@ -78,16 +204,12 @@ export function Test() {
                         13,
                         DayOfCycle[day as keyof typeof DayOfCycle]
                     ).getLessons(`${grade}${cls}` as ClassId);
-                    if (
-                        tmp.lessonNames.filter(
-                            (i) => i === undefined || i === ""
-                        ).length
-                    ) {
-                        console.log(tmp.a);
+                    if (tmp.filter((i) => i === undefined || i === "").length) {
+                        console.log(tmp);
                         console.log(`${grade}${cls}`, tmp);
                         break outer;
                     }
-                    console.log(tmp.lessonNames);
+                    console.log(tmp);
                     console.log(
                         `Test passed for case class ${grade}${cls} - ${day}`
                     );

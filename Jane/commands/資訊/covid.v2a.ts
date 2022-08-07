@@ -1,12 +1,11 @@
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
-import { Consts } from "../../core/consts";
-
 import { parse } from "rss-to-json";
 import { JaneEmbedBuilder } from "../../utils/embedBuilder";
 import { APIEmbedField, RestOrArray } from "discord.js";
+import { initLogger } from "../../core/logger";
 
-const logger: JaneLogger = require("../../core/logger")(__filename);
+const Logger = initLogger(__filename)
 
 const commandOptions: CommandOptions = {
     name: "疫情",

@@ -1,0 +1,62 @@
+{
+  "3A": {
+    "A": "CHIN CHIN IT ENG PHY CTP",
+    "B": "MUS/DE HIST CHIN ENG MATH CHIS",
+    "C": "SPEAK LS MATH GEOG ASS BIO",
+    "D": "PTH IT ENG VA MATH CHIN",
+    "E": "ENG PE CHEM MATH PHY CHIN",
+    "F": "ENG HIST MATH CHIN ASS RS",
+    "F(ECA_Day)": "ENG HIST MATH CHIN ECA ECA",
+    "G": "PE CHIS ENG MATH GEOG CHIN",
+    "H": "ENG BIO CHIN LS CHEM MATH",
+    "holiday": "holiday holiday",
+    "I": "GEOG PHY HIST BIO CHIN CHIN",
+    "II": "ENG ENG CHIN CHIN LS PTH",
+    "III": "CHEM CHIS MATH MATH ENG ENG"
+  },
+  "3B": {
+    "A": "SPEAK VA BIO MATH HIST CTP",
+    "B": "CHIN MUS/DE IT ENG RS MATH",
+    "C": "CHIN CHEM MATH PHY ASS ENG",
+    "D": "CHIS MATH CHIN CHIN ENG HIST",
+    "E": "CHIN PE ENG MATH BIO GEOG",
+    "F": "CHIN ENG LS PHY ASS CHEM",
+    "F(ECA_Day)": "CHIN ENG LS PHY ECA ECA",
+    "G": "PE CHIS CHIN MATH ENG LS",
+    "H": "MATH ENG PTH CHIN IT GEOG",
+    "holiday": "holiday holiday",
+    "I": "PHY BIO CHIN CHIN CHEM HIST",
+    "II": "ENG ENG CHIN CHIN GEOG PTH",
+    "III": "MATH MATH ENG ENG CHIS LS"
+  },
+  "3C": {
+    "A": "IT SPEAK HIST CHIN MATH CTP",
+    "B": "CHIS CHEM MATH ENG CHIN CHIN",
+    "C": "ENG BIO PE MATH ASS GEOG",
+    "D": "LS ENG CHIN PHY MATH IT",
+    "E": "PE HIST CHIN MUS/DE ENG MATH",
+    "F": "ENG RS GEOG VA ASS CHIN",
+    "F(ECA_Day)": "ENG RS GEOG VA ECA ECA",
+    "G": "ENG CHIN PTH BIO MATH CHEM",
+    "H": "PHY ENG MATH CHIN CHIS LS",
+    "holiday": "holiday holiday",
+    "I": "CHIN CHIN CHIST GEOG ENG ENG",
+    "II": "CHEM PHY CHIN CHIN BIO PTH",
+    "III": "MATH MATH LS HIST ENG ENG"
+  },
+  "3D": {
+    "A": "ENG CHIS MUS/DE IT MATH CTP",
+    "B": "BIO HIST CHIN ENG CHEM RS",
+    "C": "LS SPEAK PE MATH ASS CHIN",
+    "D": "IT GEOG ENG MATH PHY CHIN",
+    "E": "PE CHIS ENG MATH CHEM CHIN",
+    "F": "ENG MATH VA CHIN ASS HIST",
+    "F(ECA_Day)": "ENG MATH VA CHIN ECA ECA",
+    "G": "BIO MATH CHIN CHIN GEOG ENG",
+    "H": "MATH ENG CHIN PTH LS PHY",
+    "holiday": "holiday holiday",
+    "I": "BIO LS ENG ENG CHIN CHIN",
+    "II": "MATH MATH PHY HIST CHEM PTH",
+    "III": "ENG ENG GEOG CHIS CHIN CHIN"
+  }
+}

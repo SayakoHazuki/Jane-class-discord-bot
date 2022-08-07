@@ -2,8 +2,9 @@ import { Interaction } from "discord.js";
 import { EventBuilder } from "../core/eventBuilder";
 import { JaneClient } from "../core/client";
 import { InteractionCommandInitiator } from "../core/commandInitiator";
+import { initLogger } from "../core/logger";
 
-const logger: JaneLogger = require("../core/logger")(__filename);
+const Logger = initLogger(__filename);
 
 async function eventCallback(client: JaneClient, interaction: Interaction) {
     if (!interaction.isChatInputCommand()) return;
@@ -29,15 +30,15 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
 
     if (!command) return;
 
-    // logger.info(
+    // Logger.info(
     //     `${Util.logColor("cyan.fg")}${message.author.tag}${Util.logColor(
     //         "reset"
     //     )} runned command ${Util.logColor("cyan.fg")}${
     //         command.name
     //     }${Util.logColor("reset")}`
     // );
-    // logger.info(`${Util.logColor("reset")}\tCmd: ${message.content}`);
-    // logger.info(
+    // Logger.info(`${Util.logColor("reset")}\tCmd: ${message.content}`);
+    // Logger.info(
     //     `${Util.logColor("reset")}Running command ${Util.logColor("cyan.fg")}${
     //         command.name
     //     }`
@@ -48,7 +49,8 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
             if (replyContent !== undefined) initiator.strictReply(replyContent);
         },
         (e: Error) => {
-            logger.error(e.stack || "");
+            console.error(e);
+            Logger.error(e.stack || "");
             initiator.strictReply("❌ | 執行指令期間發生了一個錯誤");
         }
     );

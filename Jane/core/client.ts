@@ -1,3 +1,5 @@
+import * as dotenv from "dotenv";
+dotenv.config();
 import {
     Client,
     GatewayIntentBits,
@@ -9,8 +11,9 @@ import { REST } from "@discordjs/rest";
 import glob from "glob";
 import path from "path";
 import { Consts } from "./consts";
+import { initLogger } from "./logger";
 
-const logger: JaneLogger = require("./logger")(__filename);
+const Logger = initLogger(__filename);
 
 let client: JaneClient;
 
@@ -50,7 +53,7 @@ export class JaneClient extends Client {
         if (process.platform === "win32")
             commandsPath = commandsPath.replace(/\\/g, "/");
         const commands = glob.sync(commandsPath);
-        logger.info(`Loading ${commands.length} commands (normal)`);
+        Logger.info(`Loading ${commands.length} commands (normal)`);
 
         for (const commandPath of commands) {
             const _CommandBuilder: { command: typeof CommandExport } =
@@ -59,13 +62,13 @@ export class JaneClient extends Client {
                 const command = new _CommandBuilder.command();
                 this.commands.set(command.options.command, command);
             } catch (e: any) {
-                logger.error(`Cannot create "File" for ${commandPath}`);
-                logger.error(e?.stack || "");
+                Logger.error(`Cannot create "File" for ${commandPath}`);
+                Logger.error(e?.stack || "");
             }
         }
 
         // const hgdCommands = registerHgdCommands(this)
-        // logger.info(`Loading ${hgdCommands.length} commands (Hgd)`)
+        // Logger.info(`Loading ${hgdCommands.length} commands (Hgd)`)
         // for (const command of hgdCommands) {
         // this.commands.set(command.name, command)
         // }
@@ -94,7 +97,7 @@ export class JaneClient extends Client {
             console.error(error);
         }
 
-        logger.info(`Finished loading ${this.commands.size} commands`);
+        Logger.info(`Finished loading ${this.commands.size} commands`);
 
         return this.commands;
     }
@@ -104,7 +107,7 @@ export class JaneClient extends Client {
         if (process.platform === "win32")
             eventsPath = eventsPath.replace(/\\/g, "/");
         const events = glob.sync(eventsPath);
-        logger.info(`Loading ${events.length} events...`);
+        Logger.info(`Loading ${events.length} events...`);
 
         let i = 0;
 
@@ -113,17 +116,17 @@ export class JaneClient extends Client {
                 event
             );
             const evt: EventBuilder = new _EventBuilder.event();
-            logger.warn(JSON.stringify(evt));
+            Logger.warn(JSON.stringify(evt));
 
             this.on(evt.eventName, (...args) => {
-                logger.warn(...args);
+                Logger.warn(...args);
                 evt.callback(client, ...args);
             });
 
             i++;
         }
 
-        logger.info(
+        Logger.info(
             `Now listening to the following ${i} events:\n${this.eventNames().join(
                 " "
             )}`
@@ -132,11 +135,11 @@ export class JaneClient extends Client {
 
     async logIn(startInDev = false) {
         if (startInDev) this.prefix = "--";
-        this.registerCommands();
-        this.registerEvents();
+        await this.registerCommands();
+        await this.registerEvents();
         // await hgd.connectClient()
-        // logger.info('MongoDB Client connected!')
-        this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN);
+        // Logger.info('MongoDB Client connected!')
+        await this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN);
         return this;
     }
 

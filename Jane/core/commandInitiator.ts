@@ -1,6 +1,6 @@
+import { APIInteractionGuildMember } from "discord-api-types/v10";
 import {
     Attachment,
-    APIInteractionGuildMember,
     Client,
     Collection,
     ChatInputCommandInteraction,
@@ -188,7 +188,7 @@ export class InteractionCommandInitiator implements CommandInitiator {
     public get content() {
         return `${JaneClient.getClient()?.prefix ?? ""}${
             this.__interaction.commandName
-        } ${this.__interaction.options}`;
+        } ${this.__interaction.options.data.map((d) => d.value).join(" ")}`;
     }
 
     public get deferred() {

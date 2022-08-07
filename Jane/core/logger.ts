@@ -1,6 +1,6 @@
 import path from "path";
 import { colorCodes } from "../utils/colorCodes";
-import { Utilities } from "../utils/utility-functions";
+import { formatTimeString } from "../utils/utility-functions";
 
 interface Level {
     color1: string;
@@ -57,7 +57,7 @@ class Logger {
         const outputMessage = message.join(" ");
 
         const date = new Date();
-        const time = Utilities.formatTimeString(date, "HH:mm:ss.ms");
+        const time = formatTimeString(date, "HH:mm:ss.ms");
 
         const { color1, color2, levelname } = level;
         const reset = colorCodes.reset;
@@ -68,6 +68,6 @@ class Logger {
     }
 }
 
-module.exports = function initLogger(filename: string): JaneLogger {
+export function initLogger(filename: string): JaneLogger {
     return new Logger(filename);
 };

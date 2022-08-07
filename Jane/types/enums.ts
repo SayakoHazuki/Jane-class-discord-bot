@@ -59,13 +59,32 @@ export enum Subjects {
     RS = "宗教 (RS)",
     THS = "旅遊與款待 (THS)",
     VA = "視覺藝術 (VA)",
-    ENG_SPEAKING = "英文說話",
-    CTP = "班主任課",
+    ENG_SPEAKING = "英文說話 (SPEAK)",
+    CTP = "班主任課 (CTP)",
     SCI = "綜合科學 (IS)",
     X1 = "1X",
     X2 = "2X",
     X3 = "3X",
     IA = "IA",
     ASS = "週會 (ASS)",
-    CS = "公民與社會發展 (CS)"
+    CS = "公民與社會發展 (CS)",
+}
+
+export enum ErrorCode {
+    GENERAL_DATABASE_ERR = 500,
+    NULL_USER_DATA,
+
+    UNEXPECTED_ERR = 900,
+    UNEXPECTED_NULL_OR_FALSY = 910,
+    UNEXPECTED_NULL,
+    UNEXPECTED_FALSY,
+    UNEXPECTED_TYPE = 920,
+    UNEXPECTED_INPUT_FORMAT,
+    UNEXPECTED_INPUT_VALUE,
+    UNEXPECTED_NUMBER,
+
+    HTTP_BAD_REQUSET = 1400,
+    HTTP_NOT_FOUND = 1404,
+
+    HTTP_UNEXPECTED_STATUS = 1999,
 }

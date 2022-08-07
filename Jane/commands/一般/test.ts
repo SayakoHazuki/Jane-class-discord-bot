@@ -1,7 +1,8 @@
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
+import { initLogger } from "../../core/logger";
 
-const logger: JaneLogger = require("../../core/logger")(__filename);
+const Logger = initLogger(__filename);
 
 const commandOptions: CommandOptions = {
     name: "測試",
@@ -25,8 +26,8 @@ async function commandCallback(
     initiator: CommandInitiator,
     arg1: string
 ) {
-    logger.warn(`initiator user id: ${initiator.user?.id}`);
-    logger.warn(`initiator content: ${initiator.content}`);
+    Logger.warn(`initiator user id: ${initiator.user?.id}`);
+    Logger.warn(`initiator content: ${initiator.content}`);
     await initiator.strictReply(
         `Received your message! #${initiator.id} :hushed: @${initiator.user?.id}`
     );

@@ -1,9 +1,9 @@
 import { SchoolDay } from "../core/classes/dayTypes";
-import { TimetableSection as Sect } from "../core/classes/lesson";
+import { TimetableSection as Sect } from "../core/classes/timetableSection";
 import { LessonTimeType, LessonType } from "../types/enums";
 
-const classTimetablesJson = {
-    "3A": [],
+export const classTimetablesJson = {
+    "7A": [],
 };
 
 export const LessonTimes: { [key in LessonTimeType]: Sect[] } = {
@@ -44,10 +44,3 @@ export const LessonTimes: { [key in LessonTimeType]: Sect[] } = {
         new Sect(LessonType.EXTRA_LESSON, "1505-1555"),
     ],
 };
-
-
-export class ClassTimetables {
-    constructor() {}
-
-    static get(classId: ClassId) {}
-}

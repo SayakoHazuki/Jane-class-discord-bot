@@ -1,0 +1,136 @@
+{
+	"3A": {
+		"4Mar": [
+			{
+				"period": 5,
+				"from": "N/A",
+				"to": "空堂",
+				"link": "https://www.pyc.edu.hk/pycnet"
+			}
+		],
+		"04Mar": [
+			{
+				"period": 4,
+				"from": "ASS",
+				"to": "RS",
+				"link": "https://us02web.zoom.us/j/87364310207?pwd=RkxyVFNwcXBCalk4TkN1S1l6VlE3dz09"
+			},
+			{
+				"period": 5,
+				"from": "RS",
+				"to": "家長日",
+				"link": "https://pyc.edu.hk/pycnet"
+			}
+		]
+	},
+	"3B": {
+		"4Mar": [
+			{
+				"period": 5,
+				"from": "N/A",
+				"to": "空堂",
+				"link": "https://www.pyc.edu.hk/pycnet"
+			}
+		],
+		"04Mar": [
+			{
+				"period": 4,
+				"from": "ASS",
+				"to": "CHEM",
+				"link": "https://zoom.us/j/3829561676?pwd=YzA3Sm9DLzVCV0t0bjlYR0FIV0lOdz09"
+			},
+			{
+				"period": 5,
+				"from": "CHEM",
+				"to": "家長日",
+				"link": "https://pyc.edu.hk/pycnet"
+			}
+		]
+	},
+	"3C": {
+		"23Jan": [
+			{
+				"period": 4,
+				"from": "ASS",
+				"to": "空堂",
+				"link": "[沒有 Link]"
+			}
+		],
+		"24Jan": [
+			{
+				"period": 4,
+				"from": "ASS",
+				"to": "空堂",
+				"link": "[沒有 Link]"
+			}
+		],
+		"28Feb": [
+			{
+				"period": 3,
+				"from": "PHY",
+				"to": "PTH",
+				"link": "https://zoom.us/j/95068344455?pwd=eWpXc0ZlOXhLcUJNVExGcDNkRDBzQT09"
+			}
+		],
+		"02Mar": [
+			{
+				"period": 2,
+				"from": "PTH",
+				"to": "PHY",
+				"link": "https://meet.google.com/yjz-xwgn-dpc"
+			}
+		],
+		"4Mar": [
+			{
+				"period": 5,
+				"from": "N/A",
+				"to": "空堂",
+				"link": "https://www.pyc.edu.hk/pycnet"
+			}
+		],
+		"04Mar": [
+			{
+				"period": 4,
+				"from": "ASS",
+				"to": "CHIN",
+				"link": "https://zoom.us/j/99065416427?pwd=bkVCQ0lKbTc3UFlVZGNtbHhUZ0h4UT09"
+			},
+			{
+				"period": 5,
+				"from": "CHIN",
+				"to": "家長日",
+				"link": "https://pyc.edu.hk/pycnet"
+			},
+			{
+				"period": 1,
+				"from": "RS",
+				"to": "空堂",
+				"link": "https://www.pyc.edu.hk/pycnet"
+			}
+		]
+	},
+	"3D": {
+		"4Mar": [
+			{
+				"period": 5,
+				"from": "N/A",
+				"to": "空堂",
+				"link": "https://www.pyc.edu.hk/pycnet"
+			}
+		],
+		"04Mar": [
+			{
+				"period": 4,
+				"from": "ASS",
+				"to": "HIST",
+				"link": "https://zoom.us/j/3034216151?pwd=eWVPWGRja3dmWENjQlhwN2pueVhNZz09"
+			},
+			{
+				"period": 5,
+				"from": "HIST",
+				"to": "家長日",
+				"link": "https://pyc.edu.hk/pycnet"
+			}
+		]
+	}
+}

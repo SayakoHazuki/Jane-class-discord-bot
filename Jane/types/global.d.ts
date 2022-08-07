@@ -24,8 +24,26 @@ import {
     RESTPostAPIApplicationCommandsJSONBody,
     ColorResolvable,
 } from "discord.js";
+import {
+    SchoolDay,
+    SpecialSchoolDay,
+    UnspecifiedTimetableDay,
+} from "../core/classes/dayTypes";
 
 declare global {
+    /* util types */
+    type AnyCase<T extends string> = string extends T
+        ? string
+        : T extends `${infer F1}${infer F2}${infer R}`
+        ? `${Uppercase<F1> | Lowercase<F1>}${
+              | Uppercase<F2>
+              | Lowercase<F2>}${AnyCase<R>}`
+        : T extends `${infer F}${infer R}`
+        ? `${Uppercase<F> | Lowercase<F>}${AnyCase<R>}`
+        : "";
+    type valueOf<T> = T[keyof T];
+    type Common<A, B> = Pick<A | B, keyof A & keyof B>;
+
     class JaneLogger {
         label: string;
         constructor(filename: string);
@@ -78,9 +96,24 @@ declare global {
         type?: MessageType;
 
         fetchReply(): Promise<Message | undefined>;
-        reply(options: string | MessagePayload): Promise<Message>;
-        followUp(options: string | MessagePayload): Promise<Message>;
-        strictReply(options: string | MessagePayload): Promise<Message>;
+        reply(
+            options:
+                | string
+                | MessagePayload
+                | Common<ReplyMessageOptions, InteractionReplyOptions>
+        ): Promise<Message>;
+        followUp(
+            options:
+                | string
+                | MessagePayload
+                | Common<ReplyMessageOptions, InteractionReplyOptions>
+        ): Promise<Message>;
+        strictReply(
+            options:
+                | string
+                | MessagePayload
+                | Common<ReplyMessageOptions, InteractionReplyOptions>
+        ): Promise<Message>;
     }
 
     class CommandBuilder {
@@ -150,7 +183,7 @@ declare global {
     ) => Promise<string | void>;
     type EventCallback = (client: JaneClient, ...args: any[]) => Promise<void>;
 
-    declare interface ErrorMessage {
+    declare interface JaneErrorOptions {
         message: string;
         code?: string;
         id?: number;
@@ -245,4 +278,28 @@ declare global {
         readonly type: SchoolDayType;
     }
     [];
+
+    type SchoolDayTypes = SchoolDay | SpecialSchoolDay;
+    type HolidayTypes = Holiday | UnspecifiedTimetableDay;
+
+    type months =
+        | "JAN"
+        | "FEB"
+        | "MAR"
+        | "APR"
+        | "MAY"
+        | "JUN"
+        | "JUL"
+        | "AUG"
+        | "SEP"
+        | "OCT"
+        | "NOV"
+        | "DEC";
+    type TimetableDateResolvable =
+        | `${string}mr`
+        | `${number}${"/" | "-" | "_" | "\\"}${number}`
+        | `${number}${"/" | "-" | "_" | ""}${string}`
+        | `${number}${string}`
+        | `${number}d`
+        | `${"MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN"}${string}`;
 }

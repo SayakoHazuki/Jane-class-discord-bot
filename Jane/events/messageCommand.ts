@@ -2,11 +2,11 @@ import { ChannelType, Message } from "discord.js";
 import { EventBuilder } from "../core/eventBuilder";
 import { JaneClient } from "../core/client";
 import { MessageCommandInitiator } from "../core/commandInitiator";
+import { initLogger } from "../core/logger";
 
-const logger: JaneLogger = require("../../core/logger")(__filename);
+const Logger = initLogger(__filename)
 
 async function eventCallback(client: JaneClient, message: Message) {
-    logger.info(message.content);
     if (message.channel.type === ChannelType.DM) {
         return;
         // return Util.handleDM(message, this.client);
@@ -110,15 +110,15 @@ async function eventCallback(client: JaneClient, message: Message) {
 
     const initiator = new MessageCommandInitiator(message);
 
-    // logger.info(
+    // Logger.info(
     //     `${Util.logColor("cyan.fg")}${message.author.tag}${Util.logColor(
     //         "reset"
     //     )} runned command ${Util.logColor("cyan.fg")}${
     //         command.name
     //     }${Util.logColor("reset")}`
     // );
-    // logger.info(`${Util.logColor("reset")}\tCmd: ${message.content}`);
-    // logger.info(
+    // Logger.info(`${Util.logColor("reset")}\tCmd: ${message.content}`);
+    // Logger.info(
     //     `${Util.logColor("reset")}Running command ${Util.logColor("cyan.fg")}${
     //         command.name
     //     }`
@@ -129,7 +129,7 @@ async function eventCallback(client: JaneClient, message: Message) {
             if (replyContent !== undefined) initiator.followUp(replyContent);
         },
         (e) => {
-            logger.error(e);
+            Logger.error(e);
             initiator.followUp("❌ | 執行指令期間發生了一個錯誤");
         }
     );

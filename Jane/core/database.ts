@@ -1,5 +1,7 @@
 import { Snowflake } from "discord.js";
 import { MongoClient, Sort, WithId } from "mongodb";
+import { ErrorCode } from "../types/enums";
+import { JaneDatabaseError } from "./classes/errors";
 
 let globalDbClient: MongoClient;
 
@@ -55,13 +57,12 @@ export class Database {
             query,
             options
         )) as WithId<DatabaseUserData> | null;
-        logger.info(JSON.stringify(data));
+        Logger.info(JSON.stringify(data));
         if (!data)
-            throw <ErrorMessage>{
-                message: "Userdata is null",
-                code: "NULL_DB_USERDATA",
-                id: 501,
-            };
+            throw new JaneDatabaseError(
+                "Userdata is null",
+                ErrorCode.NULL_USER_DATA
+            );
         return new User(data);
     }
 
