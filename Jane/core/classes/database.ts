@@ -1,7 +1,10 @@
 import { Snowflake } from "discord.js";
 import { MongoClient, Sort, WithId } from "mongodb";
-import { ErrorCode } from "../types/enums";
-import { JaneDatabaseError } from "./classes/errors";
+import { ErrorCode } from "../../types/enums";
+import { initLogger } from "../logger";
+import { JaneDatabaseError } from "./errors";
+
+const Logger = initLogger(__filename);
 
 let globalDbClient: MongoClient;
 
@@ -41,6 +44,7 @@ export class Database {
     static async connect() {
         globalDbClient = new MongoClient(process.env.MONGO_URI);
         await globalDbClient.connect();
+        Logger.info("Connected to MongoDB")
         return globalDbClient;
     }
 
@@ -71,26 +75,30 @@ export class Database {
         const collection = database.collection("hgdv2");
         return collection;
     }
+
+    static get db() {
+        return globalDbClient;
+    }
 }
 
 class User {
-    discordId: string;
-    discordTag: string;
-    discordAvatarURL: string;
+    discordId?: string;
+    discordTag?: string;
+    discordAvatarURL?: string;
 
-    studentClass: number;
-    studentClassNumber: string;
-    studentId: string;
-    studentName: string;
+    studentClass?: ClassId;
+    studentClassNumber?: number;
+    studentId?: string;
+    studentName?: string;
 
-    hgd: number;
-    shards: number;
-    highLvLocked: boolean;
+    hgd?: number;
+    shards?: number;
+    highLvLocked?: boolean;
 
-    actionCounts: HgdActionCounts;
-    actionRecords: HgdActionRecords;
+    actionCounts?: HgdActionCounts;
+    actionRecords?: HgdActionRecords;
 
-    constructor(userdata: DatabaseUserData) {
+    constructor(userdata: Partial<DatabaseUserData>) {
         this.discordId = userdata.snowflake;
         this.discordTag = userdata.tag;
         this.discordAvatarURL = userdata.avatarURL;

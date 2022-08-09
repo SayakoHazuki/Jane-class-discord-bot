@@ -56,7 +56,6 @@ export class CommandBuilder {
         const slashCommand = new SlashCommandBuilder()
             .setName(this.options.command)
             .setDescription(this.options.description || "");
-        console.log(this.options.args);
         for (const arg of this.options.args ?? []) {
             const addOptionFunctionName = `add${arg.type
                 .charAt(0)
@@ -70,7 +69,6 @@ export class CommandBuilder {
                 | "addRoleOption"
                 | "addStringOption"
                 | "addUserOption";
-            console.log(addOptionFunctionName);
             slashCommand[addOptionFunctionName](
                 // @ts-ignore
                 new commandOptionBuilders[arg.type]()
@@ -78,7 +76,6 @@ export class CommandBuilder {
                     .setDescription(arg.description)
             );
         }
-        console.log(slashCommand.toJSON());
         return slashCommand.toJSON();
     }
 }

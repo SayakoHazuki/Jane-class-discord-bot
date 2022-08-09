@@ -255,7 +255,7 @@ export function dateFromDateString(dateString: TimetableDateResolvable) {
         return relativeDate(Number(dateString.replace(/d/i, "")));
     }
     if (queryTests.shortDateStyle.test(dateString)) {
-        const [_, month, day] =
+        const [_, day, month] =
             dateString.match(queryTests.shortDateStyle) || [];
         return new Date(
             `${new Date().getFullYear()}-${forceNumberDigits(

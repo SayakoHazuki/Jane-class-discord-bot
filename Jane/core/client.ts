@@ -12,6 +12,8 @@ import glob from "glob";
 import path from "path";
 import { Consts } from "./consts";
 import { initLogger } from "./logger";
+import { Database } from "./classes/database";
+import { MongoClient } from "mongodb";
 
 const Logger = initLogger(__filename);
 
@@ -154,5 +156,6 @@ export async function startClient(
     startInDev: boolean = false
 ): Promise<JaneClient> {
     client = await new JaneClient().logIn(startInDev);
+    const db = await Database.connect()
     return client;
 }

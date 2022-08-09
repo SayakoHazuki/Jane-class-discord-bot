@@ -78,7 +78,7 @@ declare global {
         readonly initiatorType: "CommandInteraction" | "Message";
         readonly initiator: ChatInputCommandInteraction | Message;
         attachments: Collection<Snowflake, Attachment>;
-        user?: User;
+        user: User;
         channel: TextBasedChannel | null;
         channelId: Snowflake;
         components: Array<ActionRow<MessageActionRowComponent>>;
@@ -224,8 +224,8 @@ declare global {
         snowflake: string;
         tag: string;
         avatarURL: string;
-        sClass: number;
-        sCNum: string;
+        sClass: ClassId;
+        sCNum: number;
         sID: string;
         sName: string;
         hgd: number;
@@ -272,7 +272,7 @@ declare global {
         [action: string]: number;
     }
 
-    type ClassId = "3A" | "3B" | "3C" | "3D";
+    type ClassId = `${number}${string}`;
 
     interface TimetableDay {
         readonly type: SchoolDayType;

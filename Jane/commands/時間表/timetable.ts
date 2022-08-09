@@ -1,7 +1,9 @@
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
+import { Database } from "../../core/classes/database";
 import { initLogger } from "../../core/logger";
 import { Timetable } from "../../utils/timetable";
+import { formatTimeString } from "../../utils/utility-functions";
 
 const Logger = initLogger(__filename);
 
@@ -33,7 +35,20 @@ async function commandCallback(
     initiator: CommandInitiator,
     ...args: [string, string]
 ) {
-    const [inputDate, inputClass] = args as [TimetableDateResolvable, ClassId];
+    let [inputDate, inputClass] = args as [TimetableDateResolvable?, ClassId?];
+    const user = await Database.getUser(initiator.user.id);
+    if (!inputDate)
+        inputDate = formatTimeString(
+            new Date(),
+            "dd/MM"
+        ) as TimetableDateResolvable;
+    if (!inputClass) {
+        if (user.studentClass) {
+            inputClass = user.studentClass;
+        } else {
+            inputClass = "1A";
+        }
+    }
     Logger.info(`d: ${inputDate}, c: ${inputClass}, f:${args}`);
     const timetable = new Timetable(inputClass, inputDate, initiator);
     const embed = await timetable.getEmbed();
