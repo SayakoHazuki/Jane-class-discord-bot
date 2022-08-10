@@ -8,19 +8,13 @@ import { formatTimeString } from "../../utils/utility-functions";
 const Logger = initLogger(__filename);
 
 const commandOptions: CommandOptions = {
-    name: "時間表",
-    command: "timetable",
-    aliases: ["t", "tt"],
+    name: "翌日時間表",
+    command: "tomorrow",
+    aliases: ["tmr"],
     category: "時間表",
-    description: "查看課堂時間表",
-    usage: "t 日期? 班別?",
+    description: "查看翌日課堂時間表",
+    usage: "tmr",
     args: [
-        {
-            name: "日期",
-            type: "string",
-            description: "要查看的日期, 例如 `14/8`, `tmr`, `wed`, 預設為本日",
-            required: false,
-        },
         {
             name: "班別",
             type: "string",
@@ -33,15 +27,11 @@ const commandOptions: CommandOptions = {
 async function commandCallback(
     client: JaneClient,
     initiator: CommandInitiator,
-    ...args: [string, string]
+    ...args: [string]
 ) {
-    let [inputDate, inputClass] = args as [TimetableDateResolvable?, ClassId?];
     const user = await Database.getUser(initiator.user.id);
-    if (!inputDate)
-        inputDate = formatTimeString(
-            new Date(),
-            "dd/MM"
-        ) as TimetableDateResolvable;
+
+    let inputClass = args[0] as ClassId;
     if (!inputClass) {
         if (user.studentClass) {
             inputClass = user.studentClass;
@@ -49,8 +39,13 @@ async function commandCallback(
             inputClass = "1A";
         }
     }
-    Logger.info(`d: ${inputDate}, c: ${inputClass}, f:${args}`);
-    const timetable = new Timetable(inputClass, inputDate, initiator);
+
+    const dateOfTmr = formatTimeString(
+        new Date(new Date().setDate(new Date().getDate() + 1)),
+        "dd/MM"
+    ) as TimetableDateResolvable;
+
+    const timetable = new Timetable(inputClass, dateOfTmr, initiator);
     const embed = await timetable.getEmbed();
     await initiator.strictReply({ content: "", embeds: [embed] });
     return;

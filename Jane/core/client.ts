@@ -118,10 +118,8 @@ export class JaneClient extends Client {
                 event
             );
             const evt: EventBuilder = new _EventBuilder.event();
-            Logger.warn(JSON.stringify(evt));
 
             this.on(evt.eventName, (...args) => {
-                Logger.warn(...args);
                 evt.callback(client, ...args);
             });
 
@@ -156,6 +154,6 @@ export async function startClient(
     startInDev: boolean = false
 ): Promise<JaneClient> {
     client = await new JaneClient().logIn(startInDev);
-    const db = await Database.connect()
+    const db = await Database.connect();
     return client;
 }
