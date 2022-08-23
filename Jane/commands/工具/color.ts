@@ -1,4 +1,3 @@
-import { Database } from "../../core/classes/database";
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { initLogger } from "../../core/logger";
@@ -6,13 +5,21 @@ import { initLogger } from "../../core/logger";
 const Logger = initLogger(__filename);
 
 const commandOptions: CommandOptions = {
-    name: "測試",
-    command: "test",
-    aliases: ["ts"],
-    category: "一般",
-    description: "testing stuff",
-    usage: "test",
-    args: [],
+    name: "color",
+    command: "color",
+    aliases: ["colour"],
+    category: "工具",
+    description: "Change nickname display color",
+    usage: "color",
+    args: [
+        {
+            name: "color",
+            type: "string",
+            description: "The target color",
+            required: false,
+        },
+        
+    ],
 };
 
 async function commandCallback(
@@ -20,8 +27,7 @@ async function commandCallback(
     initiator: CommandInitiator,
     arg1: string
 ) {
-    const user = await Database.getUser(initiator.user.id);
-    await initiator.strictReply(JSON.stringify(user.json, null, 2));
+    
 }
 
 export const command = class TestCommand extends CommandBuilder {

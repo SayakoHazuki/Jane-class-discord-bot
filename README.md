@@ -9,13 +9,13 @@ Discord Bot, created originally as a class discord bot for 2C in Jan 2021.
 ## Jane V2 -> V3 Rewrite Progress
 #### 一般
 - [] color 
-- [] editBirthday
+- [] editBirthday *(cancelled): may be migrated into profile commands later*
 - [] help
 - [x] invite *(completed)*
-- [] nickname
-- [] wolf
-- [] wolfOld
-- [] 平仄
+- [] nickname *No rewrite planned in the near future yet*
+- [] wolf *No rewrite planned in the near future yet*
+- [] wolfOld *No rewrite planned in the near future yet*
+- [] 平仄 *No rewrite planned in the near future yet*
 #### 好感度
 - [] hgdHelp
 - [] 和簡貼貼
