@@ -17,14 +17,16 @@ export const command = class HgdTeeTeeCommand extends HgdCommandBuilder {
         name: "jane_love",
         numericId: "904738308385554482",
       },
-      messages: {
-        ACTION_MESSAGE_1: ["test"],
-        ACTION_MESSAGE_2: ["test"],
-        DAY_CONDITION_MISMATCH: ["test"],
-        TIME_CONDITION_MISMATCH: ["test"],
+      texts: {
+        ACTION_NAME: ["和簡貼貼"],
+        ACTION_MESSAGE: ["$dcUser.username 湊近了簡並和簡貼貼"],
+        SUCCESS_ACTION_MESSAGE: ["簡有些侷促但很開心"],
+        FAILURE_ACTION_MESSAGE: ["簡似乎覺得有一點不自在"],
+        SUCCESS_FOOTER_MESSAGE: ["侷促但很開心的簡"],
       },
       punishments: { min: -3, max: -5 },
       rewards: { min: 20, max: 60 },
+      runCode: Enum.JaneHgdButtonRunCode.teeTee,
     });
   }
 };

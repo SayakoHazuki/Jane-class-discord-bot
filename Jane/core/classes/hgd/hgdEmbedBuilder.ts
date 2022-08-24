@@ -6,7 +6,8 @@ export class HgdEmbedBuilder extends JaneEmbedBuilder {
     user: User,
     referer: CommandInitiator,
     title: string,
-    content: string
+    content: string,
+    footer?: string
   ) {
     super("reply", title, content, {
       color: "#FB9EFF",
@@ -15,8 +16,10 @@ export class HgdEmbedBuilder extends JaneEmbedBuilder {
     this.setAuthor({
       name: `Lv.${user.hgdData?.levelData.level} | ${referer.user.tag}`,
       iconURL: referer.user.displayAvatarURL(),
-    }).setFooter({
-      text: ".",
     });
+    if (footer !== undefined)
+      this.setFooter({
+        text: footer,
+      });
   }
 }

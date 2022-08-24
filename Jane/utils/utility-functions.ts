@@ -20,6 +20,7 @@ const MonthArr = [
   "Jun",
   "Jul",
   "Aug",
+  "Sep",
   "Oct",
   "Nov",
   "Dec",

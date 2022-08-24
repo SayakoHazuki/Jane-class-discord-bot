@@ -1,4 +1,3 @@
-import { JaneEmbedBuilder } from "../../../utils/embedBuilder";
 import {
   formatTimeString,
   randomFromRange,
@@ -9,18 +8,19 @@ import { initLogger } from "../../logger";
 import { Database } from "../database";
 import { HgdEmbedBuilder } from "./hgdEmbedBuilder";
 import hgdSystemConfig from "../../../data/config/hgdVariables.json";
-import { ButtonBuilder, User } from "discord.js";
+import { User } from "discord.js";
 import { User as DbUser } from "../../classes/database";
 import { HgdActionRowBuilder } from "./hgdActionRow";
 import * as Enum from "../../../types/enums";
+import { JaneGeneralError } from "../errors";
 
 const Logger = initLogger(__filename);
 
-function pickMessage(messages: string[]) {
-  return messages[Math.floor(Math.random() * messages.length)];
+function pickRandomText(texts: string[]) {
+  return texts[Math.floor(Math.random() * texts.length)];
 }
 
-class HgdMessageFormatter {
+class HgdTextsFormatter {
   dcUser: User;
   dbUser: DbUser;
 
@@ -29,10 +29,15 @@ class HgdMessageFormatter {
     this.dbUser = dbUser;
   }
 
+  pickAndFormat(texts: string[]) {
+    return this.format(pickRandomText(texts));
+  }
+
   format(str: string) {
     return str.replace(
-      /\$(dcUser|dbUser)].(\w+)/g,
+      /\$(dcUser|dbUser)\.(\w+)/g,
       (a, b: "dcUser" | "dbUser", c) => {
+        Logger.warn(`(HgdTextsFormatter) ${a} - ${b} - ${c}`);
         let tmp: any = this[b];
         for (const i of c.split(".")) {
           tmp = tmp[i];
@@ -62,12 +67,15 @@ export class HgdCommandBuilder extends CommandBuilder {
       initiator: CommandInitiator
     ) => {
       const dbUser = await Database.getUser(initiator.user.id);
-
       const userdata = dbUser.hgdData;
 
+      const textsFormatter = new HgdTextsFormatter(initiator.user, dbUser);
+
       if (userdata == undefined) {
-        // ...
-        throw new Error(undefined);
+        throw new JaneGeneralError(
+          "Database user's hgddata is unexpectedly undefined",
+          Enum.ErrorCode.UNEXPECTED_UNDEFINED
+        );
       }
 
       if (config.lvRequirement !== undefined) {
@@ -104,7 +112,9 @@ export class HgdCommandBuilder extends CommandBuilder {
                 dbUser,
                 initiator,
                 "無法使用指令",
-                pickMessage(config.messages.DAY_CONDITION_MISMATCH)
+                textsFormatter.pickAndFormat(
+                  config.texts.DAY_CONDITION_MISMATCH as string[]
+                )
               ),
             ],
           });
@@ -136,7 +146,9 @@ export class HgdCommandBuilder extends CommandBuilder {
                 dbUser,
                 initiator,
                 "無法使用指令",
-                pickMessage(config.messages.TIME_CONDITION_MISMATCH)
+                textsFormatter.pickAndFormat(
+                  config.texts.TIME_CONDITION_MISMATCH as string[]
+                )
               ),
             ],
           });
@@ -184,15 +196,22 @@ export class HgdCommandBuilder extends CommandBuilder {
         const newUserHgdAmount = (dbUser.hgdData?.hgd ?? 0) + rewardHgdNumber;
         dbUser.commitUpdate("hgd", newUserHgdAmount);
 
-        const messageFormatter = new HgdMessageFormatter(
-          initiator.user,
-          dbUser
+        dbUser.commitUpdate(
+          `last${Enum.PascalHgdActions[config.commandCode]}`,
+          Math.floor(new Date().getTime() / 1000)
         );
-        const message1 = messageFormatter.format(
-          pickMessage(config.messages.ACTION_MESSAGE_1)
+
+        const textsFormatter = new HgdTextsFormatter(initiator.user, dbUser);
+        const message1 = textsFormatter.pickAndFormat(
+          config.texts.ACTION_MESSAGE
         );
-        const message2 = messageFormatter.format(
-          pickMessage(config.messages.ACTION_MESSAGE_2)
+
+        const message2 = textsFormatter.pickAndFormat(
+          config.texts.SUCCESS_ACTION_MESSAGE
+        );
+
+        const footer = textsFormatter.pickAndFormat(
+          config.texts.SUCCESS_FOOTER_MESSAGE
         );
 
         /* without cache */
@@ -216,13 +235,53 @@ export class HgdCommandBuilder extends CommandBuilder {
                       newDbUser.hgdData?.shards ?? 0
                     } \u279f ${newUserShardAmount})`
                   : ""
-              }`.replace(/900[0-9]{6, 12}/g, "∞")
+              }`.replace(/900[0-9]{6, 12}/g, "∞"),
+              footer
             ),
           ],
           components: [new HgdActionRowBuilder(newDbUser)],
         });
       } else {
-        // to be completed
+        const punishmentHgdNumber = Math.abs(
+          randomFromRange([config.punishments.max, config.punishments.min])
+        );
+        const newUserHgdAmount =
+          (dbUser.hgdData?.hgd ?? 0) - punishmentHgdNumber;
+        dbUser.commitUpdate("hgd", newUserHgdAmount);
+
+        dbUser.commitUpdate(
+          `last${Enum.PascalHgdActions[config.commandCode]}`,
+          Math.floor(new Date().getTime() / 1000)
+        );
+
+        const messageFormatter = new HgdTextsFormatter(initiator.user, dbUser);
+        const message1 = textsFormatter.pickAndFormat(
+          config.texts.ACTION_MESSAGE
+        );
+
+        const message2 = textsFormatter.pickAndFormat(
+          config.texts.FAILURE_ACTION_MESSAGE
+        );
+
+        /* without cache */
+        const newDbUser = await dbUser.pushUpdates();
+
+        await initiator.strictReply({
+          embeds: [
+            new HgdEmbedBuilder(
+              newDbUser,
+              initiator,
+              message1,
+              `${message2}\n好感度-${punishmentHgdNumber} (${
+                newDbUser.hgdData?.hgd ?? 0
+              } \u279f ${
+                newDbUser.hgdData?.highLvLocked ? "🔒" : ""
+              } ${newUserHgdAmount})`.replace(/900[0-9]{6, 12}/g, "∞"),
+              "簡"
+            ),
+          ],
+          components: [new HgdActionRowBuilder(newDbUser)],
+        });
       }
     };
 

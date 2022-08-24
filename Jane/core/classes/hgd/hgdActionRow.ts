@@ -1,9 +1,7 @@
 import {
   ActionRowBuilder,
-  AnyComponentBuilder,
   ButtonBuilder,
   ButtonStyle,
-  User,
 } from "discord.js";
 import * as Database from "../database";
 import * as Enum from "../../../types/enums";
@@ -33,11 +31,11 @@ export class HgdActionRowBuilder extends ActionRowBuilder<ButtonBuilder> {
             Enum.JaneHgdButtonActions.RUN
           }-${Enum.JaneHgdButtonRunCode[actionAvailability.action]}`
         )
-        .setDisabled(actionAvailability.available)
+        .setDisabled(!actionAvailability.available)
         .setEmoji(actionEmoji)
         .setStyle(ButtonStyle.Secondary);
       buttons.push(btn);
-}
+    }
 
     this.addComponents(buttons.slice(0, 5));
   }

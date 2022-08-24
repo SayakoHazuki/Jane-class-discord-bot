@@ -30,14 +30,21 @@ export const command = class HgdMorningCommand extends HgdCommandBuilder {
           name: Emojis.hgdActionEmojis.morning,
           numericId: "0",
         },
-        messages: {
-          ACTION_MESSAGE_1: ["test"],
-          ACTION_MESSAGE_2: ["test"],
-          DAY_CONDITION_MISMATCH: ["test"],
-          TIME_CONDITION_MISMATCH: ["test"],
+        texts: {
+          ACTION_NAME: ["和簡說早安"],
+          ACTION_MESSAGE: ["$dcUser.username, 早上好!"],
+          SUCCESS_ACTION_MESSAGE: [
+            "今天有甚麼要做的嗎?",
+            "請精神地完成今天要做的事情喔!",
+            "$dcUser.username 今天也很早呢!",
+          ],
+          FAILURE_ACTION_MESSAGE: ["剛才已經跟簡說過早安了喔"],
+          SUCCESS_FOOTER_MESSAGE: ["在早上為您打氣的簡"],
+          TIME_CONDITION_MISMATCH: ["起床有些晚了呢，簡已經去工作了～"],
         },
         punishments: { min: -1, max: -2 },
         rewards: { min: 20, max: 35 },
+        runCode: Enum.JaneHgdButtonRunCode.morning,
       }
     );
   }

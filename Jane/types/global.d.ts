@@ -23,6 +23,7 @@ import {
   ReplyMessageOptions,
   RESTPostAPIApplicationCommandsJSONBody,
   ColorResolvable,
+  ButtonInteraction,
 } from "discord.js";
 import {
   SchoolDay,
@@ -72,6 +73,10 @@ declare global {
     static getClient(forceReturn: boolean = false);
   }
 
+  interface JaneEphemeralSupport {
+    ephemeral?: boolean;
+  }
+
   interface CommandInitiator {
     readonly client: Client;
     readonly createdAt: Date;
@@ -80,8 +85,14 @@ declare global {
     readonly member?: GuildMember | APIInteractionGuildMember | null;
     readonly token?: string | null;
     readonly url?: string | null;
-    readonly initiatorType: "CommandInteraction" | "Message";
-    readonly initiator: ChatInputCommandInteraction | Message;
+    readonly initiatorType:
+      | "CommandInteraction"
+      | "Message"
+      | "ButtonInteraction";
+    readonly initiator:
+      | ChatInputCommandInteraction
+      | Message
+      | ButtonInteraction;
     attachments: Collection<Snowflake, Attachment>;
     user: User;
     channel: TextBasedChannel | null;
@@ -114,10 +125,12 @@ declare global {
         | Common<ReplyMessageOptions, InteractionReplyOptions>
     ): Promise<Message>;
     strictReply(
-      options:
+      options: (
         | string
         | MessagePayload
         | Common<ReplyMessageOptions, InteractionReplyOptions>
+      ) &
+        JaneEphemeralSupport
     ): Promise<Message>;
   }
 
@@ -321,14 +334,18 @@ declare global {
     dayCondition?: { in: number[] } | { notIn: number[] };
     rewards: { min: number; max: number };
     punishments: { min: number; max: number };
-    messages: HgdCommandMessages;
+    texts: HgdCommandTexts;
+    runCode: Enum.JaneHgdButtonRunCode;
   }
 
-  interface HgdCommandMessages {
-    DAY_CONDITION_MISMATCH: string[];
-    TIME_CONDITION_MISMATCH: string[];
-    ACTION_MESSAGE_1: string[];
-    ACTION_MESSAGE_2: string[];
+  interface HgdCommandTexts {
+    ACTION_NAME: string[];
+    ACTION_MESSAGE: string[];
+    DAY_CONDITION_MISMATCH?: string[];
+    TIME_CONDITION_MISMATCH?: string[];
+    SUCCESS_ACTION_MESSAGE: string[];
+    FAILURE_ACTION_MESSAGE: string[];
+    SUCCESS_FOOTER_MESSAGE: string[];
   }
 
   type HgdActionCounts = {

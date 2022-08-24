@@ -33,14 +33,19 @@ export const command = class HgdRoseCommand extends HgdCommandBuilder {
           name: "roseW",
           numericId: "938672508511617025",
         },
-        messages: {
-          ACTION_MESSAGE_1: ["test"],
-          ACTION_MESSAGE_2: ["test"],
-          DAY_CONDITION_MISMATCH: ["test"],
-          TIME_CONDITION_MISMATCH: ["test"],
+        texts: {
+          ACTION_NAME: ["送白玫瑰給簡"],
+          ACTION_MESSAGE: ["$dcUser.username 送了一枝白玫瑰給簡"],
+          SUCCESS_ACTION_MESSAGE: [
+            "簡很喜歡您送的白玫瑰",
+            "簡很感謝您送白玫瑰給簡",
+          ],
+          FAILURE_ACTION_MESSAGE: ["簡剛剛已經收過您送的白玫瑰了"],
+          SUCCESS_FOOTER_MESSAGE: ["喜歡白玫瑰的簡"],
         },
         punishments: { min: -2, max: -4 },
         rewards: { min: 10, max: 25 },
+        runCode: Enum.JaneHgdButtonRunCode.rose,
       }
     );
   }

@@ -16,14 +16,17 @@ export const command = class HgdAfternoonTeaCommand extends HgdCommandBuilder {
         name: Emojis.hgdActionEmojis.afternoonTea,
         numericId: "0",
       },
-      messages: {
-        ACTION_MESSAGE_1: ["test"],
-        ACTION_MESSAGE_2: ["test"],
-        DAY_CONDITION_MISMATCH: ["test"],
-        TIME_CONDITION_MISMATCH: ["test"],
+      texts: {
+        ACTION_NAME: ["給簡準備下午茶"],
+        ACTION_MESSAGE: ["$dcUser.username 給簡準備了下午茶"],
+        SUCCESS_ACTION_MESSAGE: ["簡很喜歡您給的下午茶"],
+        TIME_CONDITION_MISMATCH: ["現在已經不是下午茶時段了哦～"],
+        FAILURE_ACTION_MESSAGE: ["簡今天已經吃過您準備的下午茶了"],
+        SUCCESS_FOOTER_MESSAGE: ["喜歡吃下午茶的簡"],
       },
       punishments: { min: -1, max: -5 },
       rewards: { min: 25, max: 40 },
+      runCode: Enum.JaneHgdButtonRunCode.afternoonTea,
     });
   }
 };

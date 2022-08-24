@@ -1,4 +1,4 @@
-import { Message, Snowflake } from "discord.js";
+import { Snowflake } from "discord.js";
 import { MongoClient, Sort, WithId } from "mongodb";
 import { ErrorCode, PascalHgdActions } from "../../types/enums";
 import { formatTimeString } from "../../utils/utility-functions";
@@ -221,7 +221,9 @@ export class User {
             available: available,
           });
         }
-        return actionAvailabilities;
+        return actionAvailabilities.sort((a, b) => {
+          return a.available === b.available ? 0 : a.available ? -1 : 1;
+        });
       })(), // to be completed
     };
   }
@@ -234,7 +236,7 @@ export class User {
     if (!this.discordId)
       throw new JaneGeneralError(
         "DBUser's discordId cannot be undefined when pushing updates.",
-        ErrorCode.UNEXPECTED_TYPE
+        ErrorCode.UNEXPECTED_UNDEFINED
       );
     const data = await Database.updateUser(
       this.discordId,
