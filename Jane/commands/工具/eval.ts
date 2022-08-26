@@ -40,6 +40,8 @@ const commandOptions: CommandOptions = {
             required: true,
         },
     ],
+    messageOnly: true,
+    devOnly: true,
 };
 
 async function commandCallback(

@@ -12,7 +12,10 @@ import { JaneBaseError, JaneGeneralError } from "../core/classes/errors";
 import * as Enum from "../types/enums";
 import { ButtonInitiator } from "../core/commandInitiator";
 import { handleHgdButton } from "../componentReplyHandlers/hgd";
-import { handleDatabaseModals } from "../componentReplyHandlers/database";
+import {
+    handleDatabaseButton,
+    handleDatabaseModals,
+} from "../componentReplyHandlers/database";
 
 const Logger = initLogger(__filename);
 
@@ -30,7 +33,7 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
 
         if (!/^J-\w*-\w*-\w*-\w*$/.test(interaction.customId)) return;
 
-        const [full, interactionType, interactionGorup, k, v] = (
+        const [full, interactionType, interactionGroup, k, v] = (
             /^J-(\w*)-(\w*)-(\w*)-(\w*)$/.exec(interaction.customId) ?? []
         ).map((i) => (isNaN(Number(i)) ? i : Number(i))) as [
             string,
@@ -49,14 +52,18 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
 
         if (interactionType === Enum.JaneInteractionType.BUTTON) {
             interaction = interaction as ButtonInteraction;
-            if (interactionGorup === Enum.JaneInteractionGroup.HGD) {
+            if (interactionGroup === Enum.JaneInteractionGroup.HGD) {
                 await handleHgdButton(client, interaction, k, v);
+            }
+
+            if (interactionGroup === Enum.JaneInteractionGroup.DATABASE) {
+                await handleDatabaseButton(client, interaction, k, v);
             }
         }
 
         if (interactionType === Enum.JaneInteractionType.MODAL) {
             interaction = interaction as ModalSubmitInteraction;
-            if (interactionGorup === Enum.JaneInteractionGroup.DATABASE) {
+            if (interactionGroup === Enum.JaneInteractionGroup.DATABASE) {
                 await handleDatabaseModals(client, interaction, k, v);
             }
         }

@@ -1,7 +1,9 @@
-import { Database } from "../../core/classes/database";
+import { Database, User } from "../../core/classes/database";
+import { JaneBaseError, JaneGeneralError } from "../../core/classes/errors";
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { initLogger } from "../../core/logger";
+import { ErrorCode } from "../../types/enums";
 
 const Logger = initLogger(__filename);
 

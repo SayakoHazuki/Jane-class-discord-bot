@@ -1,13 +1,4 @@
-import {
-    APIActionRowComponent,
-    APIMessageActionRowComponent,
-} from "discord-api-types/v10";
-import {
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    MessageActionRowComponent,
-} from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { initLogger } from "../../core/logger";
@@ -18,7 +9,7 @@ const Logger = initLogger(__filename);
 const commandOptions: CommandOptions = {
     name: "校歷表",
     command: "calendar",
-    aliases: ["cal"],
+    aliases: ["cal","校歷表"],
     category: "校歷表",
     description: "查看校歷表",
     usage: "cal",
@@ -36,7 +27,7 @@ async function commandCallback(
             "\u2800",
             {},
             initiator
-        );
+        ).setImage("https://jane.ml/files/cal_1.png");
         const linkButtons = new ActionRowBuilder<ButtonBuilder>().addComponents(
             [
                 new ButtonBuilder()

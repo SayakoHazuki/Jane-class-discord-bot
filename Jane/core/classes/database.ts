@@ -1,251 +1,338 @@
-import { Snowflake } from "discord.js";
+import {
+    ActionRow,
+    ActionRowBuilder,
+    ButtonBuilder,
+    Snowflake,
+} from "discord.js";
 import { MongoClient, Sort, WithId } from "mongodb";
-import { ErrorCode, PascalHgdActions } from "../../types/enums";
+import {
+    ErrorCode,
+    JaneDatabaseActions,
+    JaneInteractionGroup,
+    JaneInteractionType,
+    PascalHgdActions,
+} from "../../types/enums";
 import { formatTimeString } from "../../utils/utility-functions";
 import { JaneClient } from "../client";
 import { initLogger } from "../logger";
 import { JaneDatabaseError, JaneGeneralError } from "./errors";
 import { UserLevelData } from "./hgd/leveldata";
 
+import Discord from "discord.js";
+
 const Logger = initLogger(__filename);
 
 let globalDbClient: MongoClient;
 
 const hgdActions = [
-  ...["afternoonTea", "gardening", "files"],
-  ...["morning", "night", "pat"],
-  ...["rose", "roseTea", "teeTee"],
+    ...["afternoonTea", "gardening", "files"],
+    ...["morning", "night", "pat"],
+    ...["rose", "roseTea", "teeTee"],
 ] as (
-  | "afternoonTea"
-  | "gardening"
-  | "files"
-  | "morning"
-  | "night"
-  | "pat"
-  | "rose"
-  | "roseTea"
-  | "teeTee"
+    | "afternoonTea"
+    | "gardening"
+    | "files"
+    | "morning"
+    | "night"
+    | "pat"
+    | "rose"
+    | "roseTea"
+    | "teeTee"
 )[];
 
 const upperHgdActions = <
-  (
-    | "AfternoonTea"
-    | "Gardening"
-    | "Files"
-    | "Morning"
-    | "Night"
-    | "Pat"
-    | "Rose"
-    | "RoseTea"
-    | "TeeTee"
-  )[]
+    (
+        | "AfternoonTea"
+        | "Gardening"
+        | "Files"
+        | "Morning"
+        | "Night"
+        | "Pat"
+        | "Rose"
+        | "RoseTea"
+        | "TeeTee"
+    )[]
 >hgdActions.map((a) => a.charAt(0).toUpperCase() + a.substring(1, a.length));
 
 export class Database {
-  constructor() {}
+    constructor() {}
 
-  static async connect() {
-    globalDbClient = new MongoClient(process.env.MONGO_URI);
-    await globalDbClient.connect();
-    Logger.info("Connected to MongoDB");
-    return globalDbClient;
-  }
+    static async connect() {
+        globalDbClient = new MongoClient(process.env.MONGO_URI);
+        await globalDbClient.connect();
+        Logger.info("Connected to MongoDB");
+        return globalDbClient;
+    }
 
-  static getClient() {
-    return globalDbClient;
-  }
+    static getClient() {
+        return globalDbClient;
+    }
 
-  static async getUser(discordId: Snowflake) {
-    Logger.error(discordId);
-    const query = { snowflake: discordId };
-    const options = {
-      sort: <Sort>{ _id: -1 },
-    };
-    const data = (await Database.collection.findOne(
-      query,
-      options
-    )) as WithId<DatabaseUserData> | null;
-    Logger.info(JSON.stringify(data));
-    if (!data)
-      throw new JaneDatabaseError("Userdata is null", ErrorCode.NULL_USER_DATA);
-    return new User(data);
-  }
+    static async getUser(discordId: Snowflake) {
+        Logger.error(discordId);
+        const query = { snowflake: discordId };
+        const options = {
+            sort: <Sort>{ _id: -1 },
+        };
+        const data = (await Database.collection.findOne(
+            query,
+            options
+        )) as WithId<DatabaseUserData> | null;
+        Logger.info(JSON.stringify(data));
+        if (!data)
+            throw new JaneDatabaseError(
+                "Userdata is null",
+                ErrorCode.NULL_USER_DATA
+            );
+        return new User(data);
+    }
 
-  static async updateUser(dcid: string, updateJson: Partial<DatabaseUserData>) {
-    const filter = { snowflake: dcid };
-    const updateDocument = {
-      $set: updateJson,
-    };
+    static async insertUser(
+        dcUser: Discord.User,
+        userData?: Partial<DatabaseUserData>
+    ) {
+        const userDocument = <DatabaseUserData>{
+            ...{
+                afternoonTeaCount: 0,
+                avatarURL: dcUser.displayAvatarURL(),
+                filesCount: 0,
+                gardeningCount: 0,
+                hgd: 0,
+                highLvLocked: true,
+                lastAfternoonTea: 0,
+                lastFiles: 0,
+                lastGardening: 0,
+                lastMorning: 0,
+                lastNight: 0,
+                lastPat: 0,
+                lastRose: 0,
+                lastRoseTea: 0,
+                lastTeeTee: 0,
+                morningCount: 0,
+                nightCount: 0,
+                patCount: 0,
+                roseCount: 0,
+                roseTeaCount: 0,
+                sCNum: 0,
+                sClass: "" as ClassId,
+                sID: "",
+                sName: "",
+                shards: 0,
+                snowflake: dcUser.id,
+                tag: dcUser.tag,
+                teeTeeCount: 0,
+            },
+            ...userData,
+        };
 
-    await Database.collection.updateOne(filter, updateDocument);
-    return updateJson;
-  }
+        await Database.collection.insertOne(userDocument);
+        return new User(userDocument);
+    }
 
-  static get collection() {
-    const database = globalDbClient.db("jane");
-    const collection = database.collection("hgdv2");
-    return collection;
-  }
+    static async updateUser(
+        dcid: string,
+        updateJson: Partial<DatabaseUserData>
+    ) {
+        const filter = { snowflake: dcid };
+        const updateDocument = {
+            $set: updateJson,
+        };
 
-  static get db() {
-    return globalDbClient;
-  }
+        await Database.collection.updateOne(filter, updateDocument);
+        return updateJson;
+    }
+
+    static get collection() {
+        const database = globalDbClient.db("jane");
+        const collection = database.collection("hgdv2");
+        return collection;
+    }
+
+    static get db() {
+        return globalDbClient;
+    }
 }
 
 export class User {
-  json: Partial<DatabaseUserData>;
-  private updateJson: Partial<DatabaseUserData>;
+    json: Partial<DatabaseUserData>;
+    private updateJson: Partial<DatabaseUserData>;
 
-  discordId?: string;
-  discordTag?: string;
-  discordAvatarURL?: string;
+    discordId?: string;
+    discordTag?: string;
+    discordAvatarURL?: string;
 
-  studentClass?: ClassId;
-  studentClassNumber?: number;
-  studentId?: string;
-  studentName?: string;
+    studentClass?: ClassId;
+    studentClassNumber?: number;
+    studentId?: string;
+    studentName?: string;
 
-  hgdData?: HgdData;
+    hgdData?: HgdData;
 
-  constructor(userdata: Partial<DatabaseUserData>) {
-    this.json = userdata;
-    this.updateJson = {};
+    constructor(userdata: Partial<DatabaseUserData>) {
+        this.json = userdata;
+        this.updateJson = {};
 
-    this.discordId = userdata.snowflake;
-    this.discordTag = userdata.tag;
-    this.discordAvatarURL = userdata.avatarURL;
+        this.discordId = userdata.snowflake;
+        this.discordTag = userdata.tag;
+        this.discordAvatarURL = userdata.avatarURL;
 
-    this.studentClass = userdata.sClass;
-    this.studentClassNumber = userdata.sCNum;
-    this.studentId = userdata.sID;
-    this.studentName = userdata.sName;
+        this.studentClass = userdata.sClass;
+        this.studentClassNumber = userdata.sCNum;
+        this.studentId = userdata.sID;
+        this.studentName = userdata.sName;
 
-    // this.hgd = new HgdManager(userdata.snowflake);
-    const hgdActionRecords = (() => {
-      let r = {} as HgdActionRecords;
-      for (const action of upperHgdActions) {
-        r[action] = Number(userdata[`last${action}`]) as number;
-      }
-      return r;
-    })();
-
-    this.hgdData = {
-      hgd: userdata.hgd ?? 0,
-      shards: userdata.shards ?? 0,
-      highLvLocked: userdata.highLvLocked ?? true,
-      actionCounts: (() => {
-        let r = {} as HgdActionCounts;
-        for (const action of hgdActions) {
-          r[action] = <number>userdata[`${action}Count`];
-        }
-        return r;
-      })(),
-      actionRecords: hgdActionRecords,
-      getRank: async function () {
-        const dbResults = await Database.collection
-          .find()
-          .sort({ hgd: -1 })
-          .toArray();
-        let r = dbResults.map((i) => i.snowflake).indexOf(userdata.snowflake);
-        if (r == undefined || isNaN(r)) {
-          return "?";
-        }
-        return ++r;
-      },
-      levelData: new UserLevelData(userdata.hgd ?? 0),
-      actionAvailabilities: (() => {
-        const actionAvailabilities: HgdActionAvailability[] = [];
-        for (const config of (JaneClient.getClient() as JaneClient)
-          .hgdCommandConfigList) {
-          let available = true;
-          if (config.lvRequirement !== undefined) {
-            const userLevel = new UserLevelData(userdata.hgd ?? 0).level;
-            if (!(userLevel >= config.lvRequirement)) {
-              available = false;
+        // this.hgd = new HgdManager(userdata.snowflake);
+        const hgdActionRecords = (() => {
+            let r = {} as HgdActionRecords;
+            for (const action of upperHgdActions) {
+                r[action] = Number(userdata[`last${action}`]) as number;
             }
-          }
+            return r;
+        })();
 
-          if (config.dayCondition !== undefined) {
-            const currentDayOfWeek = new Date().getDay();
-            let dayConditionPass = true;
-            if ("in" in config.dayCondition) {
-              dayConditionPass =
-                config.dayCondition.in.includes(currentDayOfWeek);
-            } else {
-              dayConditionPass =
-                !config.dayCondition.notIn.includes(currentDayOfWeek);
-            }
+        this.hgdData = {
+            hgd: userdata.hgd ?? 0,
+            shards: userdata.shards ?? 0,
+            highLvLocked: userdata.highLvLocked ?? true,
+            actionCounts: (() => {
+                let r = {} as HgdActionCounts;
+                for (const action of hgdActions) {
+                    r[action] = <number>userdata[`${action}Count`];
+                }
+                return r;
+            })(),
+            actionRecords: hgdActionRecords,
+            getRank: async function () {
+                const dbResults = await Database.collection
+                    .find()
+                    .sort({ hgd: -1 })
+                    .toArray();
+                let r = dbResults
+                    .map((i) => i.snowflake)
+                    .indexOf(userdata.snowflake);
+                if (r == undefined || isNaN(r)) {
+                    return "?";
+                }
+                return ++r;
+            },
+            levelData: new UserLevelData(userdata.hgd ?? 0),
+            actionAvailabilities: (() => {
+                const actionAvailabilities: HgdActionAvailability[] = [];
+                for (const config of (JaneClient.getClient() as JaneClient)
+                    .hgdCommandConfigList) {
+                    let available = true;
+                    if (config.lvRequirement !== undefined) {
+                        const userLevel = new UserLevelData(userdata.hgd ?? 0)
+                            .level;
+                        if (!(userLevel >= config.lvRequirement)) {
+                            available = false;
+                        }
+                    }
 
-            if (!dayConditionPass) {
-              available = false;
-            }
-          }
+                    if (config.dayCondition !== undefined) {
+                        const currentDayOfWeek = new Date().getDay();
+                        let dayConditionPass = true;
+                        if ("in" in config.dayCondition) {
+                            dayConditionPass =
+                                config.dayCondition.in.includes(
+                                    currentDayOfWeek
+                                );
+                        } else {
+                            dayConditionPass =
+                                !config.dayCondition.notIn.includes(
+                                    currentDayOfWeek
+                                );
+                        }
 
-          if (config.timeCondition !== undefined) {
-            const current = new Date();
-            const currentTimeString = `${formatTimeString(current, "HH:mm")}`;
+                        if (!dayConditionPass) {
+                            available = false;
+                        }
+                    }
 
-            let timeConditionPass = true;
-            if (config.timeCondition.after > config.timeCondition.before) {
-              timeConditionPass =
-                (currentTimeString >= config.timeCondition.after &&
-                  currentTimeString <= "23:59") ||
-                (currentTimeString <= config.timeCondition.before &&
-                  currentTimeString >= "00:00");
-            } else {
-              timeConditionPass =
-                currentTimeString >= config.timeCondition.after &&
-                currentTimeString <= config.timeCondition.before;
-            }
+                    if (config.timeCondition !== undefined) {
+                        const current = new Date();
+                        const currentTimeString = `${formatTimeString(
+                            current,
+                            "HH:mm"
+                        )}`;
 
-            if (!timeConditionPass) {
-              available = false;
-            }
-          }
+                        let timeConditionPass = true;
+                        if (
+                            config.timeCondition.after >
+                            config.timeCondition.before
+                        ) {
+                            timeConditionPass =
+                                (currentTimeString >=
+                                    config.timeCondition.after &&
+                                    currentTimeString <= "23:59") ||
+                                (currentTimeString <=
+                                    config.timeCondition.before &&
+                                    currentTimeString >= "00:00");
+                        } else {
+                            timeConditionPass =
+                                currentTimeString >=
+                                    config.timeCondition.after &&
+                                currentTimeString <=
+                                    config.timeCondition.before;
+                        }
 
-          let diffPass = true;
-          if (config.coolDown !== undefined) {
-            const lastRunTimestamp =
-              hgdActionRecords[PascalHgdActions[config.commandCode]];
-            const currentTimestamp = Math.floor(new Date().getTime() / 1000);
-            const differenceInMins = (currentTimestamp - lastRunTimestamp) / 60;
-            if (config.coolDown > differenceInMins) {
-              diffPass = false;
-            }
-          }
+                        if (!timeConditionPass) {
+                            available = false;
+                        }
+                    }
 
-          if (!diffPass) available = false;
-          actionAvailabilities.push({
-            action: config.commandCode,
-            actionConfig: config,
-            available: available,
-          });
-        }
-        return actionAvailabilities.sort((a, b) => {
-          return a.available === b.available ? 0 : a.available ? -1 : 1;
-        });
-      })(), // to be completed
-    };
-  }
+                    let diffPass = true;
+                    if (config.coolDown !== undefined) {
+                        const lastRunTimestamp =
+                            hgdActionRecords[
+                                PascalHgdActions[config.commandCode]
+                            ];
+                        const currentTimestamp = Math.floor(
+                            new Date().getTime() / 1000
+                        );
+                        const differenceInMins =
+                            (currentTimestamp - lastRunTimestamp) / 60;
+                        if (config.coolDown > differenceInMins) {
+                            diffPass = false;
+                        }
+                    }
 
-  commitUpdate(k: keyof DatabaseUserData, v: any) {
-    this.updateJson[k] = v;
-  }
+                    if (!diffPass) available = false;
+                    actionAvailabilities.push({
+                        action: config.commandCode,
+                        actionConfig: config,
+                        available: available,
+                    });
+                }
+                return actionAvailabilities.sort((a, b) => {
+                    return a.available === b.available
+                        ? 0
+                        : a.available
+                        ? -1
+                        : 1;
+                });
+            })(), // to be completed
+        };
+    }
 
-  async pushUpdates() {
-    if (!this.discordId)
-      throw new JaneGeneralError(
-        "DBUser's discordId cannot be undefined when pushing updates.",
-        ErrorCode.UNEXPECTED_UNDEFINED
-      );
-    const data = await Database.updateUser(
-      this.discordId,
-      this.committedUpdatesJson
-    );
-    return new User(data);
-  }
+    commitUpdate(k: keyof DatabaseUserData, v: any) {
+        this.updateJson[k] = v;
+    }
 
-  get committedUpdatesJson() {
-    return { ...this.json, ...this.updateJson };
-  }
+    async pushUpdates() {
+        if (!this.discordId)
+            throw new JaneGeneralError(
+                "DBUser's discordId cannot be undefined when pushing updates.",
+                ErrorCode.UNEXPECTED_UNDEFINED
+            );
+        const data = await Database.updateUser(
+            this.discordId,
+            this.committedUpdatesJson
+        );
+        return new User(data);
+    }
+
+    get committedUpdatesJson() {
+        return { ...this.json, ...this.updateJson };
+    }
 }

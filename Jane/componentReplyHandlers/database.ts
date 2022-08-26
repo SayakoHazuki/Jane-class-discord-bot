@@ -2,8 +2,10 @@ import { ButtonInteraction, ModalSubmitInteraction } from "discord.js";
 import { Database } from "../core/classes/database";
 import { JaneGeneralError } from "../core/classes/errors";
 import { ButtonInitiator } from "../core/commandInitiator";
+import { initLogger } from "../core/logger";
 import * as Enum from "../types/enums";
 import { JaneEmbedBuilder } from "../utils/embedBuilder";
+import { ProfileChangingMenuBuilder } from "../utils/profileChangingMenu";
 
 export async function handleDatabaseModals(
     client: JaneClient,
@@ -26,7 +28,15 @@ export async function handleDatabaseModals(
                 }
             );
         await interaction.deferReply({ ephemeral: true });
-        const user = await Database.getUser(interaction.user.id);
+        let user = await Database.getUser(interaction.user.id).catch((e) => {
+            initLogger(__filename).warn(e);
+            return undefined;
+        });
+        if (!user) {
+            user = await Database.insertUser(interaction.user, {
+                sClass: cls as ClassId,
+            });
+        }
         user.commitUpdate("sClass", cls);
         const newUser = await user.pushUpdates();
         await interaction.editReply({
@@ -39,5 +49,16 @@ export async function handleDatabaseModals(
                 ),
             ],
         });
+    }
+}
+
+export async function handleDatabaseButton(
+    client: JaneClient,
+    interaction: ButtonInteraction,
+    k: string,
+    v: string
+) {
+    if (Number(k) === Enum.JaneDatabaseActions.CREATE_USER) {
+        await interaction.showModal(new ProfileChangingMenuBuilder());
     }
 }
