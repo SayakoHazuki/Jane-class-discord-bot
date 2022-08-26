@@ -1,0 +1,850 @@
+{
+  "4A": {
+    "A": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "206"
+      },
+      {
+        "subject": "MATH",
+        "venue": "206"
+      },
+      {
+        "subject": "CTP",
+        "venue": "206"
+      }
+    ],
+    "B": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "PE",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "206"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "CS",
+        "venue": "206"
+      }
+    ],
+    "C": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "206"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "RS",
+        "venue": "206"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "D": [
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "206"
+      },
+      {
+        "subject": "CS",
+        "venue": "206"
+      },
+      {
+        "subject": "ENG_SPEAKING",
+        "venue": "206/CF"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "AR"
+      }
+    ],
+    "E": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "206"
+      },
+      {
+        "subject": "ENG",
+        "venue": "206"
+      }
+    ],
+    "F": [
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "206"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "G": [
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "MATH",
+        "venue": "206"
+      },
+      {
+        "subject": "CS",
+        "venue": "206"
+      },
+      {
+        "subject": "ENG",
+        "venue": "206"
+      },
+      {
+        "subject": "PE",
+        "venue": "N/A"
+      }
+    ],
+    "H": [
+      {
+        "subject": "CHIN",
+        "venue": "206"
+      },
+      {
+        "subject": "ENG",
+        "venue": "206"
+      },
+      {
+        "subject": "MATH",
+        "venue": "206"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "IA",
+        "venue": "206"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      }
+    ]
+  },
+  "4B": {
+    "A": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "305"
+      },
+      {
+        "subject": "MATH",
+        "venue": "305"
+      },
+      {
+        "subject": "CTP",
+        "venue": "305"
+      }
+    ],
+    "B": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "PE",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "305"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      },
+      {
+        "subject": "ENG",
+        "venue": "305"
+      }
+    ],
+    "C": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CS",
+        "venue": "305"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "D": [
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      },
+      {
+        "subject": "ENG",
+        "venue": "305"
+      },
+      {
+        "subject": "MATH",
+        "venue": "305"
+      },
+      {
+        "subject": "IA",
+        "venue": "305"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "AR"
+      }
+    ],
+    "E": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CS",
+        "venue": "305"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "305"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      }
+    ],
+    "F": [
+      {
+        "subject": "RS",
+        "venue": "305"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG_SPEAKING",
+        "venue": "305/CF"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "G": [
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      },
+      {
+        "subject": "ENG",
+        "venue": "305"
+      },
+      {
+        "subject": "ENG",
+        "venue": "305"
+      },
+      {
+        "subject": "MATH",
+        "venue": "305"
+      },
+      {
+        "subject": "PE",
+        "venue": "N/A"
+      }
+    ],
+    "H": [
+      {
+        "subject": "CHIN",
+        "venue": "305"
+      },
+      {
+        "subject": "CS",
+        "venue": "305"
+      },
+      {
+        "subject": "ENG",
+        "venue": "305"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "305"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      }
+    ]
+  },
+  "4C": {
+    "A": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CS",
+        "venue": "306"
+      },
+      {
+        "subject": "PE",
+        "venue": "HALL"
+      },
+      {
+        "subject": "CTP",
+        "venue": "306"
+      }
+    ],
+    "B": [
+      {
+        "subject": "ENG",
+        "venue": "306"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "MATH",
+        "venue": "306"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      }
+    ],
+    "C": [
+      {
+        "subject": "ENG_SPEAKING",
+        "venue": "306/CF"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "306"
+      },
+      {
+        "subject": "CS",
+        "venue": "306"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "D": [
+      {
+        "subject": "MATH",
+        "venue": "306"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "RS",
+        "venue": "306"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "ENG",
+        "venue": "306"
+      }
+    ],
+    "E": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "306"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "ENG",
+        "venue": "306"
+      }
+    ],
+    "F": [
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CS",
+        "venue": "306"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "G": [
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "306"
+      },
+      {
+        "subject": "PE",
+        "venue": "HALL"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "306"
+      },
+      {
+        "subject": "ENG",
+        "venue": "306"
+      },
+      {
+        "subject": "ENG",
+        "venue": "306"
+      }
+    ],
+    "H": [
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "IA",
+        "venue": "306"
+      },
+      {
+        "subject": "ENG",
+        "venue": "306"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "306"
+      }
+    ]
+  },
+  "4D": {
+    "A": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "405"
+      },
+      {
+        "subject": "PE",
+        "venue": "HALL"
+      },
+      {
+        "subject": "CTP",
+        "venue": "405"
+      }
+    ],
+    "B": [
+      {
+        "subject": "CS",
+        "venue": "405"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      },
+      {
+        "subject": "MATH",
+        "venue": "405"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      }
+    ],
+    "C": [
+      {
+        "subject": "MATH",
+        "venue": "405"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "405"
+      },
+      {
+        "subject": "ENG",
+        "venue": "405"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "D": [
+      {
+        "subject": "MATH",
+        "venue": "405"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "405"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      }
+    ],
+    "E": [
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "MATH",
+        "venue": "405"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      },
+      {
+        "subject": "ENG",
+        "venue": "405"
+      }
+    ],
+    "F": [
+      {
+        "subject": "CS",
+        "venue": "405"
+      },
+      {
+        "subject": "MATH",
+        "venue": "405"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG_SPEAKING",
+        "venue": "405/CF"
+      },
+      {
+        "subject": "ASS",
+        "venue": "HALL"
+      }
+    ],
+    "G": [
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      },
+      {
+        "subject": "PE",
+        "venue": "HALL"
+      },
+      {
+        "subject": "CS",
+        "venue": "405"
+      },
+      {
+        "subject": "MATH",
+        "venue": "405"
+      },
+      {
+        "subject": "RS",
+        "venue": "405"
+      }
+    ],
+    "H": [
+      {
+        "subject": "S4_1X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "ENG",
+        "venue": "405"
+      },
+      {
+        "subject": "IA",
+        "venue": "405"
+      },
+      {
+        "subject": "S4_2X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "S4_3X",
+        "venue": "N/A"
+      },
+      {
+        "subject": "CHIN",
+        "venue": "405"
+      }
+    ]
+  }
+}

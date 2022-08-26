@@ -2,7 +2,7 @@ const stringConstructor = "".constructor;
 const arrayConstructor = [].constructor;
 const objectConstructor = {}.constructor;
 
-module.exports = function jsonTypeof(thing: any) {
+export function jsonTypeof(thing: any) {
     try {
         JSON.parse(thing);
         return "jsonString";

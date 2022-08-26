@@ -1,4 +1,5 @@
 import Calendar from "../data/calendar.json";
+import * as Database from "../core/classes/database";
 import {
   dateFromDateString,
   DiscordTimestamp,
@@ -34,16 +35,18 @@ export class Timetable {
   date: Date;
   day: TimetableDay;
   initiator: CommandInitiator;
+  dbUser?: Database.User;
   weatherInfo?: HkoApiData;
   // options: Partial<TimetableOptions>;
 
   constructor(
     cls: ClassId,
     date: TimetableDateResolvable,
-    initiator: CommandInitiator
+    initiator: CommandInitiator,
+    dbUser?: Database.User
     // options: Partial<TimetableOptions>
   ) {
-    if (!/^[34][ABCD]$/.test(cls))
+    if (!/^(?:[1-6][ABCD])|(?:3E)$/.test(cls))
       throw new JaneGeneralError(
         "Invalid class",
         ErrorCode.UNEXPECTED_INPUT_VALUE
@@ -58,11 +61,15 @@ export class Timetable {
     if (!(formattedDate in Calendar))
       throw new JaneGeneralError(
         `Unexpected date ${formattedDate}`,
-        ErrorCode.UNEXPECTED_INPUT_VALUE
+        ErrorCode.UNEXPECTED_INPUT_VALUE,
+        {
+          displayMessage: `資料庫中找不到 ${formattedDate} 的時間表`,
+        }
       );
 
     this.cls = cls;
     this.initiator = initiator;
+    this.dbUser = dbUser;
     // this.options = options;
 
     this.date = dateFromDateString(date);
@@ -92,7 +99,7 @@ export class Timetable {
     ) {
       /* Title section */
       const d = this.day as SchoolDayTypes;
-      const subjects = await d.getLessons(this.cls);
+      const subjects = await d.getLessonStrings(this.cls);
       const dateDescription = `Day ${d.dayOfCycle}`;
 
       const titleSect = `${fdate} (${dateDescription})`;
@@ -114,7 +121,7 @@ export class Timetable {
       const basicInfoSect = `${schoolTimeSect}\n${tempSect} | ${icons}`;
 
       /* Timetable section */
-      const ttHeader = "課堂時間表";
+      const ttHeader = this.cls + " 課堂時間表";
 
       const sections = d.timetable;
 
@@ -162,6 +169,7 @@ export class Timetable {
           i++;
         }
       }
+      ttBodyArray.push("—".repeat(6) + " 放學 " + "—".repeat(6));
 
       const ttBody = ttBodyArray.join("\n");
 
@@ -169,7 +177,11 @@ export class Timetable {
         "reply",
         titleSect,
         `${basicInfoSect}`,
-        {},
+        {
+          authorPrefix: this.dbUser?.studentClass
+            ? this.dbUser?.studentClass + " "
+            : "",
+        },
         this.initiator
       ).addFields([
         {
@@ -178,7 +190,28 @@ export class Timetable {
         },
       ]);
     } else {
-      throw new JaneGeneralError(`bruh ${this.date}`, ErrorCode.UNEXPECTED_ERR);
+      /* Basic Info section */
+      const temp = weather.getTemp();
+      const tempSect = `:thermometer: ${temp.value}\u00b0${temp.unit}`;
+      const icons = weather
+        .getIcons()
+        .map(
+          (i) => `<:${i.caption.replace(/ /g, "_")}:${i.emojiId}> ${i.caption}`
+        )
+        .join(" and ");
+      const basicInfoSect = `🍫 學校假期\n${tempSect} | ${icons}`;
+
+      return new JaneEmbedBuilder(
+        "reply",
+        `${fdate} (學校假期)`,
+        `${basicInfoSect}`,
+        {
+          authorPrefix: this.dbUser?.studentClass
+            ? this.dbUser?.studentClass + " "
+            : "",
+        },
+        this.initiator
+      );
     }
   }
 

@@ -9,7 +9,6 @@ import {
 } from "../../utils/utility-functions";
 import {
   fetchWeatherWarnings,
-  HkoApiData,
   HkoWarningStatementCode,
 } from "../../utils/hko";
 import { JaneEmbedBuilder } from "../../utils/embedBuilder";
@@ -61,8 +60,19 @@ async function commandCallback(
     }
   }
   Logger.info(`d: ${inputDate}, c: ${inputClass}, f:${args}`);
-  const timetable = new Timetable(inputClass, inputDate, initiator);
+  const timetable = new Timetable(inputClass, inputDate, initiator, user);
 
+  const weatherWarningEmbeds = await getWeatherWarningEmbeds();
+
+  const embed = await timetable.getEmbed();
+  await initiator.strictReply({
+    content: "",
+    embeds: [...weatherWarningEmbeds, embed],
+  });
+  return;
+}
+
+async function getWeatherWarningEmbeds() {
   const weatherWarningEmbeds: EmbedBuilder[] = [];
   const weatherWarningsData = await fetchWeatherWarnings();
   if (
@@ -161,13 +171,7 @@ async function commandCallback(
         break;
     }
   }
-
-  const embed = await timetable.getEmbed();
-  await initiator.strictReply({
-    content: "",
-    embeds: [...weatherWarningEmbeds, embed],
-  });
-  return;
+  return weatherWarningEmbeds;
 }
 
 export const command = class TestCommand extends CommandBuilder {

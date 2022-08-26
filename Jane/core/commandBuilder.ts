@@ -1,6 +1,9 @@
 import { JaneClient } from "./client";
 
 import {
+    ButtonInteraction,
+    ChatInputCommandInteraction,
+    Message,
     SlashCommandBooleanOption,
     SlashCommandBuilder,
     SlashCommandChannelOption,
@@ -23,11 +26,16 @@ const commandOptionBuilders = {
     user: SlashCommandUserOption,
 };
 
-export class CommandBuilder {
+export class CommandBuilder<
+    T extends ChatInputCommandInteraction | Message | ButtonInteraction =
+        | ChatInputCommandInteraction
+        | Message
+        | ButtonInteraction
+> {
     options: CommandOptions;
-    callback: CommandCallback;
+    callback: CommandCallback<T>;
 
-    constructor(ops: CommandOptions, callback: CommandCallback) {
+    constructor(ops: CommandOptions, callback: CommandCallback<T>) {
         this.options = {
             name: ops.name || ops.command,
             command: ops.command,
@@ -43,6 +51,7 @@ export class CommandBuilder {
             clientPermission: ops.clientPermission,
             messageOnly: ops.messageOnly ?? false,
             slashOnly: ops.slashOnly ?? false,
+            initialDefer: ops.initialDefer ?? true,
             args: ops.args,
         };
         this.callback = callback;

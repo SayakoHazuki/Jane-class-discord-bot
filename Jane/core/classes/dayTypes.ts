@@ -7,8 +7,35 @@ import {
     Subjects,
     ErrorCode,
 } from "../../types/enums";
+import { wrapString } from "../../utils/utility-functions";
 import { JaneGeneralError, JaneHTTPError } from "./errors";
 import { TimetableSection } from "./timetableSection";
+
+function getSubjCode(subj: apiSubjectName) {
+    return Subjects[toJaneSubjectsEnumKey(subj)];
+}
+
+type apiSubjectName =
+    | keyof typeof Subjects
+    | "LS"
+    | "L&S"
+    | "SCI.A"
+    | "SCI.B"
+    | "SCI.C"
+    | "1X"
+    | "2X"
+    | "3X";
+
+function toJaneSubjectsEnumKey(apiSubjectName: apiSubjectName) {
+    return apiSubjectName
+        .replace(/^LS$/g, "LIBS")
+        .replace(/^L&S$/g, "LS")
+        .replace(/^THS$/g, "TH")
+        .replace(/^SCI\.A$/g, "BIO")
+        .replace(/^SCI\.B$/g, "CHEM")
+        .replace(/^SCI\.C$/g, "PHY")
+        .replace(/^([1-3])X$/g, "X$1") as keyof typeof Subjects;
+}
 
 export class SchoolDay implements TimetableDay {
     readonly type: SchoolDayType;
@@ -27,11 +54,17 @@ export class SchoolDay implements TimetableDay {
         this.timetable = LessonTimes[timetable];
     }
 
-    async getLessons(classId: ClassId) {
-        let lessonNames: string[];
-        const classTimetablesJson = (await import(
-            "../../data/classTimetables.json"
-        )) as {
+    async getLessonStrings(classId: ClassId) {
+        const apiClassTimetablesJson = await import(
+            "../../data/apiClassTimetables.json"
+        );
+        const localClassTimetablesJson = await import(
+            "../../data/localClassTimetables.json"
+        );
+        const classTimetablesJson = {
+            ...apiClassTimetablesJson,
+            ...localClassTimetablesJson,
+        } as {
             [k in ClassId]: {
                 [k in DayOfCycle]: {
                     subject: string;
@@ -39,28 +72,51 @@ export class SchoolDay implements TimetableDay {
                 }[];
             };
         };
-        const lessonCodes = classTimetablesJson[classId][this.dayOfCycle].map(
-            (i) =>
-                i.subject
-                    .split("/")
-                    .map((i) =>
-                        i
-                            .replace(/^LS$/g, "LIBS")
-                            .replace(/^L&S$/g, "LS")
-                            .replace(/^SCI\.A$/g, "BIO")
-                            .replace(/^SCI\.B$/g, "CHEM")
-                            .replace(/^SCI\.C$/g, "PHY")
-                            .replace(/^([1-3])X$/g, "X$1")
+
+        const electiveClasses = await import(
+            "../../data/electiveClassesInfo.json"
+        );
+
+        const lessons = classTimetablesJson[classId][this.dayOfCycle] as {
+            subject: string;
+            venue: string;
+        }[];
+
+        const lessonStrings = lessons.map((i) => {
+            let thisLessonString = "";
+            if (/^S4_[1-3]X$/.exec(i.subject)) {
+                let electiveStrings: string[] = [];
+                electiveClasses.S4[
+                    i.subject.replace(
+                        /S4_(..)/,
+                        "$1"
+                    ) as keyof typeof electiveClasses.S4
+                ].forEach((i) =>
+                    electiveStrings.push(
+                        `${getSubjCode(i.subject as apiSubjectName).replace(
+                            /(?: )?\(.+\)/g,
+                            ""
+                        )} ${i.venue}`
                     )
-                    .join("/")
-        );
-        lessonNames = lessonCodes.map((i) =>
-            i
-                .split("/")
-                .map((subj) => Subjects[subj as keyof typeof Subjects])
-                .join("/")
-        );
-        return lessonNames;
+                );
+                thisLessonString = `${i.subject.replace(
+                    /S4_(..)/,
+                    "$1"
+                )}\n\u2800|\u2800 ${wrapString(
+                    electiveStrings.join("/"),
+                    undefined,
+                    "\\/",
+                    "\\/\n\u2800|\u2800 "
+                )}`;
+            } else {
+                thisLessonString = `${i.subject
+                    .split("/")
+                    .map((subj) => getSubjCode(subj as apiSubjectName))
+                    .join("/")} ${i.venue}`;
+            }
+            return thisLessonString;
+        });
+        return lessonStrings;
     }
 }
 
@@ -84,11 +140,17 @@ export class SpecialSchoolDay implements TimetableDay {
         this.remarks = remarks;
     }
 
-    async getLessons(classId: ClassId) {
-        let lessonNames: string[];
-        const classTimetablesJson = (await import(
-            "../../data/classTimetables.json"
-        )) as {
+    async getLessonStrings(classId: ClassId) {
+        const apiClassTimetablesJson = await import(
+            "../../data/apiClassTimetables.json"
+        );
+        const localClassTimetablesJson = await import(
+            "../../data/localClassTimetables.json"
+        );
+        const classTimetablesJson = {
+            ...apiClassTimetablesJson,
+            ...localClassTimetablesJson,
+        } as {
             [k in ClassId]: {
                 [k in DayOfCycle]: {
                     subject: string;
@@ -96,28 +158,43 @@ export class SpecialSchoolDay implements TimetableDay {
                 }[];
             };
         };
-        const lessonCodes = classTimetablesJson[classId][this.dayOfCycle].map(
-            (i) =>
-                i.subject
-                    .split("/")
-                    .map((i) =>
-                        i
-                            .replace(/^LS$/g, "LIBS")
-                            .replace(/^L&S$/g, "LS")
-                            .replace(/^SCI\.A$/g, "BIO")
-                            .replace(/^SCI\.B$/g, "CHEM")
-                            .replace(/^SCI\.C$/g, "PHY")
-                            .replace(/^([1-3])X$/g, "X$1")
+
+        const electiveClasses = await import(
+            "../../data/electiveClassesInfo.json"
+        );
+
+        const lessons = classTimetablesJson[classId][this.dayOfCycle] as {
+            subject: string;
+            venue: string;
+        }[];
+
+        const lessonStrings = lessons.map((i) => {
+            let thisLessonString = "";
+            if (/^S4_[1-3]X$/.exec(i.subject)) {
+                let electiveStrings: string[] = [];
+                electiveClasses.S4[
+                    i.subject.replace(
+                        /S4_(..)/,
+                        "$1"
+                    ) as keyof typeof electiveClasses.S4
+                ].forEach((i) =>
+                    electiveStrings.push(
+                        `${getSubjCode(i.subject as apiSubjectName)} ${i.venue}`
                     )
-                    .join("/")
-        );
-        lessonNames = lessonCodes.map((i) =>
-            i
-                .split("/")
-                .map((subj) => Subjects[subj as keyof typeof Subjects])
-                .join("/")
-        );
-        return lessonNames;
+                );
+                thisLessonString = `${i.subject.replace(
+                    /S4_(..)/,
+                    "$1"
+                )} (${electiveStrings.join("/")})`;
+            } else {
+                thisLessonString = `${i.subject
+                    .split("/")
+                    .map((subj) => getSubjCode(subj as apiSubjectName))
+                    .join("/")} ${i.venue}`;
+            }
+            return thisLessonString;
+        });
+        return lessonStrings;
     }
 }
 
@@ -153,7 +230,7 @@ export function Test() {
                     const tmp = await new SchoolDay(
                         13,
                         DayOfCycle[day as keyof typeof DayOfCycle]
-                    ).getLessons(`${grade}${cls}` as ClassId);
+                    ).getLessonStrings(`${grade}${cls}` as ClassId);
                     if (tmp.filter((i) => i === undefined || i === "").length) {
                         console.log(tmp);
                         console.log(`${grade}${cls}`, tmp);

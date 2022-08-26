@@ -37,23 +37,23 @@ class Logger {
         this.label = path.basename(filename);
     }
 
-    info(...message: string[]) {
+    info(...message: any[]) {
         Logger._print(levels.INFO, this.label, ...message);
     }
 
-    warn(...message: string[]) {
+    warn(...message: any[]) {
         Logger._print(levels.WARN, this.label, ...message);
     }
 
-    error(...message: string[]) {
+    error(...message: any[]) {
         Logger._print(levels.ERROR, this.label, ...message);
     }
 
-    fatal(...message: string[]) {
+    fatal(...message: any[]) {
         Logger._print(levels.FATAL, this.label, ...message);
     }
 
-    static _print(level: Level, label: string, ...message: string[]) {
+    static _print(level: Level, label: string, ...message: any[]) {
         const outputMessage = message.join(" ");
 
         const date = new Date();
@@ -70,4 +70,4 @@ class Logger {
 
 export function initLogger(filename: string): JaneLogger {
     return new Logger(filename);
-};
+}

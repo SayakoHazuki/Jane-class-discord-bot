@@ -3,8 +3,9 @@ import { EventBuilder } from "../core/eventBuilder";
 import { JaneClient } from "../core/client";
 import { MessageCommandInitiator } from "../core/commandInitiator";
 import { initLogger } from "../core/logger";
+import { JaneBaseError } from "../core/classes/errors";
 
-const Logger = initLogger(__filename)
+const Logger = initLogger(__filename);
 
 async function eventCallback(client: JaneClient, message: Message) {
     if (message.channel.type === ChannelType.DM) {
@@ -129,8 +130,22 @@ async function eventCallback(client: JaneClient, message: Message) {
             if (replyContent !== undefined) initiator.followUp(replyContent);
         },
         (e) => {
-            Logger.error(e);
-            initiator.followUp("❌ | 執行指令期間發生了一個錯誤");
+            Logger.error(e.stack ?? e);
+            if (e instanceof JaneBaseError) {
+                const stackLines = Array.from(
+                    e.stack?.matchAll(/\d+:\d+/g) ?? [],
+                    (m) => `${m[0]}`
+                );
+                initiator.followUp(
+                    `❌ | ${
+                        e.data?.displayMessage ?? "執行指令期間發生了一個錯誤"
+                    } (錯誤代碼 ${`${e.code}:${
+                        stackLines[0] ?? "1f1e33:0"
+                    }`.replace(/:/g, ".")})`
+                );
+            } else {
+                initiator.followUp("❌ | 執行指令期間發生了一個未知的錯誤");
+            }
         }
     );
 }
