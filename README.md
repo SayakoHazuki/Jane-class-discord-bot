@@ -19,8 +19,8 @@ Discord Bot, created originally as a class discord bot for 2C in Jan 2021.
 #### 好感度
 - [ ] hgdHelp
 - [x] 和簡貼貼
-- [ ] 好感度
-- [ ] 好感度排行
+- [x] 好感度
+- [x] 好感度排行
 - [x] 幫助簡整理資料
 - [x] 幫簡打理花園
 - [x] 拍拍簡的頭
@@ -33,12 +33,12 @@ Discord Bot, created originally as a class discord bot for 2C in Jan 2021.
 #### 資訊
 - [ ] addLessonArrangement
 - [x] calendar *(completed)*
-- [ ] covid  
+- [x] covid *To be further updated*  
 ~~day *(cancelled): Command no longer used*~~
-- [ ] delLessonArrangement
-- [ ] homework
+- [ ] delLessonArrangement  
+~~homework *(cancelled): Command no longer used*~~  
 - [ ] links
-- [ ] timetable *(in progress)*
+- [x] timetable *(completed)*
 - [x] tomorrow *(completed)*
 #### info
 - [x] lesson  *(cancelled): No rewrite plan*
@@ -60,3 +60,6 @@ Discord Bot, created originally as a class discord bot for 2C in Jan 2021.
 - [ ] 萌百
 #### tools *No rewrite planned in the near future yet*
 - [ ] setClassLink
+#### new commands 
+- updateProfile
+- roomStats

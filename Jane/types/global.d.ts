@@ -24,6 +24,8 @@ import {
     RESTPostAPIApplicationCommandsJSONBody,
     ColorResolvable,
     ButtonInteraction,
+    ApplicationCommandChoicesOption,
+    APIApplicationCommandOptionChoice,
 } from "discord.js";
 import {
     SchoolDay,
@@ -62,6 +64,7 @@ declare global {
         commands: Collection<string, CommandBuilder>;
         hgdCommandConfigList: HgdActionConfig[];
         prefix: "-" | "--";
+        tempCache: Collection<string, any>;
 
         constructor();
         registerCommands(): Promise<Collection<string, CommandBuilder>>;
@@ -200,6 +203,7 @@ declare global {
             | "user";
         description: string;
         required: boolean;
+        choices?: APIApplicationCommandOptionChoice<string>[];
     }
 
     type CommandCallback<
@@ -241,6 +245,9 @@ declare global {
             MONGO_URI: string;
             ID: string;
             DEVID: string;
+            PYCA: string;
+            PYCB: string;
+            BOTID: string;
         }
     }
 

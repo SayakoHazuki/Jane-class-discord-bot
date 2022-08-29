@@ -124,6 +124,11 @@ export enum JaneInteractionGroup {
     HGD,
     COMMAND,
     DATABASE,
+    NORMAL_FOLLOW_UP,
+}
+
+export enum JaneInteractionNormalFollowUpSubgroups {
+    room_stats_navigation,
 }
 
 export enum JaneHgdButtonActions {

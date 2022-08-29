@@ -78,11 +78,22 @@ export class CommandBuilder<
                 | "addRoleOption"
                 | "addStringOption"
                 | "addUserOption";
+            if (arg.choices?.length && arg.type === "string") {
+                slashCommand.addStringOption(
+                    new SlashCommandStringOption()
+                        .setName(arg.name)
+                        .setDescription(arg.description)
+                        .addChoices(...arg.choices)
+                        .setRequired(arg.required)
+                );
+                continue;
+            }
             slashCommand[addOptionFunctionName](
                 // @ts-ignore
                 new commandOptionBuilders[arg.type]()
                     .setName(arg.name)
                     .setDescription(arg.description)
+                    .setRequired(arg.required)
             );
         }
         return slashCommand.toJSON();

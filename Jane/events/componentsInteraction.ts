@@ -16,6 +16,7 @@ import {
     handleDatabaseButton,
     handleDatabaseModals,
 } from "../componentReplyHandlers/database";
+import { handleNormalFollowUp } from "../componentReplyHandlers/normalFollowUpHandler";
 
 const Logger = initLogger(__filename);
 
@@ -31,10 +32,10 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
             return;
         if (interaction.user.bot || !interaction.guild) return;
 
-        if (!/^J-\w*-\w*-\w*-\w*$/.test(interaction.customId)) return;
+        if (!/^J-\w*-\w*-\w*-[\w\W]*$/.test(interaction.customId)) return;
 
         const [full, interactionType, interactionGroup, k, v] = (
-            /^J-(\w*)-(\w*)-(\w*)-(\w*)$/.exec(interaction.customId) ?? []
+            /^J-(\w*)-(\w*)-(\w*)-([\w\W]*)$/.exec(interaction.customId) ?? []
         ).map((i) => (isNaN(Number(i)) ? i : Number(i))) as [
             string,
             Enum.JaneInteractionType,
@@ -58,6 +59,18 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
 
             if (interactionGroup === Enum.JaneInteractionGroup.DATABASE) {
                 await handleDatabaseButton(client, interaction, k, v);
+            }
+
+            if (
+                interactionGroup === Enum.JaneInteractionGroup.NORMAL_FOLLOW_UP
+            ) {
+                Logger.fatal(interaction.customId);
+                await handleNormalFollowUp(
+                    client,
+                    new ButtonInitiator(interaction),
+                    k,
+                    v
+                );
             }
         }
 

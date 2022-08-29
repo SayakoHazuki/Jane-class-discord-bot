@@ -28,6 +28,7 @@ export class JaneClient extends Client {
     commands: Collection<string, CommandBuilder>;
     hgdCommandConfigList: HgdActionConfig[];
     prefix: "-" | "--";
+    tempCache: Collection<string, any>;
 
     constructor() {
         super({
@@ -46,6 +47,7 @@ export class JaneClient extends Client {
         this.commands = new Collection();
         this.hgdCommandConfigList = [];
         this.prefix = "-";
+        this.tempCache = new Collection();
     }
 
     // setPlr(player) {
@@ -77,25 +79,19 @@ export class JaneClient extends Client {
         // this.commands.set(command.name, command)
         // }
 
-        const rest = new REST({ version: "10" }).setToken(process.env.DEVTOKEN);
+        const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
 
         try {
             console.log("Started refreshing application (/) commands.");
 
-            await rest.put(
-                Routes.applicationGuildCommands(
-                    process.env.DEVID,
-                    Consts.testingGuildId
+            await rest.put(Routes.applicationCommands(process.env.BOTID), {
+                body: Array.from(
+                    this.commands
+                        .filter((command) => !command.options.messageOnly)
+                        .map((command) => command.slashCommandData)
+                        .values()
                 ),
-                {
-                    body: Array.from(
-                        this.commands
-                            .filter((command) => !command.options.messageOnly)
-                            .map((command) => command.slashCommandData)
-                            .values()
-                    ),
-                }
-            );
+            });
 
             console.log("Successfully reloaded application (/) commands.");
         } catch (error) {

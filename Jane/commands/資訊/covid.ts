@@ -9,8 +9,8 @@ const Logger = initLogger(__filename)
 
 const commandOptions: CommandOptions = {
     name: "疫情",
-    command: "疫情",
-    aliases: ["covid", "cov"],
+    command: "covid",
+    aliases: ["疫情", "cov"],
     category: "資訊",
     description: "獲取疫情相關資訊",
     usage: "疫情",
