@@ -128,11 +128,12 @@ export enum JaneInteractionGroup {
 
 export enum JaneHgdButtonActions {
     RUN,
+    SHOW_LB,
 }
 
 export enum JaneDatabaseActions {
     UPDATE,
-    CREATE_USER
+    CREATE_USER,
 }
 
 export enum JaneHgdButtonRunCode {

@@ -1,9 +1,18 @@
-import { ButtonInteraction } from "discord.js";
+import {
+    ButtonInteraction,
+    InteractionReplyOptions,
+} from "discord.js";
+import { getHgdLbMessagePayload } from "../commands/好感度/hgdLeaderboard";
 import { JaneGeneralError } from "../core/classes/errors";
 import { ButtonInitiator } from "../core/commandInitiator";
 import * as Enum from "../types/enums";
 
-export async function handleHgdButton(client: JaneClient, interaction:ButtonInteraction, k:string, v:string) {
+export async function handleHgdButton(
+    client: JaneClient,
+    interaction: ButtonInteraction,
+    k: string,
+    v: string
+) {
     if (Number(k) === Enum.JaneHgdButtonActions.RUN) {
         const commandConfig = client.hgdCommandConfigList.find(
             (i) => i.runCode === Number(v)
@@ -24,5 +33,16 @@ export async function handleHgdButton(client: JaneClient, interaction:ButtonInte
         }
 
         await command.callback(client, new ButtonInitiator(interaction));
+    }
+
+    if (Number(k) === Enum.JaneHgdButtonActions.SHOW_LB) {
+        const initiator = new ButtonInitiator(interaction);
+        await initiator.strictReply(
+            (await getHgdLbMessagePayload(
+                client,
+                initiator,
+                Number(v)
+            )) as InteractionReplyOptions
+        );
     }
 }
