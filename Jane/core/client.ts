@@ -78,12 +78,12 @@ export class JaneClient extends Client {
         // this.commands.set(command.name, command)
         // }
 
-        const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+        const rest = new REST({ version: "10" }).setToken(process.env.DEVTOKEN);
 
         try {
             console.log("Started refreshing application (/) commands.");
 
-            await rest.put(Routes.applicationCommands(process.env.BOTID), {
+            await rest.put(Routes.applicationCommands(process.env.DEVID), {
                 body: Array.from(
                     this.commands
                         .filter((command) => !command.options.messageOnly)

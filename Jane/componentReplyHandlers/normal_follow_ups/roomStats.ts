@@ -74,7 +74,7 @@ export async function handleRoomStatsNavigation(
                     .setStyle(ButtonStyle.Primary),
                 new ButtonBuilder()
                     .setCustomId(`RESERVED_1`)
-                    .setLabel(roomStatsArray[0].room)
+                    .setLabel(roomStatsArray[newRoomPos].room)
                     .setStyle(ButtonStyle.Secondary)
                     .setDisabled(true),
                 new ButtonBuilder()

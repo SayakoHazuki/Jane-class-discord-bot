@@ -85,18 +85,18 @@ export async function getRoomStatsArray(
             "Incorrect date format",
             ErrorCode.UNEXPECTED_INPUT_FORMAT
         );
+const cached = JaneClient.getClient()?.cache.collections.roomStats.has(
+            `rooms-${date}-${floor}-${area}`
+        )
     const pyc = new PycClient(process.env.PYCA, process.env.PYCB);
-    await pyc.login();
-
-    const roomStats = await pyc.getRoomStats(
+    if (!cached) await pyc.login();
+    const roomStats = cached? {}:await pyc.getRoomStats(
         date as `${number}/${number}/${number}`,
         floor,
         area
     );
-    const roomStatsArray =
-        JaneClient.getClient()?.cache.collections.roomStats.has(
-            `rooms-${date}-${floor}-${area}`
-        )
+    const roomStatsArray = cached
+        
             ? (JaneClient.getClient()?.cache.collections.roomStats?.get(
                   `rooms-${date}-${floor}-${area}`
               ) as {
