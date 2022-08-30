@@ -14,6 +14,7 @@ import { Consts } from "./consts";
 import { initLogger } from "./logger";
 import { Database } from "./classes/database";
 import { MongoClient } from "mongodb";
+import { Cache } from "./cacheSystem";
 
 const Logger = initLogger(__filename);
 
@@ -28,7 +29,6 @@ export class JaneClient extends Client {
     commands: Collection<string, CommandBuilder>;
     hgdCommandConfigList: HgdActionConfig[];
     prefix: "-" | "--";
-    tempCache: Collection<string, any>;
 
     constructor() {
         super({
@@ -47,7 +47,6 @@ export class JaneClient extends Client {
         this.commands = new Collection();
         this.hgdCommandConfigList = [];
         this.prefix = "-";
-        this.tempCache = new Collection();
     }
 
     // setPlr(player) {
@@ -151,6 +150,10 @@ export class JaneClient extends Client {
     static getClient(forceReturn?: true): JaneClient;
     static getClient(forceReturn: boolean = false) {
         return client ? client : forceReturn ? new JaneClient() : null;
+    }
+
+    get cache() {
+        return Cache
     }
 }
 

@@ -93,48 +93,49 @@ export async function getRoomStatsArray(
         floor,
         area
     );
-    const roomStatsArray = JaneClient.getClient()?.tempCache.has(
-        `rooms-${date}-${floor}-${area}`
-    )
-        ? (JaneClient.getClient()?.tempCache.get(
-              `rooms-${date}-${floor}-${area}`
-          ) as {
-              room: string;
-              sections: {
-                  section: string;
-                  occupied: boolean;
-                  occupier: string;
-              }[];
-          }[])
-        : new Array(Object.keys(roomStats).length)
-              .fill(undefined)
-              .map((v, i) => {
-                  const sectionsArray = [];
-                  for (const section in roomStats[
-                      Object.keys(roomStats).sort()[i]
-                  ]) {
-                      sectionsArray.push({
-                          section: section.replace(/<br>/g, " "),
-                          occupied: !(
-                              roomStats[Object.keys(roomStats).sort()[i]][
-                                  section
-                              ] === "empty"
-                          ),
-                          occupier:
-                              roomStats[Object.keys(roomStats).sort()[i]][
-                                  section
-                              ],
-                      });
-                  }
-                  return {
-                      room: Object.keys(roomStats).sort()[i],
-                      sections: sectionsArray,
-                  };
-              });
+    const roomStatsArray =
+        JaneClient.getClient()?.cache.collections.roomStats.has(
+            `rooms-${date}-${floor}-${area}`
+        )
+            ? (JaneClient.getClient()?.cache.collections.roomStats?.get(
+                  `rooms-${date}-${floor}-${area}`
+              ) as {
+                  room: string;
+                  sections: {
+                      section: string;
+                      occupied: boolean;
+                      occupier: string;
+                  }[];
+              }[])
+            : new Array(Object.keys(roomStats).length)
+                  .fill(undefined)
+                  .map((v, i) => {
+                      const sectionsArray = [];
+                      for (const section in roomStats[
+                          Object.keys(roomStats).sort()[i]
+                      ]) {
+                          sectionsArray.push({
+                              section: section.replace(/<br>/g, " "),
+                              occupied: !(
+                                  roomStats[Object.keys(roomStats).sort()[i]][
+                                      section
+                                  ] === "empty"
+                              ),
+                              occupier:
+                                  roomStats[Object.keys(roomStats).sort()[i]][
+                                      section
+                                  ],
+                          });
+                      }
+                      return {
+                          room: Object.keys(roomStats).sort()[i],
+                          sections: sectionsArray,
+                      };
+                  });
 
     if (currentRoomPos < 0) currentRoomPos += roomStatsArray.length;
 
-    JaneClient.getClient()?.tempCache.set(
+    JaneClient.getClient()?.cache.collections.roomStats.set(
         `rooms-${date}-${floor}-${area}`,
         roomStatsArray
     );

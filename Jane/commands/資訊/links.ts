@@ -20,13 +20,11 @@ async function commandCallback(
     client: JaneClient,
     initiator: CommandInitiator
 ) {
-    const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents([
+    const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents(...[
         new ButtonBuilder()
             .setStyle(ButtonStyle.Link)
-            .setLabel("請按此把簡加進你的伺服器")
-            .setURL(
-                "https://discord.com/api/oauth2/authorize?client_id=801354940265922608&permissions=8&scope=bot"
-            ),
+            .setLabel("請按此查看常用連結列表")
+            .setURL("https://jane.ml/links/"),
     ]);
     initiator.strictReply({
         components: [linkButton],

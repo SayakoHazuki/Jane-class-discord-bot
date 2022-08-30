@@ -32,7 +32,6 @@ export async function handleRoomStatsNavigation(
     if (!date || !floor || !area || !newRoomPos)
         throw new JaneGeneralError("", ErrorCode.UNEXPECTED_UNDEFINED);
 
-    await initiator.initiator.deferReply();
     const roomStatsArray = await getRoomStatsArray(
         date,
         floor,

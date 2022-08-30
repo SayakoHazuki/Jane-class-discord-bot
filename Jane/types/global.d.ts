@@ -35,6 +35,7 @@ import {
 import { UserLevelData } from "../core/classes/hgd/leveldata";
 import { User as dbUser } from "../core/classes/database";
 import * as Enum from "./enums";
+import { Cache } from "../core/cacheSystem";
 
 declare global {
     /* util types */
@@ -64,7 +65,6 @@ declare global {
         commands: Collection<string, CommandBuilder>;
         hgdCommandConfigList: HgdActionConfig[];
         prefix: "-" | "--";
-        tempCache: Collection<string, any>;
 
         constructor();
         registerCommands(): Promise<Collection<string, CommandBuilder>>;
@@ -74,6 +74,7 @@ declare global {
         static getClient(forceReturn?: false): JaneClient | null;
         static getClient(forceReturn?: true): JaneClient;
         static getClient(forceReturn: boolean = false);
+        get cache(): typeof Cache;
     }
 
     interface JaneEphemeralSupport {

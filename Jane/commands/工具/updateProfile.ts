@@ -8,7 +8,7 @@ const Logger = initLogger(__filename);
 
 const commandOptions: CommandOptions = {
     name: "更新用戶資料",
-    command: "update-rofile",
+    command: "update-profile",
     aliases: [],
     category: "工具",
     description: "更新你的用戶資料, 例如班別等",
