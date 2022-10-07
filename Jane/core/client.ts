@@ -26,6 +26,7 @@ let client: JaneClient;
 // import registerHgdCommands from './HgdCmdReg'
 
 export class JaneClient extends Client {
+    dev?: boolean;
     commands: Collection<string, CommandBuilder>;
     hgdCommandConfigList: HgdActionConfig[];
     prefix: "-" | "--";
@@ -78,19 +79,26 @@ export class JaneClient extends Client {
         // this.commands.set(command.name, command)
         // }
 
-        const rest = new REST({ version: "10" }).setToken(process.env.DEVTOKEN);
+        const rest = new REST({ version: "10" }).setToken(
+            this.dev ? process.env.DEVTOKEN : process.env.TOKEN
+        );
 
         try {
             console.log("Started refreshing application (/) commands.");
 
-            await rest.put(Routes.applicationCommands(process.env.DEVID), {
-                body: Array.from(
-                    this.commands
-                        .filter((command) => !command.options.messageOnly)
-                        .map((command) => command.slashCommandData)
-                        .values()
+            await rest.put(
+                Routes.applicationCommands(
+                    this.dev ? process.env.DEVID : process.env.BOTID
                 ),
-            });
+                {
+                    body: Array.from(
+                        this.commands
+                            .filter((command) => !command.options.messageOnly)
+                            .map((command) => command.slashCommandData)
+                            .values()
+                    ),
+                }
+            );
 
             console.log("Successfully reloaded application (/) commands.");
         } catch (error) {
@@ -133,11 +141,12 @@ export class JaneClient extends Client {
 
     async logIn(startInDev = false) {
         if (startInDev) this.prefix = "--";
+        this.dev = startInDev;
         await this.registerCommands();
         await this.registerEvents();
         // await hgd.connectClient()
         // Logger.info('MongoDB Client connected!')
-        await this.login(startInDev ? process.env.DEVTOKEN : process.env.TOKEN);
+        await this.login(this.dev ? process.env.DEVTOKEN : process.env.TOKEN);
         return this;
     }
 
@@ -153,7 +162,7 @@ export class JaneClient extends Client {
     }
 
     get cache() {
-        return Cache
+        return Cache;
     }
 }
 

@@ -2,7 +2,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 import { startClient } from "./core/client.js";
-startClient(true);
+if (process.argv.length >= 3 && (process.argv.slice(2))[0] === "dev") {
+    startClient(true)
+} else {
+    startClient(false)
+};
 
 // import { Player, AudioFilters } from 'discord-player'
 // const player = new Player(client)

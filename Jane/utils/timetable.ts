@@ -83,7 +83,7 @@ export class Timetable {
       this.day = new SchoolDay(
         calculateCycleNumber(this.date, cycleDay),
         cycleDay,
-        LessonTimeType.DEFAULT
+        LessonTimeType.NORMAL // Migrate config
       );
     }
   }

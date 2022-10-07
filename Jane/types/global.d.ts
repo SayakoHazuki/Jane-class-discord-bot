@@ -62,6 +62,7 @@ declare global {
     }
 
     class JaneClient extends Client {
+        dev?: boolean;
         commands: Collection<string, CommandBuilder>;
         hgdCommandConfigList: HgdActionConfig[];
         prefix: "-" | "--";

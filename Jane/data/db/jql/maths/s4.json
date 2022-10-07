@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "refCode": "DSE-2017-MATH-CP-2-Q1",
+        "cedseRef": "2017 DSE Math(CP) Paper 2 Q1",
+        "randoms": [
+            { "type": "int", "range": [2, 8] },
+            { "type": "int", "range": [2, 6] }
+        ],
+        "vars": ["%R0", "%EVAL[%R0+%R1]", "%R1"],
+        "question": "%0%N0^2-%1%N0%N1+%2%N1^2+%N0-%N1",
+        "caption": "",
+        "options": [
+            {
+                "correct": true,
+                "formula": "(%N0-%N1)(%JQLFN[XM, %0, %1, %2, 0]%N0-%JQLFN[XM, %0, %1, %2, 1]%N1+1)",
+                "simplify": true
+            },
+            {
+                "correct": false,
+                "formula": "(%N0-%N1)(%JQLFN[XM, %0, %1, %2, 0]%N0+%JQLFN[XM, %0, %1, %2, 1]%N1+1)",
+                "simplify": true
+            },
+            {
+                "correct": false,
+                "formula": "(%N0+%N1)(%JQLFN[XM, %0, %1, %2, 0]%N0-%JQLFN[XM, %0, %1, %2, 1]%N1-1)",
+                "simplify": true
+            },
+            {
+                "correct": false,
+                "formula": "(%N0+%N1)(%JQLFN[XM, %0, %1, %2, 0]%N0+%JQLFN[XM, %0, %1, %2, 1]%N1-1)",
+                "simplify": true
+            }
+        ]
+    }
+]

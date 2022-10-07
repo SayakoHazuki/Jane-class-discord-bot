@@ -1,12 +1,17 @@
 {
-    "scripts": {"start":"cd ./dist && node ."},
+  "scripts": {
+    "start": "cd ./dist && node ."
+  },
   "dependencies": {
     "@types/glob": "^7.2.0",
+    "@types/mathjs": "^9.4.2",
     "@types/node": "^18.0.6",
+    "canvas": "^2.10.1",
     "discord-api-types": "^0.37.1",
     "discord.js": "^14.0.3",
     "dotenv": "^16.0.1",
     "glob": "^8.0.3",
+    "mathjs": "^11.2.1",
     "mongodb": "^4.8.1",
     "path": "^0.12.7",
     "rss-to-json": "^2.1.0",
