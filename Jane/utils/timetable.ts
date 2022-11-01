@@ -50,7 +50,6 @@ export class Timetable {
         date: TimetableDateResolvable,
         initiator: CommandInitiator,
         dbUser?: Database.User,
-        options?: Partial<TimetableOptions>
         // options: Partial<TimetableOptions>
     ) {
         if (!/^(?:[1-6][ABCD])|(?:3E)$/.test(cls))
@@ -82,9 +81,6 @@ export class Timetable {
         // this.options = options;
 
         this.date = dateFromDateString(date);
-        if (options?.offsetd) {
-            this.date.setDate(this.date.getDate() + options.offsetd);
-        }
         Logger.warn(this.date.toLocaleDateString());
         const cycleDay = Calendar[
             formatTimeString(
@@ -261,8 +257,20 @@ export class Timetable {
 
 export function getTimetableActions(
     inputDate: TimetableDateResolvable,
-    inputClass: ClassId,
+    inputClass: ClassId
 ) {
+    Logger.info(`input date: ${inputDate}`);
+
+    const prevDay = dateFromDateString(inputDate);
+    prevDay.setDate(prevDay.getDate() - 1);
+    const prevDayStr = formatTimeString(prevDay, "dd/MM").replace(/\//g, "_");
+
+    const nextDay = dateFromDateString(inputDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const nextDayStr = formatTimeString(nextDay, "dd/MM").replace(/\//g, "_");
+
+    Logger.info(`customIds: ${prevDayStr}, ${nextDayStr}`);
+
     const defaultActions = new ActionRowBuilder<ButtonBuilder>().addComponents([
         new ButtonBuilder()
             .setLabel("<")
@@ -272,21 +280,22 @@ export function getTimetableActions(
                     JaneInteractionType.BUTTON,
                     JaneInteractionGroup.NORMAL_FOLLOW_UP,
                     JaneInteractionNormalFollowUpSubgroups.timetable_actions,
-                    `PREV-${inputDate}-${inputClass}`
+                    `SELDATE-${prevDayStr}-${inputClass}`
                 ).toString()
             ),
         new ButtonBuilder()
-            .setLabel(dateFromDateString(inputDate).toLocaleDateString())
+            .setLabel(
+                formatTimeString(dateFromDateString(inputDate), "d/MM/yyyy")
+            )
             .setStyle(ButtonStyle.Primary)
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
                     JaneInteractionGroup.NORMAL_FOLLOW_UP,
                     JaneInteractionNormalFollowUpSubgroups.timetable_actions,
-                    `DATE-${inputDate}-${inputClass}`
+                    "DATE-0-0"
                 ).toString()
-            )
-            .setDisabled(true),
+            ),
         new ButtonBuilder()
             .setLabel(">")
             .setStyle(ButtonStyle.Secondary)
@@ -295,7 +304,7 @@ export function getTimetableActions(
                     JaneInteractionType.BUTTON,
                     JaneInteractionGroup.NORMAL_FOLLOW_UP,
                     JaneInteractionNormalFollowUpSubgroups.timetable_actions,
-                    `NEXT-${inputDate}-${inputClass}`
+                    `SELDATE-${nextDayStr}-${inputClass}`
                 ).toString()
             ),
     ]);

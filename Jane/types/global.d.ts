@@ -413,7 +413,8 @@ declare global {
         | `${"MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN"}${string}`;
 
     interface TimetableOptions {
-        offsetd?: number;
+        editMessage?: boolean;
+        message?: Message;
     }
 
     /**

@@ -198,23 +198,28 @@ async function commandCallback(
 
     if (!inputClass) return;
     Logger.info(`d: ${inputDate}, c: ${inputClass}, f:${args}`);
-    const timetable = new Timetable(
-        inputClass,
-        inputDate,
-        initiator,
-        user,
-        timetableBuilderOptions
-    );
+    const timetable = new Timetable(inputClass, inputDate, initiator, user);
 
     const weatherWarningEmbeds = await getWeatherWarningEmbeds();
 
-    const offsetd = timetableBuilderOptions?.offsetd ?? 0;
-    const inputDateObj = new Date(
-        new Date().setDate(new Date().getDate() + offsetd)
-    );
-    const inputDateStr = formatTimeString(inputDateObj, "dd/MM") as TimetableDateResolvable;
+    const inputDateObj = dateFromDateString(inputDate);
+    const inputDateStr = formatTimeString(
+        inputDateObj,
+        "dd/MM"
+    ) as TimetableDateResolvable;
 
     const embed = await timetable.getEmbed();
+    if (
+        timetableBuilderOptions?.editMessage &&
+        timetableBuilderOptions?.message !== undefined
+    ) {
+        await timetableBuilderOptions.message.edit({
+            content: "",
+            embeds: [...weatherWarningEmbeds, embed],
+            components: [getTimetableActions(inputDateStr, inputClass)],
+        });
+        return;
+    }
     await initiator.strictReply({
         content: "",
         embeds: [...weatherWarningEmbeds, embed],

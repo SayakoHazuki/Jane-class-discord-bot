@@ -26,18 +26,13 @@ export async function handleTimetableAction(
         (c) => c.options.command === "timetable"
     );
 
-    if (action === "PREV") {
+    if (action === "SELDATE") {
         const [date, cls] = args as [TimetableDateResolvable, ClassId];
         await timetableCommand?.callback(client, initiator, date, cls, {
-            offsetd: -1,
+            editMessage: true,
+            message: initiator.initiator.message,
         });
-    }
-
-    if (action === "NEXT") {
-        const [date, cls] = args as [TimetableDateResolvable, ClassId];
-        await timetableCommand?.callback(client, initiator, date, cls, {
-            offsetd: 1,
-        });
+        await initiator.initiator.deferUpdate();
     }
 
     if (action === "DATE") {
