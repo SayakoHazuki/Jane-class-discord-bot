@@ -1,4 +1,5 @@
-import { simplify } from "mathjs";
+import * as math from "mathjs";
+import { JQLMath } from "../../utils/maths";
 import { FormulaParser } from "./formulaParser";
 import { JQLQuestionData, JQLQuestionOption } from "./interfaces";
 
@@ -26,6 +27,11 @@ export class JQLQuestion {
                     /1(?: )?([a-z])/g,
                     "$1"
                 );
+            if (option.eval)
+                updatedFormula = this.parser.parse(`%EVAL[${updatedFormula}]`);
+            if (option.round) {
+                updatedFormula = JQLMath.Rnd(updatedFormula, option.round);
+            }
             return { ...option, formula: updatedFormula };
         });
         console.log(JSON.stringify(this.options));

@@ -1,5 +1,9 @@
 import { JaneGeneralError } from "../core/classes/errors";
-import { ErrorCode } from "../types/enums";
+import {
+    ErrorCode,
+    JaneInteractionGroup,
+    JaneInteractionType,
+} from "../types/enums";
 
 const DayArr = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const DayFullArr = [
@@ -319,4 +323,30 @@ export function wrapString(
         new RegExp(`(?![^\\n]{1,${n}}$)([^\\n]{1,${n}})${splitter}`, "g"),
         `$1${joiner}`
     );
+}
+
+export class JaneInteractionIdBuilder<k, v> {
+    type: JaneInteractionType;
+    group: JaneInteractionGroup;
+    _k: k;
+    _v: v;
+
+    constructor(
+        type: JaneInteractionType,
+        group: JaneInteractionGroup,
+        k: k,
+        v: v
+    ) {
+        this.type = type;
+        this.group = group;
+        this._k = k;
+        this._v = v;
+    }
+
+    toString(): JaneInteractionId<k, v> {
+        return `J-${this.type}-${this.group}-${this._k}-${this._v}` as JaneInteractionId<
+            k,
+            v
+        >;
+    }
 }

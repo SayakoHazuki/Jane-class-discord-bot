@@ -18,7 +18,7 @@ async function commandCallback(
     client: JaneClient,
     initiator: CommandInitiator
 ) {
-    return "";
+    return;
 }
 
 export const command = class TestCommand extends CommandBuilder {

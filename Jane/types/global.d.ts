@@ -412,9 +412,15 @@ declare global {
         | `${number}d`
         | `${"MON" | "TUE" | "WED" | "THU" | "FRI" | "SAT" | "SUN"}${string}`;
 
+    interface TimetableOptions {
+        offsetd?: number;
+    }
+
     /**
      * Custom Id Format for Jane's Interaction: `(enum)JaneInteractionType`-`(enum)JaneInteractionGroup`-`k`-`v`
      */
-    type JaneInteractionId =
-        `J-${Enum.JaneInteractionType}-${Enum.JaneInteractionGroup}-${string}-${string}`;
+    type JaneInteractionId<
+        k = string,
+        v = string
+    > = `J-${Enum.JaneInteractionType}-${Enum.JaneInteractionGroup}-${k}-${v}`;
 }

@@ -24,7 +24,8 @@ async function commandCallback(
     client: JaneClient,
     initiator: CommandInitiator
 ) {
-    const jqlQuestion = QuestionsLib.getRandom((q) => q.id === 1);
+    return;
+    const jqlQuestion = QuestionsLib.getRandom((q) => q.id === 3);
 
     const equationImage = await getLatexImageBuffer(
         jqlQuestion.question,

@@ -2,7 +2,11 @@
     {
         "id": 1,
         "refCode": "DSE-2017-MATH-CP-2-Q1",
-        "cedseRef": "2017 DSE Math(CP) Paper 2 Q1",
+        "cedseRef": "2017 HKDSE Math(CP) Paper 2 Q1",
+        "details": {
+            "topic": "",
+            "difficulty": ""
+        },
         "randoms": [
             { "type": "int", "range": [2, 8] },
             { "type": "int", "range": [2, 6] }
@@ -30,6 +34,86 @@
                 "correct": false,
                 "formula": "(%N0+%N1)(%JQLFN[XM, %0, %1, %2, 0]%N0+%JQLFN[XM, %0, %1, %2, 1]%N1-1)",
                 "simplify": true
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "refCode": "CE-1990-MATH-CP-2-Q14",
+        "cedseRef": "1990 HKCEE Math Paper 2 Q14",
+        "details": {
+            "topic": "Percentages",
+            "difficulty": ""
+        },
+        "randoms": [
+            { "type": "int", "range": [7, 24] },
+            { "type": "int", "range": [1, 6] },
+            { "type": "int", "range": [1, 4] }
+        ],
+        "vars": ["%EVAL[%R0*10000]", "%R1", "%R2"],
+        "question": "\\text{Find the amount (correct to the nearest dollar) of\\:$%0\\:at\\:$1%\\:p.a., compounded monthly, for\\:%2\\:years.}",
+        "caption": "",
+        "options": [
+            {
+                "correct": true,
+                "formula": "%0 * ( 1 + ( %1 / 100 ) / 12 ) ^ ( %2 * 12 )",
+                "eval": true,
+                "round": { "dp": 0 }
+            },
+            {
+                "correct": false,
+                "formula": "%0 * ( 1 + ( %1 / 50 ) )",
+                "eval": true,
+                "round": { "dp": 0 }
+            },
+            {
+                "correct": false,
+                "formula": "%0 * ( 1 + ( %1 ^ 2 / 100 ) )",
+                "eval": true,
+                "round": { "dp": 0 }
+            },
+            {
+                "correct": false,
+                "formula": "%0 * ( 1 + ( %1 / 100 ) / 12 ) * 2",
+                "eval": true,
+                "round": { "dp": 0 }
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "refCode": "CE-1990-MATH-CP-2-Q42",
+        "cedseRef": "1990 HKCEE Math Paper 2 Q42",
+        "details": {
+            "topic": "Percentages",
+            "difficulty": ""
+        },
+        "randoms": [{ "type": "int", "range": [1, 3] }],
+        "vars": [
+            "%EVAL[%R0*10]",
+            "%EVAL[1 - 0.%R0]",
+            "%EVAL[1.%R0 * %1]",
+            "%EVAL[( 1 - %2 ) * 100]",
+            "%JQLFN[Rnd, %3]"
+        ],
+        "question": "\\text{If}\\:%N0\\:\\text{is %0% greater than }\\:%N1\\:\\text{ and }\\:%N1\\:\\text{ is %0% less than }\\:%N2\\:\\text{, then}",
+        "caption": "",
+        "options": [
+            {
+                "correct": true,
+                "formula": "%N0\\:\\text{is %4% less than}\\: %N2"
+            },
+            {
+                "correct": false,
+                "formula": "%N0\\:\\text{is %4% greater than}\\: %N2"
+            },
+            {
+                "correct": false,
+                "formula": "%N2\\:\\text{is %4% less than}\\: %N0"
+            },
+            {
+                "correct": false,
+                "formula": "%N2\\:\\text{is %4% greater than}\\: %N0"
             }
         ]
     }

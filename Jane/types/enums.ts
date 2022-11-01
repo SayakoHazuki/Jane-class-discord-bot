@@ -129,6 +129,7 @@ export enum JaneInteractionGroup {
 
 export enum JaneInteractionNormalFollowUpSubgroups {
     room_stats_navigation,
+    timetable_actions
 }
 
 export enum JaneHgdButtonActions {

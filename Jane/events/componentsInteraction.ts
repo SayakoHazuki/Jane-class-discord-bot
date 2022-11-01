@@ -36,13 +36,24 @@ async function eventCallback(client: JaneClient, interaction: Interaction) {
 
         const [full, interactionType, interactionGroup, k, v] = (
             /^J-(\w*)-(\w*)-(\w*)-([\w\W]*)$/.exec(interaction.customId) ?? []
-        ).map((i) => (isNaN(Number(i)) ? i : Number(i))) as [
-            string,
-            Enum.JaneInteractionType,
-            Enum.JaneInteractionGroup,
-            string,
-            string
-        ];
+        ).map((i) => (isNaN(Number(i)) ? i : Number(i))) as
+            | [
+                  string,
+                  Enum.JaneInteractionType,
+                  Exclude<
+                      Enum.JaneInteractionGroup,
+                      Enum.JaneInteractionGroup.NORMAL_FOLLOW_UP
+                  >,
+                  string,
+                  string
+              ]
+            | [
+                  string,
+                  Enum.JaneInteractionType,
+                  Enum.JaneInteractionGroup.NORMAL_FOLLOW_UP,
+                  Enum.JaneInteractionNormalFollowUpSubgroups,
+                  string
+              ];
 
         if (full === undefined) {
             throw new JaneGeneralError(

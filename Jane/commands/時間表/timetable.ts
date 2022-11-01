@@ -2,10 +2,12 @@ import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { Database, User } from "../../core/classes/database";
 import { initLogger } from "../../core/logger";
-import { Timetable } from "../../utils/timetable";
+import { getTimetableActions, Timetable } from "../../utils/timetable";
 import {
+    dateFromDateString,
     DiscordTimestamp,
     formatTimeString,
+    JaneInteractionIdBuilder,
 } from "../../utils/utility-functions";
 import { fetchWeatherWarnings, HkoWarningStatementCode } from "../../utils/hko";
 import { JaneEmbedBuilder } from "../../utils/embedBuilder";
@@ -26,6 +28,7 @@ import {
     ErrorCode,
     JaneDatabaseActions,
     JaneInteractionGroup,
+    JaneInteractionNormalFollowUpSubgroups,
     JaneInteractionType,
 } from "../../types/enums";
 
@@ -57,9 +60,13 @@ const commandOptions: CommandOptions = {
 async function commandCallback(
     client: JaneClient,
     initiator: CommandInitiator,
-    ...args: [string, string]
+    ...args: [string, string, TimetableOptions?]
 ) {
-    let [inputDate, inputClass] = args as [TimetableDateResolvable?, ClassId?];
+    let [inputDate, inputClass, timetableBuilderOptions] = args as [
+        TimetableDateResolvable?,
+        ClassId?,
+        TimetableOptions?
+    ];
     if (inputClass) inputClass = inputClass?.toUpperCase() as ClassId;
     let user = await Database.getUser(initiator.user.id).catch((e) => {
         Logger.warn(e);
@@ -191,14 +198,27 @@ async function commandCallback(
 
     if (!inputClass) return;
     Logger.info(`d: ${inputDate}, c: ${inputClass}, f:${args}`);
-    const timetable = new Timetable(inputClass, inputDate, initiator, user);
+    const timetable = new Timetable(
+        inputClass,
+        inputDate,
+        initiator,
+        user,
+        timetableBuilderOptions
+    );
 
     const weatherWarningEmbeds = await getWeatherWarningEmbeds();
+
+    const offsetd = timetableBuilderOptions?.offsetd ?? 0;
+    const inputDateObj = new Date(
+        new Date().setDate(new Date().getDate() + offsetd)
+    );
+    const inputDateStr = formatTimeString(inputDateObj, "dd/MM") as TimetableDateResolvable;
 
     const embed = await timetable.getEmbed();
     await initiator.strictReply({
         content: "",
         embeds: [...weatherWarningEmbeds, embed],
+        components: [getTimetableActions(inputDateStr, inputClass)],
     });
     return;
 }

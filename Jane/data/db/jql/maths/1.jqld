@@ -1,0 +1,128 @@
+@CE-1990-MATH-II-14
+#Percentages
+*1.0
+r[[
+    int 7 24;
+    int 1 6;
+    int 1 4
+]]
+v[[
+    %EVAL[%R0*10000];
+    %R1;
+    %R2
+]]
+"\text{Find the amount (correct to the nearest dollar) of\:$%0\:at\:$1%\:p.a., compounded monthly, for\:%2\:years.}"
+''
+>![[
+    %0 * ( 1 + ( %1 / 100 ) / 12 ) ^ ( %2 * 12 )
+    | e /* evaluates the value */
+    | rnd dp 0 /* rounds to nearest integer */
+]]
+>[[
+    %0 * ( 1 + ( %1 / 50 ) )
+    | e
+    | rnd dp 0
+]]
+>[[
+    %0 * ( 1 + ( %1 ^ 2 / 100 ) )
+    | e 
+    | rnd dp 0
+]]
+>[[
+    %0 * ( 1 + ( %1 / 100 ) / 12 ) * 2
+    | e 
+    | rnd dp 0
+]]
+
+~~~
+
+@CE-1990-MATH-II-15
+#Percentages
+*1.0
+r[[
+    int 25 100; /* sell price base */
+    int 2 8; /* percentage gain base random */
+    int 1 50; /* new percentage loss */
+]]
+v[[
+    %EVAL[%R0 * 1000]; /* selling price */
+    %EVAL[%R1 * 5]; /* original percentage gain */
+    %EVAL[%0 / ( 1 + %1 / 100 )]; /* cost price */
+    %EVAL[%2 * ( 1 - %R2 / 100 )] /* new selling price */
+]]
+"\text{If a flat is sold for \$%0, the gain is\:%1\:%. Find the percentage loss if the flat is sold for \$%3.}"
+''
+>![[
+    %R2\:%
+]]
+>[[
+    %EVAL[100 - %R2]\:%
+]]
+>[[
+    %EVAL[%3 + %1]\:%
+]]
+>[[
+    %EVAL[%3 * %1]\:%
+]]
+
+@CE-1990-MATH-II-42
+#Percentages
+*1.0
+r[[
+    int 1 3;
+    int 1 3;
+    int 1 3
+]]
+v[[
+    %EVAL[%R0*10];
+    %EVAL[1 - 0.%R0];
+    %EVAL[1.%R0 * %1];
+    %EVAL[( 1 - %2 ) * 100];
+    %JQLFN[Rnd, %3]
+]]
+"\text{If}\:%N0\:\text{is %0% greater than }\:%N1\:\text{ and }\:%N1\:\text{ is %0% less than }\:%N2\:\text{, then}"
+''
+>![[
+    %N0\:\text{is %4% less than}\: %N2
+]]
+>[[
+    %N0\:\text{is %4% greater than}\: %N2
+]]
+>[[
+    %N2\:\text{is %4% less than}\: %N0
+]]
+>[[
+    %N2\:\text{is %4% greater than}\: %N0
+]]
+
+~~~
+
+@CE-1991-MATH-II-11
+#Percentages
+*1.0
+r[[
+    int 1 10;
+    int 1 10
+]]
+v[[
+    %EVAL[%R0*10]; /* random0 */
+    %EVAL[%R1*10]; /* random1 */
+    %EVAL[%0*%1]; /* area loss */
+    %EVAL[%0*%1/100]; /* length loss */
+    %EVAL[%2*%3/100] /* width loss */
+]]
+"\text{A blanket loses %0\:% of its length and %1\:% of its width after washing. The percentage loss in area is}"
+''
+>![[
+    %EVAL[%4*100]\:%
+]]
+>[[
+    %EVAL[%0*%1]\:%
+]]
+>[[
+    %EVAL[%4*10000]\:%
+]]
+>[[
+    %EVAL[%4*100000]\:%
+]]
+

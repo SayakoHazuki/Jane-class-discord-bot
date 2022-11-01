@@ -2,7 +2,7 @@ import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { Database } from "../../core/classes/database";
 import { initLogger } from "../../core/logger";
-import { Timetable } from "../../utils/timetable";
+import { getTimetableActions, Timetable } from "../../utils/timetable";
 import {
     DiscordTimestamp,
     formatTimeString,
@@ -90,6 +90,7 @@ async function commandCallback(
     await initiator.strictReply({
         content: "",
         embeds: [...weatherWarningEmbeds, embed],
+        components: [getTimetableActions(dateOfTmr, inputClass)],
     });
     return;
 }
