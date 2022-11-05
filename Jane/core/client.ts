@@ -10,7 +10,7 @@ import {
 import { REST } from "@discordjs/rest";
 import glob from "glob";
 import path from "path";
-import { Consts } from "./consts";
+import * as Consts from "./consts";
 import { initLogger } from "./logger";
 import { Database } from "./classes/database";
 import { MongoClient } from "mongodb";
@@ -30,6 +30,7 @@ export class JaneClient extends Client {
     commands: Collection<string, CommandBuilder>;
     hgdCommandConfigList: HgdActionConfig[];
     prefix: "-" | "--";
+    consts: typeof Consts;
 
     constructor() {
         super({
@@ -45,6 +46,7 @@ export class JaneClient extends Client {
             ],
             partials: [Partials.Channel],
         });
+        this.consts = Consts;
         this.commands = new Collection();
         this.hgdCommandConfigList = [];
         this.prefix = "-";

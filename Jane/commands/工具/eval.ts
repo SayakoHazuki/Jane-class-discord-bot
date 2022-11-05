@@ -6,9 +6,9 @@ import { CommandBuilder } from "../../core/commandBuilder";
 import { initLogger } from "../../core/logger";
 
 import * as EmbedBuilder from "../../utils/embedBuilder";
-import * as Hko from "../../utils/hko";
+import * as Hko from "../../utils/hkoUtils";
 import * as JsonTypeOf from "../../utils/jsonTypeof";
-import * as Timetable from "../../utils/timetable";
+import * as Timetable from "../../utils/timetableUtils";
 import * as UtilityFunctions from "../../utils/utility-functions";
 
 import * as Database from "../../core/classes/database";

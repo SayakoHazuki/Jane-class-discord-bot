@@ -1,6 +1,6 @@
 import { EmbedBuilder, HexColorString, Message } from "discord.js";
 import { JaneClient } from "../core/client";
-import { Consts } from "../core/consts";
+import * as Consts from "../core/consts";
 const embedTypes: { [type: string]: JaneEmbedBuilderOptions } = {
   reply: {
     color: Consts.themeColor as HexColorString,

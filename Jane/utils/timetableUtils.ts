@@ -18,10 +18,11 @@ import {
     SchoolDayType,
 } from "../types/enums";
 import { JaneEmbedBuilder } from "./embedBuilder";
-import { fetchWeatherData, HkoApiData } from "./hko";
+import { fetchWeatherData, HkoApiData } from "./hkoUtils";
 import { initLogger } from "../core/logger";
 import { JaneGeneralError } from "../core/classes/errors";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
+import { textDivider } from "../core/consts";
 
 const Logger = initLogger(__filename);
 
@@ -45,11 +46,18 @@ export class Timetable {
     weatherInfo?: HkoApiData;
     // options: Partial<TimetableOptions>;
 
+    /**
+     * Creates a new Timetable object.
+     * @param cls The class ID of the timetable to be fetched.
+     * @param date The date of the timetable to be fetched.
+     * @param initiator The initiator of the command.
+     * @param dbUser The user (database) who initiated the command.
+     */
     constructor(
         cls: ClassId,
         date: TimetableDateResolvable,
         initiator: CommandInitiator,
-        dbUser?: Database.User,
+        dbUser?: Database.User
         // options: Partial<TimetableOptions>
     ) {
         if (!/^(?:[1-6][ABCD])|(?:3E)$/.test(cls))
@@ -99,6 +107,10 @@ export class Timetable {
         }
     }
 
+    /**
+     * Generates the embed for the timetable.
+     * @returns The embed of the timetable.
+     */
     async getEmbed() {
         const fdate = formatTimeString(this.date, "d/M/yyyy");
 
@@ -109,28 +121,31 @@ export class Timetable {
             this.day.type === SchoolDayType.SPECIAL_SCHOOL_DAY
         ) {
             /* Title section */
-            const d = this.day as SchoolDayTypes;
-            const subjects = await d.getLessonStrings(this.cls);
-            const dateDescription = `Day ${d.dayOfCycle}`;
+            const day = this.day as SchoolDayTypes;
+            const subjects = await day.getLessonStrings(this.cls);
+            const dateDescription = `Day ${day.dayOfCycle}`;
 
             const titleSect = `${fdate} (${dateDescription})`;
 
-            const tt = d.timetable;
-            const schoolTimeSect = `:school: ${tt[0].time.start.string} - ${
-                tt[tt.length - 1 - (subjects.length === 7 ? 0 : 1)].time.end
-                    .string
-            }`;
+            const sections = day.timetable;
+            const schoolStartTimeStr = sections[0].time.start.string;
+            const lastSectionIndex =
+                sections.length - 1 - (subjects.length === 7 ? 0 : 1); // If there is not a 7th lesson, exclude last section while calculating the end time.
+            const schoolEndTimeStr = sections[lastSectionIndex].time.end.string;
+
+            const schoolTimeSect = `:school: ${schoolStartTimeStr} - ${schoolEndTimeStr}`;
 
             /* Basic Info section */
             const temp = weather.getTemp();
             const tempSect = `:thermometer: ${temp.value}\u00b0${temp.unit}`;
+
+            const toUnderscores = (str: string) => str.replace(/ /g, "_");
             const icons = weather
-                .getIcons()
+                .getWeatherIcons()
                 .map(
                     (i) =>
-                        `<:${i.caption.replace(/ /g, "_")}:${i.emojiId}> ${
-                            i.caption
-                        }`
+                        `<:${toUnderscores(i.caption)}:${i.emojiId}> ` +
+                        i.caption
                 )
                 .join(" and ");
             const basicInfoSect = `${schoolTimeSect}\n${tempSect} | ${icons}`;
@@ -138,72 +153,47 @@ export class Timetable {
             /* Timetable section */
             const ttHeader = this.cls + " 課堂時間表";
 
-            const sections = d.timetable;
-
             const ttBodyArray = [];
             let i = 0;
             for (const section of sections) {
-                if (section.type === LessonType.LESSON) {
-                    ttBodyArray.push(
-                        `${new DiscordTimestamp(
-                            (() => {
-                                const dd = new Date(this.date);
-                                dd.setHours(
-                                    Number(
-                                        section.time.start.string.slice(0, 2)
-                                    )
-                                );
-                                dd.setMinutes(
-                                    Number(
-                                        section.time.start.string.slice(3, 5)
-                                    )
-                                );
-                                return dd;
-                            })(),
-                            "t"
-                        )} ${subjects[i]}`
-                    );
-                    i++;
-                    continue;
-                }
-                if (section.type === LessonType.CTP) {
-                    ttBodyArray.push("—".repeat(6) + " 早會 " + "—".repeat(6));
-                    continue;
-                }
-                if (section.type === LessonType.RECESS) {
-                    ttBodyArray.push("—".repeat(6) + " 小息 " + "—".repeat(6));
-                    continue;
-                }
-                if (section.type === LessonType.LUNCH) {
-                    ttBodyArray.push("—".repeat(6) + " 午膳 " + "—".repeat(6));
-                    continue;
-                }
+                const sectionDateObj = new Date(this.date);
+                sectionDateObj.setHours(
+                    Number(section.time.start.string.slice(0, 2))
+                );
+                sectionDateObj.setMinutes(
+                    Number(section.time.start.string.slice(3, 5))
+                );
+
                 if (
-                    section.type === LessonType.EXTRA_LESSON &&
-                    subjects.length >= 7
+                    section.type === LessonType.LESSON ||
+                    (section.type === LessonType.EXTRA_LESSON &&
+                        subjects.length >= 7)
                 ) {
                     ttBodyArray.push(
-                        `${new DiscordTimestamp(
-                            (() => {
-                                const dd = new Date(this.date);
-                                dd.setHours(
-                                    Number(
-                                        section.time.start.string.slice(0, 2)
-                                    )
-                                );
-                                dd.setMinutes(
-                                    Number(
-                                        section.time.start.string.slice(3, 5)
-                                    )
-                                );
-                                return dd;
-                            })()
-                        )} ${subjects[i]}`
+                        `${new DiscordTimestamp(sectionDateObj, "t")} ${
+                            subjects[i]
+                        }`
                     );
                     i++;
+                    continue;
+                }
+
+                if (section.type === LessonType.CTP) {
+                    ttBodyArray.push(textDivider + " 早會 " + textDivider);
+                    continue;
+                }
+
+                if (section.type === LessonType.RECESS) {
+                    ttBodyArray.push(textDivider + " 小息 " + textDivider);
+                    continue;
+                }
+
+                if (section.type === LessonType.LUNCH) {
+                    ttBodyArray.push(textDivider + " 午膳 " + textDivider);
+                    continue;
                 }
             }
-            ttBodyArray.push("—".repeat(6) + " 放學 " + "—".repeat(6));
+            ttBodyArray.push(textDivider + " 放學 " + textDivider);
 
             const ttBody = ttBodyArray.join("\n");
 
@@ -228,7 +218,7 @@ export class Timetable {
             const temp = weather.getTemp();
             const tempSect = `:thermometer: ${temp.value}\u00b0${temp.unit}`;
             const icons = weather
-                .getIcons()
+                .getWeatherIcons()
                 .map(
                     (i) =>
                         `<:${i.caption.replace(/ /g, "_")}:${i.emojiId}> ${
@@ -252,9 +242,20 @@ export class Timetable {
         }
     }
 
-    async findNext() {}
+    /**
+     * Finds the next school day of the next lesson of the specified subject.
+     * @not_implemented This function is not implemented yet.
+     * @param subject The subject to find.
+     */
+    async findNext(subject: unknown) {}
 }
 
+/**
+ * Generates action row for the timetable command.
+ * @param inputDate Initial date of the embed
+ * @param inputClass Initial class of the embed
+ * @returns ActionRow containing actions for the timetable command
+ */
 export function getTimetableActions(
     inputDate: TimetableDateResolvable,
     inputClass: ClassId
@@ -274,7 +275,7 @@ export function getTimetableActions(
     const defaultActions = new ActionRowBuilder<ButtonBuilder>().addComponents([
         new ButtonBuilder()
             .setLabel("<")
-            .setStyle(ButtonStyle.Secondary)
+            .setStyle(ButtonStyle.Success)
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
@@ -298,7 +299,7 @@ export function getTimetableActions(
             ),
         new ButtonBuilder()
             .setLabel(">")
-            .setStyle(ButtonStyle.Secondary)
+            .setStyle(ButtonStyle.Success)
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
@@ -307,6 +308,10 @@ export function getTimetableActions(
                     `SELDATE-${nextDayStr}-${inputClass}`
                 ).toString()
             ),
+        new ButtonBuilder()
+            .setLabel("RAT")
+            .setStyle(ButtonStyle.Link)
+            .setURL("https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"),
     ]);
 
     return defaultActions;

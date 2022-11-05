@@ -2,14 +2,17 @@ import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { Database, User } from "../../core/classes/database";
 import { initLogger } from "../../core/logger";
-import { getTimetableActions, Timetable } from "../../utils/timetable";
+import { getTimetableActions, Timetable } from "../../utils/timetableUtils";
 import {
     dateFromDateString,
     DiscordTimestamp,
     formatTimeString,
     JaneInteractionIdBuilder,
 } from "../../utils/utility-functions";
-import { fetchWeatherWarnings, HkoWarningStatementCode } from "../../utils/hko";
+import {
+    fetchWeatherWarnings,
+    HkoWarningStatementCode,
+} from "../../utils/hkoUtils";
 import { JaneEmbedBuilder } from "../../utils/embedBuilder";
 import {
     ActionRowBuilder,

@@ -36,6 +36,7 @@ import { UserLevelData } from "../core/classes/hgd/leveldata";
 import { User as dbUser } from "../core/classes/database";
 import * as Enum from "./enums";
 import { Cache } from "../core/cacheSystem";
+import { JaneClient } from "../core/client";
 
 declare global {
     /* util types */
@@ -61,22 +62,22 @@ declare global {
         static print(level: Level, label: string, ...message: any[]): void;
     }
 
-    class JaneClient extends Client {
-        dev?: boolean;
-        commands: Collection<string, CommandBuilder>;
-        hgdCommandConfigList: HgdActionConfig[];
-        prefix: "-" | "--";
+    // class JaneClient extends Client {
+    //     dev?: boolean;
+    //     commands: Collection<string, CommandBuilder>;
+    //     hgdCommandConfigList: HgdActionConfig[];
+    //     prefix: "-" | "--";
 
-        constructor();
-        registerCommands(): Promise<Collection<string, CommandBuilder>>;
-        registerEvents(): Promise<void>;
-        logIn(startInDev: boolean = false): Promise<JaneClient>;
-        registerHgdActionConfig(config: HgdActionConfig): void;
-        static getClient(forceReturn?: false): JaneClient | null;
-        static getClient(forceReturn?: true): JaneClient;
-        static getClient(forceReturn: boolean = false);
-        get cache(): typeof Cache;
-    }
+    //     constructor();
+    //     registerCommands(): Promise<Collection<string, CommandBuilder>>;
+    //     registerEvents(): Promise<void>;
+    //     logIn(startInDev: boolean = false): Promise<JaneClient>;
+    //     registerHgdActionConfig(config: HgdActionConfig): void;
+    //     static getClient(forceReturn?: false): JaneClient | null;
+    //     static getClient(forceReturn?: true): JaneClient;
+    //     static getClient(forceReturn: boolean = false);
+    //     get cache(): typeof Cache;
+    // }
 
     interface JaneEphemeralSupport {
         ephemeral?: boolean;
