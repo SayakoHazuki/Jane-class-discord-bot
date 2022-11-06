@@ -63,7 +63,7 @@ export class HgdCommandBuilder extends CommandBuilder {
         };
 
         const commandCallback = async (
-            client: JaneClient,
+            client: JaneClientT,
             initiator: CommandInitiator
         ) => {
             let dbUser = await Database.Database.getUser(

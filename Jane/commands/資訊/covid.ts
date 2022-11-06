@@ -5,7 +5,7 @@ import { JaneEmbedBuilder } from "../../utils/embedBuilder";
 import { APIEmbedField, RestOrArray } from "discord.js";
 import { initLogger } from "../../core/logger";
 
-const Logger = initLogger(__filename)
+const Logger = initLogger(__filename);
 
 const commandOptions: CommandOptions = {
     name: "疫情",
@@ -17,7 +17,7 @@ const commandOptions: CommandOptions = {
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator
 ) {
     const reply = await initiator.strictReply("正在獲取相關數據...");

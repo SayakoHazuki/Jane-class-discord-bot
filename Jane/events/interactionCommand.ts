@@ -7,7 +7,7 @@ import { JaneBaseError } from "../core/classes/errors";
 
 const Logger = initLogger(__filename);
 
-async function eventCallback(client: JaneClient, interaction: Interaction) {
+async function eventCallback(client: JaneClientT, interaction: Interaction) {
     if (!interaction.isChatInputCommand()) return;
     if (interaction.user.bot || !interaction.guild) return;
 

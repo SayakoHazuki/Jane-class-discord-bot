@@ -18,7 +18,7 @@ import { Cache } from "./cacheSystem";
 
 const Logger = initLogger(__filename);
 
-let client: JaneClient;
+let client: JaneClientT | undefined;
 
 // const intent = Discord.GatewayIntentBits.FLAGS
 // import hgd from '../Utils/hgdUtils'
@@ -27,7 +27,7 @@ let client: JaneClient;
 
 export class JaneClient extends Client {
     dev?: boolean;
-    commands: Collection<string, CommandBuilder>;
+    commands: Collection<string, CommandBuilderT>;
     hgdCommandConfigList: HgdActionConfig[];
     prefix: "-" | "--";
     consts: typeof Consts;
@@ -125,10 +125,10 @@ export class JaneClient extends Client {
             const _EventBuilder: { event: typeof EventExport } = await import(
                 event
             );
-            const evt: EventBuilder = new _EventBuilder.event();
+            const evt: EventBuilderT = new _EventBuilder.event();
 
             this.on(evt.eventName, (...args) => {
-                evt.callback(client, ...args);
+                evt.callback(client ?? JaneClient.getClient(true), ...args);
             });
 
             i++;
@@ -157,8 +157,8 @@ export class JaneClient extends Client {
         this.hgdCommandConfigList.push(config);
     }
 
-    static getClient(forceReturn?: false): JaneClient | null;
-    static getClient(forceReturn?: true): JaneClient;
+    static getClient(forceReturn?: false): JaneClientT | null;
+    static getClient(forceReturn?: true): JaneClientT;
     static getClient(forceReturn: boolean = false) {
         return client ? client : forceReturn ? new JaneClient() : null;
     }

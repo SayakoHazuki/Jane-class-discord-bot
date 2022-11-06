@@ -1,14 +1,12 @@
-import {
-    ButtonInteraction,
-    InteractionReplyOptions,
-} from "discord.js";
+import { ButtonInteraction, InteractionReplyOptions } from "discord.js";
 import { getHgdLbMessagePayload } from "../commands/好感度/hgdLeaderboard";
 import { JaneGeneralError } from "../core/classes/errors";
+import { JaneClient } from "../core/client";
 import { ButtonInitiator } from "../core/commandInitiator";
 import * as Enum from "../types/enums";
 
 export async function handleHgdButton(
-    client: JaneClient,
+    client: JaneClientT,
     interaction: ButtonInteraction,
     k: string,
     v: string

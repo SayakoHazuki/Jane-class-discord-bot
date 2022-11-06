@@ -2,74 +2,74 @@ import { EmbedBuilder, HexColorString, Message } from "discord.js";
 import { JaneClient } from "../core/client";
 import * as Consts from "../core/consts";
 const embedTypes: { [type: string]: JaneEmbedBuilderOptions } = {
-  reply: {
-    color: Consts.themeColor as HexColorString,
-    titlePrefix: "",
-    titleSuffix: "",
-    contentPrefix: "",
-    contentSuffix: "",
-    showAuthor: true,
-    showTimestamp: true,
-    showBotFooter: false,
-  },
-  info: {
-    color: Consts.colors.blue as HexColorString,
-    titlePrefix: "\u2139 ",
-    titleSuffix: "",
-    contentPrefix: "",
-    contentSuffix: "",
-    showAuthor: true,
-    showBotFooter: true,
-    showTimestamp: true,
-  },
-  error: {
-    color: Consts.colors.red as HexColorString,
-    titlePrefix: "\u274c ",
-    titleSuffix: "",
-    contentPrefix: "",
-    contentSuffix: "",
-    showAuthor: true,
-    showBotFooter: true,
-    showTimestamp: true,
-  },
+    reply: {
+        color: Consts.themeColor as HexColorString,
+        titlePrefix: "",
+        titleSuffix: "",
+        contentPrefix: "",
+        contentSuffix: "",
+        showAuthor: true,
+        showTimestamp: true,
+        showBotFooter: false,
+    },
+    info: {
+        color: Consts.colors.blue as HexColorString,
+        titlePrefix: "\u2139 ",
+        titleSuffix: "",
+        contentPrefix: "",
+        contentSuffix: "",
+        showAuthor: true,
+        showBotFooter: true,
+        showTimestamp: true,
+    },
+    error: {
+        color: Consts.colors.red as HexColorString,
+        titlePrefix: "\u274c ",
+        titleSuffix: "",
+        contentPrefix: "",
+        contentSuffix: "",
+        showAuthor: true,
+        showBotFooter: true,
+        showTimestamp: true,
+    },
 };
 
 export class JaneEmbedBuilder extends EmbedBuilder {
-  constructor(
-    type: "reply" | "info" | "error",
-    title: string,
-    content: string,
-    options: JaneEmbedBuilderOptions,
-    referer?: CommandInitiator
-  ) {
-    const embedOptions = { ...embedTypes[type], ...options };
-    super();
-    this.setTitle(
-      `${embedOptions.titlePrefix}${title}${embedOptions.titleSuffix}`
-    );
-    this.setDescription(
-      `${embedOptions.contentPrefix}${content}${embedOptions.contentSuffix}`
-    );
-    if (embedOptions.showAuthor && referer) {
-      this.setAuthor({
-        name:
-          (options.authorPrefix ?? "") +
-          (referer.user?.tag || "") +
-          (options.authorSuffix ?? ""),
-        iconURL: referer.user?.displayAvatarURL(),
-      });
+    constructor(
+        type: "reply" | "info" | "error",
+        title: string,
+        content: string,
+        options: JaneEmbedBuilderOptions,
+        referer?: CommandInitiator
+    ) {
+        const embedOptions = { ...embedTypes[type], ...options };
+        super();
+        this.setTitle(
+            `${embedOptions.titlePrefix}${title}${embedOptions.titleSuffix}`
+        );
+        this.setDescription(
+            `${embedOptions.contentPrefix}${content}${embedOptions.contentSuffix}`
+        );
+        if (embedOptions.showAuthor && referer) {
+            this.setAuthor({
+                name:
+                    (options.authorPrefix ?? "") +
+                    (referer.user?.tag || "") +
+                    (options.authorSuffix ?? ""),
+                iconURL: referer.user?.displayAvatarURL(),
+            });
+        }
+        if (embedOptions.showTimestamp) {
+            this.setTimestamp(new Date());
+        }
+        if (options.showBotFooter) {
+            this.setFooter({
+                text: "簡 Jane",
+                iconURL: JaneClient.getClient(false)?.user?.displayAvatarURL(),
+            });
+        }
+        this.setColor(embedOptions.color ?? null);
     }
-    if (embedOptions.showTimestamp) {
-      this.setTimestamp(new Date());
-    }
-    if (options.showBotFooter) {
-      this.setFooter({
-        text: "簡 Jane",
-        iconURL: JaneClient.getClient(false)?.user?.displayAvatarURL(),
-      });
-    }
-    this.setColor(embedOptions.color ?? null);
-  }
 }
 
 // async function MultiEmbed(

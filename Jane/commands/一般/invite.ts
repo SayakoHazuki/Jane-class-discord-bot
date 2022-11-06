@@ -9,7 +9,7 @@ import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { initLogger } from "../../core/logger";
 
-const Logger = initLogger(__filename)
+const Logger = initLogger(__filename);
 
 const commandOptions: CommandOptions = {
     name: "邀請",
@@ -22,7 +22,7 @@ const commandOptions: CommandOptions = {
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator
 ) {
     const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents([

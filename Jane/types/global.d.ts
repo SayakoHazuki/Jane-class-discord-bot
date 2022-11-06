@@ -26,8 +26,10 @@ import {
     ButtonInteraction,
     ApplicationCommandChoicesOption,
     APIApplicationCommandOptionChoice,
+    PermissionResolvable,
 } from "discord.js";
 import {
+    Holiday,
     SchoolDay,
     SpecialSchoolDay,
     UnspecifiedTimetableDay,
@@ -37,7 +39,9 @@ import { User as dbUser } from "../core/classes/database";
 import * as Enum from "./enums";
 import { Cache } from "../core/cacheSystem";
 import { JaneClient } from "../core/client";
-
+import { Logger } from "../core/logger";
+import { CommandBuilder } from "../core/commandBuilder";
+import { EventBuilder } from "../core/eventBuilder";
 declare global {
     /* util types */
     type AnyCase<T extends string> = string extends T
@@ -52,32 +56,15 @@ declare global {
     type valueOf<T> = T[keyof T];
     type Common<A, B> = Pick<A | B, keyof A & keyof B>;
 
-    class JaneLogger {
-        label: string;
-        constructor(filename: string);
-        info(...message: any[]): void;
-        warn(...message: any[]): void;
-        error(...message: any[]): void;
-        fatal(...message: any[]): void;
-        static print(level: Level, label: string, ...message: any[]): void;
+    interface Level {
+        color1: string;
+        color2: string;
+        levelname: "INFO" | "WARN" | "ERROR" | "FATAL";
     }
 
-    // class JaneClient extends Client {
-    //     dev?: boolean;
-    //     commands: Collection<string, CommandBuilder>;
-    //     hgdCommandConfigList: HgdActionConfig[];
-    //     prefix: "-" | "--";
+    type JaneLoggerT = Logger;
 
-    //     constructor();
-    //     registerCommands(): Promise<Collection<string, CommandBuilder>>;
-    //     registerEvents(): Promise<void>;
-    //     logIn(startInDev: boolean = false): Promise<JaneClient>;
-    //     registerHgdActionConfig(config: HgdActionConfig): void;
-    //     static getClient(forceReturn?: false): JaneClient | null;
-    //     static getClient(forceReturn?: true): JaneClient;
-    //     static getClient(forceReturn: boolean = false);
-    //     get cache(): typeof Cache;
-    // }
+    type JaneClientT = JaneClient;
 
     interface JaneEphemeralSupport {
         ephemeral?: boolean;
@@ -142,29 +129,9 @@ declare global {
         ): Promise<Message>;
     }
 
-    class CommandBuilder<
-        T extends ChatInputCommandInteraction | Message | ButtonInteraction =
-            | ChatInputCommandInteraction
-            | Message
-            | ButtonInteraction
-    > {
-        options: CommandOptions;
-        callback: CommandCallback<T>;
+    type CommandBuilderT = CommandBuilder;
 
-        constructor(ops: CommandOptions, callback: CommandCallback<T>);
-
-        get client(): JaneClient;
-
-        get slashCommandData(): RESTPostAPIApplicationCommandsJSONBody;
-    }
-
-    class EventBuilder {
-        eventName: string;
-        callback: EventCallback;
-        constructor(eventName: string, callback: EventCallback);
-
-        get client(): JaneClient;
-    }
+    type EventBuilderT = EventBuilder;
 
     class CommandExport extends CommandBuilder {
         constructor();
@@ -174,7 +141,7 @@ declare global {
         constructor();
     }
 
-    declare interface CommandOptions {
+    interface CommandOptions {
         name?: string;
         command: string;
         aliases?: any[];
@@ -193,7 +160,7 @@ declare global {
         initialDefer?: boolean;
     }
 
-    declare interface CommandArgument {
+    interface CommandArgument {
         name: string;
         type:
             | "boolean"
@@ -212,11 +179,11 @@ declare global {
     type CommandCallback<
         T extends ChatInputCommandInteraction | Message | ButtonInteraction
     > = (
-        client: JaneClient,
+        client: JaneClientT,
         initiator: CommandInitiator<T>,
         ...args: any[]
     ) => Promise<string | void>;
-    type EventCallback = (client: JaneClient, ...args: any[]) => Promise<void>;
+    type EventCallback = (client: JaneClientT, ...args: any[]) => Promise<void>;
 
     interface JaneErrorData {
         displayMessage?: string;
@@ -385,9 +352,8 @@ declare global {
     type ClassId = `${number}${string}`;
 
     interface TimetableDay {
-        readonly type: SchoolDayType;
+        readonly type: Enum.SchoolDayType;
     }
-    [];
 
     type SchoolDayTypes = SchoolDay | SpecialSchoolDay;
     type HolidayTypes = Holiday | UnspecifiedTimetableDay;
@@ -422,7 +388,7 @@ declare global {
      * Custom Id Format for Jane's Interaction: `(enum)JaneInteractionType`-`(enum)JaneInteractionGroup`-`k`-`v`
      */
     type JaneInteractionId<
-        k = string,
-        v = string
+        k extends string | number | boolean | null | undefined = string,
+        v extends string | number | boolean | null | undefined = string
     > = `J-${Enum.JaneInteractionType}-${Enum.JaneInteractionGroup}-${k}-${v}`;
 }

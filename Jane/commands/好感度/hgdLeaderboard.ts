@@ -28,7 +28,7 @@ const commandOptions: CommandOptions = {
 };
 
 export async function getHgdLbMessagePayload(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator,
     page = 0
 ): Promise<Common<ReplyMessageOptions, InteractionReplyOptions>> {
@@ -108,7 +108,7 @@ export async function getHgdLbMessagePayload(
 }
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator
 ) {
     await initiator.strictReply(

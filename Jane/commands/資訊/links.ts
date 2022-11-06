@@ -17,15 +17,17 @@ const commandOptions: CommandOptions = {
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator
 ) {
-    const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents(...[
-        new ButtonBuilder()
-            .setStyle(ButtonStyle.Link)
-            .setLabel("請按此查看常用連結列表")
-            .setURL("https://jane.ml/links/"),
-    ]);
+    const linkButton = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        ...[
+            new ButtonBuilder()
+                .setStyle(ButtonStyle.Link)
+                .setLabel("請按此查看常用連結列表")
+                .setURL("https://jane.ml/links/"),
+        ]
+    );
     initiator.strictReply({
         components: [linkButton],
     });

@@ -325,7 +325,10 @@ export function wrapString(
     );
 }
 
-export class JaneInteractionIdBuilder<k, v> {
+export class JaneInteractionIdBuilder<
+    k extends string | number | boolean | null | undefined,
+    v extends string | number | boolean | null | undefined
+> {
     type: JaneInteractionType;
     group: JaneInteractionGroup;
     _k: k;

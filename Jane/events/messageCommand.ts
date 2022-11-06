@@ -7,7 +7,7 @@ import { JaneBaseError } from "../core/classes/errors";
 
 const Logger = initLogger(__filename);
 
-async function eventCallback(client: JaneClient, message: Message) {
+async function eventCallback(client: JaneClientT, message: Message) {
     if (message.channel.type === ChannelType.DM) {
         return;
         // return Util.handleDM(message, this.client);

@@ -85,53 +85,54 @@ export async function getRoomStatsArray(
             "Incorrect date format",
             ErrorCode.UNEXPECTED_INPUT_FORMAT
         );
-const cached = JaneClient.getClient()?.cache.collections.roomStats.has(
-            `rooms-${date}-${floor}-${area}`
-        )
+    const cached = JaneClient.getClient()?.cache.collections.roomStats.has(
+        `rooms-${date}-${floor}-${area}`
+    );
     const pyc = new PycClient(process.env.PYCA, process.env.PYCB);
     if (!cached) await pyc.login();
-    const roomStats = cached? {}:await pyc.getRoomStats(
-        date as `${number}/${number}/${number}`,
-        floor,
-        area
-    );
+    const roomStats = cached
+        ? {}
+        : await pyc.getRoomStats(
+              date as `${number}/${number}/${number}`,
+              floor,
+              area
+          );
     const roomStatsArray = cached
-        
-            ? (JaneClient.getClient()?.cache.collections.roomStats?.get(
-                  `rooms-${date}-${floor}-${area}`
-              ) as {
-                  room: string;
-                  sections: {
-                      section: string;
-                      occupied: boolean;
-                      occupier: string;
-                  }[];
-              }[])
-            : new Array(Object.keys(roomStats).length)
-                  .fill(undefined)
-                  .map((v, i) => {
-                      const sectionsArray = [];
-                      for (const section in roomStats[
-                          Object.keys(roomStats).sort()[i]
-                      ]) {
-                          sectionsArray.push({
-                              section: section.replace(/<br>/g, " "),
-                              occupied: !(
-                                  roomStats[Object.keys(roomStats).sort()[i]][
-                                      section
-                                  ] === "empty"
-                              ),
-                              occupier:
-                                  roomStats[Object.keys(roomStats).sort()[i]][
-                                      section
-                                  ],
-                          });
-                      }
-                      return {
-                          room: Object.keys(roomStats).sort()[i],
-                          sections: sectionsArray,
-                      };
-                  });
+        ? (JaneClient.getClient()?.cache.collections.roomStats?.get(
+              `rooms-${date}-${floor}-${area}`
+          ) as {
+              room: string;
+              sections: {
+                  section: string;
+                  occupied: boolean;
+                  occupier: string;
+              }[];
+          }[])
+        : new Array(Object.keys(roomStats).length)
+              .fill(undefined)
+              .map((v, i) => {
+                  const sectionsArray = [];
+                  for (const section in roomStats[
+                      Object.keys(roomStats).sort()[i]
+                  ]) {
+                      sectionsArray.push({
+                          section: section.replace(/<br>/g, " "),
+                          occupied: !(
+                              roomStats[Object.keys(roomStats).sort()[i]][
+                                  section
+                              ] === "empty"
+                          ),
+                          occupier:
+                              roomStats[Object.keys(roomStats).sort()[i]][
+                                  section
+                              ],
+                      });
+                  }
+                  return {
+                      room: Object.keys(roomStats).sort()[i],
+                      sections: sectionsArray,
+                  };
+              });
 
     if (currentRoomPos < 0) currentRoomPos += roomStatsArray.length;
 
@@ -144,7 +145,7 @@ const cached = JaneClient.getClient()?.cache.collections.roomStats.has(
 }
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator,
     floor: string,
     area: string,

@@ -9,14 +9,14 @@ const Logger = initLogger(__filename);
 const commandOptions: CommandOptions = {
     name: "校歷表",
     command: "calendar",
-    aliases: ["cal","校歷表"],
+    aliases: ["cal", "校歷表"],
     category: "校歷表",
     description: "查看校歷表",
     usage: "cal",
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator,
     arg1: string
 ) {

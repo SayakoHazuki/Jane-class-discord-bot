@@ -21,7 +21,7 @@ const commandOptions: CommandOptions = {
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator
 ) {
     return;
@@ -29,7 +29,9 @@ async function commandCallback(
 
     const equationImage = await getLatexImageBuffer(
         jqlQuestion.question,
-        ...jqlQuestion.options.map((q, i) => `${alphabets[i]}.\\:\\:${q.formula}`)
+        ...jqlQuestion.options.map(
+            (q, i) => `${alphabets[i]}.\\:\\:${q.formula}`
+        )
     );
     const embedImage = await new JqlQuestionImage({
         type: "latex",
@@ -37,9 +39,10 @@ async function commandCallback(
         equationImage,
     }).load();
 
-    if (!embedImage.buffer) return;
+    const imageBuffer = embedImage.buffer
+    if (imageBuffer == undefined || !(imageBuffer instanceof Buffer)) return;
     const attachmentName = `${encodeURIComponent(jqlQuestion.refCode)}.png`;
-    const file = new AttachmentBuilder(embedImage.buffer, {
+    const file = new AttachmentBuilder(imageBuffer, {
         name: attachmentName,
     });
 

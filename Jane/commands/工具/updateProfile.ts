@@ -15,11 +15,11 @@ const commandOptions: CommandOptions = {
     usage: "updateProfile",
     args: [],
     slashOnly: true,
-    initialDefer: false
+    initialDefer: false,
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator<ChatInputCommandInteraction>,
     arg1: string
 ) {

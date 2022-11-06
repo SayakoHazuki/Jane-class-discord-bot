@@ -15,7 +15,7 @@ const commandOptions: CommandOptions = {
 };
 
 async function commandCallback(
-    client: JaneClient,
+    client: JaneClientT,
     initiator: CommandInitiator
 ) {
     return;

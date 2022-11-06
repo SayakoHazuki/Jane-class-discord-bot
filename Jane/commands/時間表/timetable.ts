@@ -2,7 +2,7 @@ import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { Database, User } from "../../core/classes/database";
 import { initLogger } from "../../core/logger";
-import { getTimetableActions, Timetable } from "../../utils/timetableUtils";
+import { getNormalTimetableActions, Timetable } from "../../utils/timetableUtils";
 import {
     dateFromDateString,
     DiscordTimestamp,
@@ -219,14 +219,14 @@ async function commandCallback(
         await timetableBuilderOptions.message.edit({
             content: "",
             embeds: [...weatherWarningEmbeds, embed],
-            components: [getTimetableActions(inputDateStr, inputClass)],
+            components: [getNormalTimetableActions(inputDateStr, inputClass)],
         });
         return;
     }
     await initiator.strictReply({
         content: "",
         embeds: [...weatherWarningEmbeds, embed],
-        components: [getTimetableActions(inputDateStr, inputClass)],
+        components: [getNormalTimetableActions(inputDateStr, inputClass)],
     });
     return;
 }

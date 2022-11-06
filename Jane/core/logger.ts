@@ -2,11 +2,6 @@ import path from "path";
 import { colorCodes } from "../utils/colorCodes";
 import { formatTimeString } from "../utils/utility-functions";
 
-interface Level {
-    color1: string;
-    color2: string;
-    levelname: "INFO" | "WARN" | "ERROR" | "FATAL";
-}
 const levels: { [level: string]: Level } = {
     INFO: {
         color1: colorCodes.green.fg,
@@ -30,7 +25,7 @@ const levels: { [level: string]: Level } = {
     },
 };
 
-class Logger {
+export class Logger {
     label: string;
 
     constructor(filename: string) {
@@ -68,6 +63,6 @@ class Logger {
     }
 }
 
-export function initLogger(filename: string): JaneLogger {
+export function initLogger(filename: string): JaneLoggerT {
     return new Logger(filename);
 }
