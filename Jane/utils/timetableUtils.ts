@@ -354,7 +354,10 @@ export function getExpandedTimetableActions(
             .setEmoji("📅")
             .setCustomId(`CALENDAR-${inputDate}-${inputClass}`)
             .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder(),
+        new ButtonBuilder()
+            .setEmoji(pycnet.id)
+            .setStyle(ButtonStyle.Link)
+            .setURL("https://www2.pyc.edu.hk/pycnet/index.php"),
         new ButtonBuilder()
             .setEmoji(chevron_up.id)
             .setCustomId(`COLLAPSE-${inputDate}-${inputClass}`)
