@@ -283,7 +283,7 @@ export function getNormalTimetableActions(
     const components = [
         new ButtonBuilder()
             .setLabel("<")
-            .setStyle(ButtonStyle.Success)
+            .setStyle(ButtonStyle.Primary)
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
@@ -294,9 +294,14 @@ export function getNormalTimetableActions(
             ),
         new ButtonBuilder()
             .setLabel(
-                formatTimeString(dateFromDateString(inputDate), "d/MM/yyyy")
+                formatTimeString(dateFromDateString(inputDate), "d/MM") +
+                    " 週" +
+                    ["日", "一", "二", "三", "四", "五", "六"][
+                        dateFromDateString(inputDate).getDate()
+                    ]
             )
             .setStyle(ButtonStyle.Primary)
+            .setDisabled(true)
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
@@ -307,7 +312,7 @@ export function getNormalTimetableActions(
             ),
         new ButtonBuilder()
             .setLabel(">")
-            .setStyle(ButtonStyle.Success)
+            .setStyle(ButtonStyle.Primary)
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
@@ -352,11 +357,11 @@ export function getExpandedTimetableActions(
         //     .setCustomId(`SETTINGS-${inputDate}-${inputClass}`)
         //     .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-        .setLabel("RAT")
-        .setStyle(ButtonStyle.Link)
-        .setURL(
-            "https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"
-        ),
+            .setLabel("RAT")
+            .setStyle(ButtonStyle.Link)
+            .setURL(
+                "https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"
+            ),
         new ButtonBuilder()
             .setEmoji(calendar.id)
             .setLabel("Calendar")
