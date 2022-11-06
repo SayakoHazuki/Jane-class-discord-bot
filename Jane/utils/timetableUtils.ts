@@ -23,6 +23,7 @@ import { initLogger } from "../core/logger";
 import { JaneGeneralError } from "../core/classes/errors";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { textDivider } from "../core/consts";
+import { ellipsis, gear, chevron_up, pycnet } from "../data/config/emojis.json";
 
 const Logger = initLogger(__filename);
 
@@ -256,9 +257,10 @@ export class Timetable {
  * @param inputClass Initial class of the embed
  * @returns ActionRow containing actions for the timetable command
  */
-export function getTimetableActions(
+export function getNormalTimetableActions(
     inputDate: TimetableDateResolvable,
-    inputClass: ClassId
+    inputClass: ClassId,
+    expanded: boolean = false
 ) {
     Logger.info(`input date: ${inputDate}`);
 
@@ -272,7 +274,7 @@ export function getTimetableActions(
 
     Logger.info(`customIds: ${prevDayStr}, ${nextDayStr}`);
 
-    const defaultActions = new ActionRowBuilder<ButtonBuilder>().addComponents([
+    const components = [
         new ButtonBuilder()
             .setLabel("<")
             .setStyle(ButtonStyle.Success)
@@ -311,8 +313,57 @@ export function getTimetableActions(
         new ButtonBuilder()
             .setLabel("RAT")
             .setStyle(ButtonStyle.Link)
-            .setURL("https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"),
-    ]);
+            .setURL(
+                "https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"
+            ),
+    ];
+
+    if (!expanded) {
+        components.push(
+            new ButtonBuilder()
+                .setEmoji(ellipsis.id)
+                .setStyle(ButtonStyle.Secondary)
+                .setCustomId(
+                    new JaneInteractionIdBuilder(
+                        JaneInteractionType.BUTTON,
+                        JaneInteractionGroup.NORMAL_FOLLOW_UP,
+                        JaneInteractionNormalFollowUpSubgroups.timetable_actions,
+                        `EXPAND-${inputDate}-${inputClass}`
+                    ).toString()
+                )
+        );
+    }
+
+    const defaultActions = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        components
+    );
 
     return defaultActions;
+}
+
+export function getExpandedTimetableActions(
+    inputDate: TimetableDateResolvable,
+    inputClass: ClassId
+) {
+    const components = [
+        new ButtonBuilder()
+            .setEmoji(gear.id)
+            .setCustomId(`SETTINGS-${inputDate}-${inputClass}`)
+            .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+            .setEmoji("📅")
+            .setCustomId(`CALENDAR-${inputDate}-${inputClass}`)
+            .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder(),
+        new ButtonBuilder()
+            .setEmoji(chevron_up.id)
+            .setCustomId(`COLLAPSE-${inputDate}-${inputClass}`)
+            .setStyle(ButtonStyle.Secondary),
+    ];
+
+    const expandedActions = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        components
+    );
+
+    return expandedActions;
 }

@@ -3,6 +3,10 @@ import { ButtonInitiator } from "../../core/commandInitiator";
 import { initLogger } from "../../core/logger";
 import { ErrorCode } from "../../types/enums";
 import { JaneClient } from "../../core/client";
+import {
+    getExpandedTimetableActions,
+    getNormalTimetableActions,
+} from "../../utils/timetableUtils";
 
 const Logger = initLogger(__filename);
 
@@ -38,5 +42,17 @@ export async function handleTimetableAction(
     if (action === "DATE") {
         if (!initiator.initiator.deferred)
             await initiator.initiator.deferReply();
+    }
+
+    if (action === "EXPAND") {
+        const [date, cls] = args as [TimetableDateResolvable, ClassId];
+        await initiator.initiator.deferUpdate();
+        await initiator.initiator.message.edit({
+            embeds: initiator.initiator.message.embeds,
+            components: [
+                getNormalTimetableActions(date, cls, true),
+                getExpandedTimetableActions(date, cls),
+            ],
+        });
     }
 }

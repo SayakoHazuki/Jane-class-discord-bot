@@ -10,26 +10,50 @@
         "morning": "🌤️",
         "night": "💤"
     },
-    "blank": {
-        "full": "<:blank:938667354370478200>",
-        "url": "https://cdn.discordapp.com/emojis/938667354370478200.webp?size=1024&quality=lossless"
-    },
-    "check": {
-        "full": "<:check:962968111554899978>",
-        "url": "https://cdn.discordapp.com/emojis/962968111554899978.webp?size=128&quality=lossless"
-    },
-    "jane_love": {
-        "full": "<:jane_love:904738308385554482>",
-        "url": "https://cdn.discordapp.com/emojis/904738308385554482.webp?size=1024&quality=lossless"
-    },
     "EMPTY": {
         "LEFT": "<:HgdBarLeft_Unfilled:936823421394907136>",
         "MID": "<:HgdBarMid_Unfilled:936823421285843045>",
         "RIGHT": "<:HgdBarRight_Unfilled:936823421046755329>"
     },
+
+    "blank": {
+        "full": "<:blank:938667354370478200>",
+        "id": "938667354370478200",
+        "url": "https://cdn.discordapp.com/emojis/938667354370478200.webp?size=1024&quality=lossless"
+    },
+    "check": {
+        "full": "<:check:962968111554899978>",
+        "id": "962968111554899978",
+        "url": "https://cdn.discordapp.com/emojis/962968111554899978.webp?size=128&quality=lossless"
+    },
+    "jane_love": {
+        "full": "<:jane_love:904738308385554482>",
+        "id": "904738308385554482",
+        "url": "https://cdn.discordapp.com/emojis/904738308385554482.webp?size=1024&quality=lossless"
+    },
     "FILLED": {
         "LEFT": "<:HgdBarLeft_Filled:936823421222920233>",
         "MID": "<:HgdBarMid_Filled:936823421331988530>",
         "RIGHT": "<:HgdBarRight_Filled:936823421428453376>"
+    },
+    "ellipsis": {
+        "full": "<:ellipsis:1038788872076804166>",
+        "id": "1038788872076804166",
+        "url": "https://cdn.discordapp.com/emojis/1038788872076804166.webp?size=1024&quality=lossless"
+    },
+    "chevron_up": {
+        "full": "<:chevronup:1038788870373900358>",
+        "id": "1038788870373900358",
+        "url": "https://cdn.discordapp.com/emojis/1038788870373900358.webp?size=1024&quality=lossless"
+    },
+    "gear": {
+        "full": "<:fa_gear:1038792082216734750>",
+        "id": "1038792082216734750",
+        "url": "https://cdn.discordapp.com/emojis/1038792082216734750.webp?size=1024&quality=lossless"
+    },
+    "pycnet": {
+        "full": "<:pn:815741945833979924>",
+        "id": "815741945833979924",
+        "url": "https://cdn.discordapp.com/emojis/815741945833979924.webp?size=1024&quality=lossless"
     }
 }
