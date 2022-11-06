@@ -297,11 +297,12 @@ export function getNormalTimetableActions(
                 formatTimeString(dateFromDateString(inputDate), "d/MM") +
                     " 週" +
                     ["日", "一", "二", "三", "四", "五", "六"][
-                        dateFromDateString(inputDate).getDate()
+                        dateFromDateString(inputDate).getDay()
                     ]
             )
             .setStyle(ButtonStyle.Primary)
             .setDisabled(true)
+            // TODO: Date picker
             .setCustomId(
                 new JaneInteractionIdBuilder(
                     JaneInteractionType.BUTTON,
