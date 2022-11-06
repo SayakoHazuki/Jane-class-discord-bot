@@ -316,12 +316,6 @@ export function getNormalTimetableActions(
                     `SELDATE-${nextDayStr}-${inputClass}`
                 ).toString()
             ),
-        new ButtonBuilder()
-            .setLabel("RAT")
-            .setStyle(ButtonStyle.Link)
-            .setURL(
-                "https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"
-            ),
     ];
 
     if (!expanded) {
@@ -357,6 +351,12 @@ export function getExpandedTimetableActions(
         //     .setEmoji(gear.id)
         //     .setCustomId(`SETTINGS-${inputDate}-${inputClass}`)
         //     .setStyle(ButtonStyle.Secondary),
+        new ButtonBuilder()
+        .setLabel("RAT")
+        .setStyle(ButtonStyle.Link)
+        .setURL(
+            "https://accounts.google.com/AccountChooser?continue=https://docs.google.com/forms/d/e/1FAIpQLSeVNSYDIPQPjb7PlVZ6eafpnUagwQxT0BzK3fPxCE6WcQnVLw/viewform"
+        ),
         new ButtonBuilder()
             .setEmoji(calendar.id)
             .setLabel("Calendar")
