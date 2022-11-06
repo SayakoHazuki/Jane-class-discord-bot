@@ -7,6 +7,7 @@ import {
     getExpandedTimetableActions,
     getNormalTimetableActions,
 } from "../../utils/timetableUtils";
+import { ModalBuilder } from "discord.js";
 
 const Logger = initLogger(__filename);
 
@@ -54,5 +55,29 @@ export async function handleTimetableAction(
                 getExpandedTimetableActions(date, cls),
             ],
         });
+    }
+
+    if (action === "COLLAPSE") {
+        const [date, cls] = args as [TimetableDateResolvable, ClassId];
+        await initiator.initiator.deferUpdate();
+        await initiator.initiator.message.edit({
+            embeds: initiator.initiator.message.embeds,
+            components: [getNormalTimetableActions(date, cls)],
+        });
+    }
+
+    if (action === "CALENDAR") {
+        // const [date, cls] = args as [TimetableDateResolvable, ClassId];
+        await initiator.initiator.deferUpdate();
+        await client.commands
+            .find((c) => c.options.command === "calendar")
+            ?.callback(client, initiator);
+        // TODO: Chagne command behaviour: Edit message instead of sending another message
+        // TODO: Change command behaviour: Add a "back" button
+    }
+
+    if (action === "SETTINGS") {
+        await initiator.initiator.deferUpdate();
+        // TODO: Add settings
     }
 }

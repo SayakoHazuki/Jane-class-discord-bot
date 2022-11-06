@@ -23,7 +23,13 @@ import { initLogger } from "../core/logger";
 import { JaneGeneralError } from "../core/classes/errors";
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { textDivider } from "../core/consts";
-import { ellipsis, gear, chevron_up, pycnet } from "../data/config/emojis.json";
+import {
+    ellipsis,
+    gear,
+    chevron_up,
+    pycnet,
+    calendar,
+} from "../data/config/emojis.json";
 
 const Logger = initLogger(__filename);
 
@@ -346,13 +352,22 @@ export function getExpandedTimetableActions(
     inputClass: ClassId
 ) {
     const components = [
+        // TODO: Add Settings
+        // new ButtonBuilder()
+        //     .setEmoji(gear.id)
+        //     .setCustomId(`SETTINGS-${inputDate}-${inputClass}`)
+        //     .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-            .setEmoji(gear.id)
-            .setCustomId(`SETTINGS-${inputDate}-${inputClass}`)
-            .setStyle(ButtonStyle.Secondary),
-        new ButtonBuilder()
-            .setEmoji("📅")
-            .setCustomId(`CALENDAR-${inputDate}-${inputClass}`)
+            .setEmoji(calendar.id)
+            .setLabel("Calendar")
+            .setCustomId(
+                new JaneInteractionIdBuilder(
+                    JaneInteractionType.BUTTON,
+                    JaneInteractionGroup.NORMAL_FOLLOW_UP,
+                    JaneInteractionNormalFollowUpSubgroups.timetable_actions,
+                    `CALENDAR-${inputDate}-${inputClass}`
+                ).toString()
+            )
             .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
             .setEmoji(pycnet.id)
@@ -360,7 +375,14 @@ export function getExpandedTimetableActions(
             .setURL("https://www2.pyc.edu.hk/pycnet/index.php"),
         new ButtonBuilder()
             .setEmoji(chevron_up.id)
-            .setCustomId(`COLLAPSE-${inputDate}-${inputClass}`)
+            .setCustomId(
+                new JaneInteractionIdBuilder(
+                    JaneInteractionType.BUTTON,
+                    JaneInteractionGroup.NORMAL_FOLLOW_UP,
+                    JaneInteractionNormalFollowUpSubgroups.timetable_actions,
+                    `COLLAPSE-${inputDate}-${inputClass}`
+                ).toString()
+            )
             .setStyle(ButtonStyle.Secondary),
     ];
 

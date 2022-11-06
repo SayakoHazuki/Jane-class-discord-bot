@@ -55,5 +55,10 @@
         "full": "<:pn:815741945833979924>",
         "id": "815741945833979924",
         "url": "https://cdn.discordapp.com/emojis/815741945833979924.webp?size=1024&quality=lossless"
+    },
+    "calendar": {
+        "full": "<:fa_calendar:1038803704645685269>",
+        "id": "1038803704645685269",
+        "url": "https://cdn.discordapp.com/emojis/1038803704645685269.webp?size=1024&quality=lossless"
     }
 }
