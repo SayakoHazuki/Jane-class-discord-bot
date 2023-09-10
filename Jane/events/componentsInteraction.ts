@@ -75,7 +75,10 @@ async function eventCallback(client: JaneClientT, interaction: Interaction) {
             if (
                 interactionGroup === Enum.JaneInteractionGroup.NORMAL_FOLLOW_UP
             ) {
-                Logger.fatal(interaction.customId);
+                Logger.info(
+                    "Received JaneInteractionGroup.NORMAL_FOLLOW_UP, Id:",
+                    interaction.customId
+                );
                 await handleNormalFollowUp(
                     client,
                     new ButtonInitiator(interaction),

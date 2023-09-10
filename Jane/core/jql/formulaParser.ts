@@ -59,7 +59,7 @@ export class FormulaParser {
                     );
                 })
                 .replace(/%EVAL\[([^\]]*)\]/g, (_, $1) => {
-                    console.warn($1);
+                    console.info("(FormulaParser.parse)",$1);
                     return math.evaluate(this.replaceVars($1));
                 })
         );

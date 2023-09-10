@@ -30,7 +30,7 @@ export async function handleDatabaseModals(
             );
         await interaction.deferReply({ ephemeral: true });
         let user = await Database.getUser(interaction.user.id).catch((e) => {
-            initLogger(__filename).warn(e);
+            initLogger(__filename).fatal(e);
             return undefined;
         });
         if (!user) {

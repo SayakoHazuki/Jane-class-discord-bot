@@ -1,6 +1,9 @@
 import path from "path";
 import { colorCodes } from "../utils/colorCodes";
 import { formatTimeString } from "../utils/utility-functions";
+import fs from "fs";
+
+let logFile: string | null = null;
 
 const levels: { [level: string]: Level } = {
     INFO: {
@@ -56,13 +59,30 @@ export class Logger {
 
         const { color1, color2, levelname } = level;
         const reset = colorCodes.reset;
-        return console.log(
+
+        const consoleText =
             `${reset}${time} ${color1}${levelname}${reset}` +
-                ` - ${color2}${label}${reset} > ${color2}${outputMessage}${reset}`
-        );
+            ` - ${color2}${label}${reset} > ${color2}${outputMessage}${reset}`;
+
+        const logText = `${time} ${levelname} - ${label} > ${outputMessage}`;
+
+        console.log(consoleText);
+        if (logFile) {
+            fs.appendFileSync(logFile, logText + "\n");
+        } else {
+            console.warn("No log file specified!");
+        }
     }
 }
 
 export function initLogger(filename: string): JaneLoggerT {
     return new Logger(filename);
+}
+
+export function initLogFile(): void {
+    const date = new Date();
+    const dateString = formatTimeString(date, "yyyy-MM-dd-HH-mm-ss");
+    logFile = `logs/${dateString}.log`;
+    fs.writeFileSync(logFile, "");
+    Logger._print(levels.INFO, __filename, `Log file created: ${logFile}`);
 }

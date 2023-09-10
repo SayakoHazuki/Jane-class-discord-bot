@@ -11,11 +11,12 @@ import { REST } from "@discordjs/rest";
 import glob from "glob";
 import path from "path";
 import * as Consts from "./consts";
-import { initLogger } from "./logger";
+import { initLogFile, initLogger } from "./logger";
 import { Database } from "./classes/database";
 import { MongoClient } from "mongodb";
 import { Cache } from "./cacheSystem";
 
+initLogFile();
 const Logger = initLogger(__filename);
 
 let client: JaneClientT | undefined;

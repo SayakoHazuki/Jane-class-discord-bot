@@ -37,7 +37,7 @@ class HgdTextsFormatter {
         return str.replace(
             /\$(dcUser|dbUser)\.(\w+)/g,
             (a, b: "dcUser" | "dbUser", c) => {
-                Logger.warn(`(HgdTextsFormatter) ${a} - ${b} - ${c}`);
+                Logger.info(`(HgdTextsFormatter) ${a} - ${b} - ${c}`);
                 let tmp: any = this[b];
                 for (const i of c.split(".")) {
                     tmp = tmp[i];
@@ -69,7 +69,7 @@ export class HgdCommandBuilder extends CommandBuilder {
             let dbUser = await Database.Database.getUser(
                 initiator.user.id
             ).catch((e) => {
-                Logger.warn(e);
+                Logger.fatal(e);
                 return undefined;
             });
             if (!dbUser)
@@ -180,7 +180,8 @@ export class HgdCommandBuilder extends CommandBuilder {
                         Enum.PascalHgdActions[config.commandCode]
                     ]
                 ) {
-                    Logger.fatal(
+                    Logger.info(
+                        "User action records:",
                         JSON.stringify(userdata.actionRecords, null, 2)
                     );
                     throw new Error(undefined);

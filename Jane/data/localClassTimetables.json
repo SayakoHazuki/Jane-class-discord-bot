@@ -1,266 +1,2354 @@
 {
-    "4A": {
+    "1A": {
         "A": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "ENG", "venue": "205" },
-            { "subject": "CS", "venue": "205" },
-            { "subject": "CTP", "venue": "205" }
+            { "subject": "CHIN / CHIN", "venue": "105 / 101" },
+            { "subject": "MATH / MATH", "venue": "105 / 101" },
+            { "subject": "L&S", "venue": "101" },
+            { "subject": "ENG / ENG / ENG", "venue": "102 / 101 / 105" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "CTP / CTP", "venue": "101 / 101" }
         ],
         "B": [
-            { "subject": "PE", "venue": "HALL" },
-            { "subject": "CHIN", "venue": "205" },
-            { "subject": "MATH", "venue": "205" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" }
+            { "subject": "CHIN / CHIN", "venue": "105 / 101" },
+            { "subject": "MATH / MATH", "venue": "105 / 101" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "GEOG", "venue": "101" }
         ],
         "C": [
-            { "subject": "MATH", "venue": "205" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "ENG", "venue": "205" },
-            { "subject": "ENG", "venue": "205" },
-            { "subject": "CHIN", "venue": "205" },
-            { "subject": "ASS", "venue": "HALL" }
+            { "subject": "CHIN / CHIN", "venue": "101 / 105" },
+            { "subject": "HIST", "venue": "101" },
+            { "subject": "ENG / ENG / ENG", "venue": "102 / 105 / 101" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "ASS / ASS", "venue": "101 / 101" },
+            { "subject": "CHIS", "venue": "101" }
         ],
         "D": [
-            { "subject": "ENG", "venue": "205" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "205" },
-            { "subject": "CS", "venue": "205" },
-            { "subject": "RS", "venue": "205" }
+            { "subject": "MATH / MATH", "venue": "105 / 101" },
+            { "subject": "ENG / ENG / ENG", "venue": "101 / 102 / 105" },
+            { "subject": "ENG / ENG / HEC", "venue": "CF / 101 / HER" },
+            { "subject": "L&S", "venue": "101" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "CHIN / CHIN", "venue": "105 / 101" }
         ],
         "E": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "205" },
-            { "subject": "ENG", "venue": "205" },
-            { "subject": "CHIN", "venue": "205" }
+            { "subject": "RS", "venue": "101" },
+            { "subject": "GEOG", "venue": "101" },
+            { "subject": "ENG / ENG / ENG", "venue": "102 / 101 / 105" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "MATH / MATH", "venue": "105 / 101" },
+            { "subject": "HEC / ENG / ENG", "venue": "HER / CF / 101" }
         ],
         "F": [
-            { "subject": "ENG", "venue": "205" },
-            { "subject": "IA", "venue": "205" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "CHIN", "venue": "205" },
-            { "subject": "ASS", "venue": "HALL" }
+            { "subject": "ENG / ENG / ENG", "venue": "101 / 105 / 102" },
+            { "subject": "MATH / MATH", "venue": "105 / 101" },
+            { "subject": "CHIS", "venue": "101" },
+            { "subject": "PTH", "venue": "101" },
+            { "subject": "ASS / ASS", "venue": "101 / 101" },
+            { "subject": "CHIN / CHIN", "venue": "101 / 105" }
         ],
         "G": [
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "205" },
-            { "subject": "CHIN", "venue": "205" },
-            { "subject": "CHIN", "venue": "205" },
-            { "subject": "CS", "venue": "205" },
-            { "subject": "PE", "venue": "HALL" }
+            { "subject": "MATH / MATH", "venue": "101 / 105" },
+            { "subject": "HIST", "venue": "101" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "CHIN / CHIN", "venue": "101 / 105" },
+            { "subject": "ENG / ENG / ENG", "venue": "105 / 102 / 101" }
         ],
         "H": [
-            { "subject": "S4_1X", "venue": "N/A" },
+            { "subject": "CHIN / CHIN", "venue": "101 / 105" },
+            { "subject": "CHIN / CHIN", "venue": "105 / 101" },
+            { "subject": "ENG / ENG / ENG", "venue": "105 / 102 / 101" },
+            { "subject": "MATH / MATH", "venue": "105 / 101" },
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "SCI", "venue": "ISL" }
+        ]
+    },
+    "1B": {
+        "A": [
+            { "subject": "CHIN / CHIN", "venue": "102 / 105" },
+            { "subject": "MATH / MATH", "venue": "105 / 102" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "ENG / ENG / ENG", "venue": "105 / 101 / 102" },
+            { "subject": "GEOG", "venue": "102" },
+            { "subject": "CTP / CTP", "venue": "102 / 102" }
+        ],
+        "B": [
+            { "subject": "CHIN / CHIN", "venue": "102 / 105" },
+            { "subject": "MATH / MATH", "venue": "105 / 102" },
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "HIST", "venue": "102" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "L&S", "venue": "102" }
+        ],
+        "C": [
+            { "subject": "CHIN / CHIN", "venue": "102 / 105" },
+            { "subject": "PTH", "venue": "102" },
+            { "subject": "ENG / ENG / ENG", "venue": "105 / 102 / 101" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "ASS / ASS", "venue": "102 / 102" },
+            { "subject": "SCI", "venue": "ISL" }
+        ],
+        "D": [
+            { "subject": "MATH / MATH", "venue": "102 / 105" },
+            { "subject": "ENG / ENG / ENG", "venue": "105 / 101 / 102" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "HEC / ENG / ENG", "venue": "HER / CF / 102" },
+            { "subject": "CHIN / CHIN", "venue": "102 / 105" }
+        ],
+        "E": [
+            { "subject": "ENG / HEC / ENG", "venue": "CF / HER / 102" },
+            { "subject": "CHIS", "venue": "102" },
+            { "subject": "ENG / ENG / ENG", "venue": "102 / 105 / 101" },
+            { "subject": "RS", "venue": "102" },
+            { "subject": "MATH / MATH", "venue": "102 / 105" },
+            { "subject": "SCI", "venue": "ISL" }
+        ],
+        "F": [
+            { "subject": "ENG / ENG / ENG", "venue": "102 / 101 / 105" },
+            { "subject": "MATH / MATH", "venue": "105 / 102" },
+            { "subject": "GEOG", "venue": "102" },
+            { "subject": "HIST", "venue": "102" },
+            { "subject": "ASS / ASS", "venue": "102 / 102" },
+            { "subject": "CHIN / CHIN", "venue": "105 / 102" }
+        ],
+        "G": [
+            { "subject": "MATH / MATH", "venue": "102 / 105" },
+            { "subject": "L&S", "venue": "102" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "CHIN / CHIN", "venue": "102 / 105" },
+            { "subject": "ENG / ENG / ENG", "venue": "105 / 102 / 101" }
+        ],
+        "H": [
+            { "subject": "CHIN / CHIN", "venue": "102 / 105" },
+            { "subject": "CHIN / CHIN", "venue": "105 / 102" },
+            { "subject": "ENG / ENG / ENG", "venue": "102 / 101 / 105" },
+            { "subject": "MATH / MATH", "venue": "102 / 105" },
+            { "subject": "CHIS", "venue": "102" },
+            { "subject": "IT", "venue": "CR" }
+        ]
+    },
+    "1C": {
+        "A": [
+            { "subject": "CHIN / CHIN", "venue": "103 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "106 / 104 / 103" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "GEOG", "venue": "103" },
+            { "subject": "MATH / MATH", "venue": "106 / 103" },
+            { "subject": "CTP / CTP", "venue": "103 / 103" }
+        ],
+        "B": [
+            { "subject": "CHIN / CHIN", "venue": "106 / 103" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "MATH / MATH", "venue": "103 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "106 / 103 / 104" },
+            { "subject": "L&S", "venue": "103" },
+            { "subject": "CHIS", "venue": "103" }
+        ],
+        "C": [
+            { "subject": "CHIN / CHIN", "venue": "106 / 103" },
+            { "subject": "MATH / MATH", "venue": "103 / 106" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "HIST", "venue": "103" },
+            { "subject": "ASS / ASS", "venue": "103 / 103" },
+            { "subject": "ENG / ENG / ENG", "venue": "104 / 106 / 103" }
+        ],
+        "D": [
+            { "subject": "HEC / ENG / ENG", "venue": "HER / 103 / CF" },
+            { "subject": "MATH / MATH", "venue": "106 / 103" },
+            { "subject": "CHIN / CHIN", "venue": "103 / 106" },
+            { "subject": "CHIN / CHIN", "venue": "103 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "104 / 103 / 106" },
+            { "subject": "SCI", "venue": "ISL" }
+        ],
+        "E": [
+            { "subject": "CHIS", "venue": "103" },
+            { "subject": "RS", "venue": "103" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "ENG / HEC / ENG", "venue": "103 / HER / CF" },
+            { "subject": "CHIN / CHIN", "venue": "103 / 106" }
+        ],
+        "F": [
+            { "subject": "ENG / ENG / ENG", "venue": "106 / 104 / 103" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "GEOG", "venue": "103" },
+            { "subject": "ASS / ASS", "venue": "103 / 103" },
+            { "subject": "MATH / MATH", "venue": "103 / 106" }
+        ],
+        "G": [
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "L&S", "venue": "103" },
+            { "subject": "CHIN / CHIN", "venue": "106 / 103" },
+            { "subject": "ENG / ENG / ENG", "venue": "103 / 106 / 104" },
+            { "subject": "MATH / MATH", "venue": "103 / 106" }
+        ],
+        "H": [
+            { "subject": "CHIN / CHIN", "venue": "103 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "104 / 106 / 103" },
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "PTH", "venue": "103" },
+            { "subject": "HIST", "venue": "103" },
+            { "subject": "MATH / MATH", "venue": "106 / 103" }
+        ]
+    },
+    "1D": {
+        "A": [
+            { "subject": "CHIN / CHIN", "venue": "104 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "104 / 103 / 106" },
+            { "subject": "L&S", "venue": "104" },
+            { "subject": "GEOG", "venue": "104" },
+            { "subject": "MATH / MATH", "venue": "104 / 103" },
+            { "subject": "CTP / CTP", "venue": "104 / 104" }
+        ],
+        "B": [
+            { "subject": "CHIN / CHIN", "venue": "104 / 104" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "MATH / MATH", "venue": "104 / 103" },
+            { "subject": "ENG / ENG / ENG", "venue": "103 / 104 / 106" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "SCI", "venue": "ISL" }
+        ],
+        "C": [
+            { "subject": "CHIN / CHIN", "venue": "104 / 106" },
+            { "subject": "MATH / MATH", "venue": "104 / 103" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIS", "venue": "104" },
+            { "subject": "ASS / ASS", "venue": "104 / 104" },
+            { "subject": "ENG / ENG / ENG", "venue": "103 / 104 / 106" }
+        ],
+        "D": [
+            { "subject": "HIST", "venue": "104" },
+            { "subject": "MATH / MATH", "venue": "103 / 104" },
+            { "subject": "CHIN / CHIN", "venue": "104 / 104" },
+            { "subject": "CHIN / CHIN", "venue": "104 / 104" },
+            { "subject": "ENG / ENG / ENG", "venue": "106 / 103 / 104" },
+            { "subject": "HEC / ENG / ENG", "venue": "HER / 104 / CF" }
+        ],
+        "E": [
+            { "subject": "L&S", "venue": "104" },
+            { "subject": "ENG / HEC / ENG", "venue": "CF / HER / 104" },
+            { "subject": "RS", "venue": "104" },
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "PTH", "venue": "104" },
+            { "subject": "CHIN / CHIN", "venue": "104 / 104" }
+        ],
+        "F": [
+            { "subject": "ENG / ENG / ENG", "venue": "104 / 106 / 103" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "GEOG", "venue": "104" },
+            { "subject": "ASS / ASS", "venue": "104 / 104" },
+            { "subject": "MATH / MATH", "venue": "103 / 104" }
+        ],
+        "G": [
+            { "subject": "HIST", "venue": "104" },
+            { "subject": "IT", "venue": "CR" },
+            { "subject": "CHIS", "venue": "104" },
+            { "subject": "CHIN / CHIN", "venue": "104 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "106 / 104 / 103" },
+            { "subject": "MATH / MATH", "venue": "104 / 103" }
+        ],
+        "H": [
+            { "subject": "CHIN / CHIN", "venue": "104 / 106" },
+            { "subject": "ENG / ENG / ENG", "venue": "104 / 106 / 103" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "MATH / MATH", "venue": "103 / 104" }
+        ]
+    },
+    "2A": {
+        "A": [
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "MATH", "venue": "201" },
+            { "subject": "ENG", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "CTP / CTP", "venue": "201 / 201" }
+        ],
+        "B": [
+            { "subject": "HIST", "venue": "201" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "MATH", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" }
+        ],
+        "C": [
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "GEOG", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" },
+            { "subject": "ENG", "venue": "201" },
+            { "subject": "ASS / ASS", "venue": "201 / 201" },
+            { "subject": "MATH", "venue": "201" }
+        ],
+        "D": [
+            { "subject": "ENG", "venue": "201" },
+            { "subject": "PTH", "venue": "201" },
+            { "subject": "MATH", "venue": "201" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "L&S", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" }
+        ],
+        "E": [
+            { "subject": "CHIN", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "MATH", "venue": "201" },
+            { "subject": "ENG", "venue": "201" },
+            { "subject": "RS", "venue": "201" }
+        ],
+        "F": [
+            { "subject": "HIST", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" },
+            { "subject": "CHIS", "venue": "201" },
+            { "subject": "MATH", "venue": "201" },
+            { "subject": "ASS / ASS", "venue": "201 / 201" },
+            { "subject": "ENG", "venue": "201" }
+        ],
+        "G": [
+            { "subject": "ENG / HEC / ENG", "venue": "CF / HER / 201" },
+            { "subject": "GEOG", "venue": "201" },
+            { "subject": "MATH", "venue": "201" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "ENG", "venue": "201" },
+            { "subject": "CHIN", "venue": "201" }
+        ],
+        "H": [
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "L&S", "venue": "201" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "CHIS", "venue": "201" },
+            { "subject": "ENG", "venue": "201" },
+            { "subject": "ENG / ENG / HEC", "venue": "CF / 201 / HER" }
+        ]
+    },
+    "2B": {
+        "A": [
+            { "subject": "ENG", "venue": "202" },
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "MATH", "venue": "202" },
+            { "subject": "L&S", "venue": "202" },
+            { "subject": "CTP / CTP", "venue": "202 / 202" }
+        ],
+        "B": [
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "MATH", "venue": "202" },
+            { "subject": "ENG", "venue": "202" },
+            { "subject": "HIST", "venue": "202" }
+        ],
+        "C": [
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "ENG", "venue": "202" },
+            { "subject": "MATH", "venue": "202" },
+            { "subject": "GEOG", "venue": "202" },
+            { "subject": "ASS / ASS", "venue": "202 / 202" },
+            { "subject": "PTH", "venue": "202" }
+        ],
+        "D": [
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "ENG", "venue": "202" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "MATH", "venue": "202" },
+            { "subject": "CHIS", "venue": "202" }
+        ],
+        "E": [
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "HIST", "venue": "202" },
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "MATH", "venue": "202" }
+        ],
+        "F": [
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "ENG", "venue": "202" },
+            { "subject": "L&S", "venue": "202" },
+            { "subject": "MATH", "venue": "202" },
+            { "subject": "ASS / ASS", "venue": "202 / 202" },
+            { "subject": "MUS", "venue": "MR" }
+        ],
+        "G": [
+            { "subject": "ENG", "venue": "202" },
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "HEC / ENG / ENG", "venue": "HER / 202 / CF" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "GEOG", "venue": "202" },
+            { "subject": "SCI", "venue": "BL" }
+        ],
+        "H": [
+            { "subject": "HEC / ENG / ENG", "venue": "HER / CF / 202" },
+            { "subject": "RS", "venue": "202" },
+            { "subject": "CHIS", "venue": "202" },
+            { "subject": "CHIN", "venue": "202" },
+            { "subject": "MATH", "venue": "202" },
+            { "subject": "ENG", "venue": "202" }
+        ]
+    },
+    "2C": {
+        "A": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "MATH", "venue": "203" },
+            { "subject": "ENG", "venue": "203" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "HIST", "venue": "203" },
+            { "subject": "CTP / CTP", "venue": "203 / 203" }
+        ],
+        "B": [
+            { "subject": "CHIS", "venue": "203" },
+            { "subject": "ENG", "venue": "203" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "MATH", "venue": "203" },
+            { "subject": "IT", "venue": "ITLC" }
+        ],
+        "C": [
+            { "subject": "GEOG", "venue": "203" },
+            { "subject": "ENG", "venue": "203" },
+            { "subject": "L&S", "venue": "203" },
+            { "subject": "PTH", "venue": "203" },
+            { "subject": "ASS / ASS", "venue": "203 / 203" },
+            { "subject": "MATH", "venue": "203" }
+        ],
+        "D": [
+            { "subject": "ENG", "venue": "203" },
+            { "subject": "HIST", "venue": "203" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "MATH", "venue": "203" }
+        ],
+        "E": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "ENG", "venue": "203" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "RS", "venue": "203" }
+        ],
+        "F": [
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "GEOG", "venue": "203" },
+            { "subject": "ENG", "venue": "203" },
+            { "subject": "ASS / ASS", "venue": "203 / 203" },
+            { "subject": "MATH", "venue": "203" }
+        ],
+        "G": [
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "CHIS", "venue": "203" },
+            { "subject": "MATH", "venue": "203" },
+            { "subject": "ENG / HEC / ENG", "venue": "203 / HER / CF" }
+        ],
+        "H": [
+            { "subject": "L&S", "venue": "203" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "CHIN", "venue": "203" },
+            { "subject": "MATH", "venue": "203" },
+            { "subject": "ENG / ENG / HEC", "venue": "203 / CF / HER" },
+            { "subject": "ENG", "venue": "203" }
+        ]
+    },
+    "2D": {
+        "A": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "204" },
+            { "subject": "ENG", "venue": "204" },
+            { "subject": "HIST", "venue": "204" },
+            { "subject": "MATH", "venue": "204" },
+            { "subject": "CTP / CTP", "venue": "204 / 204" }
+        ],
+        "B": [
+            { "subject": "MATH", "venue": "204" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "L&S", "venue": "204" },
+            { "subject": "GEOG", "venue": "204" },
+            { "subject": "CHIN", "venue": "204" },
+            { "subject": "ENG", "venue": "204" }
+        ],
+        "C": [
+            { "subject": "ENG", "venue": "204" },
+            { "subject": "MATH", "venue": "204" },
+            { "subject": "CHIS", "venue": "204" },
+            { "subject": "CHIN", "venue": "204" },
+            { "subject": "ASS / ASS", "venue": "204 / 204" },
+            { "subject": "PTH", "venue": "204" }
+        ],
+        "D": [
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "ENG", "venue": "204" },
+            { "subject": "MATH", "venue": "204" },
+            { "subject": "MUS", "venue": "MR" },
+            { "subject": "CHIN", "venue": "204" },
+            { "subject": "CHIN", "venue": "204" }
+        ],
+        "E": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "L&S", "venue": "204" },
+            { "subject": "MATH", "venue": "204" },
+            { "subject": "GEOG", "venue": "204" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "ENG", "venue": "204" }
+        ],
+        "F": [
+            { "subject": "CHIN", "venue": "204" },
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "ENG", "venue": "204" },
+            { "subject": "MATH", "venue": "204" },
+            { "subject": "ASS / ASS", "venue": "204 / 204" },
+            { "subject": "HIST", "venue": "204" }
+        ],
+        "G": [
+            { "subject": "ENG", "venue": "204" },
+            { "subject": "ENG / ENG / HEC", "venue": "204 / CF / HER" },
+            { "subject": "CHIN", "venue": "204" },
+            { "subject": "RS", "venue": "204" },
+            { "subject": "CHIS", "venue": "204" },
+            { "subject": "MATH", "venue": "204" }
+        ],
+        "H": [
+            { "subject": "SCI", "venue": "BL" },
+            { "subject": "HEC / ENG / ENG", "venue": "HER / CF / 204" },
+            { "subject": "DE / VA", "venue": "SAC / AR" },
+            { "subject": "VA / DE", "venue": "AR / SAC" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "CHIN", "venue": "204" }
+        ]
+    },
+    "3A": {
+        "A": [
+            { "subject": "ENG", "venue": "301" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "CHIS", "venue": "301" },
+            { "subject": "PTH", "venue": "301" },
+            { "subject": "MATH", "venue": "301" },
+            { "subject": "CTP / CTP", "venue": "301 / 301" }
+        ],
+        "B": [
+            { "subject": "GEOG", "venue": "301" },
+            { "subject": "MATH", "venue": "301" },
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "L&S", "venue": "301" },
+            { "subject": "ENG / ENG", "venue": "CF / 301" }
+        ],
+        "C": [
+            { "subject": "MATH", "venue": "301" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "DE / MUS", "venue": "SAC / MR" },
+            { "subject": "ASS / ASS", "venue": "301 / 301" },
+            { "subject": "ENG", "venue": "301" }
+        ],
+        "D": [
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "CHIS", "venue": "301" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "ENG", "venue": "301" },
+            { "subject": "MATH", "venue": "301" },
+            { "subject": "HIST", "venue": "301" }
+        ],
+        "E": [
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "ENG", "venue": "301" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "GEOG", "venue": "301" },
+            { "subject": "MATH", "venue": "301" }
+        ],
+        "F": [
+            { "subject": "RS", "venue": "301" },
+            { "subject": "ENG", "venue": "301" },
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "ASS / ASS", "venue": "301 / 301" },
+            { "subject": "SCI", "venue": "ISL" }
+        ],
+        "G": [
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "ENG", "venue": "301" },
+            { "subject": "MATH", "venue": "301" },
+            { "subject": "VA", "venue": "AR" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "L&S", "venue": "301" }
+        ],
+        "H": [
+            { "subject": "HIST", "venue": "301" },
+            { "subject": "MATH", "venue": "301" },
+            { "subject": "SCI", "venue": "ISL" },
+            { "subject": "CHIN", "venue": "301" },
+            { "subject": "ENG", "venue": "301" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
+        ]
+    },
+    "3B": {
+        "A": [
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "ENG / ENG", "venue": "302 / CF" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "HIST", "venue": "302" },
+            { "subject": "CTP / CTP", "venue": "302 / 302" }
+        ],
+        "B": [
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "L&S", "venue": "302" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "PTH", "venue": "302" }
+        ],
+        "C": [
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "ASS / ASS", "venue": "302 / 302" },
+            { "subject": "CHIS", "venue": "302" }
+        ],
+        "D": [
+            { "subject": "HIST", "venue": "302" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "GEOG", "venue": "302" },
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "IT", "venue": "ITLC" }
+        ],
+        "E": [
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "CHIN", "venue": "302" }
+        ],
+        "F": [
+            { "subject": "RS", "venue": "302" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "MUS / DE", "venue": "MR / SAC" },
+            { "subject": "ASS / ASS", "venue": "302 / 302" },
+            { "subject": "SCI", "venue": "PL" }
+        ],
+        "G": [
+            { "subject": "CHIS", "venue": "302" },
+            { "subject": "L&S", "venue": "302" },
+            { "subject": "CHIN", "venue": "302" },
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "SCI", "venue": "PL" }
+        ],
+        "H": [
+            { "subject": "VA", "venue": "AR" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "GEOG", "venue": "302" },
+            { "subject": "MATH", "venue": "302" },
+            { "subject": "ENG", "venue": "302" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
+        ]
+    },
+    "3C": {
+        "A": [
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "VA", "venue": "AR" },
+            { "subject": "L&S", "venue": "303" },
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "ENG", "venue": "303" },
+            { "subject": "CTP / CTP", "venue": "303 / 303" }
+        ],
+        "B": [
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "RS", "venue": "303" },
+            { "subject": "ENG / ENG", "venue": "CF / 303" },
+            { "subject": "HIST", "venue": "303" }
+        ],
+        "C": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "ENG", "venue": "303" },
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "ASS / ASS", "venue": "303 / 303" },
+            { "subject": "IT", "venue": "ITLC" }
+        ],
+        "D": [
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "MUS / DE", "venue": "MR / SAC" },
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "ENG", "venue": "303" },
+            { "subject": "CHIS", "venue": "303" },
+            { "subject": "SCI", "venue": "PL" }
+        ],
+        "E": [
+            { "subject": "GEOG", "venue": "303" },
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "ENG", "venue": "303" },
+            { "subject": "HIST", "venue": "303" },
+            { "subject": "L&S", "venue": "303" }
+        ],
+        "F": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "ASS / ASS", "venue": "303 / 303" },
+            { "subject": "ENG", "venue": "303" }
+        ],
+        "G": [
+            { "subject": "ENG", "venue": "303" },
+            { "subject": "MATH", "venue": "303" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "CHIS", "venue": "303" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "CHIN", "venue": "303" }
+        ],
+        "H": [
+            { "subject": "GEOG", "venue": "303" },
+            { "subject": "PTH", "venue": "303" },
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "CHIN", "venue": "303" },
+            { "subject": "SCI", "venue": "PL" },
+            { "subject": "ENG", "venue": "303" }
+        ]
+    },
+    "3D": {
+        "A": [
+            { "subject": "MATH", "venue": "304" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "GEOG", "venue": "304" },
+            { "subject": "SCI", "venue": "CL" },
+            { "subject": "ENG", "venue": "304" },
+            { "subject": "CTP / CTP", "venue": "304 / 304" }
+        ],
+        "B": [
+            { "subject": "MATH", "venue": "304" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "ENG / ENG", "venue": "304 / CF" },
+            { "subject": "SCI", "venue": "CL" },
+            { "subject": "L&S", "venue": "304" },
+            { "subject": "PTH", "venue": "304" }
+        ],
+        "C": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "IT", "venue": "ITLC" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "ENG", "venue": "304" },
+            { "subject": "ASS / ASS", "venue": "304 / 304" },
+            { "subject": "MATH", "venue": "304" }
+        ],
+        "D": [
+            { "subject": "VA", "venue": "AR" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "ENG", "venue": "304" },
+            { "subject": "GEOG", "venue": "304" },
+            { "subject": "RS", "venue": "304" },
+            { "subject": "MATH", "venue": "304" }
+        ],
+        "E": [
+            { "subject": "CHIS", "venue": "304" },
+            { "subject": "L&S", "venue": "304" },
+            { "subject": "MATH", "venue": "304" },
+            { "subject": "HIST", "venue": "304" },
+            { "subject": "SCI", "venue": "CL" },
+            { "subject": "ENG", "venue": "304" }
+        ],
+        "F": [
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "SCI", "venue": "CL" },
+            { "subject": "ENG", "venue": "304" },
+            { "subject": "ASS / ASS", "venue": "304 / 304" },
+            { "subject": "IT", "venue": "ITLC" }
+        ],
+        "G": [
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "SCI", "venue": "CL" },
+            { "subject": "DE / MUS", "venue": "SAC / MR" },
+            { "subject": "MATH", "venue": "304" },
+            { "subject": "ENG", "venue": "304" }
+        ],
+        "H": [
+            { "subject": "MATH", "venue": "304" },
+            { "subject": "SCI", "venue": "CL" },
+            { "subject": "CHIN", "venue": "304" },
+            { "subject": "HIST", "venue": "304" },
+            { "subject": "ENG", "venue": "304" },
+            { "subject": "CHIS", "venue": "304" }
+        ]
+    },
+    "4A": {
+        "A": [
             { "subject": "MATH", "venue": "205" },
             { "subject": "CHIN", "venue": "205" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" },
+            { "subject": "ENG", "venue": "205" },
+            { "subject": "IA / IA", "venue": "205 / 205" },
+            {
+                "subject": "BIO / BAFS / PHY / CHIS / ICT / GEOG",
+                "venue": "305 / 306 / 205 / 206 / CR / 405"
+            },
+            { "subject": "CTP / CTP", "venue": "205 / 205" }
+        ],
+        "B": [
+            { "subject": "ENG", "venue": "205" },
+            { "subject": "ENG", "venue": "205" },
+            { "subject": "MATH", "venue": "205" },
+            {
+                "subject": "PHY / CHIS / BAFS / BIO / GEOG / ICT",
+                "venue": "PL / 206 / 306 / BL / 405 / CR"
+            },
+            {
+                "subject": "ECON / TH / CHEM / HIST",
+                "venue": "206 / 305 / 205 / 407"
+            },
+            {
+                "subject": "ECON / VA / CLIT / PHY / CHEM / BIO",
+                "venue": "206 / AR / 405 / PL / 306 / BL"
+            }
+        ],
+        "C": [
+            {
+                "subject": "PHY / CLIT / CHEM / ECON / BIO / VA",
+                "venue": "205 / 405 / 306 / 206 / 305 / AR"
+            },
+            { "subject": "ENG / ENG", "venue": "CF / 205" },
+            {
+                "subject": "BIO / CHIS / PHY / ICT / BAFS / GEOG",
+                "venue": "305 / 206 / 205 / CR / 306 / 405"
+            },
+            { "subject": "MATH", "venue": "205" },
+            { "subject": "CS", "venue": "205" },
+            { "subject": "ASS / ASS", "venue": "205 / 205" }
+        ],
+        "D": [
+            {
+                "subject": "ICT / GEOG / BIO / CHIS / BAFS / PHY",
+                "venue": "CR / 405 / 305 / 206 / 306 / 205"
+            },
+            { "subject": "CHIN", "venue": "205" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "CHEM / BIO / CLIT / ECON / PHY",
+                "venue": "CL / 305 / 405 / 206 / 205"
+            },
+            { "subject": "MATH", "venue": "205" },
+            {
+                "subject": "CHEM / HIST / ECON / TH",
+                "venue": "CL / 407 / 206 / 305"
+            }
+        ],
+        "E": [
+            {
+                "subject": "CHEM / ECON / PHY / BIO / CLIT / VA",
+                "venue": "306 / 206 / 205 / 305 / 405 / AR"
+            },
+            {
+                "subject": "CHIS / GEOG / BAFS / BIO / ICT / PHY",
+                "venue": "206 / 405 / 306 / 305 / CR / 205"
+            },
+            { "subject": "RS", "venue": "205" },
+            {
+                "subject": "TH / ECON / HIST / CHEM",
+                "venue": "305 / 206 / 407 / 205"
+            },
+            { "subject": "CHIN", "venue": "205" },
             { "subject": "ENG", "venue": "205" }
+        ],
+        "F": [
+            { "subject": "CHIN", "venue": "205" },
+            { "subject": "CS", "venue": "205" },
+            {
+                "subject": "CHEM / ECON / HIST / TH",
+                "venue": "205 / 206 / 407 / 305"
+            },
+            { "subject": "ENG", "venue": "205" },
+            { "subject": "MATH", "venue": "205" },
+            { "subject": "ASS / ASS", "venue": "205 / 205" }
+        ],
+        "G": [
+            {
+                "subject": "CLIT / BIO / CHEM / ECON / PHY / VA",
+                "venue": "405 / 305 / 306 / 206 / 205 / AR"
+            },
+            { "subject": "CHIN", "venue": "205" },
+            { "subject": "MATH", "venue": "205" },
+            { "subject": "ENG", "venue": "205" },
+            {
+                "subject": "ECON / TH / HIST / CHEM",
+                "venue": "206 / 305 / 407 / 205"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
+        ],
+        "H": [
+            {
+                "subject": "CHEM / TH / HIST / ECON",
+                "venue": "205 / 305 / 407 / 206"
+            },
+            {
+                "subject": "PHY / BIO / ECON / CHEM / CLIT / VA",
+                "venue": "205 / 305 / 206 / 306 / 405 / AR"
+            },
+            {
+                "subject": "ICT / CHIS / GEOG / BIO / BAFS / PHY",
+                "venue": "CR / 206 / 405 / 305 / 306 / 205"
+            },
+            { "subject": "CS", "venue": "205" },
+            { "subject": "CHIN", "venue": "205" },
+            { "subject": "CHIN", "venue": "205" }
         ]
     },
     "4B": {
         "A": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "RS", "venue": "206" },
-            { "subject": "ENG_SPEAKING", "venue": "206" },
+            { "subject": "ENG", "venue": "206" },
+            { "subject": "MATH", "venue": "206" },
+            { "subject": "CHIN", "venue": "206" },
+            { "subject": "CHIN", "venue": "206" },
+            {
+                "subject": "GEOG / BAFS / ICT / BIO / CHIS / PHY",
+                "venue": "405 / 306 / CR / 305 / 206 / 205"
+            },
             { "subject": "CTP", "venue": "206" }
         ],
         "B": [
-            { "subject": "PE", "venue": "HALL" },
+            { "subject": "ENG / ENG", "venue": "CF / 206" },
+            { "subject": "CHIN", "venue": "206" },
             { "subject": "MATH", "venue": "206" },
-            { "subject": "CS", "venue": "206" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" }
+            {
+                "subject": "GEOG / BAFS / BIO / CHIS / ICT / PHY",
+                "venue": "405 / 306 / BL / 206 / CR / PL"
+            },
+            {
+                "subject": "HIST / CHEM / ECON / TH",
+                "venue": "407 / 205 / 206 / 305"
+            },
+            {
+                "subject": "ECON / VA / CHEM / CLIT / PHY / BIO",
+                "venue": "206 / AR / 306 / 405 / PL / BL"
+            }
         ],
         "C": [
-            { "subject": "CHIN", "venue": "206" },
-            { "subject": "S4_3X", "venue": "N/A" },
+            {
+                "subject": "VA / ECON / CHEM / CLIT / PHY / BIO",
+                "venue": "AR / 206 / 306 / 405 / 205 / 305"
+            },
             { "subject": "ENG", "venue": "206" },
-            { "subject": "ENG", "venue": "206" },
+            {
+                "subject": "BIO / CHIS / ICT / GEOG / PHY / BAFS",
+                "venue": "305 / 206 / CR / 405 / 205 / 306"
+            },
+            { "subject": "CS", "venue": "206" },
             { "subject": "MATH", "venue": "206" },
-            { "subject": "ASS", "venue": "HALL" }
+            { "subject": "ASS", "venue": "206" }
         ],
         "D": [
-            { "subject": "ENG", "venue": "206" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "CS", "venue": "206" },
+            {
+                "subject": "BAFS / CHIS / ICT / BIO / GEOG / PHY",
+                "venue": "306 / 206 / CR / 305 / 405 / 205"
+            },
+            { "subject": "MATH", "venue": "206" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "CLIT / ECON / PHY / CHEM / BIO",
+                "venue": "405 / 206 / 205 / CL / 305"
+            },
             { "subject": "CHIN", "venue": "206" },
-            { "subject": "CHIN", "venue": "206" }
+            {
+                "subject": "CHEM / TH / HIST / ECON",
+                "venue": "CL / 305 / 407 / 206"
+            }
         ],
         "E": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "206" },
-            { "subject": "ENG", "venue": "206" },
-            { "subject": "CHIN", "venue": "206" }
+            {
+                "subject": "CHEM / VA / CLIT / ECON / BIO / PHY",
+                "venue": "306 / AR / 405 / 206 / 305 / 205"
+            },
+            {
+                "subject": "CHIS / GEOG / PHY / ICT / BAFS / BIO",
+                "venue": "206 / 405 / 205 / CR / 306 / 305"
+            },
+            { "subject": "RS", "venue": "206" },
+            {
+                "subject": "ECON / HIST / TH / CHEM",
+                "venue": "206 / 407 / 305 / 205"
+            },
+            { "subject": "CHIN", "venue": "206" },
+            { "subject": "CS", "venue": "206" }
         ],
         "F": [
             { "subject": "CHIN", "venue": "206" },
+            { "subject": "IA / IA", "venue": "206 / 206" },
+            {
+                "subject": "TH / CHEM / HIST / ECON",
+                "venue": "305 / 205 / 407 / 206"
+            },
+            { "subject": "ENG", "venue": "206" },
             { "subject": "MATH", "venue": "206" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "CS", "venue": "206" },
-            { "subject": "ASS", "venue": "HALL" }
+            { "subject": "ASS", "venue": "206" }
         ],
         "G": [
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "IA", "venue": "206" },
+            {
+                "subject": "ECON / BIO / CHEM / CLIT / PHY / VA",
+                "venue": "206 / 305 / 306 / 405 / 205 / AR"
+            },
             { "subject": "CHIN", "venue": "206" },
+            { "subject": "CS", "venue": "206" },
             { "subject": "ENG", "venue": "206" },
-            { "subject": "MATH", "venue": "206" },
-            { "subject": "PE", "venue": "HALL" }
+            {
+                "subject": "TH / HIST / ECON / CHEM",
+                "venue": "305 / 407 / 206 / 205"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
         ],
         "H": [
-            { "subject": "S4_1X", "venue": "N/A" },
+            {
+                "subject": "CHEM / TH / ECON / HIST",
+                "venue": "205 / 305 / 206 / 407"
+            },
+            {
+                "subject": "CHEM / CLIT / ECON / BIO / PHY / VA",
+                "venue": "306 / 405 / 206 / 305 / 205 / AR"
+            },
+            {
+                "subject": "GEOG / CHIS / BAFS / PHY / BIO / ICT",
+                "venue": "405 / 206 / 306 / 205 / 305 / CR"
+            },
+            { "subject": "MATH", "venue": "206" },
             { "subject": "ENG", "venue": "206" },
-            { "subject": "CHIN", "venue": "206" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "206" }
+            { "subject": "ENG", "venue": "206" }
         ]
     },
     "4C": {
         "A": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "CS", "venue": "306" },
-            { "subject": "PE", "venue": "HALL" },
-            { "subject": "CTP", "venue": "306" }
+            { "subject": "ENG", "venue": "305" },
+            { "subject": "ENG", "venue": "305" },
+            { "subject": "CHIN", "venue": "305" },
+            { "subject": "MATH", "venue": "305" },
+            {
+                "subject": "BAFS / BIO / CHIS / GEOG / ICT / PHY",
+                "venue": "306 / 305 / 206 / 405 / CR / 205"
+            },
+            { "subject": "CTP / CTP", "venue": "305 / 305" }
         ],
         "B": [
-            { "subject": "ENG", "venue": "306" },
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "MATH", "venue": "306" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" }
+            { "subject": "CS", "venue": "305" },
+            { "subject": "MATH", "venue": "305" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "PHY / GEOG / ICT / BIO / CHIS / BAFS",
+                "venue": "PL / 405 / CR / BL / 206 / 306"
+            },
+            {
+                "subject": "CHEM / HIST / TH / ECON",
+                "venue": "205 / 407 / 305 / 206"
+            },
+            {
+                "subject": "ECON / BIO / VA / CLIT / CHEM / PHY",
+                "venue": "206 / BL / AR / 405 / 306 / PL"
+            }
         ],
         "C": [
-            { "subject": "ENG_SPEAKING", "venue": "306/CF" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "306" },
-            { "subject": "CS", "venue": "306" },
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "ASS", "venue": "HALL" }
+            {
+                "subject": "CHEM / ECON / CLIT / VA / PHY / BIO",
+                "venue": "306 / 206 / 405 / AR / 205 / 305"
+            },
+            { "subject": "IA / IA", "venue": "305 / 305" },
+            {
+                "subject": "BIO / PHY / GEOG / ICT / CHIS / BAFS",
+                "venue": "305 / 205 / 405 / CR / 206 / 306"
+            },
+            { "subject": "MATH", "venue": "305" },
+            { "subject": "ENG / ENG", "venue": "CF / 305" },
+            { "subject": "ASS / ASS", "venue": "305 / 305" }
         ],
         "D": [
-            { "subject": "MATH", "venue": "306" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "RS", "venue": "306" },
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "ENG", "venue": "306" }
+            {
+                "subject": "BIO / BAFS / GEOG / ICT / PHY / CHIS",
+                "venue": "305 / 306 / 405 / CR / 205 / 206"
+            },
+            { "subject": "MATH", "venue": "305" },
+            { "subject": "ENG", "venue": "305" },
+            {
+                "subject": "BIO / PHY / ECON / CLIT / CHEM",
+                "venue": "305 / 205 / 206 / 405 / CL"
+            },
+            { "subject": "CHIN", "venue": "305" },
+            {
+                "subject": "TH / HIST / ECON / CHEM",
+                "venue": "305 / 407 / 206 / CL"
+            }
         ],
         "E": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "306" },
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "ENG", "venue": "306" }
+            {
+                "subject": "VA / CHEM / CLIT / PHY / ECON / BIO",
+                "venue": "AR / 306 / 405 / 205 / 206 / 305"
+            },
+            {
+                "subject": "BIO / PHY / BAFS / CHIS / ICT / GEOG",
+                "venue": "305 / 205 / 306 / 206 / CR / 405"
+            },
+            { "subject": "CHIN", "venue": "305" },
+            {
+                "subject": "ECON / CHEM / HIST / TH",
+                "venue": "206 / 205 / 407 / 305"
+            },
+            { "subject": "ENG", "venue": "305" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
         ],
         "F": [
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "CS", "venue": "306" },
-            { "subject": "ASS", "venue": "HALL" }
+            { "subject": "CHIN", "venue": "305" },
+            { "subject": "ENG", "venue": "305" },
+            {
+                "subject": "CHEM / HIST / TH / ECON",
+                "venue": "205 / 407 / 305 / 206"
+            },
+            { "subject": "CS", "venue": "305" },
+            { "subject": "MATH", "venue": "305" },
+            { "subject": "ASS / ASS", "venue": "305 / 305" }
         ],
         "G": [
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "306" },
-            { "subject": "PE", "venue": "HALL" },
-            { "subject": "CHIN", "venue": "306" },
-            { "subject": "ENG", "venue": "306" },
-            { "subject": "ENG", "venue": "306" }
+            {
+                "subject": "PHY / ECON / CLIT / VA / BIO / CHEM",
+                "venue": "205 / 206 / 405 / AR / 305 / 306"
+            },
+            { "subject": "MATH", "venue": "305" },
+            { "subject": "RS", "venue": "305" },
+            { "subject": "ENG", "venue": "305" },
+            {
+                "subject": "TH / CHEM / ECON / HIST",
+                "venue": "305 / 205 / 206 / 407"
+            },
+            { "subject": "CHIN", "venue": "305" }
         ],
         "H": [
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "IA", "venue": "306" },
-            { "subject": "ENG", "venue": "306" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "306" }
+            {
+                "subject": "HIST / ECON / CHEM / TH",
+                "venue": "407 / 206 / 205 / 305"
+            },
+            {
+                "subject": "VA / CLIT / BIO / CHEM / ECON / PHY",
+                "venue": "AR / 405 / 305 / 306 / 206 / 205"
+            },
+            {
+                "subject": "BAFS / GEOG / ICT / BIO / PHY / CHIS",
+                "venue": "306 / 405 / CR / 305 / 205 / 206"
+            },
+            { "subject": "CS", "venue": "305" },
+            { "subject": "CHIN", "venue": "305" },
+            { "subject": "CHIN", "venue": "305" }
         ]
     },
     "4D": {
         "A": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
+            { "subject": "CS", "venue": "306" },
+            { "subject": "MATH", "venue": "306" },
+            { "subject": "CHIN", "venue": "306" },
+            { "subject": "CHIN", "venue": "306" },
+            {
+                "subject": "PHY / BAFS / ICT / GEOG / CHIS / BIO",
+                "venue": "205 / 306 / CR / 405 / 206 / 305"
+            },
+            { "subject": "CTP / CTP", "venue": "306 / 306" }
+        ],
+        "B": [
+            { "subject": "ENG", "venue": "306" },
+            { "subject": "ENG", "venue": "306" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "PHY / GEOG / ICT / BIO / CHIS / BAFS",
+                "venue": "PL / 405 / CR / BL / 206 / 306"
+            },
+            {
+                "subject": "M1 / CHEM / TH / ECON / HIST",
+                "venue": "306 / 205 / 305 / 206 / 407"
+            },
+            {
+                "subject": "VA / CHEM / CLIT / ECON / PHY / BIO",
+                "venue": "AR / 306 / 405 / 206 / PL / BL"
+            }
+        ],
+        "C": [
+            {
+                "subject": "BIO / ECON / PHY / CHEM / VA / CLIT",
+                "venue": "305 / 206 / 205 / 306 / AR / 405"
+            },
+            { "subject": "RS", "venue": "306" },
+            {
+                "subject": "BIO / CHIS / BAFS / GEOG / ICT / PHY",
+                "venue": "305 / 206 / 306 / 405 / CR / 205"
+            },
+            { "subject": "ENG", "venue": "306" },
+            { "subject": "CHIN", "venue": "306" },
+            { "subject": "ASS / ASS", "venue": "306 / 306" }
+        ],
+        "D": [
+            {
+                "subject": "CHIS / ICT / GEOG / PHY / BAFS / BIO",
+                "venue": "206 / CR / 405 / 205 / 306 / 305"
+            },
+            { "subject": "MATH", "venue": "306" },
+            { "subject": "ENG", "venue": "306" },
+            {
+                "subject": "CHEM / BIO / CLIT / ECON / PHY",
+                "venue": "CL / 305 / 405 / 206 / 205"
+            },
+            { "subject": "CS", "venue": "306" },
+            {
+                "subject": "M1 / CHEM / TH / ECON / HIST",
+                "venue": "306 / CL / 305 / 206 / 407"
+            }
+        ],
+        "E": [
+            {
+                "subject": "VA / CLIT / ECON / CHEM / PHY / BIO",
+                "venue": "AR / 405 / 206 / 306 / 205 / 305"
+            },
+            {
+                "subject": "CHIS / PHY / ICT / GEOG / BIO / BAFS",
+                "venue": "206 / 205 / CR / 405 / 305 / 306"
+            },
+            { "subject": "MATH", "venue": "306" },
+            {
+                "subject": "CHEM / ECON / M1 / TH / HIST",
+                "venue": "205 / 206 / 306 / 305 / 407"
+            },
+            { "subject": "CHIN", "venue": "306" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
+        ],
+        "F": [
+            { "subject": "MATH", "venue": "306" },
+            { "subject": "CHIN", "venue": "306" },
+            {
+                "subject": "ECON / TH / HIST / M1 / CHEM",
+                "venue": "206 / 305 / 407 / 306 / 205"
+            },
+            { "subject": "ENG / ENG", "venue": "306 / CF" },
+            { "subject": "CS", "venue": "306" },
+            { "subject": "ASS / ASS", "venue": "306 / 306" }
+        ],
+        "G": [
+            {
+                "subject": "PHY / ECON / CLIT / CHEM / BIO / VA",
+                "venue": "205 / 206 / 405 / 306 / 305 / AR"
+            },
+            { "subject": "IA / IA", "venue": "306 / 306" },
+            { "subject": "CHIN", "venue": "306" },
+            { "subject": "ENG", "venue": "306" },
+            {
+                "subject": "M1 / CHEM / HIST / ECON / TH",
+                "venue": "306 / 205 / 407 / 206 / 305"
+            },
+            { "subject": "MATH", "venue": "306" }
+        ],
+        "H": [
+            {
+                "subject": "TH / CHEM / ECON / M1 / HIST",
+                "venue": "305 / 205 / 206 / 306 / 407"
+            },
+            {
+                "subject": "VA / PHY / BIO / CHEM / CLIT / ECON",
+                "venue": "AR / 205 / 305 / 306 / 405 / 206"
+            },
+            {
+                "subject": "PHY / BIO / BAFS / ICT / GEOG / CHIS",
+                "venue": "205 / 305 / 306 / CR / 405 / 206"
+            },
+            { "subject": "MATH", "venue": "306" },
+            { "subject": "CHIN", "venue": "306" },
+            { "subject": "ENG", "venue": "306" }
+        ]
+    },
+    "4E": {
+        "A": [
+            { "subject": "MATH", "venue": "405" },
+            { "subject": "CHIN", "venue": "405" },
             { "subject": "ENG", "venue": "405" },
-            { "subject": "PE", "venue": "HALL" },
+            { "subject": "RS", "venue": "405" },
+            {
+                "subject": "BAFS / BIO / PHY / GEOG / CHIS / ICT",
+                "venue": "306 / 305 / 205 / 405 / 206 / CR"
+            },
             { "subject": "CTP", "venue": "405" }
         ],
         "B": [
+            { "subject": "ENG", "venue": "405" },
+            { "subject": "ENG", "venue": "405" },
             { "subject": "CS", "venue": "405" },
-            { "subject": "CHIN", "venue": "405" },
-            { "subject": "MATH", "venue": "405" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" }
+            {
+                "subject": "BIO / GEOG / BAFS / PHY / ICT / CHIS",
+                "venue": "BL / 405 / 306 / PL / CR / 206"
+            },
+            {
+                "subject": "ECON / HIST / M2 / CHEM / TH",
+                "venue": "206 / 407 / 405 / 205 / 305"
+            },
+            {
+                "subject": "ECON / CHEM / BIO / PHY / VA / CLIT",
+                "venue": "206 / 306 / BL / PL / AR / 405"
+            }
         ],
         "C": [
-            { "subject": "MATH", "venue": "405" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "ENG", "venue": "405" },
-            { "subject": "ENG", "venue": "405" },
+            {
+                "subject": "BIO / CLIT / ECON / VA / CHEM / PHY",
+                "venue": "305 / 405 / 206 / AR / 306 / 205"
+            },
             { "subject": "CHIN", "venue": "405" },
-            { "subject": "ASS", "venue": "HALL" }
+            {
+                "subject": "CHIS / PHY / BIO / BAFS / GEOG / ICT",
+                "venue": "206 / 205 / 305 / 306 / 405 / CR"
+            },
+            { "subject": "ENG / ENG", "venue": "405 / CF" },
+            { "subject": "MATH", "venue": "405" },
+            { "subject": "ASS", "venue": "405" }
         ],
         "D": [
-            { "subject": "MATH", "venue": "405" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "ENG", "venue": "405" },
+            {
+                "subject": "PHY / BAFS / BIO / ICT / GEOG / CHIS",
+                "venue": "205 / 306 / 305 / CR / 405 / 206"
+            },
             { "subject": "CHIN", "venue": "405" },
-            { "subject": "CHIN", "venue": "405" }
+            { "subject": "MATH", "venue": "405" },
+            {
+                "subject": "BIO / PHY / CHEM / CLIT / ECON",
+                "venue": "305 / 205 / CL / 405 / 206"
+            },
+            { "subject": "CS", "venue": "405" },
+            {
+                "subject": "ECON / M2 / TH / HIST / CHEM",
+                "venue": "206 / 405 / 305 / 407 / CL"
+            }
         ],
         "E": [
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_1X", "venue": "N/A" },
-            { "subject": "MATH", "venue": "405" },
+            {
+                "subject": "ECON / PHY / BIO / VA / CLIT / CHEM",
+                "venue": "206 / 205 / 305 / AR / 405 / 306"
+            },
+            {
+                "subject": "ICT / GEOG / BAFS / CHIS / PHY / BIO",
+                "venue": "CR / 405 / 306 / 206 / 205 / 305"
+            },
+            { "subject": "PE", "venue": "HALL" },
+            {
+                "subject": "CHEM / M2 / TH / HIST / ECON",
+                "venue": "205 / 405 / 305 / 407 / 206"
+            },
             { "subject": "CHIN", "venue": "405" },
-            { "subject": "ENG", "venue": "405" }
+            { "subject": "CHIN", "venue": "405" }
         ],
         "F": [
+            { "subject": "CHIN", "venue": "405" },
+            { "subject": "ENG", "venue": "405" },
+            {
+                "subject": "M2 / CHEM / TH / ECON / HIST",
+                "venue": "405 / 205 / 305 / 206 / 407"
+            },
             { "subject": "CS", "venue": "405" },
             { "subject": "MATH", "venue": "405" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "ENG_SPEAKING", "venue": "405/CF" },
-            { "subject": "ASS", "venue": "HALL" }
+            { "subject": "ASS", "venue": "405" }
         ],
         "G": [
-            { "subject": "S4_1X", "venue": "N/A" },
+            {
+                "subject": "CLIT / ECON / PHY / BIO / CHEM / VA",
+                "venue": "405 / 206 / 205 / 305 / 306 / AR"
+            },
             { "subject": "CHIN", "venue": "405" },
-            { "subject": "PE", "venue": "HALL" },
-            { "subject": "CS", "venue": "405" },
-            { "subject": "MATH", "venue": "405" },
-            { "subject": "RS", "venue": "405" }
+            { "subject": "IA / IA", "venue": "405 / 405" },
+            { "subject": "ENG", "venue": "405" },
+            {
+                "subject": "CHEM / TH / HIST / M2 / ECON",
+                "venue": "205 / 305 / 407 / 405 / 206"
+            },
+            { "subject": "MATH", "venue": "405" }
         ],
         "H": [
-            { "subject": "S4_1X", "venue": "N/A" },
+            {
+                "subject": "CHEM / M2 / ECON / HIST / TH",
+                "venue": "205 / 405 / 206 / 407 / 305"
+            },
+            {
+                "subject": "PHY / VA / CLIT / ECON / BIO / CHEM",
+                "venue": "205 / AR / 405 / 206 / 305 / 306"
+            },
+            {
+                "subject": "BAFS / GEOG / ICT / PHY / CHIS / BIO",
+                "venue": "306 / 405 / CR / 205 / 206 / 305"
+            },
+            { "subject": "PE", "venue": "HALL" },
             { "subject": "ENG", "venue": "405" },
-            { "subject": "IA", "venue": "405" },
-            { "subject": "S4_2X", "venue": "N/A" },
-            { "subject": "S4_3X", "venue": "N/A" },
-            { "subject": "CHIN", "venue": "405" }
+            { "subject": "MATH", "venue": "405" }
+        ]
+    },
+    "5A": {
+        "A": [
+            {
+                "subject": "CLIT / ECON / PHY / CHEM / VA / BIO",
+                "venue": "507 / 408 / 409 / 509 / AR / 508"
+            },
+            { "subject": "PE", "venue": "HALL" },
+            { "subject": "IA / IA", "venue": "408 / 408" },
+            {
+                "subject": "CHIS / ICT / GEOG / PHY / BIO / BAFS",
+                "venue": "508 / CR / 408 / 409 / 507 / 509"
+            },
+            { "subject": "ENG / ENG", "venue": "408 / CF" },
+            { "subject": "CTP", "venue": "408" }
+        ],
+        "B": [
+            {
+                "subject": "ECON / TH / HIST / CHEM",
+                "venue": "408 / 407 / 507 / 409"
+            },
+            {
+                "subject": "CLIT / ECON / BIO / CHEM / PHY",
+                "venue": "507 / 408 / 508 / 509 / 409"
+            },
+            {
+                "subject": "CHIS / GEOG / ICT / BIO / PHY / BAFS",
+                "venue": "508 / 408 / CR / 507 / 409 / 509"
+            },
+            { "subject": "MATH", "venue": "408" },
+            { "subject": "CHIN", "venue": "408" },
+            { "subject": "CHIN", "venue": "408" }
+        ],
+        "C": [
+            { "subject": "CHIN", "venue": "408" },
+            { "subject": "ENG", "venue": "408" },
+            {
+                "subject": "CLIT / BIO / ECON / CHEM / PHY / VA",
+                "venue": "507 / 508 / 408 / 509 / 409 / AR"
+            },
+            { "subject": "CS", "venue": "408" },
+            { "subject": "MATH", "venue": "408" },
+            { "subject": "ASS", "venue": "408" }
+        ],
+        "D": [
+            {
+                "subject": "CHEM / PHY / ECON / CLIT / BIO",
+                "venue": "509 / 409 / 408 / 507 / 508"
+            },
+            {
+                "subject": "PHY / CHIS / GEOG / BAFS / ICT / BIO",
+                "venue": "409 / 508 / 408 / 509 / CR / 507"
+            },
+            {
+                "subject": "TH / HIST / ECON / CHEM",
+                "venue": "407 / 507 / 408 / 409"
+            },
+            { "subject": "CHIN", "venue": "408" },
+            { "subject": "MATH", "venue": "408" },
+            { "subject": "ENG", "venue": "408" }
+        ],
+        "E": [
+            { "subject": "CS", "venue": "408" },
+            { "subject": "ENG", "venue": "408" },
+            {
+                "subject": "ECON / TH / HIST / CHEM",
+                "venue": "408 / 407 / 507 / 409"
+            },
+            {
+                "subject": "ICT / BAFS / CHIS / PHY / GEOG / BIO",
+                "venue": "CR / 509 / 508 / PL / 408 / BL"
+            },
+            { "subject": "PE", "venue": "HALL" },
+            {
+                "subject": "PHY / CHEM / CLIT / VA / BIO / ECON",
+                "venue": "PL / 509 / 507 / AR / BL / 408"
+            }
+        ],
+        "F": [
+            {
+                "subject": "ECON / HIST / TH / CHEM",
+                "venue": "408 / 507 / 407 / 409"
+            },
+            { "subject": "MATH", "venue": "408" },
+            { "subject": "ENG", "venue": "408" },
+            {
+                "subject": "PHY / ICT / CHIS / BIO / BAFS / GEOG",
+                "venue": "409 / CR / 508 / 507 / 509 / 408"
+            },
+            { "subject": "CHIN", "venue": "408" },
+            { "subject": "ASS", "venue": "408" }
+        ],
+        "G": [
+            {
+                "subject": "BAFS / ICT / CHIS / PHY / GEOG / BIO",
+                "venue": "509 / CR / 508 / 409 / 408 / 507"
+            },
+            { "subject": "MATH", "venue": "408" },
+            { "subject": "CS", "venue": "408" },
+            {
+                "subject": "CHEM / ECON / PHY / CLIT / BIO",
+                "venue": "CL / 408 / 409 / 507 / 508"
+            },
+            { "subject": "CHIN", "venue": "408" },
+            {
+                "subject": "HIST / ECON / CHEM / TH",
+                "venue": "507 / 408 / CL / 407"
+            }
+        ],
+        "H": [
+            { "subject": "CHIN", "venue": "408" },
+            { "subject": "RS", "venue": "408" },
+            {
+                "subject": "CHEM / ECON / HIST / TH",
+                "venue": "409 / 408 / 507 / 407"
+            },
+            { "subject": "MATH", "venue": "408" },
+            { "subject": "ENG", "venue": "408" },
+            { "subject": "ENG", "venue": "408" }
+        ]
+    },
+    "5B": {
+        "A": [
+            {
+                "subject": "ECON / CHEM / PHY / BIO / CLIT / VA",
+                "venue": "408 / 509 / 409 / 508 / 507 / AR"
+            },
+            { "subject": "ENG / ENG", "venue": "409 / CF" },
+            { "subject": "MATH", "venue": "409" },
+            {
+                "subject": "BIO / ICT / CHIS / PHY / BAFS / GEOG",
+                "venue": "507 / CR / 508 / 409 / 509 / 408"
+            },
+            { "subject": "CHIN", "venue": "409" },
+            { "subject": "CTP", "venue": "409" }
+        ],
+        "B": [
+            {
+                "subject": "HIST / CHEM / TH / ECON",
+                "venue": "507 / 409 / 407 / 408"
+            },
+            {
+                "subject": "CHEM / CLIT / BIO / PHY / ECON",
+                "venue": "509 / 507 / 508 / 409 / 408"
+            },
+            {
+                "subject": "BIO / GEOG / PHY / BAFS / ICT / CHIS",
+                "venue": "507 / 408 / 409 / 509 / CR / 508"
+            },
+            { "subject": "PE", "venue": "HALL" },
+            { "subject": "IA / IA", "venue": "409 / 409" },
+            { "subject": "MATH", "venue": "409" }
+        ],
+        "C": [
+            { "subject": "ENG", "venue": "409" },
+            { "subject": "CHIN", "venue": "409" },
+            {
+                "subject": "PHY / ECON / BIO / VA / CHEM / CLIT",
+                "venue": "409 / 408 / 508 / AR / 509 / 507"
+            },
+            { "subject": "CS", "venue": "409" },
+            { "subject": "MATH", "venue": "409" },
+            { "subject": "ASS", "venue": "409" }
+        ],
+        "D": [
+            {
+                "subject": "ECON / CLIT / PHY / BIO / CHEM",
+                "venue": "408 / 507 / 409 / 508 / 509"
+            },
+            {
+                "subject": "GEOG / BAFS / BIO / CHIS / ICT / PHY",
+                "venue": "408 / 509 / 507 / 508 / CR / 409"
+            },
+            {
+                "subject": "TH / CHEM / HIST / ECON",
+                "venue": "407 / 409 / 507 / 408"
+            },
+            { "subject": "MATH", "venue": "409" },
+            { "subject": "ENG", "venue": "409" },
+            { "subject": "RS", "venue": "409" }
+        ],
+        "E": [
+            { "subject": "CHIN", "venue": "409" },
+            { "subject": "CHIN", "venue": "409" },
+            {
+                "subject": "CHEM / ECON / TH / HIST",
+                "venue": "409 / 408 / 407 / 507"
+            },
+            {
+                "subject": "BIO / GEOG / BAFS / ICT / CHIS / PHY",
+                "venue": "BL / 408 / 509 / CR / 508 / PL"
+            },
+            { "subject": "MATH", "venue": "409" },
+            {
+                "subject": "PHY / CLIT / ECON / CHEM / VA / BIO",
+                "venue": "PL / 507 / 408 / 509 / AR / BL"
+            }
+        ],
+        "F": [
+            {
+                "subject": "CHEM / TH / HIST / ECON",
+                "venue": "409 / 407 / 507 / 408"
+            },
+            { "subject": "CS", "venue": "409" },
+            { "subject": "CHIN", "venue": "409" },
+            {
+                "subject": "CHIS / PHY / BAFS / ICT / GEOG / BIO",
+                "venue": "508 / 409 / 509 / CR / 408 / 507"
+            },
+            { "subject": "ENG", "venue": "409" },
+            { "subject": "ASS", "venue": "409" }
+        ],
+        "G": [
+            {
+                "subject": "BAFS / GEOG / ICT / PHY / CHIS / BIO",
+                "venue": "509 / 408 / CR / 409 / 508 / 507"
+            },
+            { "subject": "ENG", "venue": "409" },
+            { "subject": "CHIN", "venue": "409" },
+            {
+                "subject": "CLIT / ECON / PHY / CHEM / BIO",
+                "venue": "507 / 408 / 409 / CL / 508"
+            },
+            { "subject": "PE", "venue": "HALL" },
+            {
+                "subject": "HIST / TH / ECON / CHEM",
+                "venue": "507 / 407 / 408 / CL"
+            }
+        ],
+        "H": [
+            { "subject": "ENG", "venue": "409" },
+            { "subject": "ENG", "venue": "409" },
+            {
+                "subject": "ECON / TH / HIST / CHEM",
+                "venue": "408 / 407 / 507 / 409"
+            },
+            { "subject": "CHIN", "venue": "409" },
+            { "subject": "MATH", "venue": "409" },
+            { "subject": "CS", "venue": "409" }
+        ]
+    },
+    "5C": {
+        "A": [
+            {
+                "subject": "PHY / VA / ECON / CLIT / CHEM / BIO",
+                "venue": "409 / AR / 408 / 507 / 509 / 508"
+            },
+            { "subject": "ENG", "venue": "508" },
+            { "subject": "MATH", "venue": "508" },
+            {
+                "subject": "BAFS / GEOG / BIO / ICT / CHIS / PHY",
+                "venue": "509 / 408 / 507 / CR / 508 / 409"
+            },
+            { "subject": "CHIN", "venue": "508" },
+            { "subject": "CTP", "venue": "508" }
+        ],
+        "B": [
+            {
+                "subject": "M1 / ECON / HIST / CHEM / TH",
+                "venue": "508 / 408 / 507 / 409 / 407"
+            },
+            {
+                "subject": "CLIT / BIO / CHEM / PHY / ECON",
+                "venue": "507 / 508 / 509 / 409 / 408"
+            },
+            {
+                "subject": "BIO / GEOG / PHY / CHIS / ICT / BAFS",
+                "venue": "507 / 408 / 409 / 508 / CR / 509"
+            },
+            { "subject": "MATH", "venue": "508" },
+            { "subject": "ENG", "venue": "508" },
+            { "subject": "ENG", "venue": "508" }
+        ],
+        "C": [
+            { "subject": "CHIN", "venue": "508" },
+            { "subject": "MATH", "venue": "508" },
+            {
+                "subject": "VA / CLIT / BIO / CHEM / ECON / PHY",
+                "venue": "AR / 507 / 508 / 509 / 408 / 409"
+            },
+            { "subject": "ENG", "venue": "508" },
+            { "subject": "CS", "venue": "508" },
+            { "subject": "ASS", "venue": "508" }
+        ],
+        "D": [
+            {
+                "subject": "BIO / CLIT / PHY / ECON / CHEM",
+                "venue": "508 / 507 / 409 / 408 / 509"
+            },
+            {
+                "subject": "PHY / BAFS / CHIS / GEOG / ICT / BIO",
+                "venue": "409 / 509 / 508 / 408 / CR / 507"
+            },
+            {
+                "subject": "CHEM / TH / ECON / M1 / HIST",
+                "venue": "409 / 407 / 408 / 508 / 507"
+            },
+            { "subject": "CHIN", "venue": "508" },
+            { "subject": "ENG", "venue": "508" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
+        ],
+        "E": [
+            { "subject": "CHIN", "venue": "508" },
+            { "subject": "CS", "venue": "508" },
+            {
+                "subject": "HIST / ECON / CHEM / TH / M1",
+                "venue": "507 / 408 / 409 / 407 / 508"
+            },
+            {
+                "subject": "PHY / CHIS / ICT / BIO / BAFS / GEOG",
+                "venue": "PL / 508 / CR / BL / 509 / 408"
+            },
+            { "subject": "IA / IA", "venue": "508 / 508" },
+            {
+                "subject": "CLIT / ECON / CHEM / PHY / BIO / VA",
+                "venue": "507 / 408 / 509 / PL / BL / AR"
+            }
+        ],
+        "F": [
+            {
+                "subject": "M1 / CHEM / ECON / HIST / TH",
+                "venue": "508 / 409 / 408 / 507 / 407"
+            },
+            { "subject": "ENG / ENG", "venue": "508 / CF" },
+            { "subject": "MATH", "venue": "508" },
+            {
+                "subject": "BIO / ICT / GEOG / CHIS / PHY / BAFS",
+                "venue": "507 / CR / 408 / 508 / 409 / 509"
+            },
+            { "subject": "CHIN", "venue": "508" },
+            { "subject": "ASS", "venue": "508" }
+        ],
+        "G": [
+            {
+                "subject": "PHY / CHIS / GEOG / ICT / BIO / BAFS",
+                "venue": "409 / 508 / 408 / CR / 507 / 509"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "MATH", "venue": "508" },
+            {
+                "subject": "PHY / BIO / CHEM / CLIT / ECON",
+                "venue": "409 / 508 / CL / 507 / 408"
+            },
+            { "subject": "RS", "venue": "508" },
+            {
+                "subject": "ECON / M1 / TH / CHEM / HIST",
+                "venue": "408 / 508 / 407 / CL / 507"
+            }
+        ],
+        "H": [
+            { "subject": "ENG", "venue": "508" },
+            { "subject": "MATH", "venue": "508" },
+            {
+                "subject": "M1 / TH / ECON / HIST / CHEM",
+                "venue": "508 / 407 / 408 / 507 / 409"
+            },
+            { "subject": "CS", "venue": "508" },
+            { "subject": "CHIN", "venue": "508" },
+            { "subject": "CHIN", "venue": "508" }
+        ]
+    },
+    "5D": {
+        "A": [
+            {
+                "subject": "ECON / CLIT / BIO / PHY / CHEM / VA",
+                "venue": "408 / 507 / 508 / 409 / 509 / AR"
+            },
+            { "subject": "CHIN", "venue": "509" },
+            { "subject": "MATH", "venue": "509" },
+            {
+                "subject": "CHIS / BIO / BAFS / GEOG / ICT / PHY",
+                "venue": "508 / 507 / 509 / 408 / CR / 409"
+            },
+            { "subject": "IA / IA", "venue": "509 / 509" },
+            { "subject": "CTP", "venue": "509" }
+        ],
+        "B": [
+            {
+                "subject": "M2 / CHEM / TH / ECON / HIST",
+                "venue": "509 / 409 / 407 / 408 / 507"
+            },
+            {
+                "subject": "BIO / ECON / PHY / CLIT / CHEM",
+                "venue": "508 / 408 / 409 / 507 / 509"
+            },
+            {
+                "subject": "BIO / BAFS / GEOG / CHIS / ICT / PHY",
+                "venue": "507 / 509 / 408 / 508 / CR / 409"
+            },
+            { "subject": "MATH", "venue": "509" },
+            { "subject": "ENG", "venue": "509" },
+            { "subject": "ENG", "venue": "509" }
+        ],
+        "C": [
+            { "subject": "CS", "venue": "509" },
+            { "subject": "CHIN", "venue": "509" },
+            {
+                "subject": "PHY / CHEM / CLIT / VA / ECON / BIO",
+                "venue": "409 / 509 / 507 / AR / 408 / 508"
+            },
+            { "subject": "MATH", "venue": "509" },
+            { "subject": "ENG", "venue": "509" },
+            { "subject": "ASS", "venue": "509" }
+        ],
+        "D": [
+            {
+                "subject": "CHEM / BIO / ECON / CLIT / PHY",
+                "venue": "509 / 508 / 408 / 507 / 409"
+            },
+            {
+                "subject": "BIO / PHY / CHIS / GEOG / BAFS / ICT",
+                "venue": "507 / 409 / 508 / 408 / 509 / CR"
+            },
+            {
+                "subject": "TH / ECON / M2 / CHEM / HIST",
+                "venue": "407 / 408 / 509 / 409 / 507"
+            },
+            { "subject": "MATH", "venue": "509" },
+            { "subject": "ENG", "venue": "509" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" }
+        ],
+        "E": [
+            { "subject": "ENG", "venue": "509" },
+            { "subject": "CHIN", "venue": "509" },
+            {
+                "subject": "ECON / CHEM / TH / HIST / M2",
+                "venue": "408 / 409 / 407 / 507 / 509"
+            },
+            {
+                "subject": "ICT / BIO / BAFS / PHY / CHIS / GEOG",
+                "venue": "CR / BL / 509 / PL / 508 / 408"
+            },
+            { "subject": "CS", "venue": "509" },
+            {
+                "subject": "CLIT / BIO / CHEM / PHY / VA / ECON",
+                "venue": "507 / BL / 509 / PL / AR / 408"
+            }
+        ],
+        "F": [
+            {
+                "subject": "TH / M2 / CHEM / HIST / ECON",
+                "venue": "407 / 509 / 409 / 507 / 408"
+            },
+            { "subject": "CHIN", "venue": "509" },
+            { "subject": "MATH", "venue": "509" },
+            {
+                "subject": "CHIS / ICT / PHY / BAFS / GEOG / BIO",
+                "venue": "508 / CR / 409 / 509 / 408 / 507"
+            },
+            { "subject": "ENG / ENG", "venue": "CF / 509" },
+            { "subject": "ASS", "venue": "509" }
+        ],
+        "G": [
+            {
+                "subject": "CHIS / BAFS / BIO / PHY / GEOG / ICT",
+                "venue": "508 / 509 / 507 / 409 / 408 / CR"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "509" },
+            {
+                "subject": "PHY / ECON / CHEM / BIO / CLIT",
+                "venue": "409 / 408 / CL / 508 / 507"
+            },
+            { "subject": "MATH", "venue": "509" },
+            {
+                "subject": "ECON / M2 / CHEM / HIST / TH",
+                "venue": "408 / 509 / CL / 507 / 407"
+            }
+        ],
+        "H": [
+            { "subject": "CHIN", "venue": "509" },
+            { "subject": "CHIN", "venue": "509" },
+            {
+                "subject": "ECON / CHEM / M2 / TH / HIST",
+                "venue": "408 / 409 / 509 / 407 / 507"
+            },
+            { "subject": "CS", "venue": "509" },
+            { "subject": "RS", "venue": "509" },
+            { "subject": "ENG", "venue": "509" }
+        ]
+    },
+    "6A": {
+        "A": [
+            {
+                "subject": "GEOG / PHY / ICT / BIO / BAFS / CHIS",
+                "venue": "401 / 402 / CR / 406 / 404 / 403"
+            },
+            { "subject": "MATH", "venue": "401" },
+            { "subject": "CHIN", "venue": "401" },
+            { "subject": "CHIN", "venue": "401" },
+            {
+                "subject": "CHEM / ECON / HIST / TH",
+                "venue": "402 / 401 / 407 / 406"
+            },
+            { "subject": "CTP", "venue": "401" }
+        ],
+        "B": [
+            {
+                "subject": "VA / PHY / ECON / BIO / CHEM / CLIT",
+                "venue": "AR / 402 / 401 / 403 / 404 / 406"
+            },
+            { "subject": "IA / IA", "venue": "401 / 401" },
+            { "subject": "CHIN", "venue": "401" },
+            { "subject": "ENG", "venue": "401" },
+            {
+                "subject": "CHIS / ICT / PHY / GEOG / BAFS / BIO",
+                "venue": "403 / CR / 402 / 401 / 404 / 406"
+            },
+            { "subject": "CS", "venue": "401" }
+        ],
+        "C": [
+            { "subject": "ENG", "venue": "401" },
+            { "subject": "CHIN", "venue": "401" },
+            {
+                "subject": "TH / HIST / CHEM / ECON",
+                "venue": "406 / 407 / 402 / 401"
+            },
+            {
+                "subject": "BIO / PHY / VA / CHEM / CLIT / ECON",
+                "venue": "BL / 402 / AR / 404 / 406 / 401"
+            },
+            { "subject": "MATH", "venue": "401" },
+            { "subject": "ASS", "venue": "401" }
+        ],
+        "D": [
+            {
+                "subject": "ECON / TH / CHEM / HIST",
+                "venue": "401 / 406 / 402 / 407"
+            },
+            { "subject": "MATH", "venue": "401" },
+            {
+                "subject": "PHY / BAFS / GEOG / BIO / CHIS / ICT",
+                "venue": "402 / 404 / 401 / BL / 403 / CR"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CS", "venue": "401" },
+            {
+                "subject": "CLIT / BIO / PHY / VA / ECON / CHEM",
+                "venue": "406 / 403 / 402 / AR / 401 / 404"
+            }
+        ],
+        "E": [
+            { "subject": "MATH", "venue": "401" },
+            { "subject": "MATH", "venue": "401" },
+            { "subject": "ENG", "venue": "401" },
+            { "subject": "ENG", "venue": "401" },
+            {
+                "subject": "TH / CHEM / ECON / HIST",
+                "venue": "406 / 402 / 401 / 407"
+            },
+            {
+                "subject": "BAFS / CHIS / GEOG / PHY / ICT / BIO",
+                "venue": "404 / 403 / 401 / 402 / CR / 406"
+            }
+        ],
+        "F": [
+            {
+                "subject": "CHEM / PHY / CLIT / ECON / BIO / VA",
+                "venue": "404 / 402 / 406 / 401 / 403 / AR"
+            },
+            {
+                "subject": "GEOG / BAFS / PHY / ICT / CHIS / BIO",
+                "venue": "401 / 404 / 402 / CR / 403 / 406"
+            },
+            { "subject": "CHIN", "venue": "401" },
+            { "subject": "MATH", "venue": "401" },
+            { "subject": "ENG", "venue": "401" },
+            { "subject": "ASS", "venue": "401" }
+        ],
+        "G": [
+            { "subject": "CS", "venue": "401" },
+            { "subject": "CHIN", "venue": "401" },
+            { "subject": "ENG", "venue": "401" },
+            {
+                "subject": "CHEM / TH / HIST / ECON",
+                "venue": "402 / 406 / 407 / 401"
+            },
+            {
+                "subject": "BIO / CHEM / CLIT / ECON / PHY / VA",
+                "venue": "403 / 404 / 406 / 401 / 402 / AR"
+            },
+            {
+                "subject": "ICT / CHIS / BIO / BAFS / GEOG / PHY",
+                "venue": "CR / 403 / 406 / 404 / 401 / 402"
+            }
+        ],
+        "H": [
+            { "subject": "ENG", "venue": "401" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "401" },
+            {
+                "subject": "CHEM / TH / HIST / ECON",
+                "venue": "CL / 406 / 407 / 401"
+            },
+            { "subject": "RS", "venue": "401" },
+            {
+                "subject": "CLIT / BIO / VA / ECON / PHY / CHEM",
+                "venue": "406 / 403 / AR / 401 / 402 / CL"
+            }
+        ]
+    },
+    "6B": {
+        "A": [
+            {
+                "subject": "BAFS / CHIS / ICT / BIO / PHY / GEOG",
+                "venue": "404 / 403 / CR / 406 / 402 / 401"
+            },
+            { "subject": "CS", "venue": "402" },
+            { "subject": "CHIN", "venue": "402" },
+            { "subject": "CHIN", "venue": "402" },
+            {
+                "subject": "CHEM / HIST / TH / ECON",
+                "venue": "402 / 407 / 406 / 401"
+            },
+            { "subject": "CTP", "venue": "402" }
+        ],
+        "B": [
+            {
+                "subject": "VA / CHEM / ECON / CLIT / BIO / PHY",
+                "venue": "AR / 404 / 401 / 406 / 403 / 402"
+            },
+            { "subject": "ENG", "venue": "402" },
+            { "subject": "MATH", "venue": "402" },
+            { "subject": "RS", "venue": "402" },
+            {
+                "subject": "BAFS / BIO / GEOG / PHY / CHIS / ICT",
+                "venue": "404 / 406 / 401 / 402 / 403 / CR"
+            },
+            { "subject": "CHIN", "venue": "402" }
+        ],
+        "C": [
+            { "subject": "ENG", "venue": "402" },
+            { "subject": "CS", "venue": "402" },
+            {
+                "subject": "TH / ECON / HIST / CHEM",
+                "venue": "406 / 401 / 407 / 402"
+            },
+            {
+                "subject": "CLIT / ECON / VA / PHY / CHEM / BIO",
+                "venue": "406 / 401 / AR / 402 / 404 / BL"
+            },
+            { "subject": "CHIN", "venue": "402" },
+            { "subject": "ASS", "venue": "402" }
+        ],
+        "D": [
+            {
+                "subject": "HIST / TH / CHEM / ECON",
+                "venue": "407 / 406 / 402 / 401"
+            },
+            { "subject": "ENG", "venue": "402" },
+            {
+                "subject": "CHIS / BAFS / PHY / ICT / BIO / GEOG",
+                "venue": "403 / 404 / 402 / CR / BL / 401"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "MATH", "venue": "402" },
+            {
+                "subject": "ECON / CHEM / PHY / CLIT / BIO / VA",
+                "venue": "401 / 404 / 402 / 406 / 403 / AR"
+            }
+        ],
+        "E": [
+            { "subject": "MATH", "venue": "402" },
+            { "subject": "MATH", "venue": "402" },
+            { "subject": "ENG", "venue": "402" },
+            { "subject": "ENG", "venue": "402" },
+            {
+                "subject": "HIST / ECON / TH / CHEM",
+                "venue": "407 / 401 / 406 / 402"
+            },
+            {
+                "subject": "GEOG / BIO / BAFS / ICT / CHIS / PHY",
+                "venue": "401 / 406 / 404 / CR / 403 / 402"
+            }
+        ],
+        "F": [
+            {
+                "subject": "VA / ECON / CLIT / BIO / PHY / CHEM",
+                "venue": "AR / 401 / 406 / 403 / 402 / 404"
+            },
+            {
+                "subject": "CHIS / BIO / GEOG / PHY / ICT / BAFS",
+                "venue": "403 / 406 / 401 / 402 / CR / 404"
+            },
+            { "subject": "IA / IA", "venue": "402 / 402" },
+            { "subject": "CS", "venue": "402" },
+            { "subject": "CHIN", "venue": "402" },
+            { "subject": "ASS", "venue": "402" }
+        ],
+        "G": [
+            { "subject": "MATH", "venue": "402" },
+            { "subject": "CHIN", "venue": "402" },
+            { "subject": "ENG", "venue": "402" },
+            {
+                "subject": "CHEM / TH / HIST / ECON",
+                "venue": "402 / 406 / 407 / 401"
+            },
+            {
+                "subject": "ECON / BIO / CLIT / PHY / CHEM / VA",
+                "venue": "401 / 403 / 406 / 402 / 404 / AR"
+            },
+            {
+                "subject": "BAFS / GEOG / ICT / CHIS / PHY / BIO",
+                "venue": "404 / 401 / CR / 403 / 402 / 406"
+            }
+        ],
+        "H": [
+            { "subject": "ENG", "venue": "402" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            { "subject": "CHIN", "venue": "402" },
+            {
+                "subject": "ECON / HIST / CHEM / TH",
+                "venue": "401 / 407 / CL / 406"
+            },
+            { "subject": "MATH", "venue": "402" },
+            {
+                "subject": "ECON / VA / CHEM / CLIT / BIO / PHY",
+                "venue": "401 / AR / CL / 406 / 403 / 402"
+            }
+        ]
+    },
+    "6C": {
+        "A": [
+            {
+                "subject": "PHY / BAFS / BIO / CHIS / GEOG / ICT",
+                "venue": "402 / 404 / 406 / 403 / 401 / CR"
+            },
+            { "subject": "MATH", "venue": "403" },
+            { "subject": "MATH", "venue": "403" },
+            { "subject": "ENG", "venue": "403" },
+            {
+                "subject": "M1 / TH / ECON / CHEM / HIST",
+                "venue": "403 / 406 / 401 / 402 / 407"
+            },
+            { "subject": "CTP", "venue": "403" }
+        ],
+        "B": [
+            {
+                "subject": "VA / ECON / PHY / CLIT / CHEM / BIO",
+                "venue": "AR / 401 / 402 / 406 / 404 / 403"
+            },
+            { "subject": "CS", "venue": "403" },
+            { "subject": "CHIN", "venue": "403" },
+            { "subject": "CHIN", "venue": "403" },
+            {
+                "subject": "BIO / ICT / PHY / GEOG / BAFS / CHIS",
+                "venue": "406 / CR / 402 / 401 / 404 / 403"
+            },
+            { "subject": "ENG", "venue": "403" }
+        ],
+        "C": [
+            { "subject": "ENG", "venue": "403" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "M1 / ECON / TH / CHEM / HIST",
+                "venue": "403 / 401 / 406 / 402 / 407"
+            },
+            {
+                "subject": "VA / PHY / ECON / BIO / CLIT / CHEM",
+                "venue": "AR / 402 / 401 / BL / 406 / 404"
+            },
+            { "subject": "CHIN", "venue": "403" },
+            { "subject": "ASS", "venue": "403" }
+        ],
+        "D": [
+            {
+                "subject": "CHEM / M1 / TH / HIST / ECON",
+                "venue": "402 / 403 / 406 / 407 / 401"
+            },
+            { "subject": "CS", "venue": "403" },
+            {
+                "subject": "ICT / CHIS / BIO / BAFS / GEOG / PHY",
+                "venue": "CR / 403 / BL / 404 / 401 / 402"
+            },
+            { "subject": "ENG", "venue": "403" },
+            { "subject": "CHIN", "venue": "403" },
+            {
+                "subject": "CLIT / PHY / VA / CHEM / ECON / BIO",
+                "venue": "406 / 402 / AR / 404 / 401 / 403"
+            }
+        ],
+        "E": [
+            { "subject": "MATH", "venue": "403" },
+            { "subject": "MATH", "venue": "403" },
+            { "subject": "ENG", "venue": "403" },
+            { "subject": "ENG", "venue": "403" },
+            {
+                "subject": "CHEM / TH / ECON / HIST / M1",
+                "venue": "402 / 406 / 401 / 407 / 403"
+            },
+            {
+                "subject": "PHY / BAFS / CHIS / ICT / BIO / GEOG",
+                "venue": "402 / 404 / 403 / CR / 406 / 401"
+            }
+        ],
+        "F": [
+            {
+                "subject": "VA / BIO / CHEM / ECON / CLIT / PHY",
+                "venue": "AR / 403 / 404 / 401 / 406 / 402"
+            },
+            {
+                "subject": "ICT / PHY / BIO / CHIS / GEOG / BAFS",
+                "venue": "CR / 402 / 406 / 403 / 401 / 404"
+            },
+            { "subject": "MATH", "venue": "403" },
+            { "subject": "MATH", "venue": "403" },
+            { "subject": "CHIN", "venue": "403" },
+            { "subject": "ASS", "venue": "403" }
+        ],
+        "G": [
+            { "subject": "RS", "venue": "403" },
+            { "subject": "CHIN", "venue": "403" },
+            { "subject": "ENG", "venue": "403" },
+            {
+                "subject": "HIST / ECON / TH / CHEM / M1",
+                "venue": "407 / 401 / 406 / 402 / 403"
+            },
+            {
+                "subject": "VA / PHY / CLIT / BIO / ECON / CHEM",
+                "venue": "AR / 402 / 406 / 403 / 401 / 404"
+            },
+            {
+                "subject": "ICT / BIO / PHY / GEOG / CHIS / BAFS",
+                "venue": "CR / 406 / 402 / 401 / 403 / 404"
+            }
+        ],
+        "H": [
+            { "subject": "CS", "venue": "403" },
+            { "subject": "IA / IA", "venue": "403 / 403" },
+            { "subject": "CHIN", "venue": "403" },
+            {
+                "subject": "TH / ECON / HIST / CHEM / M1",
+                "venue": "406 / 401 / 407 / CL / 403"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "CLIT / CHEM / VA / ECON / PHY / BIO",
+                "venue": "406 / CL / AR / 401 / 402 / 403"
+            }
+        ]
+    },
+    "6D": {
+        "A": [
+            {
+                "subject": "GEOG / PHY / BIO / CHIS / ICT / BAFS",
+                "venue": "401 / 402 / 406 / 403 / CR / 404"
+            },
+            { "subject": "IA / IA", "venue": "404 / 404" },
+            { "subject": "ENG", "venue": "404" },
+            { "subject": "CHIN", "venue": "404" },
+            {
+                "subject": "ECON / M2 / HIST / CHEM / TH",
+                "venue": "401 / 404 / 407 / 402 / 406"
+            },
+            { "subject": "CTP / CTP", "venue": "404 / 404" }
+        ],
+        "B": [
+            {
+                "subject": "CHEM / BIO / ECON / CLIT / PHY / VA",
+                "venue": "404 / 403 / 401 / 406 / 402 / AR"
+            },
+            { "subject": "ENG", "venue": "404" },
+            { "subject": "CS", "venue": "404" },
+            { "subject": "MATH", "venue": "404" },
+            {
+                "subject": "ICT / GEOG / PHY / CHIS / BIO / BAFS",
+                "venue": "CR / 401 / 402 / 403 / 406 / 404"
+            },
+            { "subject": "CHIN", "venue": "404" }
+        ],
+        "C": [
+            { "subject": "MATH", "venue": "404" },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "ECON / CHEM / HIST / M2 / TH",
+                "venue": "401 / 402 / 407 / 404 / 406"
+            },
+            {
+                "subject": "PHY / CHEM / VA / CLIT / ECON / BIO",
+                "venue": "402 / 404 / AR / 406 / 401 / BL"
+            },
+            { "subject": "ENG", "venue": "404" },
+            { "subject": "ASS / ASS", "venue": "404 / 404" }
+        ],
+        "D": [
+            {
+                "subject": "ECON / HIST / TH / CHEM / M2",
+                "venue": "401 / 407 / 406 / 402 / 404"
+            },
+            { "subject": "CS", "venue": "404" },
+            {
+                "subject": "ICT / BAFS / PHY / BIO / CHIS / GEOG",
+                "venue": "CR / 404 / 402 / BL / 403 / 401"
+            },
+            { "subject": "MATH", "venue": "404" },
+            { "subject": "CHIN", "venue": "404" },
+            {
+                "subject": "ECON / PHY / BIO / CLIT / VA / CHEM",
+                "venue": "401 / 402 / 403 / 406 / AR / 404"
+            }
+        ],
+        "E": [
+            { "subject": "MATH", "venue": "404" },
+            { "subject": "MATH", "venue": "404" },
+            { "subject": "ENG", "venue": "404" },
+            { "subject": "ENG", "venue": "404" },
+            {
+                "subject": "TH / CHEM / M2 / ECON / HIST",
+                "venue": "406 / 402 / 404 / 401 / 407"
+            },
+            {
+                "subject": "BIO / PHY / ICT / GEOG / CHIS / BAFS",
+                "venue": "406 / 402 / CR / 401 / 403 / 404"
+            }
+        ],
+        "F": [
+            {
+                "subject": "VA / CHEM / PHY / CLIT / BIO / ECON",
+                "venue": "AR / 404 / 402 / 406 / 403 / 401"
+            },
+            {
+                "subject": "GEOG / ICT / BIO / PHY / CHIS / BAFS",
+                "venue": "401 / CR / 406 / 402 / 403 / 404"
+            },
+            { "subject": "CHIN", "venue": "404" },
+            { "subject": "CHIN", "venue": "404" },
+            { "subject": "ENG", "venue": "404" },
+            { "subject": "ASS / ASS", "venue": "404 / 404" }
+        ],
+        "G": [
+            { "subject": "MATH", "venue": "404" },
+            { "subject": "RS", "venue": "404" },
+            { "subject": "CHIN", "venue": "404" },
+            {
+                "subject": "ECON / TH / M2 / HIST / CHEM",
+                "venue": "401 / 406 / 404 / 407 / 402"
+            },
+            {
+                "subject": "CHEM / PHY / CLIT / BIO / ECON / VA",
+                "venue": "404 / 402 / 406 / 403 / 401 / AR"
+            },
+            {
+                "subject": "ICT / GEOG / CHIS / BIO / PHY / BAFS",
+                "venue": "CR / 401 / 403 / 406 / 402 / 404"
+            }
+        ],
+        "H": [
+            { "subject": "CS", "venue": "404" },
+            { "subject": "ENG", "venue": "404" },
+            { "subject": "CHIN", "venue": "404" },
+            {
+                "subject": "TH / HIST / M2 / ECON / CHEM",
+                "venue": "406 / 407 / 404 / 401 / CL"
+            },
+            { "subject": "PE / PE", "venue": "HALL / HALL" },
+            {
+                "subject": "CHEM / ECON / CLIT / PHY / VA / BIO",
+                "venue": "CL / 401 / 406 / 402 / AR / 403"
+            }
         ]
     }
 }

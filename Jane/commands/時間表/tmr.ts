@@ -56,7 +56,7 @@ async function commandCallback(
     ...args: [string]
 ) {
     const user = await Database.getUser(initiator.user.id).catch((e) => {
-        Logger.warn(e);
+        Logger.fatal(e);
         return undefined;
     });
 

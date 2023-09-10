@@ -72,7 +72,7 @@ async function commandCallback(
     ];
     if (inputClass) inputClass = inputClass?.toUpperCase() as ClassId;
     let user = await Database.getUser(initiator.user.id).catch((e) => {
-        Logger.warn(e);
+        Logger.fatal(e);
         return undefined;
     });
     if (!inputDate)
@@ -112,7 +112,7 @@ async function commandCallback(
                         return undefined;
                     });
 
-                Logger.warn(`Submitted`, btnInteraction);
+                Logger.info(`Submitted`, btnInteraction);
 
                 if (
                     !btnInteraction ||
@@ -170,7 +170,7 @@ async function commandCallback(
                         return undefined;
                     });
 
-                Logger.warn(`Submitted`, btnInteraction);
+                Logger.info(`Submitted`, btnInteraction);
 
                 if (
                     !btnInteraction ||

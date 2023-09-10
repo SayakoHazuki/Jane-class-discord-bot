@@ -67,20 +67,26 @@ export class Timetable {
         dbUser?: Database.User
         // options: Partial<TimetableOptions>
     ) {
-        if (!/^(?:[1-6][ABCD])|(?:3E)$/.test(cls))
+        if (!/^(?:[1-6][ABCD])|(?:4E)$/.test(cls))
             throw new JaneGeneralError(
                 "Invalid class",
                 ErrorCode.UNEXPECTED_INPUT_VALUE
             );
-        Logger.fatal(`${dateFromDateString(date)}`);
-        Logger.fatal(
+        
+        Logger.info(`Constructing Timetable Class of date ${dateFromDateString(date)}`);
+        Logger.info(
+            "DateFromDateString Check:", 
             formatTimeString(dateFromDateString(date), "ddd MMM dd yyyy")
         );
-        Logger.fatal(formatTimeString(new Date(), "ddd MMM dd yyyy"));
+        Logger.info(
+            "Current date check:",formatTimeString(
+            new Date(), "ddd MMM dd yyyy"));
+
         const formattedDate = formatTimeString(
             dateFromDateString(date),
             "ddd MMM dd yyyy"
         );
+
         if (!(formattedDate in Calendar))
             throw new JaneGeneralError(
                 `Unexpected date ${formattedDate}`,
@@ -96,20 +102,21 @@ export class Timetable {
         // this.options = options;
 
         this.date = dateFromDateString(date);
-        Logger.warn(this.date.toLocaleDateString());
+        Logger.info("Locale Date String:" , this.date.toLocaleDateString());
         const cycleDay = Calendar[
             formatTimeString(
                 this.date,
                 "ddd MMM dd yyyy"
             ) as keyof typeof Calendar
         ] as DayOfCycle | "/";
+        
         if (cycleDay === "/") {
             this.day = new Holiday("", "");
         } else {
             this.day = new SchoolDay(
                 calculateCycleNumber(this.date, cycleDay),
                 cycleDay,
-                LessonTimeType.NORMAL // Migrate config
+                LessonTimeType.NORMAL_SUMMER_TIME // TODO: Migrate config
             );
         }
     }
@@ -165,7 +172,7 @@ export class Timetable {
             for (const section of sections) {
                 const sectionDateObj = new Date(this.date);
                 sectionDateObj.setHours(
-                    Number(section.time.start.string.slice(0, 2))
+                    Number(section.time.start.string.slice(0, 2)) - 8
                 );
                 sectionDateObj.setMinutes(
                     Number(section.time.start.string.slice(3, 5))

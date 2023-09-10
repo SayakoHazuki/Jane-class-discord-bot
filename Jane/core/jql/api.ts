@@ -31,7 +31,7 @@ export async function getLatexImageBuffer(
         latexEq = `${eq}${newline}${newline}${answers.join(newline)}`;
     }
     latexEq = encodeURIComponent(latexEq)
-    Logger.warn(latexEq);
+    Logger.info("Latex Equation:", latexEq);
     const res = await request(`https://latex.codecogs.com/png.json?${latexEq}`);
 
     if (res.statusCode.toString().startsWith("2")) {
