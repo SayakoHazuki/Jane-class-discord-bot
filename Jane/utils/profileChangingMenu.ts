@@ -13,7 +13,7 @@ export class ProfileChangingMenuBuilder extends ModalBuilder {
 
         const classInput = new TextInputBuilder()
             .setCustomId("class")
-            .setLabel("班別 (2022/2023 年度)")
+            .setLabel("班別 (2023/2024 年度)")
             .setStyle(TextInputStyle.Short);
 
         const firstActionRow =

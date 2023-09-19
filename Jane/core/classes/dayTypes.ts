@@ -10,9 +10,43 @@ import {
 import { wrapString } from "../../utils/utility-functions";
 import { JaneGeneralError, JaneHTTPError } from "./errors";
 import { TimetableSection } from "./timetableSection";
+import electivesClassesInfo from "../../data/electiveClassesInfo.json";
+import { initLogger } from "../logger";
+
+const Logger = initLogger(__filename);
 
 function getSubjCode(subj: apiSubjectName) {
-    return Subjects[toJaneSubjectsEnumKey(subj)];
+    subj = subj.trim() as apiSubjectName;
+    if (toJaneSubjectsEnumKey(subj) in Subjects) {
+        return Subjects[toJaneSubjectsEnumKey(subj)];
+    } else {
+        Logger.warn("Subject code not found", subj);
+        return subj;
+    }
+}
+
+function lessonClassesToString(
+    c: string,
+    s: { subject: string; venue: string }
+) {
+    const subjects = s.subject.split("/").map((s) => s.trim());
+
+    if (subjects.length >= 3 && ["4", "5", "6"].includes(c)) {
+        // Elective Class
+        Logger.info("Looking for corresponding elective class", subjects);
+        for (const { name, identifier } of electivesClassesInfo[
+            `S${c}` as keyof typeof electivesClassesInfo
+        ]) {
+            if (subjects.includes(identifier)) {
+                Logger.info("Found corresponding elective class", name);
+                return `選修課 ${name}`;
+            }
+        }
+    }
+
+    return `${subjects
+        .map((subj) => getSubjCode(subj as apiSubjectName))
+        .join("/")} ${s.venue}`;
 }
 
 type apiSubjectName =
@@ -73,10 +107,6 @@ export class SchoolDay implements TimetableDay {
             };
         };
 
-        const electiveClasses = await import(
-            "../../data/electiveClassesInfo.json"
-        );
-
         const lessons = classTimetablesJson[classId][this.dayOfCycle] as {
             subject: string;
             venue: string;
@@ -84,38 +114,10 @@ export class SchoolDay implements TimetableDay {
 
         const lessonStrings = lessons.map((i) => {
             let thisLessonString = "";
-            if (/^S4_[1-3]X$/.exec(i.subject)) {
-                let electiveStrings: string[] = [];
-                electiveClasses.S4[
-                    i.subject.replace(
-                        /S4_(..)/,
-                        "$1"
-                    ) as keyof typeof electiveClasses.S4
-                ].forEach((i) =>
-                    electiveStrings.push(
-                        `${getSubjCode(i.subject as apiSubjectName).replace(
-                            /(?: )?\(.+\)/g,
-                            ""
-                        )} ${i.venue}`
-                    )
-                );
-                thisLessonString = `${i.subject.replace(
-                    /S4_(..)/,
-                    "$1"
-                )}\n\u2800|\u2800 ${wrapString(
-                    electiveStrings.join("/"),
-                    undefined,
-                    "\\/",
-                    "\\/\n\u2800|\u2800 "
-                )}`;
-            } else {
-                thisLessonString = `${i.subject
-                    .split("/")
-                    .map((subj) => getSubjCode(subj as apiSubjectName))
-                    .join("/")} ${i.venue}`;
-            }
+            thisLessonString = lessonClassesToString(classId.charAt(0), i);
             return thisLessonString;
         });
+
         return lessonStrings;
     }
 }
@@ -170,30 +172,10 @@ export class SpecialSchoolDay implements TimetableDay {
 
         const lessonStrings = lessons.map((i) => {
             let thisLessonString = "";
-            if (/^S4_[1-3]X$/.exec(i.subject)) {
-                let electiveStrings: string[] = [];
-                electiveClasses.S4[
-                    i.subject.replace(
-                        /S4_(..)/,
-                        "$1"
-                    ) as keyof typeof electiveClasses.S4
-                ].forEach((i) =>
-                    electiveStrings.push(
-                        `${getSubjCode(i.subject as apiSubjectName)} ${i.venue}`
-                    )
-                );
-                thisLessonString = `${i.subject.replace(
-                    /S4_(..)/,
-                    "$1"
-                )} (${electiveStrings.join("/")})`;
-            } else {
-                thisLessonString = `${i.subject
-                    .split("/")
-                    .map((subj) => getSubjCode(subj as apiSubjectName))
-                    .join("/")} ${i.venue}`;
-            }
+            thisLessonString = lessonClassesToString(classId.charAt(0), i);
             return thisLessonString;
         });
+
         return lessonStrings;
     }
 }

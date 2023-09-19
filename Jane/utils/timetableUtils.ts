@@ -67,27 +67,33 @@ export class Timetable {
         dbUser?: Database.User
         // options: Partial<TimetableOptions>
     ) {
-        if (!/^(?:[1-6][ABCD])|(?:4E)$/.test(cls))
+        Logger.info(
+            `Constructing Timetable Class of date ${dateFromDateString(date)}`
+        );
+        if (!/^(?:[1-6][ABCD])|(?:4E)$/.test(cls)) {
+            Logger.error(`Invalid class ${cls}`);
             throw new JaneGeneralError(
                 "Invalid class",
                 ErrorCode.UNEXPECTED_INPUT_VALUE
             );
-        
-        Logger.info(`Constructing Timetable Class of date ${dateFromDateString(date)}`);
+        }
+
         Logger.info(
-            "DateFromDateString Check:", 
+            "DateFromDateString:",
             formatTimeString(dateFromDateString(date), "ddd MMM dd yyyy")
         );
         Logger.info(
-            "Current date check:",formatTimeString(
-            new Date(), "ddd MMM dd yyyy"));
+            "Current date:",
+            formatTimeString(new Date(), "ddd MMM dd yyyy")
+        );
 
         const formattedDate = formatTimeString(
             dateFromDateString(date),
             "ddd MMM dd yyyy"
         );
 
-        if (!(formattedDate in Calendar))
+        if (!(formattedDate in Calendar)) {
+            Logger.error(`Unexpected date ${formattedDate}`);
             throw new JaneGeneralError(
                 `Unexpected date ${formattedDate}`,
                 ErrorCode.UNEXPECTED_INPUT_VALUE,
@@ -95,6 +101,7 @@ export class Timetable {
                     displayMessage: `資料庫中找不到 ${formattedDate} 的時間表`,
                 }
             );
+        }
 
         this.cls = cls;
         this.initiator = initiator;
@@ -102,14 +109,14 @@ export class Timetable {
         // this.options = options;
 
         this.date = dateFromDateString(date);
-        Logger.info("Locale Date String:" , this.date.toLocaleDateString());
+        Logger.info("Locale DateString:", this.date.toLocaleDateString());
         const cycleDay = Calendar[
             formatTimeString(
                 this.date,
                 "ddd MMM dd yyyy"
             ) as keyof typeof Calendar
         ] as DayOfCycle | "/";
-        
+
         if (cycleDay === "/") {
             this.day = new Holiday("", "");
         } else {
@@ -126,6 +133,7 @@ export class Timetable {
      * @returns The embed of the timetable.
      */
     async getEmbed() {
+        Logger.info("Generating embed for timetable");
         const fdate = formatTimeString(this.date, "d/M/yyyy");
 
         const weather = await fetchWeatherData();
@@ -150,6 +158,7 @@ export class Timetable {
             const schoolTimeSect = `:school: ${schoolStartTimeStr} - ${schoolEndTimeStr}`;
 
             /* Basic Info section */
+            // TODO: Weather forecast instead of current weather if the day is not the current day.
             const temp = weather.getTemp();
             const tempSect = `:thermometer: ${temp.value}\u00b0${temp.unit}`;
 
@@ -229,6 +238,7 @@ export class Timetable {
             ]);
         } else {
             /* Basic Info section */
+            // TODO: Weather forecast instead of current weather if the day is not the current day.
             const temp = weather.getTemp();
             const tempSect = `:thermometer: ${temp.value}\u00b0${temp.unit}`;
             const icons = weather
