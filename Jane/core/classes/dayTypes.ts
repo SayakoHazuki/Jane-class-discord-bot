@@ -31,7 +31,7 @@ function lessonClassesToString(
 ) {
     const subjects = s.subject.split("/").map((s) => s.trim());
 
-    if (subjects.length >= 3 && ["4", "5", "6"].includes(c)) {
+    if (subjects.length >= 3 && ["4", "5", "6"].includes(c) && `S${c}` in electivesClassesInfo) {
         // Elective Class
         Logger.info("Looking for corresponding elective class", subjects);
         for (const { name, identifier } of electivesClassesInfo[

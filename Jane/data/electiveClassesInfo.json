@@ -12,5 +12,19 @@
             "name": "3X",
             "identifier": "CLIT"
         }
+    ],
+    "S4": [
+        {
+            "name": "1X",
+            "identifier": "ICT"
+        },
+        {
+            "name": "2X",
+            "identifier": "HIST"
+        },
+        {
+            "name": "3X",
+            "identifier": "CLIT"
+        }
     ]
 }
