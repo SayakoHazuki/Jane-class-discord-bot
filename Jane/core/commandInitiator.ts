@@ -1,4 +1,4 @@
-import { APIInteractionGuildMember } from "discord-api-types/v10";
+import { APIInteractionGuildMember } from "@discordjs/builders/node_modules/discord-api-types/v10"
 import {
     Attachment,
     Client,
@@ -11,7 +11,7 @@ import {
     Sticker,
     InteractionReplyOptions,
     MessagePayload,
-    ReplyMessageOptions,
+    MessageReplyOptions,
     ButtonInteraction,
 } from "discord.js";
 
@@ -116,7 +116,7 @@ export class MessageCommandInitiator implements CommandInitiator<Message> {
     }
 
     public async reply(
-        options: string | MessagePayload | ReplyMessageOptions
+        options: string | MessagePayload | MessageReplyOptions
     ): Promise<Message<boolean>> {
         if (this.replied) {
             throw new Error("Already replied!");
@@ -129,13 +129,13 @@ export class MessageCommandInitiator implements CommandInitiator<Message> {
     }
 
     public async followUp(
-        options: string | MessagePayload | ReplyMessageOptions
+        options: string | MessagePayload | MessageReplyOptions
     ): Promise<Message> {
         return await this.__message.reply(options);
     }
 
     public async strictReply(
-        options: (string | MessagePayload | ReplyMessageOptions) &
+        options: (string | MessagePayload | MessageReplyOptions) &
             JaneEphemeralSupport
     ): Promise<Message> {
         delete options.ephemeral;

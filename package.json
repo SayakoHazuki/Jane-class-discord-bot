@@ -1,13 +1,13 @@
 {
   "scripts": {
-    "start": "cd ./dist && node ."
+    "start": "cd ./dist && node .",
+    "dev": "cd./dist && node . dev"
   },
   "dependencies": {
     "@types/glob": "^7.2.0",
     "@types/mathjs": "^9.4.2",
     "@types/node": "^18.0.6",
-    "canvas": "^2.10.1",
-    "discord-api-types": "^0.37.1",
+    "discord-api-types": "^0.37.71",
     "discord.js": "^14.0.3",
     "dotenv": "^16.0.1",
     "glob": "^8.0.3",

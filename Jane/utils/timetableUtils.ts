@@ -339,6 +339,17 @@ export function getNormalTimetableActions(
                     `SELDATE-${nextDayStr}-${inputClass}`
                 ).toString()
             ),
+        new ButtonBuilder()
+            .setLabel("今日")
+            .setStyle(ButtonStyle.Primary)
+            .setCustomId(
+                new JaneInteractionIdBuilder(
+                    JaneInteractionType.BUTTON,
+                    JaneInteractionGroup.NORMAL_FOLLOW_UP,
+                    JaneInteractionNormalFollowUpSubgroups.timetable_actions,
+                    `SELDATE-TODAY-${inputClass}`
+                ).toString()
+            ),
     ];
 
     if (!expanded) {

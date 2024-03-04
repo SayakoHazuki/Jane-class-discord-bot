@@ -1,24 +1,15 @@
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import { startClient } from "./core/client.js";
-if (process.argv.length >= 3 && (process.argv.slice(2))[0] === "dev") {
-    startClient(true)
-} else {
-    startClient(false)
-};
 
-// import { Player, AudioFilters } from 'discord-player'
-// const player = new Player(client)
+if (!process.env.TOKEN) {
+  console.log("No token found in .env file. Exiting.");
+  process.exit(1);
+}
+
+if (process.argv.length >= 3 && process.argv.slice(2)[0] === "dev") {
+  startClient(true);
+} else {
+  startClient(false);
+}
 
 console.log("Waking Jane up - NodeJS", process.version);
-
-// filters ===================================
-// AudioFilters.define('slowerNightcore', 'aresample=48000,asetrate=48000*1.1')
-// AudioFilters.define('3D', 'apulsator=hz=0.128')
-// AudioFilters.define(
-//   'superEqualizer',
-//   'superequalizer=1b=10:2b=10:3b=1:4b=5:5b=7:6b=5:7b=2:8b=3:9b=4:10b=5:11b=6:12b=7:13b=8:14b=8:15b=9:16b=9:17b=10:18b=10[a];[a]loudnorm=I=-16:TP=-1.5:LRA=14'
-// )
-
-// client.setPlr(player)

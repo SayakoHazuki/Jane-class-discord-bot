@@ -145,6 +145,8 @@ export class JaneClient extends Client {
     async logIn(startInDev = false) {
         if (startInDev) this.prefix = "--";
         this.dev = startInDev;
+        Logger.info(`Starting Jane in ${startInDev ? "dev" : "prod"} mode...`)
+
         await this.registerCommands();
         await this.registerEvents();
         // await hgd.connectClient()

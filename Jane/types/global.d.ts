@@ -20,13 +20,13 @@ import {
     CacheType,
     MessagePayload,
     InteractionReplyOptions,
-    ReplyMessageOptions,
+    // MessageReplyOptions,
     RESTPostAPIApplicationCommandsJSONBody,
     ColorResolvable,
     ButtonInteraction,
     ApplicationCommandChoicesOption,
-    APIApplicationCommandOptionChoice,
     PermissionResolvable,
+    MessageReplyOptions,
 } from "discord.js";
 import {
     Holiday,
@@ -42,6 +42,7 @@ import { JaneClient } from "../core/client";
 import { Logger } from "../core/logger";
 import { CommandBuilder } from "../core/commandBuilder";
 import { EventBuilder } from "../core/eventBuilder";
+import { APIApplicationCommandOptionChoice } from "discord-api-types/v10";
 declare global {
     /* util types */
     type AnyCase<T extends string> = string extends T
@@ -111,19 +112,19 @@ declare global {
             options:
                 | string
                 | MessagePayload
-                | Common<ReplyMessageOptions, InteractionReplyOptions>
+                | Common<MessageReplyOptions, InteractionReplyOptions>
         ): Promise<Message>;
         followUp(
             options:
                 | string
                 | MessagePayload
-                | Common<ReplyMessageOptions, InteractionReplyOptions>
+                | Common<MessageReplyOptions, InteractionReplyOptions>
         ): Promise<Message>;
         strictReply(
             options: (
                 | string
                 | MessagePayload
-                | Common<ReplyMessageOptions, InteractionReplyOptions>
+                | Common<MessageReplyOptions, InteractionReplyOptions>
             ) &
                 JaneEphemeralSupport
         ): Promise<Message>;

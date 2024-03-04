@@ -8,6 +8,7 @@ import {
     getNormalTimetableActions,
 } from "../../utils/timetableUtils";
 import { ModalBuilder } from "discord.js";
+import { formatTimeString } from "../../utils/utility-functions";
 
 const Logger = initLogger(__filename);
 
@@ -32,7 +33,21 @@ export async function handleTimetableAction(
     );
 
     if (action === "SELDATE") {
-        const [date, cls] = args as [TimetableDateResolvable, ClassId];
+        const [date, cls] = args as [
+            TimetableDateResolvable | "TODAY",
+            ClassId
+        ];
+
+        if (date === "TODAY") {
+            const today = formatTimeString(new Date(), "dd/MM");
+            await timetableCommand?.callback(client, initiator, today, cls, {
+                editMessage: true,
+                message: initiator.initiator.message,
+            });
+            await initiator.initiator.deferUpdate();
+            return;
+        }
+
         await timetableCommand?.callback(client, initiator, date, cls, {
             editMessage: true,
             message: initiator.initiator.message,

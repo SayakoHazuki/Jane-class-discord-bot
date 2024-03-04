@@ -2,7 +2,10 @@ import { JaneClient } from "../../core/client";
 import { CommandBuilder } from "../../core/commandBuilder";
 import { Database, User } from "../../core/classes/database";
 import { initLogger } from "../../core/logger";
-import { getNormalTimetableActions, Timetable } from "../../utils/timetableUtils";
+import {
+    getNormalTimetableActions,
+    Timetable,
+} from "../../utils/timetableUtils";
 import {
     dateFromDateString,
     DiscordTimestamp,
@@ -63,13 +66,9 @@ const commandOptions: CommandOptions = {
 async function commandCallback(
     client: JaneClient,
     initiator: CommandInitiator,
-    ...args: [string, string, TimetableOptions?]
+    ...args: [TimetableDateResolvable?, ClassId?, TimetableOptions?]
 ) {
-    let [inputDate, inputClass, timetableBuilderOptions] = args as [
-        TimetableDateResolvable?,
-        ClassId?,
-        TimetableOptions?
-    ];
+    let [inputDate, inputClass, timetableBuilderOptions] = args;
     if (inputClass) inputClass = inputClass?.toUpperCase() as ClassId;
     let user = await Database.getUser(initiator.user.id).catch((e) => {
         Logger.fatal(e);

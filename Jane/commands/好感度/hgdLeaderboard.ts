@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder } from "@discordjs/builders";
 import {
-    ReplyMessageOptions,
+    MessageReplyOptions,
     InteractionReplyOptions,
     ButtonStyle,
 } from "discord.js";
@@ -31,7 +31,7 @@ export async function getHgdLbMessagePayload(
     client: JaneClientT,
     initiator: CommandInitiator,
     page = 0
-): Promise<Common<ReplyMessageOptions, InteractionReplyOptions>> {
+): Promise<Common<MessageReplyOptions, InteractionReplyOptions>> {
     const hgdRanking = await Db.Database.collection
         .find()
         .sort({ hgd: -1 })
