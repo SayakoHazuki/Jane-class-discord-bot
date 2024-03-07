@@ -1,12 +1,30 @@
 import { request } from "undici";
 import { JaneGeneralError, JaneHTTPError } from "../core/classes/errors";
 import { ErrorCode } from "../types/enums";
+import { weatherIcons } from "../data/config/hkostrings.json";
 
 type HkoTimestamp =
     `${string}-${string}-${string}T${number}:${number}:${number}+${number}:${number}`;
 
 function getIconImageUrl(iconId: number) {
     return `https://www.hko.gov.hk/images/HKOWxIconOutline/pic${iconId}.png`;
+}
+
+function getHkoIcon(iconId: number) {
+    if (iconId in weatherIcons) {
+        const key = iconId.toString() as keyof typeof weatherIcons;
+        const iconObj = weatherIcons[key];
+        const escapedName = iconObj.emoji.name.replace(/ /g, "_");
+        return {
+            text: iconObj.text,
+            emoji: {
+                name: iconObj.emoji.name,
+                id: iconObj.emoji.id,
+                full: `<:${escapedName}:${iconObj.emoji.id}>`,
+            },
+        };
+    }
+    return { text: "", emoji: { name: "", id: "", full: "" } };
 }
 
 export enum HkoWarningStatementCode {
@@ -45,70 +63,6 @@ type HkoWarningCode =
     | "TC10"
     | "WTMW"
     | "WTS";
-
-const HkoWeatherIconCaptions = {
-    50: "陽光充沛",
-    51: "間有陽光",
-    52: "短暫陽光",
-    53: "間有陽光幾陣驟雨",
-    54: "短暫陽光有驟雨	",
-    60: "多雲",
-    61: "密雲",
-    62: "微雨",
-    63: "雨",
-    64: "大雨",
-    65: "雷暴",
-    70: "天色良好",
-    71: "天色良好",
-    72: "天色良好",
-    73: "天色良好",
-    74: "天色良好",
-    75: "天色良好",
-    76: "大致多雲",
-    77: "天色大致良好",
-    80: "大風",
-    81: "乾燥",
-    82: "潮濕",
-    83: "霧",
-    84: "薄霧",
-    85: "煙霞",
-    90: "熱",
-    91: "暖",
-    92: "涼",
-    93: "冷",
-};
-
-const HkoWeatherIconEmojiIds = {
-    50: "1005798843851472966",
-    51: "1005799395918360647",
-    52: "1005799397638017034",
-    53: "1005799399689027595",
-    54: "1005799401601630349",
-    60: "1005799403400990830",
-    61: "1005799405204537405",
-    62: "1005799406873886854",
-    63: "1005799408627101776",
-    64: "1005799410392891422",
-    65: "1005799412414554123",
-    70: "1005799413970636820",
-    71: "1005799415690301510",
-    72: "1005799417548374066",
-    73: "1005799419179962378",
-    74: "1005799421079982182",
-    75: "1005799422682210337",
-    76: "1005799425135874079",
-    77: "1005799426733903893",
-    80: "1005799428780736572",
-    81: "1005799430999527485",
-    82: "1005799432849199134",
-    83: "1005799434501759006",
-    84: "1005799436200456192",
-    85: "1005799437962055690",
-    90: "1005799439945965599",
-    91: "1005799441707573269",
-    92: "1005799443599200328",
-    93: "1005799445910261760",
-};
 
 type HkoApiWeatherWarningsDataJSON = {
     [propertyCode in HkoWarningStatementCode]?: {
@@ -234,15 +188,9 @@ export class HkoApiData {
     getWeatherIcons() {
         return this.json.icon.map((i) => ({
             url: getIconImageUrl(i),
-            caption:
-                HkoWeatherIconCaptions[
-                    i as keyof typeof HkoWeatherIconCaptions
-                ],
+            caption: getHkoIcon(i).text,
             id: i,
-            emojiId:
-                HkoWeatherIconEmojiIds[
-                    i as keyof typeof HkoWeatherIconEmojiIds
-                ],
+            emojiStr: getHkoIcon(i).emoji.full,
         }));
     }
 }

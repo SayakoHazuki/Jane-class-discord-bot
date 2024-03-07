@@ -165,11 +165,7 @@ export class Timetable {
             const toUnderscores = (str: string) => str.replace(/ /g, "_");
             const icons = weather
                 .getWeatherIcons()
-                .map(
-                    (i) =>
-                        `<:${toUnderscores(i.caption)}:${i.emojiId}> ` +
-                        i.caption
-                )
+                .map((i) => i.emojiStr + " " + i.caption)
                 .join(" and ");
             const basicInfoSect = `${schoolTimeSect}\n${tempSect} | ${icons}`;
 
@@ -243,12 +239,7 @@ export class Timetable {
             const tempSect = `:thermometer: ${temp.value}\u00b0${temp.unit}`;
             const icons = weather
                 .getWeatherIcons()
-                .map(
-                    (i) =>
-                        `<:${i.caption.replace(/ /g, "_")}:${i.emojiId}> ${
-                            i.caption
-                        }`
-                )
+                .map((i) => i.emojiStr + " " + i.caption)
                 .join(" and ");
             const basicInfoSect = `🍫 學校假期\n${tempSect} | ${icons}`;
 
