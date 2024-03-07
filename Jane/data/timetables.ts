@@ -29,7 +29,7 @@ export const LessonTimes: { [key in LessonTimeType]: Sect[] } = {
         new Sect(LessonType.LUNCH, "1235-1350"),
         new Sect(LessonType.LESSON, "1350-1445"),
         new Sect(LessonType.LESSON, "1445-1540"),
-        new Sect(LessonType.EXTRA_LESSON, "1540-1645"),
+        new Sect(LessonType.EXTRA_LESSON, "1550-1645"),
     ],
     SMMR: [
         new Sect(LessonType.CTP, "0810-0840"),

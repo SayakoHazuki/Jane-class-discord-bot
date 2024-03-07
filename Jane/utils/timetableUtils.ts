@@ -123,7 +123,7 @@ export class Timetable {
             this.day = new SchoolDay(
                 calculateCycleNumber(this.date, cycleDay),
                 cycleDay,
-                LessonTimeType.NORMAL_SUMMER_TIME // TODO: Migrate config
+                LessonTimeType.NORMAL // TODO: Migrate config
             );
         }
     }
